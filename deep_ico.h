@@ -23,6 +23,10 @@ public:
 
 	void doStep(float* input, float* error);
 
+	void doStep(float* input, int n1, float* error, int n2) {
+		doStep(input,error);
+	}
+
 	float getOutput(int index) {
 		return outputLayer->getOutput(index);
 	}
