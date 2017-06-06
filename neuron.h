@@ -13,6 +13,7 @@ public:
 	~Neuron();
 	void calcOutput();
 	void doLearning();
+	void initWeights(float _max);
 
 	int nInputs;
 	float* weights;

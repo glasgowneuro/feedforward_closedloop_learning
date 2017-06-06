@@ -1,5 +1,6 @@
 #include "neuron.h"
-#include<math.h>
+#include <math.h>
+#include <stdlib.h>
 
 Neuron::Neuron(int _nInputs) {
 	nInputs = _nInputs;
@@ -10,6 +11,10 @@ Neuron::Neuron(int _nInputs) {
 	bias = 0;
 	error = 0;
 	learningRate = 0;
+	for(int i=0;i<nInputs;i++) {
+		weights[i] = 0;
+		inputs[i] = 0;
+	}	
 }
 
 Neuron::~Neuron() {
@@ -26,7 +31,7 @@ void Neuron::calcOutput() {
 #ifdef DEBUG_OUTPUT
 	output = sum;
 #else
-	output = ((1.0 / (1.0 + exp(-1.0 * (sum + bias)))));
+	output = tanh(sum);
 #endif
 }
 
@@ -36,3 +41,10 @@ void Neuron::doLearning() {
 		weights[i] = weights[i] + inputs[i] * error * learningRate;
 	}	
 }
+
+void Neuron::initWeights(float _max) {
+	for(int i=0;i<nInputs;i++) {
+		weights[i] = ((float)random())/((float)RAND_MAX)*_max;
+	}	
+}
+

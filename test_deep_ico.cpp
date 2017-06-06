@@ -3,34 +3,23 @@
 #include<stdio.h>
 
 void test_forward() {
-	Deep_ICO* deep_ico = new Deep_ICO(2,2);
+	Deep_ICO* deep_ico = new Deep_ICO(2,2,2);
 	FILE* f=fopen("test_forward.dat","wt");
 
-	deep_ico->hiddenLayer->setInput(0,0);
-	deep_ico->hiddenLayer->setInput(1,0);
 	deep_ico->setLearningRate(0);
-	deep_ico->hiddenLayer->setError(0);
 	
-	// let's set all weights to zero
-	for(int i=0;i<2;i++) {
-		for(int j=0;j<2;j++) {
-			deep_ico->hiddenLayer->neurons[i]->weights[j]=0;
-			deep_ico->outputLayer->neurons[i]->weights[j]=0;
-		}
-	}
+	float input[2];
+	float error[2];
 
 	for(int n = 0; n < 100;n++) {
-		
-		float stim = 0;
+
+		input[0] = 0;
 		if ((n>10)&&(n<20)) {
-			stim = -1;
+			input[0] = 1;
 		}
-		deep_ico->hiddenLayer->setInput(0,stim);
-		deep_ico->hiddenLayer->setInput(1,stim);
+		fprintf(f,"%f ",input[0]);
 
-		fprintf(f,"%f ",stim);
-
-		deep_ico->doStep();
+		deep_ico->doStep(input,error);
 
 		fprintf(f,"%f ",deep_ico->hiddenLayer->neurons[0]->sum);
 		fprintf(f,"%f ",deep_ico->hiddenLayer->neurons[1]->sum);
@@ -47,21 +36,12 @@ void test_forward() {
 
 
 void test_learning() {
-	Deep_ICO* deep_ico = new Deep_ICO(2,2);
+	Deep_ICO* deep_ico = new Deep_ICO(2,2,2);
 	FILE* f=fopen("test_learning.dat","wt");
 
-	deep_ico->hiddenLayer->setInput(0,0);
-	deep_ico->hiddenLayer->setInput(1,0);
-	deep_ico->setLearningRate(0.1);
+	float input[2];
+	float error[2];	
 	
-	// let's set all weights to one
-	for(int i=0;i<2;i++) {
-		for(int j=0;j<2;j++) {
-			deep_ico->hiddenLayer->neurons[i]->weights[j]=1;
-			deep_ico->outputLayer->neurons[i]->weights[j]=1;
-		}
-	}
-
 	for(int n = 0; n < 1000;n++) {
 		
 		float stim = 0;
@@ -75,13 +55,9 @@ void test_learning() {
 				err = -1;
 			}
 		}
-		deep_ico->hiddenLayer->setInput(0,stim);
-		deep_ico->hiddenLayer->setInput(1,stim);
-		deep_ico->hiddenLayer->setError(err);
-
 		fprintf(f,"%f %f ",stim,err);
 
-		deep_ico->doStep();
+		deep_ico->doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
@@ -120,7 +96,7 @@ void test_learning() {
 #define IIRORDER 2
 
 void test_closedloop() {
-	Deep_ICO* deep_ico = new Deep_ICO(2,2);
+	Deep_ICO* deep_ico = new Deep_ICO(2,2,2);
 
 	Iir::Bessel::LowPass<IIRORDER> p0;
 	p0.setup (IIRORDER,1,0.1);
@@ -129,10 +105,6 @@ void test_closedloop() {
 	h0.setup (IIRORDER,1,0.1);
 	
 	FILE* f=fopen("test_closedloop.dat","wt");
-
-	deep_ico->hiddenLayer->setInput(0,0);
-	deep_ico->hiddenLayer->setInput(1,0);
-	deep_ico->setLearningRate(0.2);
 
 	float v = 0;
 	float v0 = 0;
@@ -164,10 +136,8 @@ void test_closedloop() {
 				dist = 0;
 			}
 		}
-		deep_ico->hiddenLayer->setInput(0,pred);
-		deep_ico->hiddenLayer->setInput(1,pred);
 
-		deep_ico->doStep();
+//		deep_ico->doStep();
 
 		v0 = dist - v;
 

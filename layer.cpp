@@ -44,6 +44,12 @@ void Layer::setLearningRate(float _learningRate) {
 	}
 }
 
+void Layer::initWeights(float _max) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->initWeights(_max);
+	}
+}
+
 void Layer::setError(int i, float _error) {
 	neurons[i]->error = _error;
 }

@@ -31,6 +31,8 @@ public:
 	void setInput(int inputIndex, float input);
 
 	void setLearningRate(float _learningRate);
+
+	void initWeights(float _max);
 	
 };
 
