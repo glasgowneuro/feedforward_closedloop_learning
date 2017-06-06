@@ -14,6 +14,7 @@ public:
 	void calcOutput();
 	void doLearning();
 	void initWeights(float _max);
+	float getOutput() { return output; };
 
 	int nInputs;
 	float* weights;

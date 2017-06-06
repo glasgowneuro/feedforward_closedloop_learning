@@ -23,6 +23,10 @@ public:
 
 	void doStep(float* input, float* error);
 
+	float getOutput(int index) {
+		return outputLayer->getOutput(index);
+	}
+
 	void setLearningRate(float learningRate);
 
 	void initWeights(float max);

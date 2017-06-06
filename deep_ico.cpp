@@ -54,7 +54,6 @@ void Deep_ICO::doStep(float* input, float* error) {
 	hiddenLayer->doLearning();
 }
 
-
 void Deep_ICO::setLearningRate(float rate) {
 	hiddenLayer->setLearningRate(rate);
 	outputLayer->setLearningRate(rate);

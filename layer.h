@@ -33,6 +33,10 @@ public:
 	void setLearningRate(float _learningRate);
 
 	void initWeights(float _max);
+
+	float getOutput(int index) {
+		return neurons[index]->getOutput();
+	}
 	
 };
 
