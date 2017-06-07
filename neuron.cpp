@@ -28,7 +28,7 @@ void Neuron::calcOutput() {
 	for(int i=0;i<nInputs;i++) {
 		sum = sum + weights[i] * inputs[i];
 	}
-#ifdef DEBUG_OUTPUT
+#ifdef LINEAR_OUTPUT
 	output = sum;
 #else
 	output = tanh(sum);
@@ -42,9 +42,9 @@ void Neuron::doLearning() {
 	}	
 }
 
+
 void Neuron::initWeights(float _max) {
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = ((float)random())/((float)RAND_MAX)*_max;
 	}	
 }
-

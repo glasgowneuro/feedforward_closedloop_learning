@@ -7,20 +7,16 @@ class Layer {
 	
 public:
 
-	int nNeurons;
-	int nInputs;
-	Neuron** neurons;
-
 	Layer(int _nNeurons, int _nInputs);
 	~Layer();
 
 	void calcOutputs();
 	void doLearning();
 
-	// sets the global ICO error for the input layer
+	// sets the global error for all neurons
 	void setError(float _error);
 
-	// sets the error for the output layer
+	// sets the error individually
 	void setError(int i, float _error);
 
 	// retrieves the error
@@ -30,14 +26,33 @@ public:
 	// layer into this input layer or to the sensor inputs
 	void setInput(int inputIndex, float input);
 
+	// sets the learning rate of all neurons
 	void setLearningRate(float _learningRate);
 
+	// inits weights with a random value between -_max and max
 	void initWeights(float _max);
 
-	float getOutput(int index) {
+	// gets the outpuut of one neuron
+	inline float getOutput(int index) {
 		return neurons[index]->getOutput();
 	}
-	
+
+	// gets a pointer to one neuron
+	inline Neuron* getNeuron(int index) {
+		return neurons[index];
+	}
+
+	// number of neurons
+	int getNneurons() { return nNeurons;}
+
+	// number of inputs
+	int getNinputs() { return nInputs;}
+
+private:
+	int nNeurons;
+	int nInputs;
+	Neuron** neurons;
+
 };
 
 #endif

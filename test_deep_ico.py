@@ -16,7 +16,7 @@ def testDEEPICO():
                 err[0] = 1
             else :
                 err[0] = 0
-            net.step(inp,err.T)
+            net.step(inp,err)
             output = net.getOutput()
             print(output)
             np.savetxt(csvfile,np.hstack((inp,err,output)),delimiter="\t",newline="\t")

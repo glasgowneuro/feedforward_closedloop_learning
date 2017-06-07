@@ -34,13 +34,13 @@ void Layer::doLearning() {
 
 void Layer::setError(float _error) {
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->error = _error;
+		neurons[i]->setError(_error);
 	}
 }
 
 void Layer::setLearningRate(float _learningRate) {
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->learningRate = _learningRate;
+		neurons[i]->setLearningRate(_learningRate);
 	}
 }
 
@@ -51,16 +51,16 @@ void Layer::initWeights(float _max) {
 }
 
 void Layer::setError(int i, float _error) {
-	neurons[i]->error = _error;
+	neurons[i]->setError(_error);
 }
 
 float Layer::getError(int i) {
-	return neurons[i]->error;
+	return neurons[i]->getError();
 }
 
 // setting a single input to all neurons
 void Layer::setInput(int inputIndex, float input) {
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->inputs[inputIndex]=input;
+		neurons[i]->setInput(inputIndex,input);
 	}
 }

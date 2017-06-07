@@ -33,7 +33,7 @@ void Deep_ICO::doStep(float* input, float* error) {
 	// we can shovel them into the next layer
 	for(int i=0;i<nh;i++) {
 		// get the output of a neuron in the input layer
-		float v = hiddenLayer->neurons[i]->output;
+		float v = hiddenLayer->getNeuron(i)->getOutput();
 		// set that output as an input to the next layer which
 		// is distributed to all neurons
 		outputLayer->setInput(i,v);
@@ -42,12 +42,13 @@ void Deep_ICO::doStep(float* input, float* error) {
 	outputLayer->calcOutputs();
 
 	// Calcualte the errors for the hidden layer
-	for(int i=0;i<hiddenLayer->nNeurons;i++) {
+	for(int i=0;i<hiddenLayer->getNneurons();i++) {
 		float err = 0;
-		for(int j=0;j<outputLayer->nInputs;j++) {
-			err = err + outputLayer->neurons[i]->weights[j] * outputLayer->neurons[j]->error;
+		for(int j=0;j<outputLayer->getNinputs();j++) {
+			err = err + outputLayer->getNeuron(i)->getWeight(j) *
+				outputLayer->getNeuron(j)->getError();
 		}
-		hiddenLayer->neurons[i]->error = dsigm(hiddenLayer->neurons[i]->output) * err;
+		hiddenLayer->getNeuron(i)->setError(dsigm(hiddenLayer->getNeuron(i)->getOutput()) * err);
 	}
 
 	outputLayer->doLearning();

@@ -21,10 +21,10 @@ void test_forward() {
 
 		deep_ico->doStep(input,error);
 
-		fprintf(f,"%f ",deep_ico->hiddenLayer->neurons[0]->sum);
-		fprintf(f,"%f ",deep_ico->hiddenLayer->neurons[1]->sum);
-		fprintf(f,"%f ",deep_ico->outputLayer->neurons[0]->output);
-		fprintf(f,"%f ",deep_ico->outputLayer->neurons[1]->output);
+		fprintf(f,"%f ",deep_ico->getHiddenLayer()->getNeuron(0)->getSum());
+		fprintf(f,"%f ",deep_ico->getHiddenLayer()->getNeuron(1)->getSum());
+		fprintf(f,"%f ",deep_ico->getOutputLayer()->getNeuron(0)->getOutput());
+		fprintf(f,"%f ",deep_ico->getOutputLayer()->getNeuron(1)->getOutput());
 		
 		fprintf(f,"\n");
 		
@@ -63,20 +63,20 @@ void test_learning() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_ico->hiddenLayer->neurons[i]->weights[j]);
+					deep_ico->getHiddenLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_ico->outputLayer->neurons[i]->weights[j]);
+					deep_ico->getOutputLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<2;i++) {
 			fprintf(f,
 				"%f ",
-				deep_ico->outputLayer->neurons[i]->output);
+				deep_ico->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
 		
@@ -113,14 +113,6 @@ void test_closedloop() {
 	float dist = 0;
 	float pred = 0;
 	
-	// let's set all weights to zero
-	for(int i=0;i<2;i++) {
-		for(int j=0;j<2;j++) {
-			deep_ico->hiddenLayer->neurons[i]->weights[j]=0;
-			deep_ico->outputLayer->neurons[i]->weights[j]=0;
-		}
-	}
-
 	for(int step = 0; step < 10000; step++) {
 
 		int n = step % 1000;
@@ -142,7 +134,7 @@ void test_closedloop() {
 		v0 = dist - v;
 
 		for(int i=0;i<2;i++) {
-			v0 = v0 + deep_ico->outputLayer->neurons[i]->output;
+			v0 = v0 + deep_ico->getOutputLayer()->getNeuron(i)->getOutput();
 		}
 
 		x0 = p0.filter(v0);
@@ -153,7 +145,7 @@ void test_closedloop() {
 		
 		v = h0.filter(err);
 		
-		deep_ico->hiddenLayer->setError(err);
+		deep_ico->getHiddenLayer()->setError(err);
 
 		fprintf(f,"%d %f %f %f %f %f ",n,pred,dist,err,x0,v0);
 
@@ -161,21 +153,21 @@ void test_closedloop() {
 		for(int i=0;i<2;i++) {
 			fprintf(f,
 				"%f ",
-				deep_ico->outputLayer->neurons[i]->output);
+				deep_ico->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_ico->hiddenLayer->neurons[i]->weights[j]);
+					deep_ico->getHiddenLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_ico->outputLayer->neurons[i]->weights[j]);
+					deep_ico->getOutputLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		fprintf(f,"\n");
