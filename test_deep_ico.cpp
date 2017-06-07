@@ -8,8 +8,11 @@ void test_forward() {
 
 	deep_ico->setLearningRate(0);
 	
-	float input[2];
-	float error[2];
+	double input[2];
+	double error[2];
+
+	deep_ico->getOutputLayer()->getNeuron(0)->setWeight(0,1);
+	deep_ico->getHiddenLayer()->getNeuron(0)->setWeight(0,1);
 
 	for(int n = 0; n < 100;n++) {
 
@@ -39,8 +42,8 @@ void test_learning() {
 	Deep_ICO* deep_ico = new Deep_ICO(2,2,2);
 	FILE* f=fopen("test_learning.dat","wt");
 
-	float input[2];
-	float error[2];	
+	double input[2];
+	double error[2];	
 	
 	for(int n = 0; n < 1000;n++) {
 		
@@ -56,6 +59,9 @@ void test_learning() {
 			}
 		}
 		fprintf(f,"%f %f ",stim,err);
+
+		input[0] = stim;
+		error[0] = err;
 
 		deep_ico->doStep(input,error);
 

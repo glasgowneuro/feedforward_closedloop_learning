@@ -19,7 +19,7 @@ Deep_ICO::~Deep_ICO() {
 	delete outputLayer;
 }
 
-void Deep_ICO::doStep(float* input, float* error) {
+void Deep_ICO::doStep(double* input, double* error) {
 
 	for(int i=0;i<ni;i++) {
 		hiddenLayer->setInput(i,input[i]);
@@ -44,12 +44,13 @@ void Deep_ICO::doStep(float* input, float* error) {
 	// Calcualte the errors for the hidden layer
 	for(int i=0;i<hiddenLayer->getNneurons();i++) {
 		float err = 0;
-		for(int j=0;j<outputLayer->getNinputs();j++) {
-			err = err + outputLayer->getNeuron(i)->getWeight(j) *
+		for(int j=0;j<outputLayer->getNneurons();j++) {
+			err = err + outputLayer->getNeuron(j)->getWeight(i) *
 				outputLayer->getNeuron(j)->getError();
 		}
 		hiddenLayer->getNeuron(i)->setError(dsigm(hiddenLayer->getNeuron(i)->getOutput()) * err);
 	}
+
 
 	outputLayer->doLearning();
 	hiddenLayer->doLearning();

@@ -12,7 +12,7 @@
     import_array();
 %}
 
-%apply (float* IN_ARRAY1, int DIM1) {(float* data1, int n1), (float* data2, int n2)};
+%apply (double* IN_ARRAY1, int DIM1) {(double* input, int n1), (double* error, int n2)};
 
 %include "deep_ico.h"
 %include "layer.h"

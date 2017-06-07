@@ -4,8 +4,12 @@
 
 #include "layer.h"
 #include "neuron.h"
+#include <stdio.h>
+
 
 #define DO_DERIV
+
+//#define DEBUG
 
 class Deep_ICO {
 
@@ -13,9 +17,12 @@ public:
 	Deep_ICO(int num_input, int num_hidden, int num_output);
 	~Deep_ICO();
 
-	void doStep(float* input, float* error);
+	void doStep(double* input, double* error);
 
-	void doStep(float* input, int n1, float* error, int n2) {
+	void doStep(double* input, int n1, double* error, int n2) {
+#ifdef DEBUG
+		fprintf(stderr,"n1=%d,n2=%d\n",n1,n2);
+#endif
 		doStep(input,error);
 	}
 
