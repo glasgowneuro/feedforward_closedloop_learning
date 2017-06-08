@@ -4,8 +4,8 @@
 
 Neuron::Neuron(int _nInputs) {
 	nInputs = _nInputs;
-	weights = new float[nInputs];
-	inputs = new float[nInputs];
+	weights = new double[nInputs];
+	inputs = new double[nInputs];
 	sum = 0;
 	output = 0;
 	bias = 0;
@@ -43,8 +43,8 @@ void Neuron::doLearning() {
 }
 
 
-void Neuron::initWeights(float _max) {
+void Neuron::initWeights(double _max) {
 	for(int i=0;i<nInputs;i++) {
-		weights[i] = ((float)random())/((float)RAND_MAX)*_max;
+		weights[i] = ((double)random())/((double)RAND_MAX)*_max;
 	}	
 }

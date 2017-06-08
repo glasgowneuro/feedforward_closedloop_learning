@@ -26,13 +26,13 @@ public:
 		doStep(input,error);
 	}
 
-	float getOutput(int index) {
+	double getOutput(int index) {
 		return outputLayer->getOutput(index);
 	}
 
-	void setLearningRate(float learningRate);
+	void setLearningRate(double learningRate);
 
-	void initWeights(float max);
+	void initWeights(double max);
 
 	Layer* getHiddenLayer() {return hiddenLayer;};
 	Layer* getOutputLayer() {return outputLayer;};
@@ -47,9 +47,9 @@ private:
 	Layer* outputLayer;
 
 #ifdef DO_DERIV
-	float dsigm(float y) { return (1.0 - y*y); };
+	double dsigm(double y) { return (1.0 - y*y); };
 #else
-	float dsigm(float y) { return y; };
+	double dsigm(double y) { return y; };
 #endif
 };
 

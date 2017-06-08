@@ -21,19 +21,15 @@ Deep_ICO::~Deep_ICO() {
 
 void Deep_ICO::doStep(double* input, double* error) {
 
-	for(int i=0;i<ni;i++) {
-		hiddenLayer->setInput(i,input[i]);
-	}
-	for(int i=0;i<no;i++) {
-		outputLayer->setError(i,error[i]);
-	}
+	hiddenLayer->setInputs(input);
+	outputLayer->setErrors(error);
 	// let's first calc all activities
 	hiddenLayer->calcOutputs();
 	// now that we have the outputs from the hidden layer
 	// we can shovel them into the next layer
 	for(int i=0;i<nh;i++) {
 		// get the output of a neuron in the input layer
-		float v = hiddenLayer->getNeuron(i)->getOutput();
+		double v = hiddenLayer->getNeuron(i)->getOutput();
 		// set that output as an input to the next layer which
 		// is distributed to all neurons
 		outputLayer->setInput(i,v);
@@ -43,7 +39,7 @@ void Deep_ICO::doStep(double* input, double* error) {
 
 	// Calcualte the errors for the hidden layer
 	for(int i=0;i<hiddenLayer->getNneurons();i++) {
-		float err = 0;
+		double err = 0;
 		for(int j=0;j<outputLayer->getNneurons();j++) {
 			err = err + outputLayer->getNeuron(j)->getWeight(i) *
 				outputLayer->getNeuron(j)->getError();
@@ -56,13 +52,13 @@ void Deep_ICO::doStep(double* input, double* error) {
 	hiddenLayer->doLearning();
 }
 
-void Deep_ICO::setLearningRate(float rate) {
+void Deep_ICO::setLearningRate(double rate) {
 	hiddenLayer->setLearningRate(rate);
 	outputLayer->setLearningRate(rate);
 }
 
 
-void Deep_ICO::initWeights(float max) {
+void Deep_ICO::initWeights(double max) {
 	hiddenLayer->initWeights(max);
 	outputLayer->initWeights(max);
 }

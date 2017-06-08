@@ -14,26 +14,32 @@ public:
 	void doLearning();
 
 	// sets the global error for all neurons
-	void setError(float _error);
+	void setError(double _error);
 
 	// sets the error individually
-	void setError(int i, float _error);
+	void setError(int i, double _error);
+
+	// sets all errors from an input array
+	void setErrors(double *_errors);
 
 	// retrieves the error
-	float getError(int i);
+	double getError(int i);
 
 	// this is used to copy the output from the previous
 	// layer into this input layer or to the sensor inputs
-	void setInput(int inputIndex, float input);
+	void setInput(int inputIndex, double input);
+
+	// sets all inputs from an input array
+	void setInputs(double *_inputs);
 
 	// sets the learning rate of all neurons
-	void setLearningRate(float _learningRate);
+	void setLearningRate(double _learningRate);
 
 	// inits weights with a random value between -_max and max
-	void initWeights(float _max);
+	void initWeights(double _max);
 
 	// gets the outpuut of one neuron
-	inline float getOutput(int index) {
+	inline double getOutput(int index) {
 		return neurons[index]->getOutput();
 	}
 

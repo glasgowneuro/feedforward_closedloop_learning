@@ -32,35 +32,50 @@ void Layer::doLearning() {
 }
 
 
-void Layer::setError(float _error) {
+void Layer::setError(double _error) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setError(_error);
 	}
 }
 
-void Layer::setLearningRate(float _learningRate) {
+void Layer::setErrors(double* _errors) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setError(_errors[i]);
+	}
+}
+
+void Layer::setLearningRate(double _learningRate) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setLearningRate(_learningRate);
 	}
 }
 
-void Layer::initWeights(float _max) {
+void Layer::initWeights(double _max) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->initWeights(_max);
 	}
 }
 
-void Layer::setError(int i, float _error) {
+void Layer::setError(int i, double _error) {
 	neurons[i]->setError(_error);
 }
 
-float Layer::getError(int i) {
+double Layer::getError(int i) {
 	return neurons[i]->getError();
 }
 
 // setting a single input to all neurons
-void Layer::setInput(int inputIndex, float input) {
+void Layer::setInput(int inputIndex, double input) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setInput(inputIndex,input);
+	}
+}
+
+// setting a single input to all neurons
+void Layer::setInputs(double* inputs) {
+	for(int j=0;j<nInputs;j++) {
+		for(int i=0;i<nNeurons;i++) {
+			neurons[i]->setInput(j,inputs[j]);
+		}
 	}
 }
