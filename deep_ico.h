@@ -13,9 +13,11 @@
 
 class Deep_ICO {
 
-public:
+public:	
 	Deep_ICO(int num_input, int num_hidden, int num_output);
 	~Deep_ICO();
+
+	enum Algorithm { backprop = 0, ico = 1 };
 
 	void doStep(double* input, double* error);
 
@@ -32,6 +34,9 @@ public:
 
 	void setLearningRate(double learningRate);
 
+	void setAlgorithm(Algorithm _algorithm) { algorithm = _algorithm; }
+	Algorithm getAlgorithm() { return algorithm; }
+
 	void initWeights(double max);
 
 	Layer* getHiddenLayer() {return hiddenLayer;};
@@ -45,6 +50,8 @@ private:
 
  	Layer* hiddenLayer;
 	Layer* outputLayer;
+
+	Algorithm algorithm;
 
 #ifdef DO_DERIV
 	double dsigm(double y) { return (1.0 - y*y); };
