@@ -1,14 +1,17 @@
 #include "layer.h"
 #include "neuron.h"
 
-Layer::Layer(int _nNeurons, int _nInputs) {
+Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nNeurons = _nNeurons;
 	nInputs = _nInputs;
+	nFilters = _nFilters;
+	minT = _minT;
+	maxT = _maxT;
 
 	neurons = new Neuron*[nNeurons];
 
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i] = new Neuron(nInputs);
+		neurons[i] = new Neuron(nInputs,nFilters,minT,maxT);
 	}
 }
 

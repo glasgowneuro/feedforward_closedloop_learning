@@ -1,6 +1,27 @@
 #include "deep_ico.h"
 #include <math.h>
 
+Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output,
+		   int num_filtersInput, int num_filtersHidden,
+		   double _minT, double _maxT) {
+
+	algorithm = backprop;
+
+	ni = num_input;
+	nh = num_hidden;
+	no = num_output;
+	nfInput = num_filtersInput;
+	nfHidden = num_filtersHidden;
+	minT = _minT;
+	maxT = _maxT;
+	
+	hiddenLayer = new Layer(nh,ni,nfInput,minT,maxT);
+	outputLayer = new Layer(no,nh,nfHidden,minT,maxT);
+
+	setLearningRate(0.001);
+
+}
+
 Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output) {
 
 	algorithm = backprop;
@@ -8,6 +29,10 @@ Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output) {
 	ni = num_input;
 	nh = num_hidden;
 	no = num_output;
+	nfInput = 0;
+	nfHidden = 0;
+	minT = 0;
+	maxT = 0;
 	
 	hiddenLayer = new Layer(nh,ni);
 	outputLayer = new Layer(no,nh);

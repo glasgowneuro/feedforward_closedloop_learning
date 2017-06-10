@@ -96,8 +96,74 @@ void test_learning() {
 	fclose(f);
 }
 
+void test_learning_and_filters() {
+	int nInputs = 2;
+	int nHidden = 2;
+	int nOutput = 1;
+	int nFiltersPerInput = 2;
+	int nFiltersPerHidden = 2;
+	double min_filter_time = 100;
+	double max_filter_time = 200;
+	Deep_ICO* deep_ico = new Deep_ICO(nInputs,nHidden,nOutput,
+					  nFiltersPerInput,nFiltersPerHidden,
+					  min_filter_time,max_filter_time);
+	deep_ico->initWeights(0.01);
+	deep_ico->setLearningRate(0.1);
+	
+	FILE* f=fopen("test_deep_ico_cpp_learning_with_filters.dat","wt");
+
+	double input[2];
+	double error[2];	
+	
+	for(int n = 0; n < 1000;n++) {
+		
+		double stim = 0;
+		double err = 0;
+		if ((n>100)&&(n<200)) {
+			stim = 1;
+			if ((n>190)&&(n<200)) {
+				err = 1;
+			}
+			if ((n>250)&&(n<300)) {
+				err = -1;
+			}
+		}
+		fprintf(f,"%e %e ",stim,err);
+
+		input[0] = stim;
+		error[0] = err;
+
+		deep_ico->doStep(input,error);
+
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<2;j++) {
+				fprintf(f,
+					"%e ",
+					deep_ico->getHiddenLayer()->getNeuron(i)->getWeight(j));
+			}
+		}
+		for(int i=0;i<1;i++) {
+			for(int j=0;j<2;j++) {
+				fprintf(f,
+					"%e ",
+					deep_ico->getOutputLayer()->getNeuron(i)->getWeight(j));
+			}
+		}
+		for(int i=0;i<1;i++) {
+			fprintf(f,
+				"%e ",
+				deep_ico->getOutputLayer()->getNeuron(i)->getOutput());
+		}
+		fprintf(f,"\n");
+		
+	}
+
+	fclose(f);
+}
+
 
 int main(int,char**) {
 	test_forward();
 	test_learning();
+	test_learning_and_filters();
 }

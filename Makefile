@@ -1,4 +1,5 @@
-CFLAGS = -g -O2 -march=native
+CFLAGS = -g -O0 -march=native
+LDFLAGS = -liir -L/usr/local/lib
 
 all: test_neuron test_deep_ico py_module
 
@@ -7,7 +8,7 @@ test: test_neuron test_deep_ico
 	./test_deep_ico
 
 test_neuron: neuron.o test_neuron.cpp
-	g++ $(CFLAGS) test_neuron.cpp neuron.o -o test_neuron
+	g++ $(CFLAGS) test_neuron.cpp neuron.o -o test_neuron $(LDFLAGS) 
 
 test_deep_ico: neuron.o layer.o deep_ico.o test_deep_ico.o
 	g++ test_deep_ico.o neuron.o layer.o deep_ico.o -o test_deep_ico $(LDFLAGS) 
@@ -30,4 +31,4 @@ clean:
 py_module: deep_ico.i 
 	swig -c++ -python deep_ico.i
 	g++ -fPIC $(CFLAGS) -c deep_ico_wrap.cxx -I /usr/include/python3.5
-	g++ -fPIC -shared neuron.o layer.o deep_ico.o deep_ico_wrap.o -o _deep_ico.so
+	g++ -fPIC -shared neuron.o layer.o deep_ico.o deep_ico_wrap.o -o _deep_ico.so $(LDFLAGS) 

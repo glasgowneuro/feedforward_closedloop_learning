@@ -7,7 +7,7 @@ class Layer {
 	
 public:
 
-	Layer(int _nNeurons, int _nInputs);
+	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Layer();
 
 	void calcOutputs();
@@ -57,8 +57,10 @@ public:
 private:
 	int nNeurons;
 	int nInputs;
+	int nFilters;
 	Neuron** neurons;
-
+	double minT;
+	double maxT;
 };
 
 #endif
