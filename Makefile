@@ -1,4 +1,4 @@
-CFLAGS = -g -O0 -march=native
+CFLAGS = -g -O3 -march=native
 LDFLAGS = -liir -L/usr/local/lib
 
 all: test_neuron test_deep_ico py_module
