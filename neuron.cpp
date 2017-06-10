@@ -10,7 +10,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	maxT = _maxT;
 	weights = new double*[nInputs];
 	if (nFilters>0) {
-		bandpass = new Iir::Butterworth::LowPass<IIRORDER>**[nInputs];
+		bandpass = new Iir::Bessel::LowPass<IIRORDER>**[nInputs];
 	} else {
 		bandpass = NULL;
 		nFilters = 1;
@@ -18,7 +18,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = new double[nFilters];
 		if (bandpass != NULL) {
-			bandpass[i] = new Iir::Butterworth::LowPass<IIRORDER>*[nFilters];
+			bandpass[i] = new Iir::Bessel::LowPass<IIRORDER>*[nFilters];
 			double fs = 1;
 			double fmin = fs/maxT;
 			double fmax = fs/minT;
@@ -28,7 +28,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
 			for(int j=0;j<_nFilters;j++) {
-				bandpass[i][j] = new Iir::Butterworth::LowPass<IIRORDER>;
+				bandpass[i][j] = new Iir::Bessel::LowPass<IIRORDER>;
 #ifdef DEBUG
 				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f,%f)\n",
 					i,j,fs,f,df);

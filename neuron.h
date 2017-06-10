@@ -35,7 +35,7 @@ private:
 	int nInputs;
 	int nFilters;
 	double** weights;
-	Iir::Butterworth::LowPass<IIRORDER> ***bandpass;
+	Iir::Bessel::LowPass<IIRORDER> ***bandpass;
 	double* inputs;
 	double* prevInputs;
 	double output;
