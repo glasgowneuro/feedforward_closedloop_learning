@@ -78,9 +78,9 @@ void Neuron::calcOutput() {
 				sum = sum + weights[i][j] * inputs[i];
 			} else {
 				sum = sum + weights[i][j] * bandpass[i][j]->filter(inputs[i]-prevInputs[i]);
-				prevInputs[i] = inputs[i];
 			}
 		}
+		prevInputs[i] = inputs[i];
 	}
 #ifdef LINEAR_OUTPUT
 	output = sum;

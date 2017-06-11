@@ -43,11 +43,11 @@ def testBackpropWithFilters():
     with open('test_bp_filt_py.csv', 'ab') as csvfile:
         # two input neurons, two hidden ones and one output neuron
         # two filters and min temp filter is 10 pixels and max 100 pixels
-        nFiltersInput = 2
-        nFiltersHidden = 2
+        nFiltersInput = 10
+        nFiltersHidden = 10
         # nFiltersHidden = 0 means that the layer is linear without filters
-        minT = 10
-        maxT = 100
+        minT = 1000
+        maxT = 10000
         net = deep_ico.Deep_ICO(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
         # init the weights
         net.initWeights(0.1);
@@ -56,11 +56,11 @@ def testBackpropWithFilters():
         inp = np.zeros(2)
         err = np.zeros(1)
         for i in range(1000):
-            if ((i > 100) and (i<200)):
+            if ((i > 100) and (i<103)):
                 inp[0] = 1
             else :
                 inp[0] = 0
-            if ((i > 190) and (i<200)) :
+            if ((i > 110) and (i<120)) :
                 err[0] = 1
             else :
                 err[0] = 0
