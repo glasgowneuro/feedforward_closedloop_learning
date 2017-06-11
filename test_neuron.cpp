@@ -2,7 +2,7 @@
 #include<stdio.h>
 
 int main(int,char**) {
-	int nFilters = 100;
+	int nFilters = 1;
 	
 	Neuron* neuron = new Neuron(2,nFilters,100,200);
 
@@ -15,8 +15,9 @@ int main(int,char**) {
 
 	float f = 0;
 	for (int i=0;i<1000;i++) {
-		if ((i>100)&&(i<200)) {
-			f = f+0.1;
+		f = 0;
+		if ((i>100)&&(i<110)) {
+			f = 1;
 		}
 		neuron->setInput(0,f);
 		neuron->calcOutput();

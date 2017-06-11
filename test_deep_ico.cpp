@@ -3,7 +3,10 @@
 #include<stdio.h>
 
 void test_forward() {
-	Deep_ICO* deep_ico = new Deep_ICO(2,2,2);
+	int nFiltersInput = 10;
+	int nFiltersHidden = 0;
+	
+	Deep_ICO* deep_ico = new Deep_ICO(2,2,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_ico_cpp_forward.dat","wt");
 
 	deep_ico->setLearningRate(0.0);
@@ -11,26 +14,26 @@ void test_forward() {
 	double input[2];
 	double error[2];
 
-	deep_ico->getOutputLayer()->getNeuron(0)->setWeight(0,1);
-	deep_ico->getHiddenLayer()->getNeuron(0)->setWeight(0,1);
-	deep_ico->getHiddenLayer()->getNeuron(0)->setWeight(1,1);
+	for(int i=0;i<nFiltersInput;i++) {
+		deep_ico->getHiddenLayer()->getNeuron(0)->setWeight(0,i,1);
+	}
+
+	for(int i=0;i<nFiltersHidden;i++) {
+		deep_ico->getOutputLayer()->getNeuron(0)->setWeight(0,i,1);
+	}
 
 	for(int n = 0; n < 100;n++) {
 
 		input[0] = 0;
-		input[1] = 1;
 		if ((n>10)&&(n<20)) {
 			input[0] = 1;
-			input[1] = 1;
 		}
 		fprintf(f,"%f ",input[0]);
 
 		deep_ico->doStep(input,error);
 
 		fprintf(f,"%f ",deep_ico->getHiddenLayer()->getNeuron(0)->getSum());
-		fprintf(f,"%f ",deep_ico->getHiddenLayer()->getNeuron(1)->getSum());
 		fprintf(f,"%f ",deep_ico->getOutputLayer()->getNeuron(0)->getOutput());
-		fprintf(f,"%f ",deep_ico->getOutputLayer()->getNeuron(1)->getOutput());
 		
 		fprintf(f,"\n");
 		

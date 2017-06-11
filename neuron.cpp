@@ -2,15 +2,17 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nInputs = _nInputs;
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
+	dampingCoeff = 0.97;
 	weights = new double*[nInputs];
 	if (nFilters>0) {
-		bandpass = new Iir::Bessel::LowPass<IIRORDER>**[nInputs];
+		bandpass = new Bandpass**[nInputs];
 	} else {
 		bandpass = NULL;
 		nFilters = 1;
@@ -18,22 +20,22 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = new double[nFilters];
 		if (bandpass != NULL) {
-			bandpass[i] = new Iir::Bessel::LowPass<IIRORDER>*[nFilters];
+			bandpass[i] = new Bandpass*[nFilters];
 			double fs = 1;
 			double fmin = fs/maxT;
 			double fmax = fs/minT;
 			double df = (fmax-fmin)/((double)nFilters);
 			double f = fmin;
-#ifdef DEBUG
+#ifdef DEBUG_NEURON
 			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
 			for(int j=0;j<_nFilters;j++) {
-				bandpass[i][j] = new Iir::Bessel::LowPass<IIRORDER>;
-#ifdef DEBUG
-				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f,%f)\n",
-					i,j,fs,f,df);
+				bandpass[i][j] = new Bandpass();
+#ifdef DEBUG_NEURON
+				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f)\n",
+					i,j,fs,f);
 #endif
-				bandpass[i][j]->setup(2,fs,f);
+				bandpass[i][j]->calcPolesZeros(f,dampingCoeff);
 				f = f + df;
 				for(int k=0;k<(maxT*10);k++) {
 					float a = 0;
@@ -48,7 +50,6 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 		}
 	}
 	inputs = new double[nInputs];
-	prevInputs = new double[nInputs];
 	sum = 0;
 	output = 0;
 	bias = 0;
@@ -59,14 +60,12 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 			weights[i][j] = 0;
 		}
 		inputs[i] = 0;
-		prevInputs[i] = 0;
 	}	
 }
 
 Neuron::~Neuron() {
 	delete [] weights;
 	delete [] inputs;
-	delete [] prevInputs;
 }
 
 
@@ -77,10 +76,9 @@ void Neuron::calcOutput() {
 			if (bandpass == NULL) {
 				sum = sum + weights[i][j] * inputs[i];
 			} else {
-				sum = sum + weights[i][j] * bandpass[i][j]->filter(inputs[i]-prevInputs[i]);
+				sum = sum + weights[i][j] * bandpass[i][j]->filter(inputs[i]);
 			}
 		}
-		prevInputs[i] = inputs[i];
 	}
 #ifdef LINEAR_OUTPUT
 	output = sum;

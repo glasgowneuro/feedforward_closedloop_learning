@@ -5,13 +5,9 @@
 // #define LINEAR_OUTPUT
 
 // enables denbug output to sdt out
-// #define DEBUG
+#define DEBUG_NEURON
 
-#include "Iir.h"
-
-#define IIRORDER 2
-
-#define FILTERTYPE Bessel
+#include "bandpass.h"
 
 class Neuron {
 
@@ -37,15 +33,15 @@ private:
 	int nInputs;
 	int nFilters;
 	double** weights;
-	Iir::FILTERTYPE::LowPass<IIRORDER> ***bandpass;
+	Bandpass ***bandpass;
 	double* inputs;
-	double* prevInputs;
 	double output;
 	double sum;
 	double bias;
 	double error;
 	double learningRate;
 	double minT,maxT;
+	double dampingCoeff;
 };
 
 #endif
