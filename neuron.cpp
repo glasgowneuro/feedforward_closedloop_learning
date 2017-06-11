@@ -9,7 +9,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
-	dampingCoeff = 0.97;
+	dampingCoeff = 0.95;
 	weights = new double*[nInputs];
 	if (nFilters>0) {
 		bandpass = new Bandpass**[nInputs];

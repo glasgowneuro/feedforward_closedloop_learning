@@ -61,7 +61,7 @@ double Bandpass::filter(double value) {
 
 
 void Bandpass::calcPolesZeros(double f,double r) {
-	fprintf(stderr,"Bandpass: f=%f,r=%f\n",f,r);
+//	fprintf(stderr,"Bandpass: f=%f,r=%f\n",f,r);
 	enumerator[0]=1;
 	enumerator[1]=0;
 	enumerator[2]=0;

@@ -4,7 +4,7 @@
 
 void test_forward() {
 	int nFiltersInput = 10;
-	int nFiltersHidden = 0;
+	int nFiltersHidden = 10;
 	
 	Deep_ICO* deep_ico = new Deep_ICO(2,2,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_ico_cpp_forward.dat","wt");
@@ -26,7 +26,7 @@ void test_forward() {
 
 		input[0] = 0;
 		if ((n>10)&&(n<20)) {
-			input[0] = 1;
+			input[0] = 0.001;
 		}
 		fprintf(f,"%f ",input[0]);
 
