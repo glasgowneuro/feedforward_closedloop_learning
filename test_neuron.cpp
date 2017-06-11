@@ -2,10 +2,13 @@
 #include<stdio.h>
 
 int main(int,char**) {
-	Neuron* neuron = new Neuron(2,2,100,200);
+	int nFilters = 100;
+	
+	Neuron* neuron = new Neuron(2,nFilters,100,200);
 
-	neuron->setWeight(0,10);
-	neuron->setWeight(1,1);
+	for(int i=0;i<nFilters;i++) {
+		neuron->setWeight(0,1,i);
+	}
 
 	neuron->setInput(0,0);
 	neuron->setInput(1,0);

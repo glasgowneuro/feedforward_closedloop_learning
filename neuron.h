@@ -11,6 +11,8 @@
 
 #define IIRORDER 2
 
+#define FILTERTYPE Bessel
+
 class Neuron {
 
 public:
@@ -35,7 +37,7 @@ private:
 	int nInputs;
 	int nFilters;
 	double** weights;
-	Iir::Bessel::LowPass<IIRORDER> ***bandpass;
+	Iir::FILTERTYPE::LowPass<IIRORDER> ***bandpass;
 	double* inputs;
 	double* prevInputs;
 	double output;
