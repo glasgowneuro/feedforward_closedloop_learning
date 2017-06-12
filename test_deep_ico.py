@@ -119,32 +119,35 @@ def testICOwithFilters():
         nFiltersInput = 10
         nFiltersHidden = 10
         # nFiltersHidden = 0 means that the layer is linear without filters
-        minT = 1000
-        maxT = 10000
+        minT = 10
+        maxT = 100
         net = deep_ico.Deep_ICO(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
         net.setAlgorithm(deep_ico.Deep_ICO.ico);
+        net.initWeights(0.1);
+        net.setLearningRate(10);
         # create the input arrays in numpy fashion
         inp = np.zeros(2)
         err = np.zeros(1)
         for i in range(200):
-            if ((i > 10) and (i<100)) :
+            if ((i > 10) and (i<15)) :
                 inp[0] = 1
             else :
                 inp[0] = 0
-            if ((i > 20) and (i<90)) :
+            if ((i > 20) and (i<30)) :
                 err[0] = 1
             else :
                 err[0] = 0
             # does both forward propagation and backpropagation
+            # print('err1=',err);
             net.doStep(inp,err)
             # gets the output of the output neuron
             output = net.getOutput(0)
-            print(output)
-            np.savetxt(csvfile,np.hstack((inp,err,output)),delimiter="\t",newline="\t")
+            print(inp[0],err[0],output);
+            np.savetxt(csvfile,np.hstack((inp[0],err[0],output)),delimiter="\t",newline="\t")
             crlf="\n"
             csvfile.write(crlf.encode())
 
-testBackpropWithFilters()
-testBackprop()
-testICO()
+# testBackpropWithFilters()
+# testBackprop()
+# testICO()
 testICOwithFilters()
