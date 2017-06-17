@@ -2,11 +2,11 @@ import deep_ico
 import numpy as np
 import matplotlib.pyplot as plt
 
-print("testBackpropWithFilters")
-with open('test_bp_filt_py.csv', 'wb') as csvfile:
+print("testICOWithFilters")
+with open('test_ico_filt_py.csv', 'wb') as csvfile:
     csvfile.close()
     
-with open('test_bp_filt_py.csv', 'ab') as csvfile:
+with open('test_ico_filt_py.csv', 'ab') as csvfile:
     # two input neurons, two hidden ones and one output neuron
     # two filters and min temp filter is 10 pixels and max 100 pixels
     nFiltersInput = 10

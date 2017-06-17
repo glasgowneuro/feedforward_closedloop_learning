@@ -9,7 +9,8 @@
 
 
 
-#define DO_DERIV
+// do the proper derivative of the activation function
+#define DO_DERIV_ACTIVATION
 
 //#define DEBUG
 
@@ -75,7 +76,7 @@ private:
 
 	Algorithm algorithm;
 
-#ifdef DO_DERIV
+#ifdef DO_DERIV_ACTIVATION
 	double dsigm(double y) { return (1.0 - y*y); };
 #else
 	double dsigm(double y) { return y; };
