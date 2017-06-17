@@ -22,12 +22,13 @@ public:
 	inline double getSum() { return sum; };
 	inline double getWeight(int _index, int _filter = 0) { return weights[_index][_filter]; };
 	inline void setWeight(int _index, double _weight, int _filter = 0) { weights[_index][_filter]=_weight; };
-	inline void setError(double _error) { error=_error; };
+	void setError(double _error);
 	inline double getError() { return error; };
 	inline void setInput(int _index, double _value) { inputs[_index] = _value; };
 	inline double getInput(int _index) { return inputs[_index]; };
 	inline void setBias(double _bias) { bias=_bias; };
 	inline void setLearningRate(double _learningrate) { learningRate = _learningrate; };
+	inline void setUseDerivative(int _useDerivative) { useDerivative = _useDerivative; };
 
 private:
 	int nInputs;
@@ -42,6 +43,8 @@ private:
 	double learningRate;
 	double minT,maxT;
 	double dampingCoeff;
+	int useDerivative;
+	double oldError;
 };
 
 #endif

@@ -11,6 +11,8 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	maxT = _maxT;
 	dampingCoeff = 0.51;
 	weights = new double*[nInputs];
+	useDerivative = 0;
+	oldError = 0;
 	if (nFilters>0) {
 		bandpass = new Bandpass**[nInputs];
 	} else {
@@ -103,4 +105,14 @@ void Neuron::initWeights(double _max) {
 			weights[i][j] = (((double)random())/((double)RAND_MAX)*_max);
 		}
 	}	
+}
+
+
+void Neuron::setError(double _error) {
+	if (useDerivative) {
+		error = _error - oldError;
+		oldError = _error;
+	} else {
+		error = _error;
+	}
 }

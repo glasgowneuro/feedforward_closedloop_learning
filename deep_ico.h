@@ -49,6 +49,7 @@ public:
 	void setLearningRate(double learningRate);
 
 	void setAlgorithm(Algorithm _algorithm) { algorithm = _algorithm; }
+
 	Algorithm getAlgorithm() { return algorithm; }
 
 	void initWeights(double max);
@@ -57,6 +58,8 @@ public:
 
 	Layer* getHiddenLayer() {return hiddenLayer;};
 	Layer* getOutputLayer() {return outputLayer;};
+
+	void setUseDerivative(int useIt);
 
 private:
 

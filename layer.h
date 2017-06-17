@@ -25,6 +25,9 @@ public:
 	// retrieves the error
 	double getError(int i);
 
+	// sets if we use the derivative
+	void setUseDerivative(int useIt);
+
 	// this is used to copy the output from the previous
 	// layer into this input layer or to the sensor inputs
 	void setInput(int inputIndex, double input);

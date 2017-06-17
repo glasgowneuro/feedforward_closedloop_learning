@@ -53,6 +53,12 @@ void Layer::setLearningRate(double _learningRate) {
 	}
 }
 
+void Layer::setUseDerivative(int _useIt) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setUseDerivative(_useIt);
+	}
+}
+
 void Layer::initWeights(double _max) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->initWeights(_max);

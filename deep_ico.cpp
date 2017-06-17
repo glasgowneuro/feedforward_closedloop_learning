@@ -119,3 +119,9 @@ void Deep_ICO::initWeights(double max) {
 	hiddenLayer->initWeights(max);
 	outputLayer->initWeights(max);
 }
+
+
+void Deep_ICO::setUseDerivative(int useIt) {
+	hiddenLayer->setUseDerivative(useIt);
+	outputLayer->setUseDerivative(useIt);
+}
