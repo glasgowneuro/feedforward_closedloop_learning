@@ -5,6 +5,8 @@
 #include "layer.h"
 #include "neuron.h"
 #include <stdio.h>
+#include <stdlib.h>
+
 
 
 #define DO_DERIV
@@ -50,6 +52,8 @@ public:
 	Algorithm getAlgorithm() { return algorithm; }
 
 	void initWeights(double max);
+
+	void seedRandom(int s) { srandom(s); };
 
 	Layer* getHiddenLayer() {return hiddenLayer;};
 	Layer* getOutputLayer() {return outputLayer;};

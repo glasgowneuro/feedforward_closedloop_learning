@@ -13,6 +13,27 @@ Bandpass::Bandpass() {
 }
 
 
+void Bandpass::setParameters(double f,double q) {
+	std::complex<double> s1;
+	std::complex<double> s2;
+	
+	assert(q>0.5);
+	assert(f<0.5);
+	assert(f>0);
+	double fTimesPi=f*M_PI*2;
+	double e=fTimesPi/(2.0*q);
+	assert((fTimesPi*fTimesPi-e*e)>0);
+	double w=sqrt(fTimesPi*fTimesPi-e*e);
+	s1=std::complex<double>(-e,w);
+	s2=std::complex<double>(-e,-w);
+	enumerator[0]=1;
+	enumerator[1]=0;
+	enumerator[2]=0;
+	denominator[0]=1;
+	denominator[1]=real(-exp(s2)-exp(s1));
+	denominator[2]=real(exp(s1+s2));
+}
+
 
 void Bandpass::impulse(char* name) {
   int steps=100;

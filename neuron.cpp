@@ -9,7 +9,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
-	dampingCoeff = 0.95;
+	dampingCoeff = 0.51;
 	weights = new double*[nInputs];
 	if (nFilters>0) {
 		bandpass = new Bandpass**[nInputs];
@@ -35,7 +35,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f)\n",
 					i,j,fs,f);
 #endif
-				bandpass[i][j]->calcPolesZeros(f,dampingCoeff);
+				bandpass[i][j]->setParameters(f,dampingCoeff);
 				f = f + df;
 				for(int k=0;k<(maxT*10);k++) {
 					float a = 0;
@@ -100,7 +100,7 @@ void Neuron::doLearning() {
 void Neuron::initWeights(double _max) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
-			weights[i][j] = ((double)random())/((double)RAND_MAX)*_max;
+			weights[i][j] = (((double)random())/((double)RAND_MAX)*_max);
 		}
 	}	
 }

@@ -3,6 +3,8 @@ class Bandpass;
 #ifndef _Bandpass
 #define _Bandpass
 
+#include <assert.h>
+
 class Bandpass {
 public:
 	/**
@@ -20,6 +22,11 @@ public:
 	 * The frequency is the normalized frequency in the range [0..0.5].
 	 **/
 	void calcPolesZeros(double f,double r);
+
+	/**
+	 * sets the filter parameters
+	 **/
+	void setParameters(double frequency, double Qfactor);
 
 	/**
 	 * Generates an acsii file with the impulse response of the filter.
