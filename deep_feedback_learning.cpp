@@ -1,7 +1,7 @@
-#include "deep_ico.h"
+#include "deep_feedback_learning.h"
 #include <math.h>
 
-Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output,
+DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int num_hidden, int num_output,
 		   int num_filtersInput, int num_filtersHidden,
 		   double _minT, double _maxT) {
 
@@ -22,7 +22,7 @@ Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output,
 
 }
 
-Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output) {
+DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int num_hidden, int num_output) {
 
 	algorithm = backprop;
 
@@ -41,12 +41,12 @@ Deep_ICO::Deep_ICO(int num_input, int num_hidden, int num_output) {
 
 }
 
-Deep_ICO::~Deep_ICO() {
+DeepFeedbackLearning::~DeepFeedbackLearning() {
 	delete hiddenLayer;
 	delete outputLayer;
 }
 
-void Deep_ICO::doStep(double* input, double* error) {
+void DeepFeedbackLearning::doStep(double* input, double* error) {
 
 	switch (algorithm) {
 	case backprop:
@@ -109,19 +109,19 @@ void Deep_ICO::doStep(double* input, double* error) {
 	hiddenLayer->doLearning();
 }
 
-void Deep_ICO::setLearningRate(double rate) {
+void DeepFeedbackLearning::setLearningRate(double rate) {
 	hiddenLayer->setLearningRate(rate);
 	outputLayer->setLearningRate(rate);
 }
 
 
-void Deep_ICO::initWeights(double max) {
+void DeepFeedbackLearning::initWeights(double max) {
 	hiddenLayer->initWeights(max);
 	outputLayer->initWeights(max);
 }
 
 
-void Deep_ICO::setUseDerivative(int useIt) {
+void DeepFeedbackLearning::setUseDerivative(int useIt) {
 	hiddenLayer->setUseDerivative(useIt);
 	outputLayer->setUseDerivative(useIt);
 }

@@ -1,5 +1,5 @@
-#ifndef __Deep_ICO_H_
-#define __Deep_ICO_H_
+#ifndef __Deep_FEEDBACK_LEARNING_H_
+#define __Deep_FEEDBACK_LEARNING_H_
 
 
 #include "layer.h"
@@ -14,11 +14,11 @@
 
 //#define DEBUG
 
-class Deep_ICO {
+class DeepFeedbackLearning {
 
 public:
 	// deep ico without any filters
-	Deep_ICO(int num_input, int num_hidden, int num_output);
+	DeepFeedbackLearning(int num_input, int num_hidden, int num_output);
 
 	// deep ico with filters for both the input and hidden layer
 	// filter number >0 means: filterbank
@@ -26,11 +26,11 @@ public:
 	// filter parameters: are in time steps. For ex, minT = 10 means
 	// a response of 10 time steps for the first filter and that goes
 	// up to maxT time steps, for example maxT = 100 or so.
-	Deep_ICO(int num_input, int num_hidden, int num_output,
+	DeepFeedbackLearning(int num_input, int num_hidden, int num_output,
 		 int num_filtersInput, int num_filtersHidden,
 		 double _minT, double _maxT);
 	
-	~Deep_ICO();
+	~DeepFeedbackLearning();
 
 	enum Algorithm { backprop = 0, ico = 1 };
 

@@ -1,4 +1,4 @@
-#include "deep_ico.h"
+#include "deep_feedback_learning.h"
 #include <Iir.h>
 #include<stdio.h>
 
@@ -6,20 +6,20 @@ void test_forward() {
 	int nFiltersInput = 10;
 	int nFiltersHidden = 10;
 	
-	Deep_ICO* deep_ico = new Deep_ICO(2,2,1,nFiltersInput,nFiltersHidden,100,200);
-	FILE* f=fopen("test_deep_ico_cpp_forward.dat","wt");
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,2,1,nFiltersInput,nFiltersHidden,100,200);
+	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
 
-	deep_ico->setLearningRate(0.0);
+	deep_fbl->setLearningRate(0.0);
 	
 	double input[2];
 	double error[2];
 
 	for(int i=0;i<nFiltersInput;i++) {
-		deep_ico->getHiddenLayer()->getNeuron(0)->setWeight(0,i,1);
+		deep_fbl->getHiddenLayer()->getNeuron(0)->setWeight(0,i,1);
 	}
 
 	for(int i=0;i<nFiltersHidden;i++) {
-		deep_ico->getOutputLayer()->getNeuron(0)->setWeight(0,i,1);
+		deep_fbl->getOutputLayer()->getNeuron(0)->setWeight(0,i,1);
 	}
 
 	for(int n = 0; n < 100;n++) {
@@ -30,10 +30,10 @@ void test_forward() {
 		}
 		fprintf(f,"%f ",input[0]);
 
-		deep_ico->doStep(input,error);
+		deep_fbl->doStep(input,error);
 
-		fprintf(f,"%f ",deep_ico->getHiddenLayer()->getNeuron(0)->getSum());
-		fprintf(f,"%f ",deep_ico->getOutputLayer()->getNeuron(0)->getOutput());
+		fprintf(f,"%f ",deep_fbl->getHiddenLayer()->getNeuron(0)->getSum());
+		fprintf(f,"%f ",deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
 		
 		fprintf(f,"\n");
 		
@@ -45,10 +45,10 @@ void test_forward() {
 
 
 void test_learning() {
-	Deep_ICO* deep_ico = new Deep_ICO(2,2,1);
-	deep_ico->initWeights(0.01);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,2,1);
+	deep_fbl->initWeights(0.01);
 	
-	FILE* f=fopen("test_deep_ico_cpp_learning.dat","wt");
+	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
 	double input[2];
 	double error[2];	
@@ -71,26 +71,26 @@ void test_learning() {
 		input[0] = stim;
 		error[0] = err;
 
-		deep_ico->doStep(input,error);
+		deep_fbl->doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_ico->getHiddenLayer()->getNeuron(i)->getWeight(j));
+					deep_fbl->getHiddenLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_ico->getOutputLayer()->getNeuron(i)->getWeight(j));
+					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
 				"%f ",
-				deep_ico->getOutputLayer()->getNeuron(i)->getOutput());
+				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
 		
@@ -107,13 +107,13 @@ void test_learning_and_filters() {
 	int nFiltersPerHidden = 2;
 	double min_filter_time = 100;
 	double max_filter_time = 200;
-	Deep_ICO* deep_ico = new Deep_ICO(nInputs,nHidden,nOutput,
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(nInputs,nHidden,nOutput,
 					  nFiltersPerInput,nFiltersPerHidden,
 					  min_filter_time,max_filter_time);
-	deep_ico->initWeights(0.01);
-	deep_ico->setLearningRate(0.1);
+	deep_fbl->initWeights(0.01);
+	deep_fbl->setLearningRate(0.1);
 	
-	FILE* f=fopen("test_deep_ico_cpp_learning_with_filters.dat","wt");
+	FILE* f=fopen("test_deep_fbl_cpp_learning_with_filters.dat","wt");
 
 	double input[2];
 	double error[2];	
@@ -136,26 +136,26 @@ void test_learning_and_filters() {
 		input[0] = stim;
 		error[0] = err;
 
-		deep_ico->doStep(input,error);
+		deep_fbl->doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					deep_ico->getHiddenLayer()->getNeuron(i)->getWeight(j));
+					deep_fbl->getHiddenLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					deep_ico->getOutputLayer()->getNeuron(i)->getWeight(j));
+					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
 				"%e ",
-				deep_ico->getOutputLayer()->getNeuron(i)->getOutput());
+				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
 		

@@ -1,4 +1,4 @@
-import deep_ico
+import deep_feedback_learning
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -14,10 +14,10 @@ with open('test_ico_filt_py.csv', 'ab') as csvfile:
     # nFiltersHidden = 0 means that the layer is linear without filters
     minT = 3
     maxT = 15
-    net = deep_ico.Deep_ICO(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
+    net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
     net.initWeights(0.01);
-    net.setAlgorithm(deep_ico.Deep_ICO.ico);
+    net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
     net.setLearningRate(100)
     net.seedRandom(88)
     #net.random_seed(10)
