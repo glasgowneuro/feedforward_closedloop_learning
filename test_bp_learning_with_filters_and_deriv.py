@@ -1,4 +1,4 @@
-import deep_ico
+import deep_feedback_learning
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -17,7 +17,7 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
     net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
     net.initWeights(0.01);
-    net.setAlgorithm(deep_ico.Deep_ICO.backprop);
+    net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
     net.setLearningRate(0.1)
     net.seedRandom(88)
     net.setUseDerivative(1)
