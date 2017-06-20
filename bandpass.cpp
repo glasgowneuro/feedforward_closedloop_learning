@@ -5,9 +5,9 @@
 
 
 Bandpass::Bandpass() {
-  buffer[0]=0;
-  buffer[1]=0;
-  buffer[2]=0;
+  buffer0=0;
+  buffer1=0;
+  buffer2=0;
   actualOutput=0;
   norm=1;
 }
@@ -26,12 +26,13 @@ void Bandpass::setParameters(double f,double q) {
 	double w=sqrt(fTimesPi*fTimesPi-e*e);
 	s1=std::complex<double>(-e,w);
 	s2=std::complex<double>(-e,-w);
-	enumerator[0]=1;
-	enumerator[1]=0;
-	enumerator[2]=0;
-	denominator[0]=1;
-	denominator[1]=real(-exp(s2)-exp(s1));
-	denominator[2]=real(exp(s1+s2));
+	enumerator0=1;
+	enumerator1=0;
+	enumerator2=0;
+	denominator0=1;
+	denominator1=real(-exp(s2)-exp(s1));
+	denominator2=real(exp(s1+s2));
+	calcNorm(f);
 }
 
 
@@ -66,32 +67,22 @@ double Bandpass::filter(double value) {
   double output=0.0;
   // a little bit cryptic but a little bit optimized for speed
   input=value;
-  output=(enumerator[1]*buffer[1]);
-  input=input-(denominator[1]*buffer[1]);
-  output=output+(enumerator[2]*buffer[2]);
-  input=input-(denominator[2]*buffer[2]);
-  output=output+input*enumerator[0];
-  buffer[2]=buffer[1];
-  buffer[1]=input;
+  output=(enumerator1*buffer1);
+  input=input-(denominator1*buffer1);
+  output=output+(enumerator2*buffer2);
+  input=input-(denominator2*buffer2);
+  output=output+input*enumerator0;
+  buffer2=buffer1;
+  buffer1=input;
   output=output/norm;
   actualOutput=output;
   return output;
 }
 
 
-
-
-void Bandpass::calcPolesZeros(double f,double r) {
-//	fprintf(stderr,"Bandpass: f=%f,r=%f\n",f,r);
-	enumerator[0]=1;
-	enumerator[1]=0;
-	enumerator[2]=0;
-	denominator[0]=1;
-	denominator[1]=-2*r*cos(2*M_PI*f);
-	denominator[2]=r*r;
-
+void Bandpass::calcNorm(double f) {
 	float max = 0;
-	for(int i=0;i<(1/f*3);i++) {
+	for(int i=0;i<(2/f);i++) {
 		float v = 0;
 		if (i==((int)(1/f))) {
 			v = 10;
@@ -100,4 +91,16 @@ void Bandpass::calcPolesZeros(double f,double r) {
 		if (v2>max) max = v2;
 	}
 	norm = max;
+}
+
+
+void Bandpass::calcPolesZeros(double f,double r) {
+//	fprintf(stderr,"Bandpass: f=%f,r=%f\n",f,r);
+	enumerator0=1;
+	enumerator1=0;
+	enumerator2=0;
+	denominator0=1;
+	denominator1=-2*r*cos(2*M_PI*f);
+	denominator2=r*r;
+	calcNorm(f);
 }

@@ -39,7 +39,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 #endif
 				bandpass[i][j]->setParameters(f,dampingCoeff);
 				f = f + df;
-				for(int k=0;k<(maxT*10);k++) {
+				for(int k=0;k<maxT;k++) {
 					float a = 0;
 					if (k==minT) {
 						a = 1;

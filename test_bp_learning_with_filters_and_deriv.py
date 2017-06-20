@@ -18,7 +18,7 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
     # init the weights
     net.initWeights(0.01);
     net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
-    net.setLearningRate(0.1)
+    net.setLearningRate(1)
     net.seedRandom(88)
     net.setUseDerivative(1)
     #net.random_seed(10)

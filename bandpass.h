@@ -38,6 +38,8 @@ public:
 	 **/
 	double norm;
 
+	void calcNorm(double f);
+
 	/**
 	 * Generates an ASCII file with the transfer function
 	 **/
@@ -52,17 +54,23 @@ public:
 	/**
 	 * The coefficients of the denominator of H(z)
 	 **/
-	double denominator[3];
+	double denominator0;
+	double denominator1;
+	double denominator2;
 
 	/**
 	 * The coefficients of the enumerator of H(z)
 	 **/
-	double enumerator[3];
+	double enumerator0;
+	double enumerator1;
+	double enumerator2;
 
 	/**
 	 * Delay lines for the IIR-Filter
 	 **/
-	double buffer[3];
+	double buffer0;
+	double buffer1;
+	double buffer2;
 
 	/**
 	 * The actual output of the filter (the return value of the filter()
