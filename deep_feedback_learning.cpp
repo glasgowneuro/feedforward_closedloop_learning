@@ -72,6 +72,10 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 			for(int j=0;j<outputLayer->getNneurons();j++) {
 				err = err + outputLayer->getNeuron(j)->getWeight(i) *
 					outputLayer->getNeuron(j)->getError();
+				if (isnan(err)) {
+					fprintf(stderr,"doStep: err=%f, outputLayer->getNeuron(j)->getWeight(i)=%f, outputLayer->getNeuron(j)->getError()=%f\n",err,outputLayer->getNeuron(j)->getWeight(i), outputLayer->getNeuron(j)->getError());
+					exit(0);
+				}
 			}
 			hiddenLayer->getNeuron(i)->setError(dsigm(hiddenLayer->getNeuron(i)->getOutput()) * err);
 		}

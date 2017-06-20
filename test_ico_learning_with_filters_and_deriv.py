@@ -14,16 +14,16 @@ with open('test_ico_filt_py.csv', 'ab') as csvfile:
     # nFiltersHidden = 0 means that the layer is linear without filters
     minT = 3
     maxT = 15
-    net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
+    net = deep_feedback_learning.DeepFeedbackLearning(10, 10, 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
-    net.initWeights(0.01);
-    net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
-    net.setLearningRate(500)
+    net.initWeights(0);
+    net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
+    net.setLearningRate(0)
     net.seedRandom(88)
     net.setUseDerivative(1)
     #net.random_seed(10)
     # create the input arrays in numpy fashion
-    inp = np.zeros(2)
+    inp = np.zeros(10)
     err = np.zeros(1)
 
     maxstep = 12000
@@ -43,6 +43,7 @@ with open('test_ico_filt_py.csv', 'ab') as csvfile:
         net.doStep(inp,err)
         # gets the output of the output neuron
         outp[i] = net.getOutput(0)
+        print(outp[i])
         np.savetxt(csvfile,np.hstack((inp,err,outp[i])),delimiter="\t",newline="\t")
         crlf="\n"
         csvfile.write(crlf.encode())

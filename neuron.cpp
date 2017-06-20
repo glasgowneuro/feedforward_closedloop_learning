@@ -80,6 +80,12 @@ void Neuron::calcOutput() {
 			} else {
 				sum = sum + weights[i][j] * bandpass[i][j]->filter(inputs[i]);
 			}
+#ifdef DEBUG_NEURON
+			if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
+				printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
+				exit(EXIT_FAILURE);
+			}
+#endif
 		}
 	}
 #ifdef LINEAR_OUTPUT
@@ -94,6 +100,12 @@ void Neuron::doLearning() {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
 			weights[i][j] = weights[i][j] + inputs[i] * error * learningRate;
+#ifdef DEBUG_NEURON
+			if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
+				printf("Neuron::doLearning: %f,%f,%f\n",weights[i][j],inputs[i],error);
+				exit(EXIT_FAILURE);
+			}
+#endif
 		}
 	}	
 }
@@ -102,13 +114,23 @@ void Neuron::doLearning() {
 void Neuron::initWeights(double _max) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
-			weights[i][j] = (((double)random())/((double)RAND_MAX)*_max);
+			if (_max>0) {
+				weights[i][j] = (((double)random())/((double)RAND_MAX)*_max);
+			} else {
+				weights[i][j] = 0;
+			}
 		}
 	}	
 }
 
 
 void Neuron::setError(double _error) {
+#ifdef DEBUG_NEURON
+	if (isnan(_error)) {
+			printf(" Neuron::setError: error=%f\n",_error);
+			exit(1);
+	}
+#endif
 	if (useDerivative) {
 		error = _error - oldError;
 		oldError = _error;

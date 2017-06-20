@@ -36,10 +36,18 @@ public:
 
 	void doStep(double* input, double* error);
 
-	void doStep(double* input, int n1, double* error, int n2) {
+	inline void doStep(double* input, int n1, double* error, int n2) {
 #ifdef DEBUG
 		fprintf(stderr,"n1=%d,n2=%d\n",n1,n2);
 #endif
+		if (n1 != ni) {
+			fprintf(stderr,"Input array dim mismatch: got: %d, want: %d\n",n1,ni);
+			return;
+		}
+		if (n2 != no) {
+			fprintf(stderr,"Error array dim mismatch: got: %d, want: %d\n",n2,no);
+			return;
+		}
 		doStep(input,error);
 	}
 

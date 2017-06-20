@@ -1,5 +1,8 @@
 #include "layer.h"
 #include "neuron.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nNeurons = _nNeurons;
@@ -13,6 +16,8 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i] = new Neuron(nInputs,nFilters,minT,maxT);
 	}
+
+	initWeights(0);
 }
 
 Layer::~Layer() {
@@ -43,6 +48,10 @@ void Layer::setError(double _error) {
 
 void Layer::setErrors(double* _errors) {
 	for(int i=0;i<nNeurons;i++) {
+		if (isnan(_errors[i])) {
+			fprintf(stderr,"Layer::setErrors: _errors[%d]=%f\n",i,_errors[i]);
+				exit(EXIT_FAILURE);
+		}
 		neurons[i]->setError(_errors[i]);
 	}
 }
