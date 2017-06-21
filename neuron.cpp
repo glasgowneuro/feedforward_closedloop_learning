@@ -73,21 +73,62 @@ Neuron::~Neuron() {
 
 void Neuron::calcOutput() {
 	sum = 0;
-	for(int i=0;i<nInputs;i++) {
-		for(int j = 0;j<nFilters;j++) {
-			if (bandpass == NULL) {
-				sum = sum + weights[i][j] * inputs[i];
-			} else {
-				sum = sum + weights[i][j] * bandpass[i][j]->filter(inputs[i]);
-			}
+
+	if (bandpass) {
+		double** weightsp1 = weights;
+		Bandpass*** bandpassp1 = bandpass;
+		Bandpass** bandpassp2;
+		double* inputp = inputs;
+		for(int i=0;i<nInputs;i++) {
+			double input = *inputp;
+			assert(inputs[i] == input);
+			double* weightsp2 = *weightsp1;
+				bandpassp2 = *bandpassp1;
+				bandpassp1++;
+			weightsp1++;
+			inputp++;
+			for(int j = 0;j<nFilters;j++) {
 #ifdef DEBUG_NEURON
-			if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
-				printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
-				exit(EXIT_FAILURE);
-			}
+				assert(weights[i][j] == (*weightsp2));
 #endif
+				sum = sum + (*weightsp2) * (*bandpassp2)->filter(input);
+				bandpassp2++;
+				weightsp2++;
+#ifdef DEBUG_NEURON
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
+					printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
+					exit(EXIT_FAILURE);
+				}
+#endif
+			}
 		}
+	} else {
+		double** weightsp1 = weights;
+		double* inputp = inputs;
+		for(int i=0;i<nInputs;i++) {
+			double input = *inputp;
+			assert(inputs[i] == input);
+			double* weightsp2 = *weightsp1;
+			weightsp1++;
+			inputp++;
+			for(int j = 0;j<nFilters;j++) {
+#ifdef DEBUG_NEURON
+				assert(weights[i][j] == (*weightsp2));
+#endif
+				sum = sum + (*weightsp2) * input;
+				weightsp2++;
+#ifdef DEBUG_NEURON
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
+					printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
+					exit(EXIT_FAILURE);
+				}
+#endif
+			}
+		}
+		
 	}
+	
+	
 #ifdef LINEAR_OUTPUT
 	output = sum;
 #else
@@ -97,9 +138,16 @@ void Neuron::calcOutput() {
 
 
 void Neuron::doLearning() {
+	double* inputsp = inputs;
+	double** weightsp1 = weights;
 	for(int i=0;i<nInputs;i++) {
+		double input = *inputsp;
+		inputsp++;
+		double* weightsp2 = *weightsp1;
+		weightsp1++;
 		for(int j=0;j<nFilters;j++) {
-			weights[i][j] = weights[i][j] + inputs[i] * error * learningRate;
+			*weightsp2 = *weightsp2 + input * error * learningRate;
+			weightsp2++;
 #ifdef DEBUG_NEURON
 			if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
 				printf("Neuron::doLearning: %f,%f,%f\n",weights[i][j],inputs[i],error);

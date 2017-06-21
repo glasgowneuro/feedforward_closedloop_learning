@@ -91,9 +91,14 @@ void Layer::setInput(int inputIndex, double input) {
 
 // setting a single input to all neurons
 void Layer::setInputs(double* inputs) {
+	double* inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
+		Neuron** neuronsp = neurons;
+		double input = *inputp;
+		inputp++;
 		for(int i=0;i<nNeurons;i++) {
-			neurons[i]->setInput(j,inputs[j]);
+			(*neuronsp)->setInput(j,input);
+			neuronsp++;
 		}
 	}
 }
