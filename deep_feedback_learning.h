@@ -18,7 +18,8 @@ class DeepFeedbackLearning {
 
 public:
 	// deep ico without any filters
-	DeepFeedbackLearning(int num_input, int num_hidden, int num_output);
+	DeepFeedbackLearning(int num_input, int* num_hidden_array, int num_output, int _num_hid_layers=1);
+
 
 	// deep ico with filters for both the input and hidden layer
 	// filter number >0 means: filterbank
@@ -26,9 +27,9 @@ public:
 	// filter parameters: are in time steps. For ex, minT = 10 means
 	// a response of 10 time steps for the first filter and that goes
 	// up to maxT time steps, for example maxT = 100 or so.
-	DeepFeedbackLearning(int num_input, int num_hidden, int num_output,
+	DeepFeedbackLearning(int num_input, int* num_hidden_array, int num_output,
 		 int num_filtersInput, int num_filtersHidden,
-		 double _minT, double _maxT);
+		 double _minT, double _maxT, int _num_hid_layers=1);
 	
 	~DeepFeedbackLearning();
 
@@ -64,22 +65,29 @@ public:
 	void initWeights(double max);
 
 	void seedRandom(int s) { srandom(s); };
+	
+	int num_layers; 
 
-	Layer* getHiddenLayer() {return hiddenLayer;};
+	int getNumHidLayers() {return num_hid_layers;};
+	Layer* getLayer(int i) {return layers[i];};
 	Layer* getOutputLayer() {return outputLayer;};
+	Layer** getLayers() {return layers;};
 
 	void setUseDerivative(int useIt);
 
 private:
 
-        int ni;
-        int nh;
-        int no;
+	int ni;
+	int nh;
+	int no;
+	int* n_hidden;
+	int num_hid_layers;
+
 	int nfInput;
 	int nfHidden;
 	double minT,maxT;
 
- 	Layer* hiddenLayer;
+	Layer** layers;
 	Layer* outputLayer;
 
 	Algorithm algorithm;

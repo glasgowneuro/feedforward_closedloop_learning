@@ -10,7 +10,6 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
-
 	neurons = new Neuron*[nNeurons];
 
 	for(int i=0;i<nNeurons;i++) {

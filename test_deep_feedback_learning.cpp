@@ -5,21 +5,24 @@
 void test_forward() {
 	int nFiltersInput = 10;
 	int nFiltersHidden = 10;
+	int nHidden[] = {2};
 	
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,2,1,nFiltersInput,nFiltersHidden,100,200);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
-
 	deep_fbl->setLearningRate(0.0);
 	
 	double input[2];
 	double error[2];
 
 	for(int i=0;i<nFiltersInput;i++) {
-		deep_fbl->getHiddenLayer()->getNeuron(0)->setWeight(0,i,1);
+		deep_fbl->getLayer(0)->getNeuron(0)->setWeight(0,i,1);
 	}
 
-	for(int i=0;i<nFiltersHidden;i++) {
-		deep_fbl->getOutputLayer()->getNeuron(0)->setWeight(0,i,1);
+
+	for(int i=0; i<deep_fbl->getNumHidLayers(); i++) {
+		for(int j=0;j<nFiltersHidden;j++) {
+			deep_fbl->getLayer(i+1)->getNeuron(0)->setWeight(0,j,1);
+		}
 	}
 
 	for(int n = 0; n < 100;n++) {
@@ -31,8 +34,9 @@ void test_forward() {
 		fprintf(f,"%f ",input[0]);
 
 		deep_fbl->doStep(input,error);
-
-		fprintf(f,"%f ",deep_fbl->getHiddenLayer()->getNeuron(0)->getSum());
+		for(int i=0; i<deep_fbl->getNumHidLayers(); i++) {
+			fprintf(f,"%f ",deep_fbl->getLayer(i)->getNeuron(0)->getSum());
+		}
 		fprintf(f,"%f ",deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
 		
 		fprintf(f,"\n");
@@ -45,7 +49,8 @@ void test_forward() {
 
 
 void test_learning() {
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,2,1);
+	int nHidden[] = {2};
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1);
 	deep_fbl->initWeights(0.01);
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
@@ -75,9 +80,10 @@ void test_learning() {
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				fprintf(f,
-					"%f ",
-					deep_fbl->getHiddenLayer()->getNeuron(i)->getWeight(j));
+				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
+					fprintf(f, "%f ",
+							deep_fbl->getLayer(k)->getNeuron(i)->getWeight(j));
+				}
 			}
 		}
 		for(int i=0;i<1;i++) {
@@ -101,7 +107,7 @@ void test_learning() {
 
 void test_learning_and_filters() {
 	int nInputs = 2;
-	int nHidden = 2;
+	int nHidden[] = {2};
 	int nOutput = 1;
 	int nFiltersPerInput = 2;
 	int nFiltersPerHidden = 2;
@@ -140,9 +146,11 @@ void test_learning_and_filters() {
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				fprintf(f,
-					"%e ",
-					deep_fbl->getHiddenLayer()->getNeuron(i)->getWeight(j));
+				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
+					fprintf(f,
+							"%e ",
+							deep_fbl->getLayer(k)->getNeuron(i)->getWeight(j));
+				}
 			}
 		}
 		for(int i=0;i<1;i++) {
