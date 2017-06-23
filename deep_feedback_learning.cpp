@@ -98,21 +98,6 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 
 			// now let's calc the output which can then be sent out
 			nextLayer->calcOutputs();
-			fprintf(stdout, "in0: %f", nextLayer->getNeuron(0)->getInput(0));
-			fprintf(stdout, " in1: %f\n", nextLayer->getNeuron(0)->getInput(1));
-			fprintf(stdout, "out: %f\n", nextLayer->getNeuron(0)->getOutput());
-
-
-			for(int i=0;i<nFiltersInput;i++) {
-				fprintf(stdout, " i: %f", hiddenLayer->getNeuron(0)->getWeight(0,i));
-			}
-
-			for(int i=0;i<nFiltersHidden;i++) {
-				fprintf(stdout, " ih: %f", nextLayer->getNeuron(0)->getWeight(0,i));
-			}
-
-					fprintf(stdout, "\n");
-
 
 			// Calculate the errors for the hidden layer
 			for(int i=0;i<hiddenLayer->getNneurons();i++) {

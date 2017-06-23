@@ -5,7 +5,7 @@
 void test_forward() {
 	int nFiltersInput = 10;
 	int nFiltersHidden = 10;
-	int nHidden[] = {2};
+	int nHidden[] = {2,2};
 	
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
