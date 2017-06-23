@@ -23,11 +23,11 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
 	n_hidden[0] = num_hidden_array[0];
 
-	for(i=1; i<num_hid_layers-1; i++) {
-		fprintf(stdout, "adding layer %d", i);
+	for(i=1; i<num_hid_layers; i++) {
 		n_hidden[i] = num_hidden_array[i];
 		layers[i] = new Layer(n_hidden[i], n_hidden[i-1],nfHidden,minT,maxT);
 	}
+
 	layers[num_hid_layers] = new Layer(no, n_hidden[i-1],nfHidden,minT,maxT);
 	outputLayer = layers[num_hid_layers];
 
