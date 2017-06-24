@@ -14,11 +14,11 @@ with open('test_ico_filt_py.csv', 'ab') as csvfile:
     # nFiltersHidden = 0 means that the layer is linear without filters
     minT = 3
     maxT = 15
-    net = deep_feedback_learning.DeepFeedbackLearning(10, 10, 1, nFiltersInput, nFiltersHidden, minT,maxT)
+    net = deep_feedback_learning.DeepFeedbackLearning(10, [10], 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
-    net.initWeights(0);
+    net.initWeights(0.1);
     net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
-    net.setLearningRate(0)
+    net.setLearningRate(1)
     net.seedRandom(88)
     net.setUseDerivative(1)
     #net.random_seed(10)

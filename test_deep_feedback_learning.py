@@ -8,7 +8,7 @@ def testBackprop():
         
     with open('test_bp_py.csv', 'ab') as csvfile:
         # two input neurons, two hidden ones and one output neuron
-        net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1)
+        net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1)
         # init the weights
         net.initWeights(0.1);
         net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
@@ -48,7 +48,7 @@ def testBackpropWithFilters():
         # nFiltersHidden = 0 means that the layer is linear without filters
         minT = 1000
         maxT = 10000
-        net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
+        net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
         # init the weights
         net.initWeights(0.1);
         net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
@@ -83,7 +83,7 @@ def testICO():
         
     with open('test_ico_py.csv', 'ab') as csvfile:
         # two input neurons, two hidden ones and one output neuron
-        net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1)
+        net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1)
         net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
         # create the input arrays in numpy fashion
         inp = np.zeros(2)
@@ -121,7 +121,7 @@ def testICOwithFilters():
         # nFiltersHidden = 0 means that the layer is linear without filters
         minT = 10
         maxT = 100
-        net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
+        net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
         net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
         net.initWeights(0.1);
         net.setLearningRate(10);

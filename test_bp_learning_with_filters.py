@@ -14,7 +14,7 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
     # nFiltersHidden = 0 means that the layer is linear without filters
     minT = 3
     maxT = 15
-    net = deep_feedback_learning.DeepFeedbackLearning(2, 2, 1, nFiltersInput, nFiltersHidden, minT,maxT)
+    net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
     net.initWeights(0.01);
     net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);

@@ -1,9 +1,9 @@
 #include "deep_feedback_learning.h"
 #include <math.h>
 
-DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int num_output,
-		 int num_filtersInput, int num_filtersHidden,
-		 double _minT, double _maxT, int _num_hid_layers) {
+DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output,
+					   int num_filtersInput, int num_filtersHidden,
+					   double _minT, double _maxT) {
 
 	assert(_num_hid_layers>0);
 	algorithm = backprop;
@@ -35,7 +35,7 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 
 }
 
-DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int num_output, int _num_hid_layers) {
+DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output) {
 
 	algorithm = backprop;
 

@@ -7,7 +7,7 @@ void test_forward() {
 	int nFiltersHidden = 10;
 	int nHidden[] = {2,2};
 
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,nFiltersInput,nFiltersHidden,100,200,2);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
 	deep_fbl->setLearningRate(0.0);
 
@@ -50,7 +50,7 @@ void test_forward() {
 
 void test_learning() {
 	int nHidden[] = {2};
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
 	deep_fbl->initWeights(0.01);
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
@@ -113,9 +113,9 @@ void test_learning_and_filters() {
 	int nFiltersPerHidden = 2;
 	double min_filter_time = 100;
 	double max_filter_time = 200;
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(nInputs,nHidden,nOutput,
-					  nFiltersPerInput,nFiltersPerHidden,
-					  min_filter_time,max_filter_time,3);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(nInputs,nHidden,3,nOutput,
+								  nFiltersPerInput,nFiltersPerHidden,
+								  min_filter_time,max_filter_time);
 	deep_fbl->initWeights(0.01);
 	deep_fbl->setLearningRate(0.1);
 	
