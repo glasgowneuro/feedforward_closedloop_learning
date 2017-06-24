@@ -12,7 +12,7 @@
 // do the proper derivative of the activation function
 #define DO_DERIV_ACTIVATION
 
-//#define DEBUG
+#define DEBUG_DFL
 
 class DeepFeedbackLearning {
 
@@ -37,7 +37,7 @@ public:
 	void doStep(double* input, double* error);
 
 	inline void doStep(double* input, int n1, double* error, int n2) {
-#ifdef DEBUG
+#ifdef DEBUG_DFL
 		fprintf(stderr,"n1=%d,n2=%d\n",n1,n2);
 #endif
 		if (n1 != ni) {
@@ -52,7 +52,7 @@ public:
 	}
 
 	double getOutput(int index) {
-		return outputLayer->getOutput(index);
+		return layers[num_hid_layers]->getOutput(index);
 	}
 
 	void setLearningRate(double learningRate);
@@ -65,11 +65,9 @@ public:
 
 	void seedRandom(int s) { srandom(s); };
 	
-	int num_layers; 
-
 	int getNumHidLayers() {return num_hid_layers;};
 	Layer* getLayer(int i) {return layers[i];};
-	Layer* getOutputLayer() {return outputLayer;};
+	Layer* getOutputLayer() {return layers[num_hid_layers];};
 	Layer** getLayers() {return layers;};
 
 	void setUseDerivative(int useIt);
@@ -87,7 +85,6 @@ private:
 	double minT,maxT;
 
 	Layer** layers;
-	Layer* outputLayer;
 
 	Algorithm algorithm;
 

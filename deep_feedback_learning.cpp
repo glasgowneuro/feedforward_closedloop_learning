@@ -22,14 +22,20 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 	int i=1;
 	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
 	n_hidden[0] = num_hidden_array[0];
+#ifdef DEBUG_DFL
+	fprintf(stderr,"n_hidden[0]=%d\n",n_hidden[0]);
+#endif
+	
 
 	for(i=1; i<num_hid_layers; i++) {
 		n_hidden[i] = num_hidden_array[i];
+#ifdef DEBUG_DFL
+		fprintf(stderr,"n_hidden[%d]=%d\n",i,n_hidden[i]);
+#endif
 		layers[i] = new Layer(n_hidden[i], n_hidden[i-1],nfHidden,minT,maxT);
 	}
 
 	layers[num_hid_layers] = new Layer(no, n_hidden[i-1],nfHidden,minT,maxT);
-	outputLayer = layers[num_hid_layers];
 
 	setLearningRate(0.001);
 
@@ -50,18 +56,17 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 	n_hidden = new int[num_hid_layers];
 	layers = new Layer*[num_hid_layers+1];
 
-	int i=1;
+	// input layer 
 	layers[0] = new Layer(num_hidden_array[0], ni);
 	n_hidden[0] = num_hidden_array[0];
-	for(i=1; i<num_hid_layers-1; i++) {
+	
+	for(int i=1; i<num_hid_layers-1; i++) {
 		n_hidden[i] = num_hidden_array[i];
-		layers[i] = new Layer(n_hidden[i], n_hidden[i-1]);
+		layers[i] = new Layer(n_hidden[i], layers[i-1]->getNneurons());
 	}
-	layers[num_hid_layers] = new Layer(no, n_hidden[i-1]);
-	outputLayer = layers[num_hid_layers];
+	layers[num_hid_layers] = new Layer(no, layers[num_hid_layers-1]->getNneurons());
 
-	setLearningRate(0.001);
-
+	setLearningRate(0);
 }
 
 DeepFeedbackLearning::~DeepFeedbackLearning() {
@@ -71,83 +76,49 @@ DeepFeedbackLearning::~DeepFeedbackLearning() {
 }
 
 void DeepFeedbackLearning::doStep(double* input, double* error) {
-	Layer *hiddenLayer, *nextLayer;
-	int nh;
-	int nFiltersInput = 10;
-	int nFiltersHidden = 10;
-
 	switch (algorithm) {
 	case backprop:
-		for (int i=0; i<num_hid_layers; i++) {
-			nh = n_hidden[i];
-			hiddenLayer = layers[i];
-			nextLayer = layers[i+1];
-			hiddenLayer->setInputs(input);
-			nextLayer->setErrors(error);
-			// let's first calc all activities
-			hiddenLayer->calcOutputs();
-			// now that we have the outputs from the hidden layer
+		// we set the input to the input layer
+		layers[0]->setInputs(input);
+		// ..and calc its output
+		layers[0]->calcOutputs();
+		// new lets calc the other outputs
+		for (int i=1; i<=num_hid_layers; i++) {
+			Layer* emitterLayer = layers[i-1];
+			Layer* receiverLayer = layers[i];
+			// now that we have the outputs from the previous layer
 			// we can shovel them into the next layer
-			for(int i=0;i<nh;i++) {
+			for(int i=0;i<emitterLayer->getNneurons();i++) {
 				// get the output of a neuron in the input layer
-				double v = hiddenLayer->getNeuron(i)->getOutput();
+				double v = emitterLayer->getNeuron(i)->getOutput();
 				// set that output as an input to the next layer which
 				// is distributed to all neurons
-				nextLayer->setInput(i,v);
+				receiverLayer->setInput(i,v);
 			}
 
 			// now let's calc the output which can then be sent out
-			nextLayer->calcOutputs();
-
+			receiverLayer->calcOutputs();
+	        }
+		// error processing
+		layers[num_hid_layers]->setErrors(error);
+		for (int i=num_hid_layers; i>0; i--) {
+			Layer* emitterLayer = layers[i];
+			Layer* receiverLayer = layers[i-1];
 			// Calculate the errors for the hidden layer
-			for(int i=0;i<hiddenLayer->getNneurons();i++) {
+			for(int i=0;i<receiverLayer->getNneurons();i++) {
 				double err = 0;
-				for(int j=0;j<nextLayer->getNneurons();j++) {
-					err = err + nextLayer->getNeuron(j)->getWeight(i) *
-							nextLayer->getNeuron(j)->getError();
+				for(int j=0;j<emitterLayer->getNneurons();j++) {
+					err = err + emitterLayer->getNeuron(j)->getWeight(i) *
+						emitterLayer->getNeuron(j)->getError();
 					if (isnan(err)) {
-						fprintf(stderr,"doStep: layer: %d err=%f, nextLayer->getNeuron(j)->getWeight(i)=%f, nextoutputLayer->getNeuron(j)->getError()=%f\n",
-								i,err,outputLayer->getNeuron(j)->getWeight(i), outputLayer->getNeuron(j)->getError());
+		                                printf("err=nan\n");
 						exit(0);
 					}
 				}
-				hiddenLayer->getNeuron(i)->setError(dsigm(hiddenLayer->getNeuron(i)->getOutput()) * err);
+				receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 			}
-		}
+	        }
 		break;
-	case ico:
-		for (int i=0; i<num_hid_layers; i++) {
-			nh = n_hidden[i];
-			hiddenLayer = layers[i];
-			nextLayer = layers[i+1];
-
-			hiddenLayer->setInputs(input);
-			hiddenLayer->setErrors(error);
-			// let's first calc all activities
-			hiddenLayer->calcOutputs();
-			// now that we have the outputs from the hidden layer
-			// we can shovel them into the next layer
-			for(int i=0;i<nh;i++) {
-				// get the output of a neuron in the input layer
-				double v = hiddenLayer->getNeuron(i)->getOutput();
-				// set that output as an input to the next layer which
-				// is distributed to all neurons
-				nextLayer->setInput(i,v);
-			}
-			// now let's calc the output which can then be sent out
-			nextLayer->calcOutputs();
-
-			// Calculate the errors for the hidden layer
-			for(int i=0;i<nextLayer->getNneurons();i++) {
-				double err = 0;
-				for(int j=0;j<hiddenLayer->getNneurons();j++) {
-					err = err + hiddenLayer->getNeuron(j)->getWeight(i) *
-							hiddenLayer->getNeuron(j)->getError();
-				}
-				nextLayer->getNeuron(i)->setError(dsigm(nextLayer->getNeuron(i)->getOutput()) * err);
-			}
-		}
-		break;		
 	}
 
 	for (int i=num_hid_layers; i>-1; i--) {

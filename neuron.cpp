@@ -28,12 +28,12 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 			double fmax = fs/minT;
 			double df = (fmax-fmin)/((double)nFilters);
 			double f = fmin;
-#ifdef DEBUG_NEURON
+#ifdef DEBUG_NEURON2
 			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
 			for(int j=0;j<_nFilters;j++) {
 				bandpass[i][j] = new Bandpass();
-#ifdef DEBUG_NEURON
+#ifdef DEBUG_NEURON2
 				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f)\n",
 					i,j,fs,f);
 #endif
