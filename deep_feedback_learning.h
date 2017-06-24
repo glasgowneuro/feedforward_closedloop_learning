@@ -12,7 +12,7 @@
 // do the proper derivative of the activation function
 #define DO_DERIV_ACTIVATION
 
-#define DEBUG_DFL
+//#define DEBUG_DFL
 
 class DeepFeedbackLearning {
 
