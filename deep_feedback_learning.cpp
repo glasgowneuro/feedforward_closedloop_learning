@@ -1,6 +1,14 @@
 #include "deep_feedback_learning.h"
 #include <math.h>
 
+/**
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
+ * (C) 2017, Bernd Porr <mail@berndporr.me.uk>, <bernd@glasgowneuro.tech>
+ * (C) 2017, Paul Miller <nlholdem@hotmail.com>
+ **/
+
 DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output,
 					   int num_filtersInput, int num_filtersHidden,
 					   double _minT, double _maxT) {

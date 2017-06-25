@@ -3,6 +3,13 @@ class Bandpass;
 #ifndef _Bandpass
 #define _Bandpass
 
+/**
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
+ * (C) 2017, Bernd Porr <mail@berndporr.me.uk>, <bernd@glasgowneuro.tech>
+ **/
+
 #include <assert.h>
 
 class Bandpass {

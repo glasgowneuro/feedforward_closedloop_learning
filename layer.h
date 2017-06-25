@@ -1,6 +1,14 @@
 #ifndef __Layer_H_
 #define __Layer_H_
 
+/**
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
+ * (C) 2017, Bernd Porr <mail@berndporr.me.uk>, <bernd@glasgowneuro.tech>
+ * (C) 2017, Paul Miller <nlholdem@hotmail.com>
+ **/
+
 #include "neuron.h"
 
 class Layer {

@@ -1,6 +1,13 @@
 #ifndef __Deep_FEEDBACK_LEARNING_H_
 #define __Deep_FEEDBACK_LEARNING_H_
 
+/**
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
+ * (C) 2017, Bernd Porr <mail@berndporr.me.uk>, <bernd@glasgowneuro.tech>
+ * (C) 2017, Paul Miller <nlholdem@hotmail.com>
+ **/
 
 #include "layer.h"
 #include "neuron.h"
