@@ -19,26 +19,25 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 	n_hidden = new int[num_hid_layers];
 	layers = new Layer*[num_hid_layers+1];
 
-	int i=1;
 	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
 	n_hidden[0] = num_hidden_array[0];
 #ifdef DEBUG_DFL
 	fprintf(stderr,"n_hidden[0]=%d\n",n_hidden[0]);
 #endif
-	
+	// input layer 
+	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
+	n_hidden[0] = num_hidden_array[0];
 
-	for(i=1; i<num_hid_layers; i++) {
+	// hidden layers
+	for(int i=1; i<num_hid_layers-1; i++) {
 		n_hidden[i] = num_hidden_array[i];
-#ifdef DEBUG_DFL
-		fprintf(stderr,"n_hidden[%d]=%d\n",i,n_hidden[i]);
-#endif
-		layers[i] = new Layer(n_hidden[i], n_hidden[i-1],nfHidden,minT,maxT);
+		layers[i] = new Layer(n_hidden[i], layers[i-1]->getNneurons(),nfHidden,minT,maxT);
 	}
 
-	layers[num_hid_layers] = new Layer(no, n_hidden[i-1],nfHidden,minT,maxT);
+	// output layer
+	layers[num_hid_layers] = new Layer(no, layers[num_hid_layers-1]->getNneurons(),nfHidden,minT,maxT);
 
-	setLearningRate(0.001);
-
+	setLearningRate(0);
 }
 
 DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output) {
@@ -73,6 +72,8 @@ DeepFeedbackLearning::~DeepFeedbackLearning() {
 	for (int i=0; i<num_hid_layers+1; i++) {
 		delete layers[i];
 	}
+	delete [] layers;
+	delete [] n_hidden;
 }
 
 void DeepFeedbackLearning::doStep(double* input, double* error) {
@@ -95,7 +96,7 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 				// is distributed to all neurons
 				receiverLayer->setInput(i,v);
 			}
-
+			
 			// now let's calc the output which can then be sent out
 			receiverLayer->calcOutputs();
 	        }
@@ -127,21 +128,21 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 }
 
 void DeepFeedbackLearning::setLearningRate(double rate) {
-	for (int i=0; i<num_hid_layers+1; i++) {
+	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setLearningRate(rate);
 	}
 }
 
 
 void DeepFeedbackLearning::initWeights(double max) {
-	for (int i=0; i<num_hid_layers+1; i++) {
+	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->initWeights(max);
 	}
 }
 
 
 void DeepFeedbackLearning::setUseDerivative(int useIt) {
-	for (int i=0; i<num_hid_layers+1; i++) {
+	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setUseDerivative(useIt);
 	}
 }
