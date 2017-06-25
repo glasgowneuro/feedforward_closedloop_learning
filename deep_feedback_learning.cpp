@@ -19,23 +19,41 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 	n_hidden = new int[num_hid_layers];
 	layers = new Layer*[num_hid_layers+1];
 
+	// creating input layer
+#ifdef DEBUG_DFL
+	fprintf(stderr,"Creating input layer: ");
+#endif
 	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
 	n_hidden[0] = num_hidden_array[0];
 #ifdef DEBUG_DFL
-	fprintf(stderr,"n_hidden[0]=%d\n",n_hidden[0]);
+	fprintf(stderr,"created! n_hidden[0]=%d\n",n_hidden[0]);
 #endif
-	// input layer 
-	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
-	n_hidden[0] = num_hidden_array[0];
 
-	// hidden layers
-	for(int i=1; i<num_hid_layers-1; i++) {
+#ifdef DEBUG_DFL
+	fprintf(stderr,"Creating hidden layers: ");
+#endif
+	// additional hidden layers
+	// note that these are _additional_ layers
+	for(int i=1; i<num_hid_layers; i++) {
 		n_hidden[i] = num_hidden_array[i];
+#ifdef DEBUG_DFL
+		fprintf(stderr,"Creating layers %d: ",i);
+#endif
 		layers[i] = new Layer(n_hidden[i], layers[i-1]->getNneurons(),nfHidden,minT,maxT);
+#ifdef DEBUG_DFL
+		fprintf(stderr,"created with %d neurons.",layers[i]->getNneurons());
+#endif
+
 	}
 
 	// output layer
+#ifdef DEBUG_DFL
+	fprintf(stderr,"Creating output layer: ");
+#endif
 	layers[num_hid_layers] = new Layer(no, layers[num_hid_layers-1]->getNneurons(),nfHidden,minT,maxT);
+#ifdef DEBUG_DFL
+	fprintf(stderr,"created! n_hidden[0]=%d\n",layers[i]->getNneurons());
+#endif
 
 	setLearningRate(0);
 }
@@ -129,6 +147,9 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 
 void DeepFeedbackLearning::setLearningRate(double rate) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
+#ifdef DEBUG_DFL
+		fprintf(stderr,"setLearningRate in layer %d\n",i);
+#endif
 		layers[i]->setLearningRate(rate);
 	}
 }

@@ -10,7 +10,13 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	minT = _minT;
 	maxT = _maxT;
 	dampingCoeff = 0.51;
+#ifdef DEBUG_NEURON2
+	fprintf(stderr,"creating %d weights: ",nInputs);
+#endif
 	weights = new double*[nInputs];
+#ifdef DEBUG_NEURON2
+	fprintf(stderr,"done\n");
+#endif
 	useDerivative = 0;
 	oldError = 0;
 	if (nFilters>0) {

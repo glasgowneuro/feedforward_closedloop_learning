@@ -1,4 +1,4 @@
-CFLAGS = -g -O3 -march=native
+CFLAGS = -g -Ofast -march=native
 LDFLAGS = 
 
 all: test_neuron test_deep_feedback_learning deep_feedback_learning.py
