@@ -6,7 +6,6 @@
 
 // enables denbug output to sdt out
 // #define DEBUG_NEURON
-// #define DEBUG_NEURON2
 
 #include "bandpass.h"
 

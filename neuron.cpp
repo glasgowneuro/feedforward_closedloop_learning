@@ -10,11 +10,11 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	minT = _minT;
 	maxT = _maxT;
 	dampingCoeff = 0.51;
-#ifdef DEBUG_NEURON2
+#ifdef DEBUG_NEURON
 	fprintf(stderr,"creating %d weights: ",nInputs);
 #endif
 	weights = new double*[nInputs];
-#ifdef DEBUG_NEURON2
+#ifdef DEBUG_NEURON
 	fprintf(stderr,"done\n");
 #endif
 	useDerivative = 0;
@@ -34,12 +34,12 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 			double fmax = fs/minT;
 			double df = (fmax-fmin)/((double)nFilters);
 			double f = fmin;
-#ifdef DEBUG_NEURON2
+#ifdef DEBUG_BP
 			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
 			for(int j=0;j<_nFilters;j++) {
 				bandpass[i][j] = new Bandpass();
-#ifdef DEBUG_NEURON2
+#ifdef DEBUG_BP
 				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f)\n",
 					i,j,fs,f);
 #endif
