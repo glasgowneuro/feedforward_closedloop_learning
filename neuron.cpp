@@ -166,6 +166,7 @@ void Neuron::doLearning() {
 		}
 	}
 	biasweight = biasweight + bias * error * learningRate;
+	//printf("b=%e\n",biasweight);
 }
 
 
