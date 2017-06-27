@@ -10,6 +10,8 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	minT = _minT;
 	maxT = _maxT;
 	dampingCoeff = 0.51;
+	biasweight = 0;
+	bias = 0;
 #ifdef DEBUG_NEURON
 	fprintf(stderr,"creating %d weights: ",nInputs);
 #endif
@@ -133,7 +135,8 @@ void Neuron::calcOutput() {
 		}
 		
 	}
-	
+
+	sum = sum + biasweight * bias;
 	
 #ifdef LINEAR_OUTPUT
 	output = sum;
@@ -161,7 +164,8 @@ void Neuron::doLearning() {
 			}
 #endif
 		}
-	}	
+	}
+	biasweight = biasweight + bias * error * learningRate;
 }
 
 

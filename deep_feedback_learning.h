@@ -58,6 +58,8 @@ public:
 	void initWeights(double max);
 
 	void seedRandom(int s) { srandom(s); };
+
+	void setBias(double _bias);
 	
 	int getNumHidLayers() {return num_hid_layers;};
 	Layer* getLayer(int i) {return layers[i];};

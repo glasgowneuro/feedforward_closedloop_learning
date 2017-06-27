@@ -42,11 +42,12 @@ private:
 	int nInputs;
 	int nFilters;
 	double** weights;
+	double biasweight;
+	double bias;
 	Bandpass ***bandpass;
 	double* inputs;
 	double output;
 	double sum;
-	double bias;
 	double error;
 	double learningRate;
 	double minT,maxT;

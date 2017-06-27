@@ -33,6 +33,9 @@ public:
 	// retrieves the error
 	double getError(int i);
 
+	// sets the global error for all neurons
+	void setBias(double _bias);
+
 	// sets if we use the derivative
 	void setUseDerivative(int useIt);
 

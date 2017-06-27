@@ -245,3 +245,9 @@ void DeepFeedbackLearning::setUseDerivative(int useIt) {
 		layers[i]->setUseDerivative(useIt);
 	}
 }
+
+void DeepFeedbackLearning::setBias(double _bias) {
+	for (int i=0; i<(num_hid_layers+1); i++) {
+		layers[i]->setBias(_bias);
+	}
+}

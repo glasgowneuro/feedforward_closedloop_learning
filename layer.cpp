@@ -56,9 +56,14 @@ void Layer::setErrors(double* _errors) {
 	}
 }
 
+void Layer::setBias(double _bias) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setBias(_bias);
+	}
+}
+
 void Layer::setLearningRate(double _learningRate) {
 	for(int i=0;i<nNeurons;i++) {
-		//printf("i=%d\n",i);
 		neurons[i]->setLearningRate(_learningRate);
 	}
 }
