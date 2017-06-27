@@ -170,7 +170,7 @@ void Neuron::doLearning() {
 }
 
 
-void Neuron::initWeights(double _max) {
+void Neuron::initWeights(double _max, int initBias) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
 			if (_max>0) {
@@ -179,8 +179,12 @@ void Neuron::initWeights(double _max) {
 				weights[i][j] = 0;
 			}
 		}
-	}	
+	}
+	if (initBias) {
+		biasweight=(((double)random())/((double)RAND_MAX)*_max);
+	}
 }
+
 
 
 void Neuron::setError(double _error) {

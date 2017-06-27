@@ -55,7 +55,7 @@ public:
 
 	Algorithm getAlgorithm() { return algorithm; }
 
-	void initWeights(double max);
+	void initWeights(double max, int initBias = 0);
 
 	void seedRandom(int s) { srandom(s); };
 

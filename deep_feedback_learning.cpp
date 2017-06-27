@@ -233,9 +233,9 @@ void DeepFeedbackLearning::setLearningRate(double rate) {
 }
 
 
-void DeepFeedbackLearning::initWeights(double max) {
+void DeepFeedbackLearning::initWeights(double max, int initBias) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
-		layers[i]->initWeights(max);
+		layers[i]->initWeights(max,initBias);
 	}
 }
 

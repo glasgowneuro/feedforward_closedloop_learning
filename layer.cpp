@@ -74,9 +74,9 @@ void Layer::setUseDerivative(int _useIt) {
 	}
 }
 
-void Layer::initWeights(double _max) {
+void Layer::initWeights(double _max, int _initBias) {
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->initWeights(_max);
+		neurons[i]->initWeights(_max,_initBias);
 	}
 }
 

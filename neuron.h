@@ -25,7 +25,7 @@ public:
 	~Neuron();
 	void calcOutput();
 	void doLearning();
-	void initWeights(double _max);
+	void initWeights(double _max, int initBias);
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
 	inline double getWeight(int _index, int _filter = 0) { return weights[_index][_filter]; };

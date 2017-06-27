@@ -50,7 +50,7 @@ public:
 	void setLearningRate(double _learningRate);
 
 	// inits weights with a random value between -_max and max
-	void initWeights(double _max);
+	void initWeights(double _max, int initBiasWeight = 0);
 
 	// gets the outpuut of one neuron
 	inline double getOutput(int index) {
