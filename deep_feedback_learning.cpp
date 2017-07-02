@@ -168,7 +168,6 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 				// is distributed to all neurons
 				receiverLayer->setInput(i,v);
 			}
-			
 			// now let's calc the output which can then be sent out
 			receiverLayer->calcOutputs();
 	        }

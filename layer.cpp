@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nNeurons = _nNeurons;
@@ -28,14 +29,22 @@ Layer::~Layer() {
 }
 
 void Layer::calcOutputs() {
+	pthread_t t[nNeurons];
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->calcOutput();
+		pthread_create(&t[i], NULL, neurons[i]->calcOutputThread, neurons[i]);
+	}
+	for(int i=0;i<nNeurons;i++) {
+		pthread_join(t[i], NULL);
 	}
 }
 
 void Layer::doLearning() {
+	pthread_t t[nNeurons];
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->doLearning();
+		pthread_create(&t[i], NULL, neurons[i]->doLearningThread, neurons[i]);
+	}
+	for(int i=0;i<nNeurons;i++) {
+		pthread_join(t[i], NULL);
 	}
 }
 
