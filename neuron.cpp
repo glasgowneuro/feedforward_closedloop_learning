@@ -89,7 +89,9 @@ void Neuron::calcOutput() {
 		double* inputp = inputs;
 		for(int i=0;i<nInputs;i++) {
 			double input = *inputp;
+#ifdef DEBUG_NEURON
 			assert(inputs[i] == input);
+#endif
 			double* weightsp2 = *weightsp1;
 				bandpassp2 = *bandpassp1;
 				bandpassp1++;
@@ -115,7 +117,10 @@ void Neuron::calcOutput() {
 		double* inputp = inputs;
 		for(int i=0;i<nInputs;i++) {
 			double input = *inputp;
+#ifdef DEBUG_NEURON
+
 			assert(inputs[i] == input);
+#endif
 			double* weightsp2 = *weightsp1;
 			weightsp1++;
 			inputp++;
