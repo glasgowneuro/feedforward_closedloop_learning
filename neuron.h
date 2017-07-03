@@ -37,6 +37,8 @@ public:
 	inline void setBias(double _bias) { bias=_bias; };
 	inline void setLearningRate(double _learningrate) { learningRate = _learningrate; };
 	inline void setUseDerivative(int _useDerivative) { useDerivative = _useDerivative; };
+	inline int getNinputs() { return nInputs; };
+	double getAvgWeight(int _input);
 
 private:
 	int nInputs;

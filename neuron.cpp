@@ -185,6 +185,15 @@ void Neuron::initWeights(double _max, int initBias) {
 	}
 }
 
+double Neuron::getAvgWeight(int _input) {
+	double w = 0;
+	for(int j=0;j<nFilters;j++) {
+		w += weights[_input][j];
+	}
+	w += biasweight;
+	return w;
+}
+
 
 
 void Neuron::setError(double _error) {
