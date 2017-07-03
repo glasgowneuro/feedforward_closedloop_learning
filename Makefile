@@ -1,5 +1,5 @@
 CFLAGS = -g -Ofast -march=native
-LDFLAGS = 
+LDFLAGS = -pthread
 
 all: test_neuron test_deep_feedback_learning deep_feedback_learning.py
 

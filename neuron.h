@@ -24,7 +24,13 @@ public:
 	Neuron(int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Neuron();
 	void calcOutput();
+	static void* calcOutputThread(void* object) {
+		reinterpret_cast<Neuron*>(object)->calcOutput();
+	};
 	void doLearning();
+	static void* doLearningThread(void* object) {
+		reinterpret_cast<Neuron*>(object)->doLearning();
+	};
 	void initWeights(double _max, int initBias);
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
