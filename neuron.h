@@ -35,7 +35,6 @@ public:
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
 	inline double getWeight(int _index, int _filter = 0) { return weights[_index][_filter]; };
-	double getAvgWeight(int _input = -1);
 	inline void setWeight(int _index, double _weight, int _filter = 0) { weights[_index][_filter]=_weight; };
 	void setError(double _error);
 	inline double getError() { return error; };
@@ -45,6 +44,7 @@ public:
 	inline void setLearningRate(double _learningrate) { learningRate = _learningrate; };
 	inline void setUseDerivative(int _useDerivative) { useDerivative = _useDerivative; };
 	inline int getNinputs() { return nInputs; };
+	double getAvgWeight(int _input);
 
 private:
 	int nInputs;
