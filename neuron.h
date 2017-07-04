@@ -35,6 +35,7 @@ public:
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
 	inline double getWeight(int _index, int _filter = 0) { return weights[_index][_filter]; };
+	double getAvgWeight(int _input = -1);
 	inline void setWeight(int _index, double _weight, int _filter = 0) { weights[_index][_filter]=_weight; };
 	void setError(double _error);
 	inline double getError() { return error; };
@@ -43,23 +44,25 @@ public:
 	inline void setBias(double _bias) { bias=_bias; };
 	inline void setLearningRate(double _learningrate) { learningRate = _learningrate; };
 	inline void setUseDerivative(int _useDerivative) { useDerivative = _useDerivative; };
+	inline int getNinputs() { return nInputs; };
 
 private:
 	int nInputs;
+	unsigned char* mask = 0;
 	int nFilters;
-	double** weights;
-	double biasweight;
-	double bias;
-	Bandpass ***bandpass;
-	double* inputs;
-	double output;
-	double sum;
-	double error;
-	double learningRate;
+	double** weights = 0;
+	double biasweight = 0;
+	double bias = 0;
+	Bandpass ***bandpass = 0;
+	double* inputs = 0;
+	double output = 0;
+	double sum = 0;
+	double error = 0;
+	double learningRate = 0;
 	double minT,maxT;
-	double dampingCoeff;
-	int useDerivative;
-	double oldError;
+	double dampingCoeff = 0.51;
+	int useDerivative = 1;
+	double oldError = 0;
 };
 
 #endif
