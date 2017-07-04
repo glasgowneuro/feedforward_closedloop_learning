@@ -46,6 +46,22 @@ public:
 	inline int getNinputs() { return nInputs; };
 	double getAvgWeight(int _input);
 
+	// tells the layer if it's been a 2D array originally
+	void setGeometry(int _width, int _height) {
+		assert((_width*_height)==nInputs);
+			width = _width;
+			height = _height;
+	}
+	
+	// boundary safe manipulation of the mask
+	void setMask(int x,int y,unsigned char c);
+	
+	// boundary safe manipulation of the mask
+	void setMask(unsigned char c);
+	
+	// boundary safe return of the mask
+	unsigned char getMask(int x,int y);
+
 private:
 	int nInputs;
 	unsigned char* mask = 0;
@@ -63,6 +79,8 @@ private:
 	double dampingCoeff = 0.51;
 	int useDerivative = 1;
 	double oldError = 0;
+	int width = 0;
+	int height = 0;	    
 };
 
 #endif

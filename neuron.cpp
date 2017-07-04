@@ -245,3 +245,26 @@ void Neuron::setError(double _error) {
 		error = _error;
 	}
 }
+
+
+void Neuron::setMask(int x,int y,unsigned char c) {
+	if (x<0) return;
+	if (y<0) return;
+	if (x>=width) return;
+	if (y>=height) return;
+	mask[x+y*width] = c;
+}
+
+void Neuron::setMask(unsigned char c) {
+	for(int i=0;i<nInputs;i++) {
+		mask[i] = c;
+	}
+}
+
+unsigned char Neuron::getMask(int x,int y) {
+	if (x<0) return 0;
+	if (y<0) return 0;
+	if (x>=width) return 0;
+	if (y>=height) return 0;
+	return mask[x+y*width];
+}

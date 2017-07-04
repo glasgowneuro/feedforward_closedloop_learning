@@ -63,16 +63,18 @@ public:
 	}
 
 	// number of neurons
-	int getNneurons() { return nNeurons;}
+	inline int getNneurons() { return nNeurons;}
 
 	// number of inputs
-	int getNinputs() { return nInputs;}
+	inline int getNinputs() { return nInputs;}
+
+	void setConvolution(int width, int height);
 
 private:
 	int nNeurons;
 	int nInputs;
 	int nFilters;
-	Neuron** neurons;
+	Neuron** neurons = 0;
 	double minT;
 	double maxT;
 };

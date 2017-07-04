@@ -117,3 +117,25 @@ void Layer::setInputs(double* inputs) {
 		}
 	}
 }
+
+void Layer::setConvolution(int width, int height) {
+	float d = round(sqrt(nNeurons));
+	int dx = round(width/d);
+	int dy = round(height/d);
+	int mx = round(dx/2.0);
+	int my = round(dy/2.0);
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setGeometry(width,height);
+		neurons[i]->setMask(0);
+		for(int x=0;x<dx;x++) {
+			for(int y=0;y<dy;y++) {
+				neurons[i]->setMask(x+mx,y+my,1);
+			}
+		}
+		mx = mx + dx;
+		if (mx > width) {
+			mx = round(dx/2.0);
+			my = my + dy;
+		}
+	}
+}
