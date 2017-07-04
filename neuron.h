@@ -1,6 +1,8 @@
 #ifndef __Neuron_H_
 #define __Neuron_H_
 
+#include<math.h>
+
 /**
  * GNU GENERAL PUBLIC LICENSE
  * Version 3, 29 June 2007
@@ -34,7 +36,7 @@ public:
 	void initWeights(double _max, int initBias);
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
-	inline double getWeight(const int _index, const int _filter = 0) { return weights[_index][_filter]; };
+	inline double getWeight(const int _index, const int _filter = 0) { return mask[_index] ? weights[_index][_filter] : 0; };
 	inline void setWeight(const int _index, const double _weight, const int _filter = 0) { weights[_index][_filter]=_weight; };
 	void setError(double _error);
 	inline double getError() { return error; };
@@ -61,6 +63,9 @@ public:
 	
 	// boundary safe return of the mask
 	unsigned char getMask(const int x,const int y);
+
+	// mask in linear form
+	unsigned char getMask(const int index) { return mask[index]; };
 
 private:
 	int nInputs;

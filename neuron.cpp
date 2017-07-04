@@ -209,20 +209,12 @@ void Neuron::initWeights(const double _max, const int initBias) {
 }
 
 double Neuron::getAvgWeight(const int _input) {
+	if (!mask[_input]) return 0;
 	int n=0;
 	double w=0;
-	if (_input < 0) {
-		for(int i=0;i<nInputs;i++) {
-			for(int j=0;j<nFilters;j++) {
-				w += weights[i][j];
-				n++;
-			}
-		}
-	} else {
-		for(int j=0;j<nFilters;j++) {
-			w += weights[_input][j];
-			n++;
-		}
+	for(int j=0;j<nFilters;j++) {
+		w += weights[_input][j];
+		n++;
 	}
 	w+= biasweight;
 	n++;
