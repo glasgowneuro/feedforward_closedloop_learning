@@ -22,43 +22,43 @@ public:
 	void doLearning();
 
 	// sets the global error for all neurons
-	void setError(double _error);
+	void setError(const double _error);
 
 	// sets the error individually
-	void setError(int i, double _error);
+	void setError(const int i, const double _error);
 
 	// sets all errors from an input array
-	void setErrors(double *_errors);
+	void setErrors(const double *_errors);
 
 	// retrieves the error
-	double getError(int i);
+	double getError(const int i);
 
 	// sets the global error for all neurons
-	void setBias(double _bias);
+	void setBias(const double _bias);
 
 	// sets if we use the derivative
-	void setUseDerivative(int useIt);
+	void setUseDerivative(const int useIt);
 
 	// this is used to copy the output from the previous
 	// layer into this input layer or to the sensor inputs
-	void setInput(int inputIndex, double input);
+	void setInput(const int inputIndex, const double input);
 
 	// sets all inputs from an input array
-	void setInputs(double *_inputs);
+	void setInputs(const double * _inputs);
 
 	// sets the learning rate of all neurons
-	void setLearningRate(double _learningRate);
+	void setLearningRate(const double _learningRate);
 
 	// inits weights with a random value between -_max and max
-	void initWeights(double _max, int initBiasWeight = 0);
+	void initWeights(const double _max, const int initBiasWeight = 0);
 
 	// gets the outpuut of one neuron
-	inline double getOutput(int index) {
+	inline double getOutput(const int index) {
 		return neurons[index]->getOutput();
 	}
 
 	// gets a pointer to one neuron
-	inline Neuron* getNeuron(int index) {
+	inline Neuron* getNeuron(const int index) {
 		return neurons[index];
 	}
 
@@ -68,7 +68,7 @@ public:
 	// number of inputs
 	inline int getNinputs() { return nInputs;}
 
-	void setConvolution(int width, int height);
+	void setConvolution(const int width, const int height);
 
 private:
 	int nNeurons;

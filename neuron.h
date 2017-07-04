@@ -34,33 +34,33 @@ public:
 	void initWeights(double _max, int initBias);
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
-	inline double getWeight(int _index, int _filter = 0) { return weights[_index][_filter]; };
-	inline void setWeight(int _index, double _weight, int _filter = 0) { weights[_index][_filter]=_weight; };
+	inline double getWeight(const int _index, const int _filter = 0) { return weights[_index][_filter]; };
+	inline void setWeight(const int _index, const double _weight, const int _filter = 0) { weights[_index][_filter]=_weight; };
 	void setError(double _error);
 	inline double getError() { return error; };
-	inline void setInput(int _index, double _value) { inputs[_index] = _value; };
-	inline double getInput(int _index) { return inputs[_index]; };
-	inline void setBias(double _bias) { bias=_bias; };
-	inline void setLearningRate(double _learningrate) { learningRate = _learningrate; };
-	inline void setUseDerivative(int _useDerivative) { useDerivative = _useDerivative; };
+	inline void setInput(const int _index, const double _value) { inputs[_index] = _value; };
+	inline double getInput(const int _index) { return inputs[_index]; };
+	inline void setBias(const double _bias) { bias=_bias; };
+	inline void setLearningRate(const double _learningrate) { learningRate = _learningrate; };
+	inline void setUseDerivative(const int _useDerivative) { useDerivative = _useDerivative; };
 	inline int getNinputs() { return nInputs; };
 	double getAvgWeight(int _input);
 
 	// tells the layer if it's been a 2D array originally
-	void setGeometry(int _width, int _height) {
+	void setGeometry(const int _width, const int _height) {
 		assert((_width*_height)==nInputs);
 			width = _width;
 			height = _height;
 	}
 	
 	// boundary safe manipulation of the mask
-	void setMask(int x,int y,unsigned char c);
+	void setMask(const int x,const int y,const unsigned char c);
 	
 	// boundary safe manipulation of the mask
-	void setMask(unsigned char c);
+	void setMask(const unsigned char c);
 	
 	// boundary safe return of the mask
-	unsigned char getMask(int x,int y);
+	unsigned char getMask(const int x,const int y);
 
 private:
 	int nInputs;
