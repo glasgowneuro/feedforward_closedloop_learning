@@ -17,7 +17,7 @@
 
 
 // do the proper derivative of the activation function
-#define DO_DERIV_ACTIVATION
+// #define DO_DERIV_ACTIVATION
 
 //#define DEBUG_DFL
 
@@ -44,14 +44,6 @@ public:
 	void doStep(double* input, double* error);
 
 	void doStep(double* input, int n1, double* error, int n2);
-
-	void doForwardProp(double* input);
-	
-	void doForwardProp(double* input, int n1);
-
-	void doErrorProp(double* error);
-
-	void doErrorProp(double* error, int n2);
 
 	double getOutput(int index) {
 		return layers[num_hid_layers]->getOutput(index);

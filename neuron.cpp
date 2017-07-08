@@ -160,7 +160,9 @@ void Neuron::calcOutput() {
 #ifdef LINEAR_OUTPUT
 	output = sum;
 #else
+//		output = sum;
 	output = tanh(sum);
+//		output = 1/(1+exp(-sum))-0.5;
 #endif
 }
 
@@ -199,7 +201,7 @@ void Neuron::initWeights(const double _max, const int initBias) {
 			if (_max>0) {
 				weights[i][j] = (((double)random())/((double)RAND_MAX)*_max);
 			} else {
-				weights[i][j] = 0;
+				weights[i][j] = fabs(_max);
 			}
 		}
 	}
