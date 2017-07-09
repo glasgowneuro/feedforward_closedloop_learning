@@ -44,7 +44,7 @@ public:
 	void setInput(const int inputIndex, const double input);
 
 	// sets all inputs from an input array
-	void setInputs(const double * _inputs);
+	void setInputs(const double * _inputs, double min=0, double max=0);
 
 	// sets the learning rate of all neurons
 	void setLearningRate(const double _learningRate);

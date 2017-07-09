@@ -105,14 +105,30 @@ void Layer::setInput(const int inputIndex, const double input) {
 }
 
 // setting a single input to all neurons
-void Layer::setInputs(const double* inputs) {
+void Layer::setInputs(const double* inputs, double min, double max) {
 	const double* inputp = inputs;
+	if (max == min) {
+		min = HUGE_VAL;
+		max = -HUGE_VAL;
+		for(int j=0;j<nInputs;j++) {
+			if ((*inputp)>max) max = *inputp;
+			if ((*inputp)<min) min = *inputp;
+			inputp++;
+		}
+	}
+		
+	inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
 		Neuron** neuronsp = neurons;
 		const double input = *inputp;
 		inputp++;
+
 		for(int i=0;i<nNeurons;i++) {
-			(*neuronsp)->setInput(j,input);
+			if (max==min) {
+				(*neuronsp)->setInput(j,0);
+			} else {
+				(*neuronsp)->setInput(j,(input-min)/(max-min)*2-1);
+			}
 			neuronsp++;
 		}
 	}
