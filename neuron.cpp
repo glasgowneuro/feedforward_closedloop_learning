@@ -205,7 +205,7 @@ void Neuron::normaliseWeights() {
 		if (*maskp) {
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
-				norm = norm + fabs(*weightsp2);
+				norm = norm + (*weightsp2);
 				// printf("calc: %d,%d,weight=%e,norm=%e\n",i,j,*weightsp2,norm);
 				weightsp2++;
 			}
@@ -216,7 +216,7 @@ void Neuron::normaliseWeights() {
 	norm = norm + fabs(biasweight);
 	
 	//fprintf(stderr,"norm=%e\n",norm);
-	if (norm > 0) {
+	if (fabs(norm) > 0) {
 		weightsp1 = weights;
 		maskp = mask;
 		for(int i=0;i<nInputs;i++) {
@@ -224,7 +224,7 @@ void Neuron::normaliseWeights() {
 				double* weightsp2 = *weightsp1;
 				for(int j=0;j<nFilters;j++) {
 					*weightsp2 = *weightsp2 / norm;
-					if (*weightsp2 > 1)
+					if (*weightsp2 > 100)
 						fprintf(stderr,"!!!!%d,%d,weight=%e,norm=%e\n",i,j,*weightsp2,norm);
 					weightsp2++;
 				}

@@ -238,6 +238,7 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 			for(int i=0;i<receiverLayer->getNneurons();i++) {
 				double err = 0;
 				for(int j=0;j<emitterLayer->getNneurons();j++) {
+					//if (k==1) printf("w=%f,e=%f\n",receiverLayer->getNeuron(i)->getWeight(j),emitterLayer->getNeuron(j)->getError());
 					err = err + receiverLayer->getNeuron(i)->getWeight(j) *
 						emitterLayer->getNeuron(j)->getError();
 					if (isnan(err)) {
@@ -246,7 +247,8 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 					}
 				}
 				receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
-				printf("neuron=%d,err=%e\n",i,err);
+				receiverLayer->getNeuron(i)->setError(err);
+				if (k==num_hid_layers) printf("neuron=%d,err=%e\n",i,err);
 			}
 	        }
 		break;
