@@ -33,10 +33,17 @@ public:
 	static void* doLearningThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->doLearning();
 	};
+	void doMaxDet();
+	static void* doMaxDetThread(void* object) {
+		reinterpret_cast<Neuron*>(object)->doMaxDet();
+	};	
 	void initWeights(double _max, int initBias);
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
-	inline double getWeight(const int _index, const int _filter = 0) { return mask[_index] ? weights[_index][_filter] : 0; };
+	inline double getWeight(const int _index, const int _filter = 0) {
+		assert((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters));
+		return mask[_index] ? weights[_index][_filter] : 0;
+	};
 	inline void setWeight(const int _index, const double _weight, const int _filter = 0) { weights[_index][_filter]=_weight; };
 	void setError(double _error);
 	inline double getError() { return error; };
@@ -67,6 +74,8 @@ public:
 	// mask in linear form
 	unsigned char getMask(const int index) { return mask[index]; };
 
+	void normaliseWeights();
+
 private:
 	int nInputs;
 	unsigned char* mask = 0;
@@ -85,7 +94,8 @@ private:
 	int useDerivative = 1;
 	double oldError = 0;
 	int width = 0;
-	int height = 0;	    
+	int height = 0;
+	int maxDet = 0;
 };
 
 #endif

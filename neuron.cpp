@@ -89,7 +89,7 @@ Neuron::~Neuron() {
 void Neuron::calcOutput() {
 	sum = 0;
 
-	if (bandpass) {
+	if ((bandpass)&&(!maxDet)) {
 		double** weightsp1 = weights;
 		Bandpass*** bandpassp1 = bandpass;
 		double* inputp = inputs;
@@ -170,13 +170,15 @@ void Neuron::calcOutput() {
 void Neuron::doLearning() {
 	double* inputsp = inputs;
 	double** weightsp1 = weights;
-	unsigned char * maskp = mask;		
+	unsigned char * maskp = mask;
+	maxDet = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			const double input = *inputsp;
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
 				*weightsp2 = *weightsp2 + input * error * learningRate;
+				if (*weightsp2 > 10000) printf("!!!(%d,%d,%e,%e,%e,%e)", i,j,*weightsp2,input,error,learningRate);
 				weightsp2++;
 #ifdef DEBUG_NEURON
 				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
@@ -190,16 +192,88 @@ void Neuron::doLearning() {
 		maskp++;
 		weightsp1++;
 	}
+//	printf("\n");
 	biasweight = biasweight + bias * error * learningRate;
-	//printf("b=%e\n",biasweight);
 }
+
+
+void Neuron::normaliseWeights() {
+	double** weightsp1 = weights;
+	unsigned char * maskp = mask;
+	double norm = 0;
+	for(int i=0;i<nInputs;i++) {
+		if (*maskp) {
+			double* weightsp2 = *weightsp1;
+			for(int j=0;j<nFilters;j++) {
+				norm = norm + fabs(*weightsp2);
+				// printf("calc: %d,%d,weight=%e,norm=%e\n",i,j,*weightsp2,norm);
+				weightsp2++;
+			}
+		}
+		maskp++;
+		weightsp1++;
+	}
+	norm = norm + fabs(biasweight);
+	
+	//fprintf(stderr,"norm=%e\n",norm);
+	if (norm > 0) {
+		weightsp1 = weights;
+		maskp = mask;
+		for(int i=0;i<nInputs;i++) {
+			if (*maskp) {
+				double* weightsp2 = *weightsp1;
+				for(int j=0;j<nFilters;j++) {
+					*weightsp2 = *weightsp2 / norm;
+					if (*weightsp2 > 1)
+						fprintf(stderr,"!!!!%d,%d,weight=%e,norm=%e\n",i,j,*weightsp2,norm);
+					weightsp2++;
+				}
+			}
+			maskp++;
+			weightsp1++;
+		}
+	}
+}
+	
+
+
+void Neuron::doMaxDet() {
+	double* inputsp = inputs;
+	double** weightsp1 = weights;
+	unsigned char * maskp = mask;
+	int maxInp = 0;
+	int maxFilter = 0;
+	double max = 0;
+	maxDet = 1;
+	for(int i=0;i<nInputs;i++) {
+		const double input = fabs(*inputsp);
+		double* weightsp2 = *weightsp1;
+		if (*maskp) {
+			if (input>max) {
+				max = fabs(input);
+				maxInp = i;
+			}
+		}
+		for(int j=0;j<nFilters;j++) {
+			*weightsp2 = 0;
+			weightsp2++;
+		}
+		inputsp++;
+		maskp++;
+		weightsp1++;
+	}
+	weights[maxInp][0] = 1;
+}
+
+
+
 
 
 void Neuron::initWeights(const double _max, const int initBias) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
 			if (_max>0) {
-				weights[i][j] = (((double)random())/((double)RAND_MAX)*_max);
+				weights[i][j] = (((double)random()*2)/((double)RAND_MAX)*_max)-_max;
 			} else {
 				weights[i][j] = fabs(_max);
 			}

@@ -14,7 +14,6 @@
 class Layer {
 	
 public:
-
 	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Layer();
 
@@ -70,6 +69,10 @@ public:
 
 	void setConvolution(const int width, const int height);
 
+	void setMaxDetLayer(int _m) { maxDetLayer = _m; };
+
+	void setNormaliseWeights(int _normaliseWeights) { normaliseWeights = _normaliseWeights;};
+
 private:
 	int nNeurons;
 	int nInputs;
@@ -77,6 +80,8 @@ private:
 	Neuron** neurons = 0;
 	double minT;
 	double maxT;
+	int maxDetLayer = 0;
+	int normaliseWeights = 0;
 };
 
 #endif

@@ -62,7 +62,7 @@ public:
 	void setBias(double _bias);
 	
 	int getNumHidLayers() {return num_hid_layers;};
-	Layer* getLayer(int i) {return layers[i];};
+	Layer* getLayer(int i) {assert (i<=num_hid_layers); return layers[i];};
 	Layer* getOutputLayer() {return layers[num_hid_layers];};
 	Layer** getLayers() {return layers;};
 

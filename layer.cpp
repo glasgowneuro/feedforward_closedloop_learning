@@ -6,6 +6,7 @@
 #include <pthread.h>
 
 Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _maxT) {
+
 	nNeurons = _nNeurons;
 	nInputs = _nInputs;
 	nFilters = _nFilters;
@@ -40,11 +41,21 @@ void Layer::calcOutputs() {
 
 void Layer::doLearning() {
 	pthread_t t[nNeurons];
-	for(int i=0;i<nNeurons;i++) {
-		pthread_create(&t[i], NULL, neurons[i]->doLearningThread, neurons[i]);
+	if (maxDetLayer) {
+		for(int i=0;i<nNeurons;i++) {
+			pthread_create(&t[i], NULL, neurons[i]->doMaxDetThread, neurons[i]);
+		}
+	} else {
+		for(int i=0;i<nNeurons;i++) {
+			pthread_create(&t[i], NULL, neurons[i]->doLearningThread, neurons[i]);
+		}
 	}
 	for(int i=0;i<nNeurons;i++) {
 		pthread_join(t[i], NULL);
+	}
+	if (!normaliseWeights) return;
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->normaliseWeights();	
 	}
 }
 
@@ -155,3 +166,5 @@ void Layer::setConvolution(const int width, const int height) {
 		}
 	}
 }
+
+

@@ -40,11 +40,6 @@ public:
 	 **/
 	void impulse(char* name);
 
-	/**
-	 * normalization
-	 **/
-	double norm;
-
 	void calcNorm(double f);
 
 	/**
@@ -53,10 +48,17 @@ public:
 	void transfer(char* name);
 
 	/**
-	 * Gets the actual output of the filter. Same as the return value
+	 * Gets the output of the filter. Same as the return value
 	 * of the function "filter()".
 	 **/
-	double getActualOutput() {return actualOutput;};
+	inline double getOutput() {return actualOutput;};
+
+private:
+
+	/**
+	 * normalization
+	 **/
+	double norm;
 
 	/**
 	 * The coefficients of the denominator of H(z)
