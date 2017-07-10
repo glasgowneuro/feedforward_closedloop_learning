@@ -205,7 +205,8 @@ void Neuron::normaliseWeights() {
 		if (*maskp) {
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
-				norm = norm + (*weightsp2);
+				double a = fabs(*weightsp2);
+				norm = norm + a;
 				// printf("calc: %d,%d,weight=%e,norm=%e\n",i,j,*weightsp2,norm);
 				weightsp2++;
 			}
