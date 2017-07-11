@@ -105,6 +105,7 @@ net.enableDebugOutput()
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
 net.getLayer(0).setLearningRate(0.0001)
+# neg means that the weights are all the same
 net.getLayer(0).initWeights(-0.0001);
 net.getLayer(1).setLearningRate(0.0001)
 net.getLayer(1).initWeights(-0.0001);
@@ -256,7 +257,7 @@ for i in range(episodes):
         err[0] = delta
         net.doStep(blue.flatten(),err,-2550,2550)
 
-        output = net.getOutput(0)*50
+        output = net.getOutput(0)*500
         print(delta,output)
         action = [ delta+output , shoot ];
         r = game.make_action(action)
