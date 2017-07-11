@@ -20,6 +20,7 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 	}
 
 	initWeights(0);
+	normaliseWeights = 0;
 }
 
 Layer::~Layer() {
@@ -66,7 +67,7 @@ void Layer::setError(double _error) {
 	}
 }
 
-void Layer::setErrors(const double* _errors) {
+void Layer::setErrors( double* _errors) {
 	for(int i=0;i<nNeurons;i++) {
 		if (isnan(_errors[i])) {
 			fprintf(stderr,"Layer::setErrors: _errors[%d]=%f\n",i,_errors[i]);
@@ -76,48 +77,57 @@ void Layer::setErrors(const double* _errors) {
 	}
 }
 
-void Layer::setBias(double const _bias) {
+void Layer::setBias(double  _bias) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setBias(_bias);
 	}
 }
 
-void Layer::setLearningRate(const double _learningRate) {
+void Layer::setLearningRate( double _learningRate) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setLearningRate(_learningRate);
 	}
 }
 
-void Layer::setUseDerivative(const int _useIt) {
+void Layer::setUseDerivative( int _useIt) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setUseDerivative(_useIt);
 	}
 }
 
-void Layer::initWeights(const double _max, const int _initBias) {
+void Layer::initWeights( double _max,  int _initBias) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->initWeights(_max,_initBias);
 	}
 }
 
-void Layer::setError(const int i, const double _error) {
+void Layer::setError( int i,  double _error) {
 	neurons[i]->setError(_error);
 }
 
-double Layer::getError(const int i) {
+double Layer::getError( int i) {
 	return neurons[i]->getError();
 }
 
 // setting a single input to all neurons
-void Layer::setInput(const int inputIndex, const double input) {
+void Layer::setInput(int inputIndex, double input) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setInput(inputIndex,input);
 	}
 }
 
 // setting a single input to all neurons
-void Layer::setInputs(const double* inputs, double min, double max) {
-	const double* inputp = inputs;
+void Layer::enableDebugOutput(int _layerIndex) {
+	layerIndex = _layerIndex;
+	debugOutput = 1;
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->enableDebugging(_layerIndex);
+	}
+}
+
+// setting a single input to all neurons
+void Layer::setInputs( double* inputs, double min, double max) {
+	 double* inputp = inputs;
 	if (max == min) {
 		min = HUGE_VAL;
 		max = -HUGE_VAL;
@@ -131,7 +141,7 @@ void Layer::setInputs(const double* inputs, double min, double max) {
 	inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
 		Neuron** neuronsp = neurons;
-		const double input = *inputp;
+		 double input = *inputp;
 		inputp++;
 
 		for(int i=0;i<nNeurons;i++) {
@@ -145,10 +155,10 @@ void Layer::setInputs(const double* inputs, double min, double max) {
 	}
 }
 
-void Layer::setConvolution(const int width, const int height) {
-	float const d = round(sqrt(nNeurons));
-	int const dx = round(width/d);
-	int const dy = round(height/d);
+void Layer::setConvolution( int width,  int height) {
+	float  d = round(sqrt(nNeurons));
+	int dx = round(width/d);
+	int dy = round(height/d);
 	int mx = round(dx/2.0);
 	int my = round(dy/2.0);
 	for(int i=0;i<nNeurons;i++) {

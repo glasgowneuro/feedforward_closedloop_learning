@@ -100,18 +100,17 @@ nFiltersHidden = 3
 minT = 3
 maxT = 30
 nHidden0 = 4
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,10,10], 1, nFiltersInput, nFiltersHidden, minT,maxT)
-# init the weights
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+net.enableDebugOutput()
 net.getLayer(0).setConvolution(widthNet,heightNet)
-net.initWeights(0.01);
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
-net.setLearningRate(0.00001)
-net.getLayer(0).setLearningRate(1)
-net.getLayer(3).setLearningRate(0.1)
-net.getLayer(3).initWeights(-0.5);
+net.getLayer(0).setLearningRate(0.0001)
+net.getLayer(0).initWeights(-0.0001);
+net.getLayer(1).setLearningRate(0.0001)
+net.getLayer(1).initWeights(-0.0001);
 #net.seedRandom(88)
 net.setUseDerivative(1)
-net.setBias(0)
+net.setBias(1)
 #net.random_seed(10)
 # create the input arrays in numpy fashion
 
@@ -182,7 +181,7 @@ def plotWeights():
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,4):
+        for j in range(1,2):
             if ln2[j]:
                 ln2[j].remove()
             plt.figure(j+1)
@@ -255,9 +254,9 @@ for i in range(episodes):
             delta = 0
         err = np.zeros(1)
         err[0] = delta
-        net.doStep(blue.flatten(),err)
+        net.doStep(blue.flatten(),err,-2550,2550)
 
-        output = net.getOutput(0)*10
+        output = net.getOutput(0)*50
         print(delta,output)
         action = [ delta+output , shoot ];
         r = game.make_action(action)

@@ -33,10 +33,10 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 		weights[i] = new double[nFilters];
 		if (bandpass != NULL) {
 			bandpass[i] = new Bandpass*[nFilters];
-			const double fs = 1;
-			const double fmin = fs/maxT;
-			const double fmax = fs/minT;
-			const double df = (fmax-fmin)/((double)nFilters);
+			 double fs = 1;
+			 double fmin = fs/maxT;
+			 double fmax = fs/minT;
+			 double df = (fmax-fmin)/((double)nFilters);
 			double f = fmin;
 #ifdef DEBUG_BP
 			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
@@ -96,7 +96,7 @@ void Neuron::calcOutput() {
 		unsigned char * maskp = mask;
 		for(int i=0;i<nInputs;i++) {
 			if (*maskp) {
-				const double input = *inputp;
+				double input = *inputp;
 #ifdef DEBUG_NEURON
 				assert(inputs[i] == input);
 #endif
@@ -128,7 +128,7 @@ void Neuron::calcOutput() {
 		unsigned char * maskp = mask;
 		for(int i=0;i<nInputs;i++) {
 			if (*maskp) {
-				const double input = *inputp;
+				 double input = *inputp;
 #ifdef DEBUG_NEURON
 				
 				assert(inputs[i] == input);
@@ -156,13 +156,15 @@ void Neuron::calcOutput() {
 	}
 
 	sum = sum + biasweight * bias;
+
+	if (debugOutput) {
+		if (fabs(sum) > 3) fprintf(stderr,"Sum (%e) is very high in layer %d\n",sum,layerIndex);
+	}
 	
 #ifdef LINEAR_OUTPUT
 	output = sum;
 #else
-//		output = sum;
 	output = tanh(sum);
-//		output = 1/(1+exp(-sum))-0.5;
 #endif
 }
 
@@ -174,7 +176,7 @@ void Neuron::doLearning() {
 	maxDet = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
-			const double input = *inputsp;
+			 double input = *inputsp;
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
 				*weightsp2 = *weightsp2 + input * error * learningRate;
@@ -247,7 +249,7 @@ void Neuron::doMaxDet() {
 	double max = 0;
 	maxDet = 1;
 	for(int i=0;i<nInputs;i++) {
-		const double input = fabs(*inputsp);
+		 double input = fabs(*inputsp);
 		double* weightsp2 = *weightsp1;
 		if (*maskp) {
 			if (input>max) {
@@ -270,7 +272,7 @@ void Neuron::doMaxDet() {
 
 
 
-void Neuron::initWeights(const double _max, const int initBias) {
+void Neuron::initWeights( double _max,  int initBias) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
 			if (_max>0) {
@@ -285,7 +287,7 @@ void Neuron::initWeights(const double _max, const int initBias) {
 	}
 }
 
-double Neuron::getAvgWeight(const int _input) {
+double Neuron::getAvgWeight( int _input) {
 	if (!mask[_input]) return 0;
 	int n=0;
 	double w=0;
@@ -300,7 +302,7 @@ double Neuron::getAvgWeight(const int _input) {
 
 
 
-void Neuron::setError(const double _error) {
+void Neuron::setError( double _error) {
 #ifdef DEBUG_NEURON
 	if (isnan(_error)) {
 			printf(" Neuron::setError: error=%f\n",_error);
@@ -316,7 +318,7 @@ void Neuron::setError(const double _error) {
 }
 
 
-void Neuron::setMask(const int x,const int y,const unsigned char c) {
+void Neuron::setMask( int x, int y, unsigned char c) {
 	if (x<0) return;
 	if (y<0) return;
 	if (x>=width) return;
@@ -324,13 +326,13 @@ void Neuron::setMask(const int x,const int y,const unsigned char c) {
 	mask[x+y*width] = c;
 }
 
-void Neuron::setMask(const unsigned char c) {
+void Neuron::setMask( unsigned char c) {
 	for(int i=0;i<nInputs;i++) {
 		mask[i] = c;
 	}
 }
 
-unsigned char Neuron::getMask(const int x,const int y) {
+unsigned char Neuron::getMask( int x, int y) {
 	if (x<0) return 0;
 	if (y<0) return 0;
 	if (x>=width) return 0;

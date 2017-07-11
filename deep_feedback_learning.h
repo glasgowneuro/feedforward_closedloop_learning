@@ -41,9 +41,9 @@ public:
 
 	enum Algorithm { backprop = 0, ico = 1 };
 
-	void doStep(double* input, double* error);
+	void doStep(double* input, double* error,double min = 0,double max = 0);
 
-	void doStep(double* input, int n1, double* error, int n2);
+	void doStep(double* input, int n1, double* error, int n2,double min = 0,double max =0);
 
 	double getOutput(int index) {
 		return layers[num_hid_layers]->getOutput(index);
@@ -67,6 +67,8 @@ public:
 	Layer** getLayers() {return layers;};
 
 	void setUseDerivative(int useIt);
+
+	void enableDebugOutput();
 
 private:
 

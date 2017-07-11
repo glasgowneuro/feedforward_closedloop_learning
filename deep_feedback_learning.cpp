@@ -122,7 +122,7 @@ DeepFeedbackLearning::~DeepFeedbackLearning() {
 }
 
 
-void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) {
+void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2,double min,double max) {
 #ifdef DEBUG_DFL
 		fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
 #endif
@@ -148,12 +148,12 @@ void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) 
 	}
 
 
-void DeepFeedbackLearning::doStep(double* input, double* error) {
+void DeepFeedbackLearning::doStep(double* input, double* error,double min, double max) {
 	switch (algorithm) {
 	case backprop:
 		// Let's first propagate the signal through the layers
 		// we set the input to the input layer
-		layers[0]->setInputs(input);
+		layers[0]->setInputs(input,min,max);
 		// ..and calc its output
 		layers[0]->calcOutputs();
 		// new lets calc the other outputs
@@ -203,13 +203,14 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 					// sanity check that it's not NAN
 					assert(!isnan(err));
 				}
+				//fprintf(stderr,"%d:err=%e\n",i,err);
 				receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 			}
 	        }
 		break;
 	case ico:
 		// we set the input to the input layer
-		layers[0]->setInputs(input);
+		layers[0]->setInputs(input,min,max);
 		// ..and calc its output
 		layers[0]->calcOutputs();
 		// new lets calc the other outputs
@@ -285,5 +286,11 @@ void DeepFeedbackLearning::setUseDerivative(int useIt) {
 void DeepFeedbackLearning::setBias(double _bias) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setBias(_bias);
+	}
+}
+
+void DeepFeedbackLearning::enableDebugOutput() {
+	for (int i=0; i<(num_hid_layers+1); i++) {
+		layers[i]->enableDebugOutput(i);
 	}
 }

@@ -21,43 +21,43 @@ public:
 	void doLearning();
 
 	// sets the global error for all neurons
-	void setError(const double _error);
+	void setError( double _error);
 
 	// sets the error individually
-	void setError(const int i, const double _error);
+	void setError( int i,  double _error);
 
 	// sets all errors from an input array
-	void setErrors(const double *_errors);
+	void setErrors( double *_errors);
 
 	// retrieves the error
-	double getError(const int i);
+	double getError( int i);
 
 	// sets the global error for all neurons
-	void setBias(const double _bias);
+	void setBias( double _bias);
 
 	// sets if we use the derivative
-	void setUseDerivative(const int useIt);
+	void setUseDerivative( int useIt);
 
 	// this is used to copy the output from the previous
 	// layer into this input layer or to the sensor inputs
-	void setInput(const int inputIndex, const double input);
+	void setInput( int inputIndex,  double input);
 
 	// sets all inputs from an input array
-	void setInputs(const double * _inputs, double min=0, double max=0);
+	void setInputs( double * _inputs, double min=0, double max=0);
 
 	// sets the learning rate of all neurons
-	void setLearningRate(const double _learningRate);
+	void setLearningRate( double _learningRate);
 
 	// inits weights with a random value between -_max and max
-	void initWeights(const double _max, const int initBiasWeight = 0);
+	void initWeights( double _max,  int initBiasWeight = 0);
 
 	// gets the outpuut of one neuron
-	inline double getOutput(const int index) {
+	inline double getOutput( int index) {
 		return neurons[index]->getOutput();
 	}
 
 	// gets a pointer to one neuron
-	inline Neuron* getNeuron(const int index) {
+	inline Neuron* getNeuron( int index) {
 		return neurons[index];
 	}
 
@@ -67,12 +67,14 @@ public:
 	// number of inputs
 	inline int getNinputs() { return nInputs;}
 
-	void setConvolution(const int width, const int height);
+	void setConvolution( int width,  int height);
 
 	void setMaxDetLayer(int _m) { maxDetLayer = _m; };
 
 	void setNormaliseWeights(int _normaliseWeights) { normaliseWeights = _normaliseWeights;};
 
+	void enableDebugOutput(int layerIndex);
+	
 private:
 	int nNeurons;
 	int nInputs;
@@ -82,6 +84,8 @@ private:
 	double maxT;
 	int maxDetLayer = 0;
 	int normaliseWeights = 0;
+	int debugOutput = 0;
+	int layerIndex = 0;
 };
 
 #endif
