@@ -100,15 +100,14 @@ nFiltersHidden = 3
 minT = 3
 maxT = 30
 nHidden0 = 4
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,4], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.enableDebugOutput()
 net.getLayer(0).setConvolution(widthNet,heightNet)
+net.getLayer(1).setConvolution(nHidden0,nHidden0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
-net.getLayer(0).setLearningRate(0.0001)
+net.setLearningRate(0.0001)
 # neg means that the weights are all the same
-net.getLayer(0).initWeights(-0.0001);
-net.getLayer(1).setLearningRate(0.0001)
-net.getLayer(1).initWeights(-0.0001);
+net.initWeights(-0.0001);
 #net.seedRandom(88)
 net.setUseDerivative(1)
 net.setBias(1)
@@ -182,7 +181,7 @@ def plotWeights():
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,2):
+        for j in range(1,3):
             if ln2[j]:
                 ln2[j].remove()
             plt.figure(j+1)
@@ -257,7 +256,7 @@ for i in range(episodes):
         err[0] = delta
         net.doStep(blue.flatten(),err,-2550,2550)
 
-        output = net.getOutput(0)*500
+        output = net.getOutput(0)*5000
         print(delta,output)
         action = [ delta+output , shoot ];
         r = game.make_action(action)
