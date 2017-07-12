@@ -96,12 +96,10 @@ game.set_mode(Mode.PLAYER)
 
 nFiltersInput = 3
 nFiltersHidden = 3
-# nFiltersHidden = 0 means that the layer is linear without filters
 minT = 3
 maxT = 30
 nHidden0 = 4
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,16], 1, nFiltersInput, nFiltersHidden, minT,maxT)
-# init the weights
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.initWeights(0.00001);
 net.setLearningRate(0)
@@ -109,15 +107,10 @@ net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 net.getLayer(0).setLearningRate(0.001)
 net.getLayer(1).setLearningRate(0.001)
 net.getLayer(2).setLearningRate(0.001)
-#net.getLayer(0).setNormaliseWeights(True)
 net.getLayer(1).setNormaliseWeights(True)
 net.getLayer(2).setNormaliseWeights(True)
-#net.seedRandom(88)
 net.setUseDerivative(1)
 net.setBias(0)
-#net.random_seed(10)
-# create the input arrays in numpy fashion
-
 
 # Initialize the game. Further configuration won't take any effect from now on.
 game.init()
