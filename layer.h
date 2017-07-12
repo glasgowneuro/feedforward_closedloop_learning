@@ -49,8 +49,8 @@ public:
 	void setLearningRate( double _learningRate);
 
 	// inits weights with a random value between -_max and max
-	void initWeights( double _max,  int initBiasWeight = 0);
-
+	void initWeights( double _max = 1,  int initBiasWeight = 1, Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
+	
 	// gets the outpuut of one neuron
 	inline double getOutput( int index) {
 		return neurons[index]->getOutput();

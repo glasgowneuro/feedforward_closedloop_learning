@@ -105,9 +105,9 @@ net.enableDebugOutput()
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.getLayer(1).setConvolution(nHidden0,nHidden0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
-net.setLearningRate(0.0001)
+net.setLearningRate(0.00001)
 # neg means that the weights are all the same
-net.initWeights(-0.0001);
+net.initWeights(0.001,1,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 #net.seedRandom(88)
 net.setUseDerivative(1)
 net.setBias(1)
@@ -250,7 +250,7 @@ for i in range(episodes):
         blue = cv2.resize(crcb, (widthNet,heightNet));
         blue = blue[:,:,2]
         blue = cv2.filter2D(blue, -1, edge);
-        if (i>200):
+        if (i>300):
             delta = 0
         err = np.zeros(1)
         err[0] = delta

@@ -269,23 +269,83 @@ void Neuron::doMaxDet() {
 }
 
 
-
-
-
-void Neuron::initWeights( double _max,  int initBias) {
+void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightInitMethod) {
+	double max = _max;
+	int nBias = 0;
+	if (initBias) nBias++;
+	switch (weightInitMethod) {
+	case MAX_WEIGHT_RANDOM:
+		max = fabs(_max);
+		break;
+	case MAX_OUTPUT_RANDOM:
+		max = fabs(_max) / ((double)(nInputs*nFilters+nBias));
+		break;
+	case MAX_OUTPUT_CONST:
+		max = _max / (nInputs*nFilters+nBias);
+		break;
+	}
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
-			if (_max>0) {
-				weights[i][j] = (((double)random()*2)/((double)RAND_MAX)*_max)-_max;
-			} else {
-				weights[i][j] = fabs(_max);
+			switch (weightInitMethod) {
+			case MAX_WEIGHT_RANDOM:
+			case MAX_OUTPUT_RANDOM:
+				weights[i][j] = (((double)random()*2)/((double)RAND_MAX)*max)-max;
+				break;
+			case CONST_WEIGHTS:
+			case MAX_OUTPUT_CONST:
+				weights[i][j] = max;
+				break;
 			}
 		}
 	}
 	if (initBias) {
-		biasweight=(((double)random())/((double)RAND_MAX)*_max);
+		switch (weightInitMethod) {
+		case MAX_WEIGHT_RANDOM:
+		case MAX_OUTPUT_RANDOM:
+			biasweight = (((double)random()*2)/((double)RAND_MAX)*max)-max;
+			break;
+		case CONST_WEIGHTS:
+		case MAX_OUTPUT_CONST:
+			biasweight = max;
+			break;
+			}
 	}
 }
+
+
+double Neuron::getMaxWeightValue() {
+	int n=0;
+	double max=-HUGE_VAL;
+	for(int i=0;i<nInputs;i++) {
+		if (mask[i]) {
+			for(int j=0;j<nFilters;j++) {
+				double w = weights[i][j];
+				if (w>max) w = max;
+			}
+		}
+	}
+	if (biasweight > max) max = biasweight;
+	return max;
+}
+
+
+
+double Neuron::getMinWeightValue() {
+	int n=0;
+	double min=HUGE_VAL;
+	for(int i=0;i<nInputs;i++) {
+		if (mask[i]) {
+			for(int j=0;j<nFilters;j++) {
+				double w = weights[i][j];
+				if (w<min) w = min;
+			}
+		}
+	}
+	if (biasweight < min) min = biasweight;
+	return min;
+}
+
+
 
 double Neuron::getAvgWeight( int _input) {
 	if (!mask[_input]) return 0;

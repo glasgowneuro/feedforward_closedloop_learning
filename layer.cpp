@@ -12,6 +12,7 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
+	normaliseWeights = 0;
 
 	neurons = new Neuron*[nNeurons];
 
@@ -19,8 +20,7 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 		neurons[i] = new Neuron(nInputs,nFilters,minT,maxT);
 	}
 
-	initWeights(0);
-	normaliseWeights = 0;
+	initWeights(0,0,Neuron::CONST_WEIGHTS);
 }
 
 Layer::~Layer() {
@@ -95,9 +95,9 @@ void Layer::setUseDerivative( int _useIt) {
 	}
 }
 
-void Layer::initWeights( double _max,  int _initBias) {
+void Layer::initWeights( double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->initWeights(_max,_initBias);
+		neurons[i]->initWeights(max,initBias,weightInitMethod);
 	}
 }
 

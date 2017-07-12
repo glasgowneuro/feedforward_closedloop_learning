@@ -100,18 +100,18 @@ nFiltersHidden = 3
 minT = 3
 maxT = 30
 nHidden0 = 4
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,16], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 # init the weights
 net.getLayer(0).setConvolution(widthNet,heightNet)
-net.initWeights(0.01);
+net.initWeights(0.00001);
 net.setLearningRate(0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 net.getLayer(0).setLearningRate(0.001)
 net.getLayer(1).setLearningRate(0.001)
+net.getLayer(2).setLearningRate(0.001)
+#net.getLayer(0).setNormaliseWeights(True)
 net.getLayer(1).setNormaliseWeights(True)
-net.getLayer(0).initWeights(0.000001);
-net.getLayer(1).initWeights(0.000001);
-#net.getLayer(3).initWeights(0.5);
+net.getLayer(2).setNormaliseWeights(True)
 #net.seedRandom(88)
 net.setUseDerivative(1)
 net.setBias(0)
@@ -190,7 +190,7 @@ def plotWeights():
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,2):
+        for j in range(1,3):
             w1 = np.zeros( (net.getLayer(j).getNneurons(),net.getLayer(j).getNeuron(0).getNinputs()) )
             for i in range(0,net.getLayer(j).getNneurons()):
                 w1[i,:] = getWeights1D(j,i)
@@ -265,7 +265,7 @@ for i in range(episodes):
         err = np.linspace(delta,delta,widthNet*heightNet);
         net.doStep(blue.flatten(),err)
 
-        output = net.getOutput(0)*50
+        output = net.getOutput(0)*500
         print(delta,output)
         action = [ delta+output , shoot ];
         r = game.make_action(action)
