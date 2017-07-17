@@ -239,7 +239,7 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 			for(int i=0;i<receiverLayer->getNneurons();i++) {
 				double err = 0;
 				for(int j=0;j<emitterLayer->getNneurons();j++) {
-					// if (k==1) printf("w=%f,e=%f\n",receiverLayer->getNeuron(i)->getWeight(j),emitterLayer->getNeuron(j)->getError());
+					//if (k==1) printf("w=%f,e=%f\n",receiverLayer->getNeuron(i)->getWeight(j),emitterLayer->getNeuron(j)->getError());
 					err = err + receiverLayer->getNeuron(i)->getWeight(j) *
 						emitterLayer->getNeuron(j)->getError();
 					if (isnan(err)) {

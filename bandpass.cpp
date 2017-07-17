@@ -5,12 +5,17 @@
 
 
 Bandpass::Bandpass() {
-  buffer0=0;
-  buffer1=0;
-  buffer2=0;
-  actualOutput=0;
-  norm=1;
+	reset();
+	norm=1;
 }
+
+
+void Bandpass::reset() {
+	buffer0=0;
+	buffer1=0;
+	buffer2=0;
+	actualOutput=0;
+}	
 
 
 void Bandpass::setParameters(double f,double q) {

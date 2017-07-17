@@ -90,6 +90,14 @@ public:
 		debugOutput = 1;
 	}
 
+
+private:
+	void calcFilterbankOutput();
+	void calcOutputWithoutFilterbank();
+
+	void doLearningWithFilterbank();
+	void doLearningWithoutFilterbank();
+	
 private:
 	int nInputs;
 	unsigned char* mask = 0;

@@ -58,6 +58,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 					assert(b != NAN);
 					assert(b != INFINITY);
 				}
+				bandpass[i][j]->reset();
 			}
 		}
 	}
@@ -86,73 +87,92 @@ Neuron::~Neuron() {
 }
 
 
-void Neuron::calcOutput() {
+
+void Neuron::calcFilterbankOutput() {
+	double** weightsp1 = weights;
+	Bandpass*** bandpassp1 = bandpass;
+	double* inputp = inputs;
+	unsigned char * maskp = mask;
+
+	// global variable
+	sum = 0;
+	
+	for(int i=0;i<nInputs;i++) {
+		if (*maskp) {
+			double input = *inputp;
+#ifdef DEBUG_NEURON
+			assert(inputs[i] == input);
+#endif
+			double* weightsp2 = *weightsp1;
+			Bandpass** bandpassp2 = *bandpassp1;
+			for(int j = 0;j<nFilters;j++) {
+#ifdef DEBUG_NEURON
+				assert(weights[i][j] == (*weightsp2));
+#endif
+				sum = sum + (*weightsp2) * (*bandpassp2)->filter(input);
+				bandpassp2++;
+				weightsp2++;
+#ifdef DEBUG_NEURON
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
+					printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
+					exit(EXIT_FAILURE);
+				}
+#endif
+			}
+		}
+		maskp++;
+		bandpassp1++;
+		weightsp1++;
+		inputp++;
+	}
+}
+
+
+
+void Neuron::calcOutputWithoutFilterbank() {
+	double** weightsp1 = weights;
+	double* inputp = inputs;
+	unsigned char * maskp = mask;
+
+	// global variable
 	sum = 0;
 
+	for(int i=0;i<nInputs;i++) {
+		if (*maskp) {
+			double input = *inputp;
+#ifdef DEBUG_NEURON
+			
+			assert(inputs[i] == input);
+#endif
+			double* weightsp2 = *weightsp1;
+			for(int j = 0;j<nFilters;j++) {
+#ifdef DEBUG_NEURON
+				assert(weights[i][j] == (*weightsp2));
+#endif
+				sum = sum + (*weightsp2) * input;
+				weightsp2++;
+#ifdef DEBUG_NEURON
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
+					printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
+					exit(EXIT_FAILURE);
+				}
+#endif
+			}
+		}
+		weightsp1++;
+		inputp++;
+		maskp++;
+	}
+}
+
+
+
+void Neuron::calcOutput() {
+
 	if ((bandpass)&&(!maxDet)) {
-		double** weightsp1 = weights;
-		Bandpass*** bandpassp1 = bandpass;
-		double* inputp = inputs;
-		unsigned char * maskp = mask;
-		for(int i=0;i<nInputs;i++) {
-			if (*maskp) {
-				double input = *inputp;
-#ifdef DEBUG_NEURON
-				assert(inputs[i] == input);
-#endif
-				double* weightsp2 = *weightsp1;
-				Bandpass** bandpassp2 = *bandpassp1;
-				for(int j = 0;j<nFilters;j++) {
-#ifdef DEBUG_NEURON
-					assert(weights[i][j] == (*weightsp2));
-#endif
-					sum = sum + (*weightsp2) * (*bandpassp2)->filter(input);
-					bandpassp2++;
-					weightsp2++;
-#ifdef DEBUG_NEURON
-					if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
-						printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
-						exit(EXIT_FAILURE);
-					}
-#endif
-				}
-			}
-			maskp++;
-			bandpassp1++;
-			weightsp1++;
-			inputp++;
-		}
+		calcFilterbankOutput();
 	} else {
-		double** weightsp1 = weights;
-		double* inputp = inputs;
-		unsigned char * maskp = mask;
-		for(int i=0;i<nInputs;i++) {
-			if (*maskp) {
-				 double input = *inputp;
-#ifdef DEBUG_NEURON
-				
-				assert(inputs[i] == input);
-#endif
-				double* weightsp2 = *weightsp1;
-				for(int j = 0;j<nFilters;j++) {
-#ifdef DEBUG_NEURON
-					assert(weights[i][j] == (*weightsp2));
-#endif
-					sum = sum + (*weightsp2) * input;
-					weightsp2++;
-#ifdef DEBUG_NEURON
-					if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
-						printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
-						exit(EXIT_FAILURE);
-					}
-#endif
-				}
-			}
-			weightsp1++;
-			inputp++;
-			maskp++;
-		}
-		
+		calcOutputWithoutFilterbank();
 	}
 
 	sum = sum + biasweight * bias;
@@ -169,14 +189,56 @@ void Neuron::calcOutput() {
 }
 
 
+
 void Neuron::doLearning() {
+	if (bandpass) {
+		doLearningWithFilterbank();
+	} else {
+		doLearningWithoutFilterbank();
+	}
+}
+
+void Neuron::doLearningWithFilterbank() {
+	double** weightsp1 = weights;
+	unsigned char * maskp = mask;
+	Bandpass*** bandpassp1 = bandpass;
+	maxDet = 0;
+	for(int i=0;i<nInputs;i++) {
+		Bandpass** bandpassp2 = *bandpassp1;
+		double* weightsp2 = *weightsp1;
+		if (*maskp) {
+			for(int j=0;j<nFilters;j++) {
+				*weightsp2 = *weightsp2 + (*bandpassp2)->getOutput() * error * learningRate;
+				//printf("%e\n",*weightsp2);
+				if (*weightsp2 > 10000) printf("!!!(%d,%d,%e,%e,%e,%e)",
+							       i,j,*weightsp2,(*bandpassp2)->getOutput(),error,learningRate);
+				weightsp2++;
+				bandpassp2++;
+#ifdef DEBUG_NEURON
+				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
+					printf("Neuron::doLearning: %f,%f,%f\n",weights[i][j],inputs[i],error);
+					exit(EXIT_FAILURE);
+				}
+#endif
+			}
+		}
+		bandpassp1++;
+		maskp++;
+		weightsp1++;
+	}
+//	printf("\n");
+	biasweight = biasweight + bias * error * learningRate;
+}
+
+
+void Neuron::doLearningWithoutFilterbank() {
 	double* inputsp = inputs;
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
 	maxDet = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
-			 double input = *inputsp;
+			double input = *inputsp;
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
 				*weightsp2 = *weightsp2 + input * error * learningRate;

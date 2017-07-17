@@ -53,6 +53,11 @@ public:
 	 **/
 	inline double getOutput() {return actualOutput;};
 
+	/**
+	 * Sets the output to zero again
+	 **/
+	void reset();
+
 private:
 
 	/**
