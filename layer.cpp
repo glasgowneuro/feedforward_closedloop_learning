@@ -125,31 +125,70 @@ void Layer::enableDebugOutput(int _layerIndex) {
 	}
 }
 
-// setting a single input to all neurons
-void Layer::setInputs( double* inputs, double min, double max) {
-	 double* inputp = inputs;
-	if (max == min) {
-		min = HUGE_VAL;
-		max = -HUGE_VAL;
-		for(int j=0;j<nInputs;j++) {
-			if ((*inputp)>max) max = *inputp;
-			if ((*inputp)<min) min = *inputp;
-			inputp++;
-		}
+
+void Layer::setInputs( double* inputs ) {
+
+	switch (inputNormMethod) {
+	case INPUT_NORM_NONE:
+		setInputsWithoutNormalisation(inputs);
+		break;
+	case INPUT_NORM_ZEROMEAN_AUTO:
+		setInputsNormalised2zeroMean( inputs, 1);
+		break;
+	case INPUT_NORM_ZEROMEAN_MANUAL:
+		setInputsNormalised2zeroMean( inputs, 0);
+		break;
 	}
-		
+
+}
+
+
+// setting a single input to all neurons
+void Layer::setInputsWithoutNormalisation( double* inputs) {
+	double* inputp = inputs;
 	inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
 		Neuron** neuronsp = neurons;
 		 double input = *inputp;
 		inputp++;
-
 		for(int i=0;i<nNeurons;i++) {
-			if (max==min) {
-				(*neuronsp)->setInput(j,0);
-			} else {
-				(*neuronsp)->setInput(j,(input-min)/(max-min)*2-1);
-			}
+			(*neuronsp)->setInput(j,input);
+			neuronsp++;
+		}
+	}
+}
+
+// normalisation of the inputs
+void Layer::setInputsNormalised2zeroMean( double* inputs, int doCalc) {
+	double* inputp;
+
+	if (doCalc) {
+		inputp = inputs;
+		mean = 0;
+		sigma = 0;
+		for(int j=0;j<nInputs;j++) {
+			Neuron** neuronsp = neurons;
+			mean = mean + *inputp;
+		}
+		mean = mean / (double)nInputs;
+		
+		inputp = inputs;
+		double sigma2 = 0;
+		for(int j=0;j<nInputs;j++) {
+			Neuron** neuronsp = neurons;
+			sigma2 = sigma2 + pow(*inputp - mean,2);
+		}
+		sigma = sqrt(sigma2 / (double)nInputs);
+	}
+	
+	inputp = inputs;
+	for(int j=0;j<nInputs;j++) {
+		Neuron** neuronsp = neurons;
+		double input = (*inputp - mean) / (sigma+1E-100);
+		if (input > 10) fprintf(stderr,"Normalisation error? %f\n",input);
+		inputp++;
+		for(int i=0;i<nNeurons;i++) {
+			(*neuronsp)->setInput(j,input);
 			neuronsp++;
 		}
 	}

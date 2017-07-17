@@ -180,6 +180,7 @@ void Neuron::doLearning() {
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
 				*weightsp2 = *weightsp2 + input * error * learningRate;
+				//printf("%e\n",*weightsp2);
 				if (*weightsp2 > 10000) printf("!!!(%d,%d,%e,%e,%e,%e)", i,j,*weightsp2,input,error,learningRate);
 				weightsp2++;
 #ifdef DEBUG_NEURON

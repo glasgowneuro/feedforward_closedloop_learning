@@ -122,7 +122,7 @@ DeepFeedbackLearning::~DeepFeedbackLearning() {
 }
 
 
-void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2,double min,double max) {
+void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) {
 #ifdef DEBUG_DFL
 		fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
 #endif
@@ -148,12 +148,12 @@ void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2,d
 	}
 
 
-void DeepFeedbackLearning::doStep(double* input, double* error,double min, double max) {
+void DeepFeedbackLearning::doStep(double* input, double* error) {
 	switch (algorithm) {
 	case backprop:
 		// Let's first propagate the signal through the layers
 		// we set the input to the input layer
-		layers[0]->setInputs(input,min,max);
+		layers[0]->setInputs(input);
 		// ..and calc its output
 		layers[0]->calcOutputs();
 		// new lets calc the other outputs
@@ -210,7 +210,7 @@ void DeepFeedbackLearning::doStep(double* input, double* error,double min, doubl
 		break;
 	case ico:
 		// we set the input to the input layer
-		layers[0]->setInputs(input,min,max);
+		layers[0]->setInputs(input);
 		// ..and calc its output
 		layers[0]->calcOutputs();
 		// new lets calc the other outputs
@@ -239,7 +239,7 @@ void DeepFeedbackLearning::doStep(double* input, double* error,double min, doubl
 			for(int i=0;i<receiverLayer->getNneurons();i++) {
 				double err = 0;
 				for(int j=0;j<emitterLayer->getNneurons();j++) {
-					//if (k==1) printf("w=%f,e=%f\n",receiverLayer->getNeuron(i)->getWeight(j),emitterLayer->getNeuron(j)->getError());
+					// if (k==1) printf("w=%f,e=%f\n",receiverLayer->getNeuron(i)->getWeight(j),emitterLayer->getNeuron(j)->getError());
 					err = err + receiverLayer->getNeuron(i)->getWeight(j) *
 						emitterLayer->getNeuron(j)->getError();
 					if (isnan(err)) {
@@ -249,7 +249,6 @@ void DeepFeedbackLearning::doStep(double* input, double* error,double min, doubl
 				}
 				receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 				receiverLayer->getNeuron(i)->setError(err);
-				if (k==num_hid_layers) printf("neuron=%d,err=%e\n",i,err);
 			}
 	        }
 		break;

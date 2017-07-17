@@ -16,14 +16,14 @@ with open('test_ico_filt_py.csv', 'ab') as csvfile:
     maxT = 15
     net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
-    net.initWeights(0.01);
+    net.initWeights(0.00001);
     net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
-    net.setLearningRate(100)
+    net.setLearningRate(0.001)
     net.seedRandom(88)
     #net.random_seed(10)
     # create the input arrays in numpy fashion
     inp = np.zeros(2)
-    err = np.zeros(1)
+    err = np.zeros(2)
 
     maxstep = 12000
     outp = np.zeros(maxstep)
@@ -36,8 +36,10 @@ with open('test_ico_filt_py.csv', 'ab') as csvfile:
             inp[0] = 0
         if (((i%rep) > 110) and ((i%rep)<115) and (i < 9000)) :
             err[0] = 1
+            err[1] = 1
         else :
             err[0] = 0
+            err[1] = 0
         # does both forward propagation and backpropagation
         net.doStep(inp,err)
         # gets the output of the output neuron

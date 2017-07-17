@@ -17,6 +17,22 @@ public:
 	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Layer();
 
+	
+	void setInputNorm2ZeroMean( double _mean, double _sigma) {
+		mean = _mean;
+		sigma = _sigma;
+		inputNormMethod = INPUT_NORM_ZEROMEAN_MANUAL;
+	}
+		
+	void setInputNorm2ZeroMean() {
+		inputNormMethod = INPUT_NORM_ZEROMEAN_AUTO;
+	}
+		
+	void setInputNorm2None() {
+		inputNormMethod = INPUT_NORM_NONE;
+	}
+		
+
 	void calcOutputs();
 	void doLearning();
 
@@ -43,7 +59,7 @@ public:
 	void setInput( int inputIndex,  double input);
 
 	// sets all inputs from an input array
-	void setInputs( double * _inputs, double min=0, double max=0);
+	void setInputs( double * _inputs);
 
 	// sets the learning rate of all neurons
 	void setLearningRate( double _learningRate);
@@ -76,6 +92,13 @@ public:
 	void enableDebugOutput(int layerIndex);
 	
 private:
+
+	enum InputNormMethod { INPUT_NORM_NONE=0, INPUT_NORM_ZEROMEAN_AUTO = 1, INPUT_NORM_ZEROMEAN_MANUAL = 2 };
+
+	void setInputsNormalised2zeroMean( double* inputs, int doCalc = 1 );
+
+	void setInputsWithoutNormalisation( double* inputs );
+	
 	int nNeurons;
 	int nInputs;
 	int nFilters;
@@ -86,6 +109,9 @@ private:
 	int normaliseWeights = 0;
 	int debugOutput = 0;
 	int layerIndex = 0;
+	InputNormMethod inputNormMethod = INPUT_NORM_NONE;
+	double sigma = 1;
+	double mean = 0;
 };
 
 #endif
