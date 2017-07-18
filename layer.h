@@ -18,21 +18,6 @@ public:
 	~Layer();
 
 	
-	void setInputNorm2ZeroMean( double _mean, double _sigma) {
-		mean = _mean;
-		sigma = _sigma;
-		inputNormMethod = INPUT_NORM_ZEROMEAN_MANUAL;
-	}
-		
-	void setInputNorm2ZeroMean() {
-		inputNormMethod = INPUT_NORM_ZEROMEAN_AUTO;
-	}
-		
-	void setInputNorm2None() {
-		inputNormMethod = INPUT_NORM_NONE;
-	}
-		
-
 	void calcOutputs();
 	void doLearning();
 
@@ -108,10 +93,8 @@ private:
 	int maxDetLayer = 0;
 	int normaliseWeights = 0;
 	int debugOutput = 0;
+	// for debugging output
 	int layerIndex = 0;
-	InputNormMethod inputNormMethod = INPUT_NORM_NONE;
-	double sigma = 1;
-	double mean = 0;
 };
 
 #endif
