@@ -2,34 +2,27 @@
 #include <Iir.h>
 #include<stdio.h>
 
+// inits the network with random weights with quite a few hidden units so that
+// a nice response is generated
 void test_forward() {
 	int nFiltersInput = 10;
 	int nFiltersHidden = 10;
-	int nHidden[] = {2,2};
+	int nHidden[] = {10,10};
 
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
 	deep_fbl->setLearningRate(0.0);
+	// random init
+	deep_fbl->initWeights(0.1);
 
 	double input[2];
 	double error[2];
 
-	for(int i=0;i<nFiltersInput;i++) {
-		deep_fbl->getLayer(0)->getNeuron(0)->setWeight(0,i,1);
-	}
-
-
-	for(int i=0; i<deep_fbl->getNumHidLayers(); i++) {
-		for(int j=0;j<nFiltersHidden;j++) {
-			deep_fbl->getLayer(i+1)->getNeuron(0)->setWeight(0,j,1);
-		}
-	}
-
-	for(int n = 0; n < 100;n++) {
+	for(int n = 0; n < 1000;n++) {
 
 		input[0] = 0;
 		if ((n>10)&&(n<20)) {
-			input[0] = 0.001;
+			input[0] = 0.1;
 		}
 		fprintf(f,"%f ",input[0]);
 
@@ -51,7 +44,9 @@ void test_forward() {
 void test_learning() {
 	int nHidden[] = {2};
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
-	deep_fbl->initWeights();
+	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->setLearningRate(0.01);
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
@@ -67,7 +62,7 @@ void test_learning() {
 			if ((n>500)&&(n<600)) {
 				err = 1;
 			}
-			if ((n>700)&&(n<1000)) {
+			if ((n>700)&&(n<800)) {
 				err = -1;
 			}
 		}
@@ -75,6 +70,7 @@ void test_learning() {
 
 		input[0] = stim;
 		error[0] = err;
+		error[1] = err;
 
 		deep_fbl->doStep(input,error);
 
@@ -106,41 +102,40 @@ void test_learning() {
 }
 
 void test_learning_and_filters() {
-	int nInputs = 2;
-	int nHidden[] = {12,4,2};
-	int nOutput = 1;
-	int nFiltersPerInput = 2;
-	int nFiltersPerHidden = 2;
-	double min_filter_time = 100;
-	double max_filter_time = 200;
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(nInputs,nHidden,3,nOutput,
-								  nFiltersPerInput,nFiltersPerHidden,
-								  min_filter_time,max_filter_time);
-	deep_fbl->initWeights();
-	deep_fbl->setLearningRate(0.1);
+	int nHidden[] = {2};
+	int nFiltersInput = 5;
+	int nFiltersHidden = 5;
+	double minT = 3;
+	double maxT = 15;
+	
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1,nFiltersInput, nFiltersHidden, minT,maxT);
+	deep_fbl->initWeights(0.001,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->setLearningRate(0.0001);
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
+	deep_fbl->setBias(0);
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning_with_filters.dat","wt");
 
 	double input[2];
-	double error[2];	
+	double error[2];
+
+	int rep = 200;
 	
-	for(int n = 0; n < 1000;n++) {
+	for(int n = 0; n < 10000;n++) {
 		
 		double stim = 0;
 		double err = 0;
-		if ((n>100)&&(n<200)) {
+		if (((n%rep)>100)&&((n%rep)<105)) {
 			stim = 1;
-			if ((n>190)&&(n<200)) {
-				err = 1;
-			}
-			if ((n>250)&&(n<300)) {
-				err = -1;
-			}
+		}
+		if (((n%rep)>105)&&((n%rep)<110)&&(n<9000)) {
+			err = 1;
 		}
 		fprintf(f,"%e %e ",stim,err);
 
 		input[0] = stim;
 		error[0] = err;
+		error[1] = err;
 
 		deep_fbl->doStep(input,error);
 

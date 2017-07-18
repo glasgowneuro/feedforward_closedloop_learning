@@ -101,13 +101,13 @@ maxT = 30
 nHidden0 = 4
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,16], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
-net.initWeights(0.00001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST);
+net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST);
 net.setLearningRate(0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 # net.getLayer(0).setInputNorm2ZeroMean(128,256)
-net.getLayer(0).setLearningRate(0.001)
-net.getLayer(1).setLearningRate(0.001)
-net.getLayer(2).setLearningRate(0.1)
+net.getLayer(0).setLearningRate(1E-7)
+net.getLayer(1).setLearningRate(1E-1)
+net.getLayer(2).setLearningRate(1E-7)
 net.getLayer(1).setNormaliseWeights(True)
 net.getLayer(2).setNormaliseWeights(True)
 net.setUseDerivative(1)
@@ -259,7 +259,7 @@ for i in range(episodes):
         err = np.linspace(delta,delta,widthNet*heightNet);
         net.doStep(blue.flatten()/512,err)
 
-        output = net.getOutput(0)*500
+        output = net.getOutput(0)*5
         print(delta,output)
         action = [ delta+output , shoot ];
         r = game.make_action(action)

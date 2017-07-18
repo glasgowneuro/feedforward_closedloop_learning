@@ -23,23 +23,29 @@ class Neuron {
 
 public:
 
-	enum WeightInitMethod { MAX_OUTPUT_RANDOM = 0, MAX_WEIGHT_RANDOM = 1, MAX_OUTPUT_CONST = 2, CONST_WEIGHTS = 3};
-	
 	Neuron(int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Neuron();
+
+	// calc the output of the neuron
 	void calcOutput();
 	static void* calcOutputThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->calcOutput();
 	};
+
+	// does the learning
 	void doLearning();
 	static void* doLearningThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->doLearning();
 	};
+
+	// detects max of an input and switches that weight to 1 and the others to 0
 	void doMaxDet();
 	static void* doMaxDetThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->doMaxDet();
 	};
 
+	// inits the weights
+	enum WeightInitMethod { MAX_OUTPUT_RANDOM = 0, MAX_WEIGHT_RANDOM = 1, MAX_OUTPUT_CONST = 2, CONST_WEIGHTS = 3};
 	void initWeights(double _max = 1, int initBias = 1, WeightInitMethod = MAX_OUTPUT_RANDOM);
 
 	double getMinWeightValue();
@@ -113,7 +119,7 @@ private:
 	double learningRate = 0;
 	double minT,maxT;
 	double dampingCoeff = 0.51;
-	int useDerivative = 1;
+	int useDerivative = 0;
 	double oldError = 0;
 	int width = 0;
 	int height = 0;

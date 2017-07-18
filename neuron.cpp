@@ -9,26 +9,18 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
-	dampingCoeff = 0.51;
-	biasweight = 0;
-	bias = 0;
+
 	mask = new unsigned char[nInputs];
-	
-#ifdef DEBUG_NEURON
-	fprintf(stderr,"creating %d weights: ",nInputs);
-#endif
 	weights = new double*[nInputs];
-#ifdef DEBUG_NEURON
-	fprintf(stderr,"done\n");
-#endif
-	useDerivative = 0;
-	oldError = 0;
+
 	if (nFilters>0) {
 		bandpass = new Bandpass**[nInputs];
 	} else {
+		// acts as a flag that there are no filters
 		bandpass = NULL;
 		nFilters = 1;
 	}
+
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = new double[nFilters];
 		if (bandpass != NULL) {
@@ -37,7 +29,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 			 double fmin = fs/maxT;
 			 double fmax = fs/minT;
 			 double df = (fmax-fmin)/((double)nFilters);
-			double f = fmin;
+			 double f = fmin;
 #ifdef DEBUG_BP
 			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
@@ -65,7 +57,6 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	inputs = new double[nInputs];
 	sum = 0;
 	output = 0;
-	bias = 0;
 	error = 0;
 	learningRate = 0;
 	for(int i=0;i<nInputs;i++) {
@@ -333,6 +324,7 @@ void Neuron::doMaxDet() {
 
 
 void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightInitMethod) {
+	//fprintf(stderr,"Init Weights: max=%f\n",_max);
 	double max = _max;
 	int nBias = 0;
 	if (initBias) nBias++;
@@ -353,6 +345,7 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 			case MAX_WEIGHT_RANDOM:
 			case MAX_OUTPUT_RANDOM:
 				weights[i][j] = (((double)random()*2)/((double)RAND_MAX)*max)-max;
+				//fprintf(stderr,"Init Weights: weight(%d,%d)=%f\n",i,j,weights[i][j]);
 				break;
 			case CONST_WEIGHTS:
 			case MAX_OUTPUT_CONST:

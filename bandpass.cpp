@@ -87,14 +87,16 @@ double Bandpass::filter(double value) {
 
 void Bandpass::calcNorm(double f) {
 	float max = 0;
+	float norm = 1;
 	for(int i=0;i<(2/f);i++) {
 		float v = 0;
-		if (i==((int)(1/f))) {
-			v = 10;
+		if (i>((int)(1/f))) {
+			v = 1;
 		}
 		float v2 = filter(v);
 		if (v2>max) max = v2;
 	}
+	//fprintf(stderr,"BPmax=%f\n",max);
 	norm = max;
 }
 

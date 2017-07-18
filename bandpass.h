@@ -89,8 +89,11 @@ private:
 	/**
 	 * The actual output of the filter (the return value of the filter()
 	 * function).
+	 * Normalised
 	 **/
 	double actualOutput;
+
+	double output;
 };
 
 #endif

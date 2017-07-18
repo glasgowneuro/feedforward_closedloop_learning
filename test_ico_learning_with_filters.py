@@ -16,10 +16,10 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
     maxT = 15
     net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
-    net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST);
-    net.setBias(0);
-    net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
-    net.setLearningRate(0.01)
+    net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST)
+    net.setBias(0)
+    net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico)
+    net.setLearningRate(0.0001)
     net.setUseDerivative(0)
     #net.random_seed(10)
     # create the input arrays in numpy fashion
