@@ -95,7 +95,7 @@ private:
 #ifdef DO_DERIV_ACTIVATION
 	double dsigm(double y) { return (1.0 - y*y); };
 #else
-	double dsigm(double y) { return y; };
+	double dsigm(double y) { return 1.0; };
 #endif
 };
 

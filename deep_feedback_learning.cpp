@@ -191,6 +191,9 @@ void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 	}
 	// error processing
 	// we put the error in the last layer, the output layer
+	for (int i=0; i<layers[num_hid_layers]->getNneurons(); i++) {
+		error[i] = error[i] * dsigm(layers[num_hid_layers]->getNeuron(i)->getOutput());
+	}
 	layers[num_hid_layers]->setErrors(error);
 	// let's now loop through the layers backwards
 	for (int k=num_hid_layers; k>0; k--) {
