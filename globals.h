@@ -2,7 +2,8 @@
 #define GLOBALS_H
 
 // if enabled then range checks are made
-#define RANGE_CHECKS
+// and assert() is executed
+//#define RANGE_CHECKS
 
 
 
