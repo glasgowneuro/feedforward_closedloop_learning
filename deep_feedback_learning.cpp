@@ -140,8 +140,11 @@ void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) 
 			doStepBackprop(input,error);
 			break;
 		case ico:
-			if (n2 != ni) {
-				fprintf(stderr,"Error array dim mismatch: got: %d, want: %d\n",n2,ni);
+			if (n2 != layers[0]->getNneurons()) {
+				fprintf(stderr,
+					"Error array dim mismatch: got: %d, want: %d "
+					"which is the number of neurons in the 1st hidden layer!\n",
+					n2,layers[0]->getNneurons());
 				return;
 			}
 			doStepForwardprop(input,error);
@@ -163,6 +166,19 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 			break;
 		}
 	}
+
+
+void DeepFeedbackLearning::setStep() {
+	for (int k=0; k<=num_hid_layers; k++) {
+		layers[k]->setStep(step);
+	}
+}
+
+void DeepFeedbackLearning::doLearning() {
+	for (int k=0; k<=num_hid_layers; k++) {
+		layers[k]->doLearning();
+	}
+}
 
 
 void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
@@ -220,14 +236,13 @@ void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 					emitterLayer->getNeuron(j)->getError();
 				// sanity check that it's not NAN
 				assert(!isnan(err));
+				//fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
-			//fprintf(stderr,"%d:err=%e\n",i,err);
 			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 		}
 	}
-	for (int k=0; k<=num_hid_layers; k++) {
-		layers[k]->doLearning();
-	}
+	doLearning();
+	setStep();
 	step++;
 }
 
@@ -253,11 +268,11 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 		// now let's calc the output which can then be sent out
 		receiverLayer->calcOutputs();
 	}
-	// error processing
+	// the error is injected into the 1st _hidden_ layer!
 	layers[0]->setErrors(error);
-	for (int k=1; k<=num_hid_layers; k++) {
-		Layer* emitterLayer = layers[k-1];
-		Layer* receiverLayer = layers[k];
+	for (int k=0; k<num_hid_layers; k++) {
+		Layer* emitterLayer = layers[k];
+		Layer* receiverLayer = layers[k+1];
 		// Calculate the errors for the hidden layer
 		for(int i=0;i<receiverLayer->getNneurons();i++) {
 			double err = 0;
@@ -271,15 +286,14 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 					       __func__,step,j,i,k,err,emitterLayer->getNeuron(j)->getError());
 				}
 #endif
+//				if (fabs(err)>0) fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
-			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
+//			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 			receiverLayer->getNeuron(i)->setError(err);
 		}
 	}
-	
-	for (int k=0; k<=num_hid_layers; k++) {
-		layers[k]->doLearning();
-	}
+	doLearning();
+	setStep();
 	step++;
 }
 
@@ -314,6 +328,6 @@ void DeepFeedbackLearning::setBias(double _bias) {
 
 void DeepFeedbackLearning::setDebugInfo() {
 	for (int i=0; i<(num_hid_layers+1); i++) {
-		layers[i]->setDebugInfo(step,i);
+		layers[i]->setDebugInfo(i);
 	}
 }

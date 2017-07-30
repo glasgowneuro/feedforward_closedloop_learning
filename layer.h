@@ -75,7 +75,9 @@ public:
 
 	void setNormaliseWeights(int _normaliseWeights) { normaliseWeights = _normaliseWeights;};
 
-	void setDebugInfo(long int _step, int layerIndex);
+	void setDebugInfo(int layerIndex);
+
+	void setStep(long int step);
 	
 private:
 
@@ -96,7 +98,7 @@ private:
 	int debugOutput = 0;
 	// for debugging output
 	int layerIndex = 0;
-	int step = 0;
+	long int step = 0;
 };
 
 #endif

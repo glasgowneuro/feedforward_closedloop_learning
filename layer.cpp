@@ -116,11 +116,19 @@ void Layer::setInput(int inputIndex, double input) {
 }
 
 // setting a single input to all neurons
-void Layer::setDebugInfo(long int _step, int _layerIndex) {
+void Layer::setDebugInfo(int _layerIndex) {
 	layerIndex = _layerIndex;
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setDebugInfo(_layerIndex,i);
+	}
+}
+
+
+// setting a single input to all neurons
+void Layer::setStep(long int _step) {
 	step = _step;
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->setDebugInfo(step,_layerIndex,i);
+		neurons[i]->setStep(step);
 	}
 }
 

@@ -58,18 +58,27 @@ public:
 		assert((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters));
 		return mask[_index] ? weights[_index][_filter] : 0;
 	};
-	inline void setWeight( int _index,  double _weight,  int _filter = 0) { weights[_index][_filter]=_weight; };
+	inline void setWeight( int _index,  double _weight,  int _filter = 0) {
+		assert((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters));
+		weights[_index][_filter]=_weight;
+	};
 	void setError(double _error);
 	inline double getError() { return error; };
-	inline void setInput( int _index,  double _value) { inputs[_index] = _value; };
-	inline double getInput( int _index) { return inputs[_index]; };
+	inline void setInput( int _index,  double _value) {
+		assert((_index>=0)&&(_index<nInputs));
+		inputs[_index] = _value;
+	};
+	inline double getInput( int _index) {
+		assert((_index>=0)&&(_index<nInputs));
+		return inputs[_index];
+	};
 	inline void setBias( double _bias) { bias=_bias; };
 	inline void setLearningRate( double _learningrate) { learningRate = _learningrate; };
 	inline void setUseDerivative( int _useDerivative) { useDerivative = _useDerivative; };
 	inline int getNinputs() { return nInputs; };
 	double getAvgWeight(int _input);
 
-	// tells the layer if it's been a 2D array originally
+	// tells the layer if it's been a 2D array originally to be a convolutional layer
 	void setGeometry( int _width,  int _height) {
 		assert((_width*_height)==nInputs);
 			width = _width;
@@ -92,12 +101,14 @@ public:
 	void normaliseWeights();
 
 	// enables debug output
-	void setDebugInfo(long int _step, int _layerIndex, int _neuronIndex) {
-		step = _step;
+	void setDebugInfo(int _layerIndex, int _neuronIndex) {
 		layerIndex = _layerIndex;
 		neuronIndex = _neuronIndex;
 	}
 
+	inline void setStep(long int _step) {
+		step = _step;
+	}
 
 private:
 	void calcFilterbankOutput();
