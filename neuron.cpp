@@ -256,15 +256,16 @@ void Neuron::normaliseWeights() {
 		if (*maskp) {
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
-				double a = fabs(*weightsp2);
-				norm = norm + a;
+				double a = *weightsp2;
+				norm = norm + a*a;
 				weightsp2++;
 			}
 		}
 		maskp++;
 		weightsp1++;
 	}
-	norm = norm + fabs(biasweight);
+	norm = norm + biasweight*biasweight;
+	norm = sqrt(norm);
 	
 	//fprintf(stderr,"norm=%e\n",norm);
 	if (fabs(norm) > 0) {
