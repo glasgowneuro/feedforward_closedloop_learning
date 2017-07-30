@@ -201,7 +201,7 @@ void Neuron::doLearningWithFilterbank() {
 				bandpassp2++;
 #ifdef RANGE_CHECKS
 				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
-					printf("Neuron::%s: step=%ld, %f,%f,%f\n",
+					printf("Neuron::%s: step=%ld, %d,%f,%f,%f\n",
 					       __func__,
 					       step,layerIndex,weights[i][j],inputs[i],error);
 					exit(EXIT_FAILURE);
