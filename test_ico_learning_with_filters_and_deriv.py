@@ -1,8 +1,11 @@
+#!/usr/bin/python3
+
 import deep_feedback_learning
 import numpy as np
 import matplotlib.pyplot as plt
 
 print("testICOWithFilters and derivative")
+
 with open('test_bp_filt_py.csv', 'wb') as csvfile:
     csvfile.close()
     
@@ -22,6 +25,8 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
     net.setBias(0);
     net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
     net.setLearningRate(0.001)
+    net.getLayer(1).setLearningRate(1)
+    net.getLayer(2).setLearningRate(1)
     net.setUseDerivative(1)
     #net.getLayer(1).setNormaliseWeights(1)
     #net.getLayer(2).setNormaliseWeights(1)
@@ -48,7 +53,7 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
             err= 0
         # does both forward propagation and backpropagation
         # print(inp,err)
-        net.doStep([inp,0],[err,err])
+        net.doStep([inp,0],np.linspace(err,err,nNeuronsHidden))
         # gets the output of the output neuron
         outp[i] = net.getOutput(0)
         for j in range(nInputs):

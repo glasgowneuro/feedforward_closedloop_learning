@@ -1,8 +1,11 @@
+#!/usr/bin/python3
+
 import deep_feedback_learning
 import numpy as np
 import matplotlib.pyplot as plt
 
-print("testBackpropWithFilters")
+print("testICOWithFilters")
+
 with open('test_bp_filt_py.csv', 'wb') as csvfile:
     csvfile.close()
     

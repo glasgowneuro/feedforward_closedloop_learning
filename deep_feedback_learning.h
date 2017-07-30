@@ -80,7 +80,8 @@ private:
 	int nfInput;
 	int nfHidden;
 	double minT,maxT;
-	long step = 0;
+
+	long int step = 0;
 
 	Layer** layers;
 
@@ -91,6 +92,9 @@ private:
 
 	void doStepBackprop(double* input, double* error);
 	void doStepForwardprop(double* input, double* error);
+
+	void doLearning();
+	void setStep();
 
 #ifdef DO_DERIV_ACTIVATION
 	double dsigm(double y) { return (1.0 - y*y); };
