@@ -9,6 +9,7 @@
  * (C) 2017, Paul Miller <nlholdem@hotmail.com>
  **/
 
+#include "globals.h"
 #include "layer.h"
 #include "neuron.h"
 #include <stdio.h>
@@ -68,8 +69,6 @@ public:
 
 	void setUseDerivative(int useIt);
 
-	void enableDebugOutput();
-
 private:
 
 	int ni;
@@ -85,6 +84,9 @@ private:
 	Layer** layers;
 
 	Algorithm algorithm;
+
+	// should be called to relay layer index to the layer
+	void setDebugInfo();
 
 #ifdef DO_DERIV_ACTIVATION
 	double dsigm(double y) { return (1.0 - y*y); };

@@ -17,6 +17,7 @@
 // enables denbug output to sdt out
 // #define DEBUG_NEURON
 
+#include "globals.h"
 #include "bandpass.h"
 
 class Neuron {
@@ -91,9 +92,9 @@ public:
 	void normaliseWeights();
 
 	// enables debug output
-	void enableDebugging(int _layerIndex) {
+	void setDebugInfo(int _layerIndex, int _neuronIndex) {
 		layerIndex = _layerIndex;
-		debugOutput = 1;
+		neuronIndex = _neuronIndex;
 	}
 
 
@@ -125,7 +126,7 @@ private:
 	int height = 0;
 	int maxDet = 0;
 	int layerIndex = 0;
-	int debugOutput = 0;
+	int neuronIndex = 0;
 };
 
 #endif

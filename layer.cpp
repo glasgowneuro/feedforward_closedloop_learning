@@ -70,8 +70,7 @@ void Layer::setError(double _error) {
 void Layer::setErrors( double* _errors) {
 	for(int i=0;i<nNeurons;i++) {
 		if (isnan(_errors[i])) {
-			fprintf(stderr,"Layer::setErrors: _errors[%d]=%f\n",i,_errors[i]);
-				exit(EXIT_FAILURE);
+			fprintf(stderr,"Layer::%s L=%d, errors[%d]=%f\n",__func__,layerIndex,i,_errors[i]);
 		}
 		neurons[i]->setError(_errors[i]);
 	}
@@ -117,11 +116,10 @@ void Layer::setInput(int inputIndex, double input) {
 }
 
 // setting a single input to all neurons
-void Layer::enableDebugOutput(int _layerIndex) {
+void Layer::setDebugInfo(int _layerIndex) {
 	layerIndex = _layerIndex;
-	debugOutput = 1;
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->enableDebugging(_layerIndex);
+		neurons[i]->setDebugInfo(_layerIndex,i);
 	}
 }
 

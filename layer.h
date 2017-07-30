@@ -9,6 +9,7 @@
  * (C) 2017, Paul Miller <nlholdem@hotmail.com>
  **/
 
+#include "globals.h"
 #include "neuron.h"
 
 class Layer {
@@ -74,7 +75,7 @@ public:
 
 	void setNormaliseWeights(int _normaliseWeights) { normaliseWeights = _normaliseWeights;};
 
-	void enableDebugOutput(int layerIndex);
+	void setDebugInfo(int layerIndex);
 	
 private:
 

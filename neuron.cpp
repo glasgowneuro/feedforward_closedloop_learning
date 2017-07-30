@@ -91,22 +91,18 @@ void Neuron::calcFilterbankOutput() {
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			double input = *inputp;
-#ifdef DEBUG_NEURON
 			assert(inputs[i] == input);
-#endif
 			double* weightsp2 = *weightsp1;
 			Bandpass** bandpassp2 = *bandpassp1;
 			for(int j = 0;j<nFilters;j++) {
-#ifdef DEBUG_NEURON
 				assert(weights[i][j] == (*weightsp2));
-#endif
 				sum = sum + (*weightsp2) * (*bandpassp2)->filter(input);
 				bandpassp2++;
 				weightsp2++;
-#ifdef DEBUG_NEURON
-				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
-					printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
-					exit(EXIT_FAILURE);
+#ifdef RANGE_CHECKS
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (sum>100)) {
+					fprintf(stderr,"Out of range Neuron::%s L=%d, N=%d, %f, %f, %f, %d, %d\n",
+						__func__,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
 				}
 #endif
 			}
@@ -131,21 +127,16 @@ void Neuron::calcOutputWithoutFilterbank() {
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			double input = *inputp;
-#ifdef DEBUG_NEURON
-			
 			assert(inputs[i] == input);
-#endif
 			double* weightsp2 = *weightsp1;
 			for(int j = 0;j<nFilters;j++) {
-#ifdef DEBUG_NEURON
 				assert(weights[i][j] == (*weightsp2));
-#endif
 				sum = sum + (*weightsp2) * input;
 				weightsp2++;
-#ifdef DEBUG_NEURON
-				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i])) {
-					printf("calcOutput: %f, %f, %f, %d, %d\n",sum,weights[i][j],inputs[i],i,j);
-					exit(EXIT_FAILURE);
+#ifdef RANGE_CHECKS
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>100)) {
+					fprintf(stderr,"Out of range Neuron::%s L=%d, N=%d, %f, %f, %f, %d, %d\n",
+						__func__,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
 				}
 #endif
 			}
@@ -168,9 +159,9 @@ void Neuron::calcOutput() {
 
 	sum = sum + biasweight * bias;
 
-	if (debugOutput) {
-		if (fabs(sum) > 3) fprintf(stderr,"Sum (%e) is very high in layer %d\n",sum,layerIndex);
-	}
+#ifdef RANGE_CHECKS
+	if (fabs(sum) > 3) fprintf(stderr,"Neuron::%s, Sum (%e) is very high in layer %d, neuron %d\n",__func__,sum,layerIndex,neuronIndex);
+#endif
 	
 #ifdef LINEAR_OUTPUT
 	output = sum;
@@ -200,12 +191,11 @@ void Neuron::doLearningWithFilterbank() {
 		if (*maskp) {
 			for(int j=0;j<nFilters;j++) {
 				*weightsp2 = *weightsp2 + (*bandpassp2)->getOutput() * error * learningRate;
-				//printf("%e\n",*weightsp2);
-				if (*weightsp2 > 10000) printf("!!!(%d,%d,%e,%e,%e,%e)",
+				if (*weightsp2 > 10000) printf("Neuron::%s,L=%d,N=%d (%d,%d,%e,%e,%e,%e)\n", __func__,layerIndex,neuronIndex,
 							       i,j,*weightsp2,(*bandpassp2)->getOutput(),error,learningRate);
 				weightsp2++;
 				bandpassp2++;
-#ifdef DEBUG_NEURON
+#ifdef RANGE_CHECKS
 				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
 					printf("Neuron::doLearning: %f,%f,%f\n",weights[i][j],inputs[i],error);
 					exit(EXIT_FAILURE);
@@ -236,10 +226,10 @@ void Neuron::doLearningWithoutFilterbank() {
 				//printf("%e\n",*weightsp2);
 				if (*weightsp2 > 10000) printf("!!!(%d,%d,%e,%e,%e,%e)", i,j,*weightsp2,input,error,learningRate);
 				weightsp2++;
-#ifdef DEBUG_NEURON
-				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
-					printf("Neuron::doLearning: %f,%f,%f\n",weights[i][j],inputs[i],error);
-					exit(EXIT_FAILURE);
+#ifdef RANGE_CHECKS
+				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>100)) {
+					fprintf(stderr,"Out of range Neuron::%s L=%d, N=%d, %f, %f, %f, %d, %d\n",
+						__func__,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
 				}
 #endif
 			}
@@ -281,8 +271,10 @@ void Neuron::normaliseWeights() {
 				double* weightsp2 = *weightsp1;
 				for(int j=0;j<nFilters;j++) {
 					*weightsp2 = *weightsp2 / norm;
-					if (*weightsp2 > 100)
-						fprintf(stderr,"!!!!%d,%d,weight=%e,norm=%e\n",i,j,*weightsp2,norm);
+#ifdef RANGE_CHECKS
+					if (fabs(*weightsp2) > 100)
+						fprintf(stderr,"Neuron::%s, L=%d, N=%d, %d,%d,weight=%e,norm=%e\n",__func__,layerIndex,neuronIndex,i,j,*weightsp2,norm);
+#endif
 					weightsp2++;
 				}
 			}

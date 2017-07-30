@@ -101,7 +101,7 @@ maxT = 30
 nHidden0 = 4
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,16], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
-net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST);
+net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setLearningRate(0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 # net.getLayer(0).setInputNorm2ZeroMean(128,256)

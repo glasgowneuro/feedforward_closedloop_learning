@@ -64,6 +64,7 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 #endif
 
 	setLearningRate(0);
+	setDebugInfo();
 }
 
 DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output) {
@@ -242,10 +243,12 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 					//if (k==1) printf("w=%f,e=%f\n",receiverLayer->getNeuron(i)->getWeight(j),emitterLayer->getNeuron(j)->getError());
 					err = err + receiverLayer->getNeuron(i)->getWeight(j) *
 						emitterLayer->getNeuron(j)->getError();
-					if (isnan(err)) {
-		                                printf("err=nan\n");
-						exit(0);
+#ifdef RANGE_CHECKS
+					if (isnan(err) || (fabs(err)>100) || (fabs(emitterLayer->getNeuron(j)->getError())>100)) {
+		                                printf("%s, emitterLayer=%d, receiverLayer=%d, hidLayerIndex=%d, err=%e, emitterLayer->getNeuron(j)->getError()=%e\n",
+						       __func__,j,i,k,err,emitterLayer->getNeuron(j)->getError());
 					}
+#endif
 				}
 				receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 				receiverLayer->getNeuron(i)->setError(err);
@@ -288,8 +291,8 @@ void DeepFeedbackLearning::setBias(double _bias) {
 	}
 }
 
-void DeepFeedbackLearning::enableDebugOutput() {
+void DeepFeedbackLearning::setDebugInfo() {
 	for (int i=0; i<(num_hid_layers+1); i++) {
-		layers[i]->enableDebugOutput(i);
+		layers[i]->setDebugInfo(i);
 	}
 }
