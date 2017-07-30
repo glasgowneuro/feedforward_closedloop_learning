@@ -88,6 +88,9 @@ private:
 	// should be called to relay layer index to the layer
 	void setDebugInfo();
 
+	void doStepBackprop(double* input, double* error);
+	void doStepForwardprop(double* input, double* error);
+
 #ifdef DO_DERIV_ACTIVATION
 	double dsigm(double y) { return (1.0 - y*y); };
 #else
