@@ -225,6 +225,7 @@ void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->doLearning();
 	}
+	step++;
 }
 
 void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
@@ -262,9 +263,9 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 					emitterLayer->getNeuron(j)->getError();
 #ifdef RANGE_CHECKS
 				if (isnan(err) || (fabs(err)>100) || (fabs(emitterLayer->getNeuron(j)->getError())>100)) {
-					printf("%s, emitterLayer=%d, receiverLayer=%d, hidLayerIndex=%d, "
+					printf("DeepFeedbackLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
 					       "err=%e, emitterLayer->getNeuron(j)->getError()=%e\n",
-					       __func__,j,i,k,err,emitterLayer->getNeuron(j)->getError());
+					       __func__,step,j,i,k,err,emitterLayer->getNeuron(j)->getError());
 				}
 #endif
 			}
@@ -276,6 +277,7 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->doLearning();
 	}
+	step++;
 }
 
 void DeepFeedbackLearning::setLearningRate(double rate) {
@@ -309,6 +311,6 @@ void DeepFeedbackLearning::setBias(double _bias) {
 
 void DeepFeedbackLearning::setDebugInfo() {
 	for (int i=0; i<(num_hid_layers+1); i++) {
-		layers[i]->setDebugInfo(i);
+		layers[i]->setDebugInfo(step,i);
 	}
 }

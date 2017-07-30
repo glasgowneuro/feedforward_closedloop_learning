@@ -80,6 +80,7 @@ private:
 	int nfInput;
 	int nfHidden;
 	double minT,maxT;
+	long step = 0;
 
 	Layer** layers;
 

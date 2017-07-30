@@ -92,7 +92,8 @@ public:
 	void normaliseWeights();
 
 	// enables debug output
-	void setDebugInfo(int _layerIndex, int _neuronIndex) {
+	void setDebugInfo(long int _step, int _layerIndex, int _neuronIndex) {
+		step = _step;
 		layerIndex = _layerIndex;
 		neuronIndex = _neuronIndex;
 	}
@@ -127,6 +128,7 @@ private:
 	int maxDet = 0;
 	int layerIndex = 0;
 	int neuronIndex = 0;
+	long int step = 0;
 };
 
 #endif
