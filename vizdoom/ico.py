@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 from __future__ import print_function
 from vizdoom import *
@@ -99,17 +99,15 @@ nFiltersHidden = 3
 minT = 3
 maxT = 30
 nHidden0 = 4
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,16], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
-net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST);
+net.initWeights(0.5,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setLearningRate(0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 # net.getLayer(0).setInputNorm2ZeroMean(128,256)
-net.getLayer(0).setLearningRate(1E-5)
-net.getLayer(1).setLearningRate(1E-5)
-net.getLayer(2).setLearningRate(1E-5)
-# net.getLayer(1).setNormaliseWeights(True)
-# net.getLayer(2).setNormaliseWeights(True)
+net.getLayer(0).setLearningRate(1E-9)
+net.getLayer(1).setLearningRate(1E-9)
+net.getLayer(1).setNormaliseWeights(True)
 net.setUseDerivative(1)
 net.setBias(0)
 
@@ -184,7 +182,7 @@ def plotWeights():
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,3):
+        for j in range(1,2):
             w1 = np.zeros( (net.getLayer(j).getNneurons(),net.getLayer(j).getNeuron(0).getNinputs()) )
             for i in range(0,net.getLayer(j).getNneurons()):
                 w1[i,:] = getWeights1D(j,i)
@@ -257,7 +255,7 @@ for i in range(episodes):
         if (i>200):
             delta = 0
         err = np.linspace(delta,delta,nHidden0*nHidden0);
-        net.doStep(blue.flatten()/512,err)
+        net.doStep(blue.flatten()/512-0.5,err)
 
         output = net.getOutput(0)*5
         print(delta,output)
