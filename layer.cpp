@@ -61,6 +61,15 @@ void Layer::doLearning() {
 }
 
 
+void Layer::setNormaliseWeights(int _normaliseWeights) {
+	normaliseWeights = _normaliseWeights;
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->normaliseWeights();
+		neurons[i]->saveInitialWeights();
+	}	
+}
+
+
 void Layer::setError(double _error) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setError(_error);
@@ -131,6 +140,18 @@ void Layer::setStep(long int _step) {
 		neurons[i]->setStep(step);
 	}
 }
+
+double Layer::getWeightDistanceFromInitialWeights() {
+	double distance = 0;
+	for(int i=0;i<nNeurons;i++) {
+		distance += neurons[i]->getWeightDistanceFromInitialWeights();
+	}
+	return distance;
+}
+
+
+	double weightDistanceFromInitialWeights();
+
 
 
 void Layer::setInputs( double* inputs ) {

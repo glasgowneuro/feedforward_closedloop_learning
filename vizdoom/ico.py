@@ -99,15 +99,19 @@ nFiltersHidden = 3
 minT = 3
 maxT = 30
 nHidden0 = 4
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+nHidden1 = 2
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
+net.getLayer(1).setConvolution(nHidden0,nHidden0)
 net.initWeights(0.5,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setLearningRate(0)
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 # net.getLayer(0).setInputNorm2ZeroMean(128,256)
-net.getLayer(0).setLearningRate(1E-9)
-net.getLayer(1).setLearningRate(1E-9)
-net.getLayer(1).setNormaliseWeights(True)
+net.getLayer(0).setLearningRate(1E-10)
+net.getLayer(1).setLearningRate(0.00001)
+net.getLayer(2).setLearningRate(0.001)
+#net.getLayer(1).setNormaliseWeights(True)
+#net.getLayer(2).setNormaliseWeights(True)
 net.setUseDerivative(1)
 net.setBias(0)
 
@@ -115,7 +119,7 @@ net.setBias(0)
 game.init()
 
 # Run this many episodes
-episodes = 100
+episodes = 1000
 
 # Sets time that will pause the engine after each action (in seconds)
 # Without this everything would go too fast for you to keep track of what's happening.
@@ -137,12 +141,15 @@ edge = np.array((
 	[1, -4, 1],
 	[0, 1, 0]), dtype="int")
 
+
+
+
+
+
 plt.ion()
 plt.show()
-fig1 = False
-fig2 = [False,False,False,False]
-ax1 = False
-ax2 = [False,False,False,False]
+ln1 = False
+ln2 = [False,False,False,False]
 
 def getWeights2D(neuron):
     n_neurons = net.getLayer(0).getNneurons()
@@ -164,40 +171,38 @@ def getWeights1D(layer,neuron):
     return weights
 
 def plotWeights():
-    global fig1
-    global fig2
-    global ax1
-    global ax2
+    global ln1
+    global ln2
 
     while True:
+
+        if ln1:
+            ln1.remove()
+        plt.figure(1)
         w1 = getWeights2D(0)
         for i in range(1,net.getLayer(0).getNneurons()):
             w2 = getWeights2D(i)
             w1 = np.where(np.isnan(w2),w1,w2)
-        if fig1:
-            plt.close(fig1)
-        fig1, ax1 = plt.subplots()
-        cax1 = ax1.imshow(w1,cmap='gray')
-        fig1.colorbar(cax1)
+        ln1 = plt.imshow(w1,cmap='gray')
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,2):
+        for j in range(1,3):
+            if ln2[j]:
+                ln2[j].remove()
+            plt.figure(j+1)
             w1 = np.zeros( (net.getLayer(j).getNneurons(),net.getLayer(j).getNeuron(0).getNinputs()) )
             for i in range(0,net.getLayer(j).getNneurons()):
                 w1[i,:] = getWeights1D(j,i)
-            if fig2[j]:
-                plt.close(fig2[j])
-            fig2[j], ax2[j] = plt.subplots()
-            cax2 = ax2[j].imshow(w1,cmap='gray')
-            fig2[j].colorbar(cax2)
+            ln2[j] = plt.imshow(w1,cmap='gray')
             plt.draw()
             plt.pause(0.1)
-        sleep(1)
+
 
 t1 = threading.Thread(target=plotWeights)
 t1.start()
             
+
 
 for i in range(episodes):
     print("Episode #" + str(i + 1))
@@ -252,13 +257,17 @@ for i in range(episodes):
         blue = cv2.resize(crcb, (widthNet,heightNet));
         blue = blue[:,:,2]
         blue = cv2.filter2D(blue, -1, edge);
-        if (i>200):
-            delta = 0
         err = np.linspace(delta,delta,nHidden0*nHidden0);
         net.doStep(blue.flatten()/512-0.5,err)
 
+        #weightsplot.set_xdata(np.append(weightsplot.get_xdata(),n))
+        #weightsplot.set_ydata(np.append(weightsplot.get_ydata(),net.getLayer(0).getWeightDistanceFromInitialWeights()))
+
         output = net.getOutput(0)*5
-        print(delta,output)
+        print(delta,output,
+              net.getLayer(0).getWeightDistanceFromInitialWeights(),"\t",
+              net.getLayer(1).getWeightDistanceFromInitialWeights(),"\t",
+              net.getLayer(2).getWeightDistanceFromInitialWeights())
         action = [ delta+output , shoot ];
         r = game.make_action(action)
 

@@ -51,6 +51,7 @@ public:
 
 	double getMinWeightValue();
 	double getMaxWeightValue();
+	double getWeightDistanceFromInitialWeights();
 
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
@@ -100,6 +101,8 @@ public:
 	// normalises weights
 	void normaliseWeights();
 
+	void saveInitialWeights();
+
 	// enables debug output
 	void setDebugInfo(int _layerIndex, int _neuronIndex) {
 		layerIndex = _layerIndex;
@@ -122,6 +125,7 @@ private:
 	unsigned char* mask = 0;
 	int nFilters;
 	double** weights = 0;
+	double** initialWeights = 0;
 	double biasweight = 0;
 	double bias = 0;
 	Bandpass ***bandpass = 0;

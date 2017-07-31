@@ -12,6 +12,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 
 	mask = new unsigned char[nInputs];
 	weights = new double*[nInputs];
+	initialWeights = new double*[nInputs];
 
 	if (nFilters>0) {
 		bandpass = new Bandpass**[nInputs];
@@ -23,6 +24,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = new double[nFilters];
+		initialWeights[i] = new double[nFilters];
 		if (bandpass != NULL) {
 			bandpass[i] = new Bandpass*[nFilters];
 			 double fs = 1;
@@ -62,6 +64,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
 			weights[i][j] = 0;
+			initialWeights[i][j] = 0;
 		}
 		inputs[i] = 0;
 		mask[i] = 1;
@@ -71,8 +74,10 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 Neuron::~Neuron() {
 	for(int i=0;i<nInputs;i++) {
 		delete[] weights[i];
+		delete[] initialWeights[i];
 	}
 	delete [] weights;
+	delete [] initialWeights;
 	delete [] inputs;
 	delete [] mask;
 }
@@ -349,6 +354,7 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 				weights[i][j] = max;
 				break;
 			}
+			initialWeights[i][j]=weights[i][j];
 		}
 	}
 	if (initBias) {
@@ -364,6 +370,16 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 			}
 	}
 }
+
+
+void Neuron::saveInitialWeights() {
+	for(int i=0;i<nInputs;i++) {
+		for(int j=0;j<nFilters;j++) {
+			initialWeights[i][j]=weights[i][j];
+		}
+	}
+}
+
 
 
 double Neuron::getMaxWeightValue() {
@@ -396,6 +412,22 @@ double Neuron::getMinWeightValue() {
 	}
 	if (biasweight < min) min = biasweight;
 	return min;
+}
+
+
+
+double Neuron::getWeightDistanceFromInitialWeights() {
+	int n=0;
+	double distance = 0;
+	for(int i=0;i<nInputs;i++) {
+		if (mask[i]) {
+			for(int j=0;j<nFilters;j++) {
+				double w = weights[i][j] - initialWeights[i][j];
+				distance += w*w;
+			}
+		}
+	}
+	return sqrt(distance);
 }
 
 

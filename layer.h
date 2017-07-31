@@ -73,11 +73,13 @@ public:
 
 	void setMaxDetLayer(int _m) { maxDetLayer = _m; };
 
-	void setNormaliseWeights(int _normaliseWeights) { normaliseWeights = _normaliseWeights;};
+	void setNormaliseWeights(int _normaliseWeights);
 
 	void setDebugInfo(int layerIndex);
 
 	void setStep(long int step);
+
+	double getWeightDistanceFromInitialWeights();
 	
 private:
 
