@@ -69,6 +69,7 @@ game.set_render_corpses(False)
 # game.add_available_button(Button.MOVE_RIGHT)
 game.add_available_button(Button.MOVE_LEFT_RIGHT_DELTA, 50)
 game.add_available_button(Button.ATTACK)
+game.add_available_button(Button.TURN_LEFT_RIGHT_DELTA)
 
 # Adds game variables that will be included in state.
 game.add_available_game_variable(GameVariable.AMMO2)
@@ -268,7 +269,9 @@ for i in range(episodes):
               net.getLayer(0).getWeightDistanceFromInitialWeights(),"\t",
               net.getLayer(1).getWeightDistanceFromInitialWeights(),"\t",
               net.getLayer(2).getWeightDistanceFromInitialWeights())
-        action = [ delta+output , shoot ];
+#       action[0] is translating left/right; action[2] is rotating/aiming
+#        action = [ delta+output , shoot, 0. ]
+        action = [ 0., shoot, (delta+output)*0.1 ]
         r = game.make_action(action)
 
 #        if sleep_time > 0:
