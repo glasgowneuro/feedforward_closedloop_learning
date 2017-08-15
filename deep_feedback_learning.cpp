@@ -305,6 +305,15 @@ void DeepFeedbackLearning::setLearningRate(double rate) {
 	}
 }
 
+void DeepFeedbackLearning::setMomentum(double momentum) {
+	for (int i=0; i<(num_hid_layers+1); i++) {
+#ifdef DEBUG_DFL
+		fprintf(stderr,"setMomentum in layer %d\n",i);
+#endif
+		layers[i]->setMomentum(momentum);
+	}
+}
+
 
 void DeepFeedbackLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for (int i=0; i<(num_hid_layers+1); i++) {

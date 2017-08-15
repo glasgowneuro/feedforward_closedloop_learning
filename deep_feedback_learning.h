@@ -52,6 +52,8 @@ public:
 
 	void setLearningRate(double learningRate);
 
+	void setMomentum(double momentum);
+
 	void setAlgorithm(Algorithm _algorithm) { algorithm = _algorithm; }
 
 	Algorithm getAlgorithm() { return algorithm; }

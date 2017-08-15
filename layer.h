@@ -50,6 +50,8 @@ public:
 	// sets the learning rate of all neurons
 	void setLearningRate( double _learningRate);
 
+	void setMomentum( double _momentum);
+
 	// inits weights with a random value between -_max and max
 	void initWeights( double _max = 1,  int initBiasWeight = 1, Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
 	

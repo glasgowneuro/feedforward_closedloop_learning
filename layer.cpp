@@ -97,6 +97,12 @@ void Layer::setLearningRate( double _learningRate) {
 	}
 }
 
+void Layer::setMomentum( double _momentum) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setMomentum(_momentum);
+	}
+}
+
 void Layer::setUseDerivative( int _useIt) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setUseDerivative(_useIt);

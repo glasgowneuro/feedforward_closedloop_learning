@@ -13,6 +13,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	mask = new unsigned char[nInputs];
 	weights = new double*[nInputs];
 	initialWeights = new double*[nInputs];
+	weightChange = new double*[nInputs];
 
 	if (nFilters>0) {
 		bandpass = new Bandpass**[nInputs];
@@ -25,6 +26,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = new double[nFilters];
 		initialWeights[i] = new double[nFilters];
+		weightChange[i] = new double[nFilters];
 		if (bandpass != NULL) {
 			bandpass[i] = new Bandpass*[nFilters];
 			 double fs = 1;
@@ -65,6 +67,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 		for(int j=0;j<nFilters;j++) {
 			weights[i][j] = 0;
 			initialWeights[i][j] = 0;
+			weightChange[i][j] = 0;
 		}
 		inputs[i] = 0;
 		mask[i] = 1;
@@ -75,9 +78,11 @@ Neuron::~Neuron() {
 	for(int i=0;i<nInputs;i++) {
 		delete[] weights[i];
 		delete[] initialWeights[i];
+		delete[] weightChange[i];
 	}
 	delete [] weights;
 	delete [] initialWeights;
+	delete [] weightChange;
 	delete [] inputs;
 	delete [] mask;
 }
@@ -187,15 +192,18 @@ void Neuron::doLearning() {
 
 void Neuron::doLearningWithFilterbank() {
 	double** weightsp1 = weights;
+	double** weightschp1 = weightChange;
 	unsigned char * maskp = mask;
 	Bandpass*** bandpassp1 = bandpass;
 	maxDet = 0;
 	for(int i=0;i<nInputs;i++) {
 		Bandpass** bandpassp2 = *bandpassp1;
 		double* weightsp2 = *weightsp1;
+		double* weightschp2 = *weightschp1;
 		if (*maskp) {
 			for(int j=0;j<nFilters;j++) {
-				*weightsp2 = *weightsp2 + (*bandpassp2)->getOutput() * error * learningRate;
+				*weightschp2 = momentum * (*weightschp2) + (*bandpassp2)->getOutput() * error * learningRate;
+				*weightsp2 = *weightsp2 + *weightschp2;
 #ifdef RANGE_CHECKS				
 				if (*weightsp2 > 10000) printf("Neuron::%s, step=%ld, L=%d,N=%d (%d,%d,%e,%e,%e,%e)\n",
 							       __func__,
@@ -203,6 +211,7 @@ void Neuron::doLearningWithFilterbank() {
 							       i,j,*weightsp2,(*bandpassp2)->getOutput(),error,learningRate);
 #endif
 				weightsp2++;
+				weightschp2++;
 				bandpassp2++;
 #ifdef RANGE_CHECKS
 				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
@@ -218,6 +227,7 @@ void Neuron::doLearningWithFilterbank() {
 		bandpassp1++;
 		maskp++;
 		weightsp1++;
+		weightschp1++;
 	}
 //	printf("\n");
 	biasweight = biasweight + bias * error * learningRate;
@@ -227,15 +237,19 @@ void Neuron::doLearningWithFilterbank() {
 void Neuron::doLearningWithoutFilterbank() {
 	double* inputsp = inputs;
 	double** weightsp1 = weights;
+	double** weightschp1 = weightChange;
 	unsigned char * maskp = mask;
 	maxDet = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			double input = *inputsp;
 			double* weightsp2 = *weightsp1;
+			double* weightschp2 = *weightschp1;
 			for(int j=0;j<nFilters;j++) {
-				*weightsp2 = *weightsp2 + input * error * learningRate;
+				*weightschp2 = momentum * (*weightschp2) + input * error * learningRate;
+				*weightsp2 = *weightsp2 + *weightschp2;
 				weightsp2++;
+				weightschp2++;
 #ifdef RANGE_CHECKS
 				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>100)) {
 					fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d, %d\n",
@@ -247,6 +261,7 @@ void Neuron::doLearningWithoutFilterbank() {
 		inputsp++;
 		maskp++;
 		weightsp1++;
+		weightschp1++;
 	}
 //	printf("\n");
 	biasweight = biasweight + bias * error * learningRate;
@@ -440,9 +455,32 @@ double Neuron::getAvgWeight( int _input) {
 		w += weights[_input][j];
 		n++;
 	}
-	w+= biasweight;
-	n++;
 	return w/((double)n);
+}
+
+double Neuron::getAvgWeightCh( int _input) {
+	if (!mask[_input]) return 0;
+	int n=0;
+	double wch=0;
+	for(int j=0;j<nFilters;j++) {
+		wch += weightChange[_input][j];
+		n++;
+	}
+//	wch+= biasweightChange;
+//	n++;
+	return wch/((double)n);
+}
+
+double Neuron::getAvgWeightCh() {
+	double wch=0;
+	int n=0;
+	for(int i=0;i<nInputs;i++) {
+		if (mask[i]) {
+			wch += getAvgWeightCh(i);
+			n++;
+		}
+	}
+	return wch/((double)n);
 }
 
 

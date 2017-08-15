@@ -75,9 +75,12 @@ public:
 	};
 	inline void setBias( double _bias) { bias=_bias; };
 	inline void setLearningRate( double _learningrate) { learningRate = _learningrate; };
+	inline void setMomentum( double _momentum) { momentum = _momentum; };
 	inline void setUseDerivative( int _useDerivative) { useDerivative = _useDerivative; };
 	inline int getNinputs() { return nInputs; };
 	double getAvgWeight(int _input);
+	double getAvgWeightCh(int _input);
+	double getAvgWeightCh();
 
 	// tells the layer if it's been a 2D array originally to be a convolutional layer
 	void setGeometry( int _width,  int _height) {
@@ -126,7 +129,9 @@ private:
 	int nFilters;
 	double** weights = 0;
 	double** initialWeights = 0;
+	double** weightChange = 0;
 	double biasweight = 0;
+	double biasweightChange = 0;
 	double bias = 0;
 	Bandpass ***bandpass = 0;
 	double* inputs = 0;
@@ -134,6 +139,7 @@ private:
 	double sum = 0;
 	double error = 0;
 	double learningRate = 0;
+	double momentum = 0;
 	double minT,maxT;
 	double dampingCoeff = 0.51;
 	int useDerivative = 0;
