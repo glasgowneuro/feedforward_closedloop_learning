@@ -101,117 +101,6 @@ void test_learning() {
 	fclose(f);
 }
 
-//create of version of XOR for testing DFL vs feedback-error learning
-void test_feedback_learning() {
-	int nHidden[] = {2};
-	int nFiltersInput = 0;
-	int nFiltersHidden = 0;
-	double minT = 3;
-	double maxT = 15;
-
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1,nFiltersInput, nFiltersHidden, minT,maxT);
-	deep_fbl->initWeights(1.0,0,Neuron::MAX_OUTPUT_RANDOM);
-	deep_fbl->setLearningRate(0.05);
-	deep_fbl->setMomentum(0.9);
-	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
-	deep_fbl->setUseDerivative(0);
-	deep_fbl->setBias(1.0);
-
-	FILE* f=fopen("test_deep_fbl_cpp_feedback_learning.dat","wt");
-
-	double input[2];
-	double error[2];
-	double state;
-	double reflex;
-	double gain = 0.1;
-	double netgain = 1.0;
-
-	double inputs[4][2] = {
-			{0,0},
-			{0,1},
-			{1,0},
-			{1,1}
-			};
-	double targets[4] = {
-			0.0,
-			0.9,
-			0.9,
-			0.9
-	};
-	int indx;
-
-
-	int rep = 200;
-	int epoch=1;
-	int term = 100000;
-
-	for (int e=0; e<epoch; e++) {
-		state=0.0;
-		for(int n = 0; n < term;n++) {
-
-			double stim = 0;
-			double err = 0;
-
-			input[0] = input[1] = 0.0;
-			if (((n%rep)==100)) {
-				indx = (int)((double)4*(((double)random())/((double)RAND_MAX)));
-			}
-
-			if (((n%rep)>100)&&((n%rep)<102)&&(n<term)) {
-				state += targets[indx];
-			}
-			reflex = gain * state;
-
-			if ((n%rep)==100) {
-				input[0] = inputs[indx][0];
-				input[1] = inputs[indx][1];
-			}
-
-			if (((n%rep)>100)&&((n%rep)<200)) {
-				input[0] = inputs[indx][0] * state;
-				input[1] = inputs[indx][1] * state;
-			}
-
-			fprintf(f,"%d %e %e %e %e %e ",indx, input[0], input[1],
-					deep_fbl->getLayer(1)->getNeuron(0)->getError(),
-										state, reflex);
-
-			error[0] = reflex;
-//			error[1] = reflex;
-
-			deep_fbl->doStep(input,error);
-			state += -reflex;
-			state += - netgain*(deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
-
-			for(int i=0;i<2;i++) {
-				for(int j=0;j<2;j++) {
-					for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
-						fprintf(f,
-								"%e ",
-								deep_fbl->getLayer(k)->getNeuron(i)->getWeight(j));
-					}
-				}
-			}
-			for(int i=0;i<1;i++) {
-				for(int j=0;j<2;j++) {
-					fprintf(f,
-						"%e ",
-						deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
-				}
-			}
-			for(int i=0;i<1;i++) {
-				fprintf(f,
-					"%e ",
-					deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
-			}
-
-			fprintf(f,"\n");
-
-		}
-	}
-	fclose(f);
-	deep_fbl->saveModel();
-}
 
 void test_learning_and_filters() {
 	int nHidden[] = {2};
@@ -280,9 +169,109 @@ void test_learning_and_filters() {
 }
 
 
+
+#define IIRORDER 2
+
+void test_closedloop() {
+	int nHidden[] = {2};
+	int nFiltersInput = 5;
+	int nFiltersHidden = 5;
+	double minT = 3;
+	double maxT = 15;
+	
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1,nFiltersInput, nFiltersHidden, minT,maxT);
+	deep_fbl->initWeights(0.001,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->setLearningRate(0.0001);
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
+	deep_fbl->setBias(0);
+	
+	Iir::Bessel::LowPass<IIRORDER> p0;
+	p0.setup (IIRORDER,1,0.1);
+	
+	Iir::Bessel::LowPass<IIRORDER> h0;
+	h0.setup (IIRORDER,1,0.1);
+	
+	FILE* f=fopen("test_closedloop.dat","wt");
+
+	double input[1];
+	double error[2];
+
+	float v = 0;
+	float v0 = 0;
+	float x0 = 0;
+	float err = 0;
+	float dist = 0;
+	float pred = 0;
+	
+	for(int step = 0; step < 10000; step++) {
+
+		int n = step % 1000;
+		
+		pred = 0;
+		dist = 0;
+		if ((n>100)&&(n<1000)) {
+			pred = 1;
+			if ((n>500)&&(n<800)) {
+				dist = 1;
+			}
+			if ((n>700)&&(n<1000)) {
+				dist = 0;
+			}
+		}
+
+		input[0] = pred;
+		error[0] = err;
+		error[1] = err;
+		
+		deep_fbl->doStep(input,error);
+
+		v0 = dist - v;
+
+		v0 = v0 + deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
+
+		x0 = p0.filter(v0);
+
+		float fb_gain = 0.2;
+
+		err = - x0 * fb_gain;
+		
+		v = h0.filter(err);
+		
+		fprintf(f,"%d %f %f %f %f %f ",n,pred,dist,err,x0,v0);
+
+		fprintf(f,
+			"%f ",
+			deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
+
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<2;j++) {
+				fprintf(f,
+					"%f ",
+					deep_fbl->getLayer(0)->getNeuron(i)->getWeight(j));
+			}
+		}
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<2;j++) {
+				fprintf(f,
+					"%f ",
+					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
+			}
+		}
+		fprintf(f,"\n");
+		
+	}
+
+	fclose(f);
+}
+
+
+
+
+
+
 int main(int,char**) {
 	test_forward();
 	test_learning();
 	test_learning_and_filters();
-	test_feedback_learning();
+	test_closedloop();
 }

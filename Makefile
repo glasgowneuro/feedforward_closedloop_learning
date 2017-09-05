@@ -1,5 +1,5 @@
 CFLAGS = -g -Ofast -march=native -std=c++11
-LDFLAGS = -pthread -std=c++11
+LDFLAGS = -pthread -std=c++11 -liir
 
 all: test_neuron test_deep_feedback_learning deep_feedback_learning.py
 
