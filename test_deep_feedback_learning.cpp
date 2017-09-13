@@ -293,13 +293,27 @@ void test_closedloop() {
 }
 
 
-
-
-
-
-int main(int,char**) {
-	test_forward();
-	test_learning();
-	test_learning_and_filters();
-	test_closedloop();
+int main(int n,char** args) {
+	if (n<2) {
+		fprintf(stderr,"%s <number>:\n",args[0]);
+		fprintf(stderr,"0=network test / no learning\n");
+		fprintf(stderr,"1=learning w/o filters\n");
+		fprintf(stderr,"2=learning with filters\n");
+		fprintf(stderr,"3=closed loop\n");
+		exit(0);
+	}
+	switch (atoi(args[1])) {
+	case 0:
+		test_forward();
+		break;
+	case 1:
+		test_learning();
+		break;
+	case 2:
+		test_learning_and_filters();
+		break;
+	case 3:
+		test_closedloop();
+		break;
+	}
 }
