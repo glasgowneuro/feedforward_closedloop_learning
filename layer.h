@@ -53,7 +53,9 @@ public:
 	void setMomentum( double _momentum);
 
 	// inits weights with a random value between -_max and max
-	void initWeights( double _max = 1,  int initBiasWeight = 1, Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
+	void initWeights( double _max = 1,
+			  int initBiasWeight = 1,
+			  Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
 	
 	// gets the outpuut of one neuron
 	inline double getOutput( int index) {
@@ -62,6 +64,7 @@ public:
 
 	// gets a pointer to one neuron
 	inline Neuron* getNeuron( int index) {
+		assert(index < nNeurons);
 		return neurons[index];
 	}
 

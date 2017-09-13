@@ -116,10 +116,17 @@ void Layer::initWeights( double max, int initBias, Neuron::WeightInitMethod weig
 }
 
 void Layer::setError( int i,  double _error) {
+#ifdef RANGE_CHECKS
+	if(i >= nNeurons) {
+		fprintf(stderr,"%s, i=%d\n",__FUNCTION__,i);
+		assert(0);
+	}
+#endif
 	neurons[i]->setError(_error);
 }
 
 double Layer::getError( int i) {
+	assert(i < nNeurons);
 	return neurons[i]->getError();
 }
 

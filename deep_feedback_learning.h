@@ -26,7 +26,11 @@ class DeepFeedbackLearning {
 
 public:
 	// deep ico without any filters
-	DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output);
+	DeepFeedbackLearning(
+			int num_of_inputs,
+			int* num_of_hidden_neurons_per_layer_array,
+			int _num_hid_layers,
+			int num_outputs);
 
 	// deep ico with filters for both the input and hidden layer
 	// filter number >0 means: filterbank
@@ -34,9 +38,14 @@ public:
 	// filter parameters: are in time steps. For ex, minT = 10 means
 	// a response of 10 time steps for the first filter and that goes
 	// up to maxT time steps, for example maxT = 100 or so.
-	DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output,
-			     int num_filtersInput, int num_filtersHidden,
-			     double _minT, double _maxT);
+	DeepFeedbackLearning(
+			int num_of_inputs,
+			int* num_of_hidden_neurons_per_layer_array,
+			int _num_hid_layers,
+			int num_outputs,
+			int num_filtersInput,
+			int num_filtersHidden,
+			double _minT, double _maxT);
 	
 	~DeepFeedbackLearning();
 

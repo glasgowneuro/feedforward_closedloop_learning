@@ -1,4 +1,4 @@
-CFLAGS = -g -Ofast -march=native -std=c++11
+CFLAGS = -g -O0 -march=native -std=c++11
 LDFLAGS = -pthread -std=c++11 -liir
 
 all: test_neuron test_deep_feedback_learning deep_feedback_learning.py
@@ -11,21 +11,22 @@ test_neuron: neuron.o test_neuron.cpp bandpass.o
 	g++ $(CFLAGS) test_neuron.cpp neuron.o bandpass.o -o test_neuron $(LDFLAGS) 
 
 test_deep_feedback_learning: bandpass.o neuron.o layer.o deep_feedback_learning.o test_deep_feedback_learning.o
+	ulimit -c unlimited
 	g++ test_deep_feedback_learning.o neuron.o layer.o deep_feedback_learning.o bandpass.o -o test_deep_feedback_learning $(LDFLAGS) 
 
-test_deep_feedback_learning.o: test_deep_feedback_learning.cpp
+test_deep_feedback_learning.o: test_deep_feedback_learning.cpp globals.h
 	g++ $(CFLAGS) -c test_deep_feedback_learning.cpp
 
-bandpass.o: bandpass.cpp bandpass.h
+bandpass.o: bandpass.cpp bandpass.h globals.h
 	g++ -fPIC $(CFLAGS) -c bandpass.cpp
 
-neuron.o: neuron.cpp neuron.h bandpass.o
+neuron.o: neuron.cpp neuron.h bandpass.o globals.h
 	g++ -fPIC $(CFLAGS) -c neuron.cpp
 
-layer.o: layer.cpp layer.h neuron.o bandpass.o
+layer.o: layer.cpp layer.h neuron.o bandpass.o globals.h 
 	g++ -fPIC $(CFLAGS) -c layer.cpp
 
-deep_feedback_learning.o: deep_feedback_learning.cpp deep_feedback_learning.h layer.o neuron.o bandpass.o
+deep_feedback_learning.o: deep_feedback_learning.cpp deep_feedback_learning.h layer.o neuron.o bandpass.o globals.h
 	g++ $(CFLAGS) -fPIC -c deep_feedback_learning.cpp
 
 clean:

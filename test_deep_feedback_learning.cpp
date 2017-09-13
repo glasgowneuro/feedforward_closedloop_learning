@@ -1,6 +1,11 @@
 #include "deep_feedback_learning.h"
 #include <Iir.h>
 #include<stdio.h>
+#include <signal.h>
+#include <stdio.h>
+#include <signal.h>
+#include <execinfo.h>
+
 
 // inits the network with random weights with quite a few hidden units so that
 // a nice response is generated
@@ -173,13 +178,32 @@ void test_learning_and_filters() {
 #define IIRORDER 2
 
 void test_closedloop() {
-	int nHidden[] = {2};
+	// We have one input
+	int nInputs = 1;
+	// We have one hidden layer
+	int nHiddenLayers = 1;
+	// We have one output neuron
+	int nOutputs = 1;
+	// We set two neurons in the first hidden layer
+	int nNeuronsInHiddenLayers[] = {2};
+	// We set nFilters in the input
 	int nFiltersInput = 5;
+	// We set nFilters in the hidden unit
 	int nFiltersHidden = 5;
+	// Filterbank
 	double minT = 3;
 	double maxT = 15;
 	
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1,nFiltersInput, nFiltersHidden, minT,maxT);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(
+			nInputs,
+			nNeuronsInHiddenLayers,
+			nHiddenLayers,
+			nOutputs,
+			nFiltersInput,
+			nFiltersHidden,
+			minT,
+			maxT);
+
 	deep_fbl->initWeights(0.001,0,Neuron::MAX_OUTPUT_CONST);
 	deep_fbl->setLearningRate(0.0001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
@@ -193,8 +217,8 @@ void test_closedloop() {
 	
 	FILE* f=fopen("test_closedloop.dat","wt");
 
-	double input[1];
-	double error[2];
+	double input[nInputs];
+	double error[nNeuronsInHiddenLayers[0]];
 
 	float v = 0;
 	float v0 = 0;
@@ -219,9 +243,13 @@ void test_closedloop() {
 			}
 		}
 
-		input[0] = pred;
-		error[0] = err;
-		error[1] = err;
+		for(int i=0;i<nInputs;i++) {
+			input[i] = pred;
+		}
+		
+		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
+			error[i] = err;
+		}
 		
 		deep_fbl->doStep(input,error);
 
@@ -243,15 +271,15 @@ void test_closedloop() {
 			"%f ",
 			deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
 
-		for(int i=0;i<2;i++) {
-			for(int j=0;j<2;j++) {
+		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
+			for(int j=0;j<nInputs;j++) {
 				fprintf(f,
 					"%f ",
 					deep_fbl->getLayer(0)->getNeuron(i)->getWeight(j));
 			}
 		}
-		for(int i=0;i<2;i++) {
-			for(int j=0;j<2;j++) {
+		for(int i=0;i<nOutputs;i++) {
+			for(int j=0;j<nNeuronsInHiddenLayers[0];j++) {
 				fprintf(f,
 					"%f ",
 					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));

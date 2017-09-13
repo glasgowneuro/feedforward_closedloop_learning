@@ -2,6 +2,7 @@
 #define __Neuron_H_
 
 #include<math.h>
+#include<stdio.h>
 
 /**
  * GNU GENERAL PUBLIC LICENSE
@@ -27,22 +28,25 @@ public:
 	Neuron(int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Neuron();
 
-	// calc the output of the neuron
+	// calculate the output of the neuron
 	void calcOutput();
 	static void* calcOutputThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->calcOutput();
+		return NULL;
 	};
 
 	// does the learning
 	void doLearning();
 	static void* doLearningThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->doLearning();
+		return NULL;
 	};
 
 	// detects max of an input and switches that weight to 1 and the others to 0
 	void doMaxDet();
 	static void* doMaxDetThread(void* object) {
 		reinterpret_cast<Neuron*>(object)->doMaxDet();
+		return NULL;
 	};
 
 	// inits the weights
@@ -56,7 +60,12 @@ public:
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
 	inline double getWeight( int _index,  int _filter = 0) {
-		assert((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters));
+#ifdef RANGE_CHECKS
+		if (!((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters))) {
+			fprintf(stderr,"BUG! in Neuron::%s, layer=%d, _index=%d, _filter=%d\n",__FUNCTION__,layerIndex,_index,_filter);
+			assert(0==1);
+		}
+#endif
 		return mask[_index] ? weights[_index][_filter] : 0;
 	};
 	inline void setWeight( int _index,  double _weight,  int _filter = 0) {

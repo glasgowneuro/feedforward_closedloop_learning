@@ -9,15 +9,20 @@
  * (C) 2017, Paul Miller <nlholdem@hotmail.com>
  **/
 
-DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output,
-					   int num_filtersInput, int num_filtersHidden,
-					   double _minT, double _maxT) {
+DeepFeedbackLearning::DeepFeedbackLearning(
+		int num_of_inputs,
+		int* num_of_hidden_neurons_per_layer_array,
+		int _num_hid_layers,
+		int num_outputs,
+		int num_filtersInput,
+		int num_filtersHidden,
+		double _minT, double _maxT) {
 
 	assert(_num_hid_layers>0);
 	algorithm = backprop;
 
-	ni = num_input;
-	no = num_output;
+	ni = num_of_inputs;
+	no = num_outputs;
 	nfInput = num_filtersInput;
 	nfHidden = num_filtersHidden;
 	minT = _minT;
@@ -31,8 +36,8 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 #ifdef DEBUG_DFL
 	fprintf(stderr,"Creating input layer: ");
 #endif
-	layers[0] = new Layer(num_hidden_array[0], ni,nfInput,minT,maxT);
-	n_hidden[0] = num_hidden_array[0];
+	layers[0] = new Layer(num_of_hidden_neurons_per_layer_array[0], ni,nfInput,minT,maxT);
+	n_hidden[0] = num_of_hidden_neurons_per_layer_array[0];
 #ifdef DEBUG_DFL
 	fprintf(stderr,"created! n_hidden[0]=%d\n",n_hidden[0]);
 #endif
@@ -43,7 +48,7 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array,
 	// additional hidden layers
 	// note that these are _additional_ layers
 	for(int i=1; i<num_hid_layers; i++) {
-		n_hidden[i] = num_hidden_array[i];
+		n_hidden[i] = num_of_hidden_neurons_per_layer_array[i];
 #ifdef DEBUG_DFL
 		fprintf(stderr,"Creating layers %d: ",i);
 #endif
