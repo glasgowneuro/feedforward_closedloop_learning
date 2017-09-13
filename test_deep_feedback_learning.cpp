@@ -191,8 +191,8 @@ void test_closedloop() {
 	// We set nFilters in the hidden unit
 	int nFiltersHidden = 5;
 	// Filterbank
-	double minT = 3;
-	double maxT = 15;
+	double minT = 10;
+	double maxT = 150;
 	
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(
 			nInputs,
@@ -205,7 +205,7 @@ void test_closedloop() {
 			maxT);
 
 	deep_fbl->initWeights(0.001,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->setLearningRate(0.0001);
+	deep_fbl->setLearningRate(0.000002);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
 	
@@ -234,7 +234,10 @@ void test_closedloop() {
 		pred = 0;
 		dist = 0;
 		if ((n>100)&&(n<1000)) {
-			pred = 1;
+			pred = 0;
+			if (n<200) {
+				pred = 1;
+			}
 			if ((n>500)&&(n<800)) {
 				dist = 1;
 			}
@@ -265,7 +268,7 @@ void test_closedloop() {
 		
 		v = h0.filter(err);
 		
-		fprintf(f,"%d %f %f %f %f %f ",n,pred,dist,err,x0,v0);
+		fprintf(f,"%d %f %f %f %f %f ",step,pred,dist,err,x0,v0);
 
 		fprintf(f,
 			"%f ",
