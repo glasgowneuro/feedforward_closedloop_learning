@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+import sys
+sys.path.append('./..')
+
 import deep_feedback_learning
 import numpy as np
 import matplotlib.pyplot as plt
