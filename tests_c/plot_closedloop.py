@@ -27,7 +27,7 @@ pl.ylabel('x0');
 #
 pl.subplot(915);
 pl.plot(data[a:b,0],data[a:b,5]);
-pl.ylabel('v0');
+pl.ylabel('v');
 #
 pl.subplot(916);
 pl.plot(data[a:b,0],data[a:b,6]);

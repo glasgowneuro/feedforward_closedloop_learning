@@ -187,12 +187,12 @@ void test_closedloop() {
 	// We set two neurons in the first hidden layer
 	int nNeuronsInHiddenLayers[] = {2};
 	// We set nFilters in the input
-	int nFiltersInput = 5;
+	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
-	int nFiltersHidden = 5;
+	int nFiltersHidden = 10;
 	// Filterbank
-	double minT = 10;
-	double maxT = 150;
+	double minT = 100;
+	double maxT = 1000;
 	
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(
 			nInputs,
@@ -205,12 +205,13 @@ void test_closedloop() {
 			maxT);
 
 	deep_fbl->initWeights(0.001,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->setLearningRate(0.000002);
+	deep_fbl->setLearningRate(0.00000001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
+	deep_fbl->setUseDerivative(1);
 	
 	Iir::Bessel::LowPass<IIRORDER> p0;
-	p0.setup (IIRORDER,1,0.1);
+	p0.setup (IIRORDER,1,0.005);
 	
 	Iir::Bessel::LowPass<IIRORDER> h0;
 	h0.setup (IIRORDER,1,0.1);
@@ -226,6 +227,8 @@ void test_closedloop() {
 	float err = 0;
 	float dist = 0;
 	float pred = 0;
+
+	float fb_gain = 5;
 	
 	for(int step = 0; step < 10000; step++) {
 
@@ -256,19 +259,21 @@ void test_closedloop() {
 		
 		deep_fbl->doStep(input,error);
 
-		v0 = dist - v;
+		// error signal
+		float setpoint = 0;
+		err = (setpoint - x0) * fb_gain;
 
-		v0 = v0 + deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
+		// feedback filter plus the learned one
+		v = h0.filter(err) + deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
 
+		// the output of the controller plus disturbance
+		v0 = dist + v;
+
+		// that goes through the environment p0 and generates the input to the
+		// controller
 		x0 = p0.filter(v0);
-
-		float fb_gain = 0.2;
-
-		err = - x0 * fb_gain;
 		
-		v = h0.filter(err);
-		
-		fprintf(f,"%d %f %f %f %f %f ",step,pred,dist,err,x0,v0);
+		fprintf(f,"%d %f %f %f %f %f ",step,pred,dist,err,x0,v);
 
 		fprintf(f,
 			"%f ",
