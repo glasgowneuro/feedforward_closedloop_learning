@@ -62,6 +62,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 	sum = 0;
 	output = 0;
 	error = 0;
+	internal_error = 0;
 	learningRate = 0;
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFilters;j++) {
@@ -202,23 +203,23 @@ void Neuron::doLearningWithFilterbank() {
 		double* weightschp2 = *weightschp1;
 		if (*maskp) {
 			for(int j=0;j<nFilters;j++) {
-				*weightschp2 = momentum * (*weightschp2) + (*bandpassp2)->getOutput() * error * learningRate;
+				*weightschp2 = momentum * (*weightschp2) + (*bandpassp2)->getOutput() * internal_error * learningRate;
 				*weightsp2 = *weightsp2 + *weightschp2;
 #ifdef RANGE_CHECKS				
 				if (*weightsp2 > 10000) printf("Neuron::%s, step=%ld, L=%d,N=%d (%d,%d,%e,%e,%e,%e)\n",
 							       __func__,
 							       step,layerIndex,neuronIndex,
-							       i,j,*weightsp2,(*bandpassp2)->getOutput(),error,learningRate);
+							       i,j,*weightsp2,(*bandpassp2)->getOutput(),internal_error,learningRate);
 #endif
 				weightsp2++;
 				weightschp2++;
 				bandpassp2++;
 #ifdef RANGE_CHECKS
-				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (error)) {
+				if (isnan(weights[i][j]) || isnan(inputs[i]) || isnan (internal_error)) {
 					printf("Neuron::%s: step=%ld, L=%d, %f,%f,%f\n",
 					       __func__,
 					       step,layerIndex,
-					       weights[i][j],inputs[i],error);
+					       weights[i][j],inputs[i],internal_error);
 					exit(EXIT_FAILURE);
 				}
 #endif
@@ -230,7 +231,7 @@ void Neuron::doLearningWithFilterbank() {
 		weightschp1++;
 	}
 //	printf("\n");
-	biasweight = biasweight + bias * error * learningRate;
+	biasweight = biasweight + bias * internal_error * learningRate;
 }
 
 
@@ -246,7 +247,7 @@ void Neuron::doLearningWithoutFilterbank() {
 			double* weightsp2 = *weightsp1;
 			double* weightschp2 = *weightschp1;
 			for(int j=0;j<nFilters;j++) {
-				*weightschp2 = momentum * (*weightschp2) + input * error * learningRate;
+				*weightschp2 = momentum * (*weightschp2) + input * internal_error * learningRate;
 				*weightsp2 = *weightsp2 + *weightschp2;
 				weightsp2++;
 				weightschp2++;
@@ -264,7 +265,7 @@ void Neuron::doLearningWithoutFilterbank() {
 		weightschp1++;
 	}
 //	printf("\n");
-	biasweight = biasweight + bias * error * learningRate;
+	biasweight = biasweight + bias * internal_error * learningRate;
 }
 
 
@@ -486,6 +487,7 @@ double Neuron::getAvgWeightCh() {
 
 
 void Neuron::setError( double _error) {
+	error = _error;
 #ifdef DEBUG_NEURON
 	if (isnan(_error)) {
 			printf(" Neuron::setError: error=%f\n",_error);
@@ -493,10 +495,10 @@ void Neuron::setError( double _error) {
 	}
 #endif
 	if (useDerivative) {
-		error = _error - oldError;
+		internal_error = _error - oldError;
 		oldError = _error;
 	} else {
-		error = _error;
+		internal_error = _error;
 	}
 }
 

@@ -147,6 +147,7 @@ private:
 	double output = 0;
 	double sum = 0;
 	double error = 0;
+	double internal_error = 0;
 	double learningRate = 0;
 	double momentum = 0;
 	double minT,maxT;
