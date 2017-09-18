@@ -15,7 +15,7 @@ void test_closedloop() {
 	// We have two hidden layers
 	int nHiddenLayers = 1;
 	// We set two neurons in the first hidden layer
-	int nNeuronsInHiddenLayers[] = {2};
+	int nNeuronsInHiddenLayers[] = {2,2};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
@@ -103,7 +103,7 @@ void test_closedloop() {
 		// controller
 		x0 = p0.filter(v0);
 		
-		fprintf(f,"%d %f %f %f %f %f ",step,pred,dist,err,x0,v);
+		fprintf(f,"%d %f %f %f %f ",step,pred,dist,err,v);
 
 		fprintf(f,
 			"%f ",
