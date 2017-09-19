@@ -1,7 +1,10 @@
 CFLAGS = -g -O0 -march=native -std=c++11
 LDFLAGS = -pthread -std=c++11 -liir
 
-all: deep_feedback_learning.py deep_feedback_learning.a
+all: deep_feedback_learning.py deep_feedback_learning.a tests_c
+
+tests_c: deep_feedback_learning.a
+	make -C tests_c
 
 bandpass.o: bandpass.cpp bandpass.h globals.h
 	g++ -fPIC $(CFLAGS) -c bandpass.cpp
@@ -25,3 +28,4 @@ deep_feedback_learning.a: bandpass.o neuron.o layer.o deep_feedback_learning.o
 
 clean:
 	rm -rf *.o test_deep_feedback_learning test_neuron *~ *.dat deep_feedback_learning_wrap.cxx *.so *.pyc deep_feedback_learning.py *.csv *.dat
+	make -C tests_c clean
