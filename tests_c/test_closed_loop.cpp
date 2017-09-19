@@ -15,7 +15,7 @@ void test_closedloop() {
 	// We have two hidden layers
 	int nHiddenLayers = 1;
 	// We set two neurons in the first hidden layer
-	int nNeuronsInHiddenLayers[] = {2,2};
+	int nNeuronsInHiddenLayers[] = {2};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
@@ -35,8 +35,8 @@ void test_closedloop() {
 			maxT);
 
 	deep_fbl->initWeights(0.000001,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->setLearningRate(1E-11);
-	deep_fbl->setNormaliseLearningRateTo(0.5);
+	deep_fbl->setLearningRate(1E-13);
+	deep_fbl->setNormaliseLearningRateTo(1);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
 	deep_fbl->setUseDerivative(1);
