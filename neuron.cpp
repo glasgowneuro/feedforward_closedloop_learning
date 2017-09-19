@@ -197,13 +197,22 @@ void Neuron::doLearningWithFilterbank() {
 	unsigned char * maskp = mask;
 	Bandpass*** bandpassp1 = bandpass;
 	maxDet = 0;
+	double learningRateFactor = 1;
+	if (normaliseLearningRateTo>0) {
+		double l = lengthOfWeightVector();
+		if (l>0) {
+			learningRateFactor = (1/l)*normaliseLearningRateTo;
+			//printf("%e\n",learningRateFactor);
+		}
+	}
 	for(int i=0;i<nInputs;i++) {
 		Bandpass** bandpassp2 = *bandpassp1;
 		double* weightsp2 = *weightsp1;
 		double* weightschp2 = *weightschp1;
 		if (*maskp) {
 			for(int j=0;j<nFilters;j++) {
-				*weightschp2 = momentum * (*weightschp2) + (*bandpassp2)->getOutput() * internal_error * learningRate;
+				*weightschp2 = momentum * (*weightschp2) +
+						(*bandpassp2)->getOutput() * internal_error * learningRate * learningRateFactor;
 				*weightsp2 = *weightsp2 + *weightschp2;
 #ifdef RANGE_CHECKS				
 				if (*weightsp2 > 10000) printf("Neuron::%s, step=%ld, L=%d,N=%d (%d,%d,%e,%e,%e,%e)\n",
@@ -241,13 +250,22 @@ void Neuron::doLearningWithoutFilterbank() {
 	double** weightschp1 = weightChange;
 	unsigned char * maskp = mask;
 	maxDet = 0;
+	double learningRateFactor = 1;
+	if (normaliseLearningRateTo) {
+		double l = lengthOfWeightVector();
+		if (l>0) {
+			learningRateFactor = 1/l;
+			printf("%e\n",learningRateFactor);
+		}
+	}
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			double input = *inputsp;
 			double* weightsp2 = *weightsp1;
 			double* weightschp2 = *weightschp1;
 			for(int j=0;j<nFilters;j++) {
-				*weightschp2 = momentum * (*weightschp2) + input * internal_error * learningRate;
+				*weightschp2 = momentum * (*weightschp2) +
+						input * internal_error * learningRate * learningRateFactor;
 				*weightsp2 = *weightsp2 + *weightschp2;
 				weightsp2++;
 				weightschp2++;
@@ -269,7 +287,8 @@ void Neuron::doLearningWithoutFilterbank() {
 }
 
 
-void Neuron::normaliseWeights() {
+
+double Neuron::lengthOfWeightVector() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
 	double norm = 0;
@@ -287,7 +306,15 @@ void Neuron::normaliseWeights() {
 	}
 	norm = norm + biasweight*biasweight;
 	norm = sqrt(norm);
-	
+	return norm;
+}
+
+
+void Neuron::normaliseWeights() {
+	double** weightsp1 = weights;
+	unsigned char * maskp = mask;
+	double norm = lengthOfWeightVector();
+
 	//fprintf(stderr,"norm=%e\n",norm);
 	if (fabs(norm) > 0) {
 		weightsp1 = weights;

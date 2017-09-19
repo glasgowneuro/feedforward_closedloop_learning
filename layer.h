@@ -50,7 +50,10 @@ public:
 	// sets the learning rate of all neurons
 	void setLearningRate( double _learningRate);
 
+	// set the momentum of all neurons in this layer
 	void setMomentum( double _momentum);
+
+	void setNormaliseLearningRateTo(double _normaliseLearningRateTo);
 
 	// inits weights with a random value between -_max and max
 	void initWeights( double _max = 1,

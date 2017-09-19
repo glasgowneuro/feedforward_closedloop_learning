@@ -35,8 +35,8 @@ void test_closedloop() {
 			maxT);
 
 	deep_fbl->initWeights(0.000001,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->             setLearningRate(0.000000005);
-	deep_fbl->getLayer(1)->setLearningRate(0.0000005);
+	deep_fbl->setLearningRate(0.0000000005);
+	deep_fbl->getLayer(1)->setNormaliseLearningRateTo(1);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
 	deep_fbl->setUseDerivative(1);
