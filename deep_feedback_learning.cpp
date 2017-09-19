@@ -320,6 +320,18 @@ void DeepFeedbackLearning::setMomentum(double momentum) {
 }
 
 
+
+// normalises learning to the length of the weight vector
+void DeepFeedbackLearning::setNormaliseLearningRateTo(double _normaliseLearningRateTo) {
+	for (int i=0; i<(num_hid_layers+1); i++) {
+#ifdef DEBUG_DFL
+		fprintf(stderr,"setNormaliseLearningRateTo in layer %d\n",i);
+#endif
+		layers[i]->setNormaliseLearningRateTo(_normaliseLearningRateTo);
+	}
+}
+	
+
 void DeepFeedbackLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->initWeights(max,initBias,weightInitMethod);
