@@ -1,7 +1,7 @@
 import numpy as np
 import pylab as pl
 #
-data = np.loadtxt('test_closedloop.dat');
+data = np.loadtxt('test_closed_loop.dat');
 #
 fig = pl.figure(1)
 #

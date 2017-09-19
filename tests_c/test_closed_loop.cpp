@@ -48,7 +48,7 @@ void test_closedloop() {
 	Iir::Bessel::LowPass<IIRORDER> h0;
 	h0.setup (IIRORDER,1,0.1);
 	
-	FILE* f=fopen("test_closedloop.dat","wt");
+	FILE* f=fopen("test_closed_loop.dat","wt");
 
 	double input[nInputs];
 	double error[nNeuronsInHiddenLayers[0]];
