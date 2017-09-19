@@ -7,7 +7,7 @@ fig = pl.figure(1)
 #
 a = 0
 b = len(data[:,0])
-pl.title('Full Reversal run');
+pl.title('Full run');
 # compound
 pl.subplot(911);
 pl.plot(data[a:b,0],data[a:b,1]);

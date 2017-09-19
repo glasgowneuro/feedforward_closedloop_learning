@@ -35,10 +35,12 @@ void test_closedloop() {
 			maxT);
 
 	deep_fbl->initWeights(0.000001,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->setLearningRate(0.000000005);
+	deep_fbl->             setLearningRate(0.000000005);
+	deep_fbl->getLayer(1)->setLearningRate(0.0000005);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
 	deep_fbl->setUseDerivative(1);
+	//deep_fbl->getLayer(1)->setNormaliseWeights(1);
 	
 	Iir::Bessel::LowPass<IIRORDER> p0;
 	p0.setup (IIRORDER,1,0.005);
@@ -112,17 +114,16 @@ void test_closedloop() {
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
 			for(int j=0;j<nInputs;j++) {
 				fprintf(f,
-					"%f ",
+					"%e ",
 					deep_fbl->getLayer(0)->getNeuron(i)->getWeight(j));
 			}
 		}
-		for(int i=0;i<nOutputs;i++) {
-			for(int j=0;j<nNeuronsInHiddenLayers[0];j++) {
-				fprintf(f,
-					"%f ",
-					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
-			}
-		}
+		fprintf(f,
+			"%e ",
+			deep_fbl->getOutputLayer()->getNeuron(0)->getWeight(0));
+		fprintf(f,
+			"%e ",
+			deep_fbl->getOutputLayer()->getNeuron(0)->getWeight(1));
 		fprintf(f,"\n");
 		
 	}
