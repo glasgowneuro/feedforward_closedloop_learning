@@ -293,6 +293,12 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 //				if (fabs(err)>0) fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
 //			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
+			if (learningRateDiscountFactor>0) {
+				double norm = receiverLayer->getNeuron(i)->getNormOfWeightVector();
+				if (norm>0) {
+					err = err / norm * learningRateDiscountFactor;
+				}
+			}
 			receiverLayer->getNeuron(i)->setError(err);
 		}
 	}
@@ -320,17 +326,6 @@ void DeepFeedbackLearning::setMomentum(double momentum) {
 }
 
 
-
-// normalises learning to the length of the weight vector
-void DeepFeedbackLearning::setNormaliseLearningRateTo(double _normaliseLearningRateTo) {
-	for (int i=0; i<(num_hid_layers+1); i++) {
-#ifdef DEBUG_DFL
-		fprintf(stderr,"setNormaliseLearningRateTo in layer %d\n",i);
-#endif
-		layers[i]->setNormaliseLearningRateTo(_normaliseLearningRateTo);
-	}
-}
-	
 
 void DeepFeedbackLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for (int i=0; i<(num_hid_layers+1); i++) {

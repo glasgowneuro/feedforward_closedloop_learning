@@ -59,7 +59,12 @@ public:
 		return layers[num_hid_layers]->getOutput(index);
 	}
 
+	// set globally the learning rate
 	void setLearningRate(double learningRate);
+
+	void setLearningRateDiscountFactor(double _learningRateDiscountFactor) {
+		learningRateDiscountFactor = _learningRateDiscountFactor;
+	}
 
 	// normalises learning to the length of the weight vector
 	void setNormaliseLearningRateTo(double _normaliseLearningRateTo);
@@ -94,6 +99,8 @@ private:
 	int nfInput;
 	int nfHidden;
 	double minT,maxT;
+
+	double learningRateDiscountFactor = 0;
 
 	long int step = 0;
 

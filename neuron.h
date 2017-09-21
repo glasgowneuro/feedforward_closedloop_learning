@@ -86,17 +86,6 @@ public:
 	inline void setLearningRate( double _learningrate) { learningRate = _learningrate; };
 	inline void setMomentum( double _momentum) { momentum = _momentum; };
 	inline void setUseDerivative( int _useDerivative) { useDerivative = _useDerivative; };
-	// normalises the learning rate against the length of the weight vector
-	// so that a value of 1 fully normalises the learning rate. This compensates
-	// for small weights which won't propagate the error to the next layer and
-	// guarantees weight change even at small weight values. On the other hand if the
-	// error is zero the weight change will still be zero.
-	// Or in other words: the weights themselves are not normalised but the weight
-	// change using the length of the weight vector. That's a much gentler approach
-	// than normalising the weights themselves
-	inline void setNormaliseLearningRateTo(double _normaliseLearningRateTo) {
-		normaliseLearningRateTo = _normaliseLearningRateTo;
-	};
 	inline int getNinputs() { return nInputs; };
 	double getAvgWeight(int _input);
 	double getAvgWeightCh(int _input);
@@ -122,7 +111,7 @@ public:
 	unsigned char getMask( int index) { return mask[index]; };
 
 	// calculates the Eucledian length of the weight vector
-	double lengthOfWeightVector();
+	double getNormOfWeightVector();
 
 	// normalises weights
 	void normaliseWeights();
@@ -163,7 +152,7 @@ private:
 	double error = 0;
 	double internal_error = 0;
 	double learningRate = 0;
-	double normaliseLearningRateTo = 0;
+	double learningRateFactor = 1;
 	double momentum = 0;
 	double minT,maxT;
 	double dampingCoeff = 0.51;

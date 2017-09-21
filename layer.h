@@ -53,9 +53,6 @@ public:
 	// set the momentum of all neurons in this layer
 	void setMomentum( double _momentum);
 
-	// normalises learning to the length of the weight vector
-	void setNormaliseLearningRateTo(double _normaliseLearningRateTo);
-
 	// inits weights with a random value between -_max and max
 	void initWeights( double _max = 1,
 			  int initBiasWeight = 1,

@@ -108,14 +108,14 @@ void Neuron::calcFilterbankOutput() {
 			for(int j = 0;j<nFilters;j++) {
 				assert(weights[i][j] == (*weightsp2));
 				sum = sum + (*weightsp2) * (*bandpassp2)->filter(input);
-				bandpassp2++;
-				weightsp2++;
 #ifdef RANGE_CHECKS
 				if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (sum>100)) {
-					fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d, %d\n",
-						__func__,step,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
+					fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, sum=%f, weights=%f, inputs=%f, bandpass=%f, i=%d, j=%d\n",
+						__func__,step,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],(*bandpassp2)->getOutput(),i,j);
 				}
 #endif
+				bandpassp2++;
+				weightsp2++;
 			}
 		}
 		maskp++;
@@ -197,14 +197,6 @@ void Neuron::doLearningWithFilterbank() {
 	unsigned char * maskp = mask;
 	Bandpass*** bandpassp1 = bandpass;
 	maxDet = 0;
-	double learningRateFactor = 1;
-	if (normaliseLearningRateTo>0) {
-		double l = lengthOfWeightVector();
-		if (l>0) {
-			learningRateFactor = (1/l)*normaliseLearningRateTo;
-			//printf("%e\n",learningRateFactor);
-		}
-	}
 	for(int i=0;i<nInputs;i++) {
 		Bandpass** bandpassp2 = *bandpassp1;
 		double* weightsp2 = *weightsp1;
@@ -250,14 +242,6 @@ void Neuron::doLearningWithoutFilterbank() {
 	double** weightschp1 = weightChange;
 	unsigned char * maskp = mask;
 	maxDet = 0;
-	double learningRateFactor = 1;
-	if (normaliseLearningRateTo) {
-		double l = lengthOfWeightVector();
-		if (l>0) {
-			learningRateFactor = 1/l;
-			printf("%e\n",learningRateFactor);
-		}
-	}
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			double input = *inputsp;
@@ -288,7 +272,7 @@ void Neuron::doLearningWithoutFilterbank() {
 
 
 
-double Neuron::lengthOfWeightVector() {
+double Neuron::getNormOfWeightVector() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
 	double norm = 0;
@@ -313,7 +297,7 @@ double Neuron::lengthOfWeightVector() {
 void Neuron::normaliseWeights() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
-	double norm = lengthOfWeightVector();
+	double norm = getNormOfWeightVector();
 
 	//fprintf(stderr,"norm=%e\n",norm);
 	if (fabs(norm) > 0) {
