@@ -66,9 +66,6 @@ public:
 		learningRateDiscountFactor = _learningRateDiscountFactor;
 	}
 
-	// normalises learning to the length of the weight vector
-	void setNormaliseLearningRateTo(double _normaliseLearningRateTo);
-
 	void setMomentum(double momentum);
 
 	void setAlgorithm(Algorithm _algorithm) { algorithm = _algorithm; }
