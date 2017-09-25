@@ -272,7 +272,7 @@ void Neuron::doLearningWithoutFilterbank() {
 
 
 
-double Neuron::getNormOfWeightVector() {
+double Neuron::getEuclideanNormOfWeightVector() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
 	double norm = 0;
@@ -294,10 +294,31 @@ double Neuron::getNormOfWeightVector() {
 }
 
 
+double Neuron::getManhattanNormOfWeightVector() {
+	double** weightsp1 = weights;
+	unsigned char * maskp = mask;
+	double norm = 0;
+	for(int i=0;i<nInputs;i++) {
+		if (*maskp) {
+			double* weightsp2 = *weightsp1;
+			for(int j=0;j<nFilters;j++) {
+				double a = *weightsp2;
+				norm = norm + fabs(a);
+				weightsp2++;
+			}
+		}
+		maskp++;
+		weightsp1++;
+	}
+	norm = norm + fabs(biasweight);
+	return norm;
+}
+
+
 void Neuron::normaliseWeights() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
-	double norm = getNormOfWeightVector();
+	double norm = getEuclideanNormOfWeightVector();
 
 	//fprintf(stderr,"norm=%e\n",norm);
 	if (fabs(norm) > 0) {

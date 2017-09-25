@@ -104,17 +104,12 @@ nHidden1 = 2
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.getLayer(1).setConvolution(nHidden0,nHidden0)
-net.initWeights(0.5,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
-net.setLearningRate(0)
+net.initWeights(1,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
-# net.getLayer(0).setInputNorm2ZeroMean(128,256)
-net.getLayer(0).setLearningRate(1E-10)
-net.getLayer(1).setLearningRate(0.00001)
-net.getLayer(2).setLearningRate(0.001)
-#net.getLayer(1).setNormaliseWeights(True)
-#net.getLayer(2).setNormaliseWeights(True)
+net.setLearningRate(0.025)
 net.setUseDerivative(1)
 net.setBias(0)
+net.setLearningRateDiscountFactor(1)
 
 # Initialize the game. Further configuration won't take any effect from now on.
 game.init()
@@ -236,7 +231,7 @@ for i in range(episodes):
 #        cv2.imwrite('/tmp/right.png',screen_right)
         lavg = np.average(screen_left)
         ravg = np.average(screen_right)
-        delta = (lavg - ravg)*15
+        delta = (lavg - ravg)*5
         dd = delta - delta2
         delta2 = delta
 #        print(delta)
@@ -264,7 +259,7 @@ for i in range(episodes):
         #weightsplot.set_xdata(np.append(weightsplot.get_xdata(),n))
         #weightsplot.set_ydata(np.append(weightsplot.get_ydata(),net.getLayer(0).getWeightDistanceFromInitialWeights()))
 
-        output = net.getOutput(0)*5
+        output = net.getOutput(0)*20
         print(delta,output,
               net.getLayer(0).getWeightDistanceFromInitialWeights(),"\t",
               net.getLayer(1).getWeightDistanceFromInitialWeights(),"\t",

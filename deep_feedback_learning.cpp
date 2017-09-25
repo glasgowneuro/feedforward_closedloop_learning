@@ -294,7 +294,7 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 			}
 //			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 			if (learningRateDiscountFactor>0) {
-				double norm = receiverLayer->getNeuron(i)->getNormOfWeightVector();
+				double norm = receiverLayer->getNeuron(i)->getManhattanNormOfWeightVector();
 				if (norm>0) {
 					err = err / norm * learningRateDiscountFactor;
 				}

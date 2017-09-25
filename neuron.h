@@ -111,7 +111,10 @@ public:
 	unsigned char getMask( int index) { return mask[index]; };
 
 	// calculates the Eucledian length of the weight vector
-	double getNormOfWeightVector();
+	double getEuclideanNormOfWeightVector();
+
+	// calculates the Manhattan length of the weight vector
+	double getManhattanNormOfWeightVector();
 
 	// normalises weights
 	void normaliseWeights();
