@@ -97,16 +97,17 @@ game.set_mode(Mode.PLAYER)
 
 nFiltersInput = 3
 nFiltersHidden = 3
-minT = 3
-maxT = 30
+minT = 2
+maxT = 10
 nHidden0 = 4
 nHidden1 = 2
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+#net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1)
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.getLayer(1).setConvolution(nHidden0,nHidden0)
 net.initWeights(1,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
-net.setLearningRate(0.025)
+net.setLearningRate(0.05)
 net.setUseDerivative(1)
 net.setBias(0)
 net.setLearningRateDiscountFactor(1)
