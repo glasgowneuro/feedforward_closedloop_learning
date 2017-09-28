@@ -22,7 +22,7 @@ void test_closedloop() {
 	int nFiltersHidden = 10;
 	// Filterbank
 	double minT = 100;
-	double maxT = 1000;
+	double maxT = 500;
 	
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(
 			nInputs,
@@ -40,7 +40,6 @@ void test_closedloop() {
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
 	deep_fbl->setUseDerivative(1);
-	//deep_fbl->getLayer(1)->setNormaliseWeights(1);
 	
 	Iir::Bessel::LowPass<IIRORDER> p0;
 	p0.setup (IIRORDER,1,0.005);
@@ -62,7 +61,7 @@ void test_closedloop() {
 
 	float fb_gain = 5;
 	
-	for(int step = 0; step < 100000; step++) {
+	for(int step = 0; step < 1000000; step++) {
 
 		int n = step % 1000;
 		
@@ -96,7 +95,7 @@ void test_closedloop() {
 		err = (setpoint - x0) * fb_gain;
 
 		// feedback filter plus the learned one
-		v = h0.filter(err) + 20000 * deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
+		v = h0.filter(err) + 10 * deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
 
 		// the output of the controller plus disturbance
 		v0 = dist + v;
