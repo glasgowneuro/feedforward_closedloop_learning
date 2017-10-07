@@ -213,7 +213,7 @@ void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 	// error processing
 	// we put the error in the last layer, the output layer
 	for (int i=0; i<layers[num_hid_layers]->getNneurons(); i++) {
-		layers[num_hid_layers]->setError(i,error[i] * dsigm(layers[num_hid_layers]->getNeuron(i)->getOutput()));
+		layers[num_hid_layers]->setError(i,error[i] * layers[num_hid_layers]->getNeuron(i)->dActivation());
 	}
 	// let's now loop through the layers backwards
 	for (int k=num_hid_layers; k>0; k--) {
@@ -242,7 +242,7 @@ void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 				assert(!isnan(err));
 				//fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
-			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
+			receiverLayer->getNeuron(i)->setError(receiverLayer->getNeuron(i)->dActivation() * err);
 		}
 	}
 	doLearning();
@@ -294,12 +294,14 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 			}
 //			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
 			if (learningRateDiscountFactor>0) {
-				double norm = receiverLayer->getNeuron(i)->getManhattanNormOfWeightVector();
+//				double norm = receiverLayer->getNeuron(i)->getEuclideanNormOfWeightVector();
+				double norm = receiverLayer->getNeuron(i)->getAverageOfWeightVector();
+				norm = fabs(norm);
 				if (norm>0) {
-					err = err / norm * learningRateDiscountFactor;
+					err = (err / norm) * learningRateDiscountFactor;
 				}
 			}
-			receiverLayer->getNeuron(i)->setError(err);
+			receiverLayer->getNeuron(i)->setError(err * receiverLayer->getNeuron(i)->dActivation());
 		}
 	}
 	doLearning();

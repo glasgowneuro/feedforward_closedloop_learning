@@ -103,6 +103,12 @@ void Layer::setMomentum( double _momentum) {
 	}
 }
 
+void Layer::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setActivationFunction(_activationFunction);
+	}
+}
+
 void Layer::setUseDerivative( int _useIt) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setUseDerivative(_useIt);

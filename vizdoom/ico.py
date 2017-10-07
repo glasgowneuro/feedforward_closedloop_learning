@@ -95,22 +95,28 @@ game.set_mode(Mode.PLAYER)
 # Enables engine output to console.
 #game.set_console_enabled(True)
 
-nFiltersInput = 3
-nFiltersHidden = 3
+nFiltersInput = 2
+nFiltersHidden = 2
 minT = 2
 maxT = 10
 nHidden0 = 4
 nHidden1 = 2
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+
+learningRate = 0.00001
+
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 #net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1)
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.getLayer(1).setConvolution(nHidden0,nHidden0)
+#net.getLayer(2).setConvolution(nHidden1,nHidden1)
 net.initWeights(1,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
-net.setLearningRate(0.05)
-net.setUseDerivative(1)
+net.setLearningRate(learningRate)
+net.setUseDerivative(0)
 net.setBias(0)
 net.setLearningRateDiscountFactor(1)
+#net.getLayer(0).setActivationFunction(deep_feedback_learning.Neuron.RELU)
+#net.getLayer(1).setActivationFunction(deep_feedback_learning.Neuron.RELU)
 
 # Initialize the game. Further configuration won't take any effect from now on.
 game.init()
@@ -124,7 +130,6 @@ sleep_time = 1.0 / DEFAULT_TICRATE # = 0.028
 
 delta2 = 0
 dontshoot = 1
-deltaZeroCtr = 1
 
 inp = np.zeros(widthNet*heightNet)
 
@@ -184,12 +189,12 @@ def plotWeights():
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,3):
+        for j in range(1,net.getNumHidLayers()+1):
             if ln2[j]:
                 ln2[j].remove()
             plt.figure(j+1)
             w1 = np.zeros( (net.getLayer(j).getNneurons(),net.getLayer(j).getNeuron(0).getNinputs()) )
-            for i in range(0,net.getLayer(j).getNneurons()):
+            for i in range(net.getLayer(j).getNneurons()):
                 w1[i,:] = getWeights1D(j,i)
             ln2[j] = plt.imshow(w1,cmap='gray')
             plt.draw()
@@ -199,13 +204,13 @@ def plotWeights():
 t1 = threading.Thread(target=plotWeights)
 t1.start()
             
-
-
 for i in range(episodes):
     print("Episode #" + str(i + 1))
 
     # Starts a new episode. It is not needed right after init() but it doesn't cost much. At least the loop is nicer.
     game.new_episode()
+
+    tc = 0
 
     while not game.is_episode_finished():
 
@@ -224,51 +229,56 @@ for i in range(episodes):
         midlinex = int(width/2);
         midliney = int(height*0.75);
         crcb = screen_buf
-        screen_left = screen_buf[100:midliney,0:midlinex-1,2]
-        screen_right = screen_buf[100:midliney,midlinex+1:(width-1),2]
+        screen_left = screen_buf[100:midliney,0:midlinex,2]
+        screen_right = screen_buf[100:midliney,midlinex:width,2]
         screen_left = cv2.filter2D(screen_left, -1, sharpen);
         screen_right = cv2.filter2D(screen_right, -1, sharpen);
-#        cv2.imwrite('/tmp/left.png',screen_left)
-#        cv2.imwrite('/tmp/right.png',screen_right)
+        screen_diff = screen_left-np.fliplr(screen_right)
+        #cv2.imwrite('/tmp/left.png',screen_left)
+        #cv2.imwrite('/tmp/right.png',screen_right)
+        #cv2.imwrite('/tmp/diff.png',screen_diff)
         lavg = np.average(screen_left)
         ravg = np.average(screen_right)
-        delta = (lavg - ravg)*5
+        delta = (lavg - ravg)*3
         dd = delta - delta2
         delta2 = delta
 #        print(delta)
 
-        # Makes a random action and get remember reward.
+        net.setLearningRate(0.0)
         shoot = 0
         if (dontshoot > 1) :
             dontshoot = dontshoot - 1
         else :
-            if (abs(dd) < 10) :
+            if (tc > 30):
                 shoot = 1
-                dontshoot = 60
-                deltaZeroCtr = 4
+                net.setLearningRate(learningRate)
+                dontshoot = 5
 
-        if deltaZeroCtr>0:
-            deltaZeroCtr = deltaZeroCtr - 1
-            delta = 0
-
-        blue = cv2.resize(crcb, (widthNet,heightNet));
-        blue = blue[:,:,2]
-        blue = cv2.filter2D(blue, -1, edge);
-        err = np.linspace(delta,delta,nHidden0*nHidden0);
-        net.doStep(blue.flatten()/512-0.5,err)
+#        blue = cv2.resize(screen_diff, (widthNet,heightNet));
+#        blue = blue[:,:,2]
+#        blue = cv2.filter2D(blue, -1, edge)
+        err = np.ones(nHidden0*nHidden0)*delta
+        #        net.doStep(blue.flatten()/256-0.5,err)
+        net.doStep(cv2.resize(screen_diff, (widthNet,heightNet)).flatten(),err)
 
         #weightsplot.set_xdata(np.append(weightsplot.get_xdata(),n))
         #weightsplot.set_ydata(np.append(weightsplot.get_ydata(),net.getLayer(0).getWeightDistanceFromInitialWeights()))
 
         output = net.getOutput(0)*20
-        print(delta,output,
+        print(n,delta,output,
               net.getLayer(0).getWeightDistanceFromInitialWeights(),"\t",
-              net.getLayer(1).getWeightDistanceFromInitialWeights(),"\t",
-              net.getLayer(2).getWeightDistanceFromInitialWeights())
+              net.getLayer(1).getWeightDistanceFromInitialWeights(),"\t")
 #       action[0] is translating left/right; action[2] is rotating/aiming
 #        action = [ delta+output , shoot, 0. ]
+
+        if i>1000:
+            delta = 0
+            net.setLearningRate(0)
+
         action = [ 0., shoot, (delta+output)*0.1 ]
         r = game.make_action(action)
+
+        tc = tc + 1
 
 #        if sleep_time > 0:
 #            sleep(sleep_time)
@@ -277,6 +287,7 @@ for i in range(episodes):
     print("Episode finished.")
     print("Total reward:", game.get_total_reward())
     print("************************")
+    tc = 0
     sleep(1)
 
 # It will be done automatically anyway but sometimes you need to do it in the middle of the program...

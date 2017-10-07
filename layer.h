@@ -50,6 +50,8 @@ public:
 	// sets the learning rate of all neurons
 	void setLearningRate( double _learningRate);
 
+	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
+
 	// set the momentum of all neurons in this layer
 	void setMomentum( double _momentum);
 

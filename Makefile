@@ -3,6 +3,7 @@ CFLAGS = -Ofast -march=native -std=c++11
 LDFLAGS = -pthread -std=c++11 -liir
 
 all: deep_feedback_learning.py deep_feedback_learning.a tests_c
+	ulimit -c unlimited
 
 tests_c: deep_feedback_learning.a
 	make -C tests_c

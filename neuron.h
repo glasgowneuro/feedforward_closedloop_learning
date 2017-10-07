@@ -51,7 +51,15 @@ public:
 
 	// inits the weights
 	enum WeightInitMethod { MAX_OUTPUT_RANDOM = 0, MAX_WEIGHT_RANDOM = 1, MAX_OUTPUT_CONST = 2, CONST_WEIGHTS = 3};
-	void initWeights(double _max = 1, int initBias = 1, WeightInitMethod = MAX_OUTPUT_RANDOM);
+	void initWeights(double _max = 1, int initBias = 1, WeightInitMethod _wm = MAX_OUTPUT_RANDOM);
+
+	enum ActivationFunction { LINEAR = 0, TANH = 1, RELU = 2, REMAXLU};
+	void setActivationFunction(ActivationFunction _activationFunction) {
+		activationFunction = _activationFunction;
+	}
+
+	// returns the output of the neuron fed through the derivative of the activation
+	double dActivation();
 
 	double getMinWeightValue();
 	double getMaxWeightValue();
@@ -116,6 +124,9 @@ public:
 	// calculates the Manhattan length of the weight vector
 	double getManhattanNormOfWeightVector();
 
+	// calculates the average of the weight values
+	double getAverageOfWeightVector();
+
 	// normalises weights
 	void normaliseWeights();
 
@@ -167,6 +178,7 @@ private:
 	int layerIndex = 0;
 	int neuronIndex = 0;
 	long int step = 0;
+	ActivationFunction activationFunction = TANH;
 };
 
 #endif
