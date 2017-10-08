@@ -85,6 +85,10 @@ public:
 
 	void setUseDerivative(int useIt);
 
+	bool saveModel(const char* name);
+	bool loadModel(const char* name);
+
+
 private:
 
 	int ni;

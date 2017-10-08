@@ -95,6 +95,7 @@ public:
 	inline void setMomentum( double _momentum) { momentum = _momentum; };
 	inline void setUseDerivative( int _useDerivative) { useDerivative = _useDerivative; };
 	inline int getNinputs() { return nInputs; };
+	inline int getNfilters() { return nFilters; };
 	double getAvgWeight(int _input);
 	double getAvgWeightCh(int _input);
 	double getAvgWeightCh();

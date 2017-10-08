@@ -353,3 +353,67 @@ void DeepFeedbackLearning::setDebugInfo() {
 		layers[i]->setDebugInfo(i);
 	}
 }
+
+// need to add bias weight
+bool DeepFeedbackLearning::saveModel(const char* name) {
+	Layer *layer;
+	Neuron *neuron;
+	double weight;
+
+	FILE *f=fopen(name, "wt");
+
+	if(f) {
+		for (int i=0; i<num_hid_layers+1; i++) {
+			layer = layers[i];
+			for (int j=0; j<layer->getNneurons(); j++) {
+				neuron = layer->getNeuron(j);
+				for (int k=0; k<neuron->getNinputs(); k++) {
+					if(neuron->getMask(k)) {
+						for (int l=0; l<neuron->getNfilters(); l++) {
+							fprintf(f, "%f ", neuron->getWeight(k,l));
+						}
+					}
+				}
+				fprintf(f, "\n");
+			}
+			fprintf(f, "\n");
+		}
+		fprintf(f, "\n");
+	}
+	else {
+		return false;
+	}
+
+	fclose(f);
+	return true;
+}
+
+bool DeepFeedbackLearning::loadModel(const char* name) {
+	Layer *layer;
+	Neuron *neuron;
+	double weight;
+
+	FILE *f=fopen(name, "r");
+
+	if(f) {
+		for (int i=0; i<num_hid_layers+1; i++) {
+			layer = layers[i];
+			for (int j=0; j<layer->getNneurons(); j++) {
+				neuron = layer->getNeuron(j);
+				for (int k=0; k<neuron->getNinputs(); k++) {
+					if(neuron->getMask(k)) {
+						for (int l=0; l<neuron->getNfilters(); l++) {
+							fscanf(f, "%lf ", &weight);
+						}
+					}
+				}
+			}
+		}
+	}
+	else {
+		return false;
+	}
+
+	fclose(f);
+	return true;
+}
