@@ -90,6 +90,8 @@ public:
 		assert((_index>=0)&&(_index<nInputs));
 		return inputs[_index];
 	};
+	inline double getBiasWeight() {return biasweight; };
+	inline void setBiasWeight(double _biasweight) { biasweight=_biasweight; };
 	inline void setBias( double _bias) { bias=_bias; };
 	inline void setLearningRate( double _learningrate) { learningRate = _learningrate; };
 	inline void setMomentum( double _momentum) { momentum = _momentum; };

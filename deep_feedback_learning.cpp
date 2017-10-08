@@ -370,10 +370,11 @@ bool DeepFeedbackLearning::saveModel(const char* name) {
 				for (int k=0; k<neuron->getNinputs(); k++) {
 					if(neuron->getMask(k)) {
 						for (int l=0; l<neuron->getNfilters(); l++) {
-							fprintf(f, "%f ", neuron->getWeight(k,l));
+							fprintf(f, "%lf ", neuron->getWeight(k,l));
 						}
 					}
 				}
+				fprintf(f, "%lf ", neuron->getBiasWeight());
 				fprintf(f, "\n");
 			}
 			fprintf(f, "\n");
@@ -392,6 +393,7 @@ bool DeepFeedbackLearning::loadModel(const char* name) {
 	Layer *layer;
 	Neuron *neuron;
 	double weight;
+	int result;
 
 	FILE *f=fopen(name, "r");
 
@@ -403,12 +405,18 @@ bool DeepFeedbackLearning::loadModel(const char* name) {
 				for (int k=0; k<neuron->getNinputs(); k++) {
 					if(neuron->getMask(k)) {
 						for (int l=0; l<neuron->getNfilters(); l++) {
-							fscanf(f, "%lf ", &weight);
+							result=fscanf(f, "%lf ", &weight);
+							neuron->setWeight(k, weight, l);
 						}
 					}
 				}
+				result=fscanf(f, "%lf", &weight);
+				neuron->setBiasWeight(weight);
+				result=fscanf(f, "%*c");
 			}
+			result=fscanf(f, "%*c");
 		}
+		result=fscanf(f, "%*c");
 	}
 	else {
 		return false;
