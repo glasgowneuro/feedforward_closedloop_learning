@@ -102,7 +102,7 @@ maxT = 10
 nHidden0 = 4
 nHidden1 = 2
 
-learningRate = 0.00001
+learningRate = 0.00003
 
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 #net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1)
