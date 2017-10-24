@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 from __future__ import print_function
 from vizdoom import *
 import sys
+import os
 import threading
 import math
 
@@ -10,7 +11,7 @@ from random import choice
 from time import sleep
 from matplotlib import pyplot as plt
 
-sys.path.append('./deep_feedback_learning')
+sys.path.append('../../deep_feedback_learning')
 
 import numpy as np
 import cv2
@@ -32,14 +33,16 @@ game.set_doom_scenario_path("./basic.wad")
 game.set_doom_map("map01")
 
 # Sets resolution. Default is 320X240
-game.set_screen_resolution(ScreenResolution.RES_640X480)
+game.set_screen_resolution(ScreenResolution.RES_160X120)
 
 # create masks for left and right visual fields - note that these only cover the upper half of the image
 # this is to help prevent the tracking getting confused by the floor pattern
-width = 640
-widthNet = 320
-height = 480
-heightNet = 240
+width = 160
+widthNet = 160
+height = 120
+heightNet = 120
+preprocess_input_images = lambda x: x / 255. - 0.5
+imgCentre = np.array([int(width / 2), int(height / 2)])
 
 # Sets the screen buffer format. Not used here but now you can change it. Defalut is CRCGCB.
 game.set_screen_format(ScreenFormat.RGB24)
@@ -69,6 +72,7 @@ game.set_render_corpses(False)
 # game.add_available_button(Button.MOVE_RIGHT)
 game.add_available_button(Button.MOVE_LEFT_RIGHT_DELTA, 50)
 game.add_available_button(Button.ATTACK)
+game.add_available_button(Button.TURN_LEFT_RIGHT_DELTA)
 
 # Adds game variables that will be included in state.
 game.add_available_game_variable(GameVariable.AMMO2)
@@ -94,26 +98,37 @@ game.set_mode(Mode.PLAYER)
 # Enables engine output to console.
 #game.set_console_enabled(True)
 
-nFiltersInput = 3
-nFiltersHidden = 3
-minT = 3
-maxT = 30
-nHidden0 = 4
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,4], 1, nFiltersInput, nFiltersHidden, minT,maxT)
-net.enableDebugOutput()
+nFiltersInput = 0
+nFiltersHidden = 0
+minT = 2
+maxT = 10
+nHidden0 = 2
+nHidden1 = 2
+
+learningRate = 0.001
+
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0, nHidden1*nHidden1], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
 net.getLayer(1).setConvolution(nHidden0,nHidden0)
-net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop);
-net.setLearningRate(0.00001)
-net.initWeights(0.001,1,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
-net.setUseDerivative(1)
-net.setBias(1)
+net.getLayer(2).setConvolution(nHidden1,nHidden1)
+net.initWeights(1,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM)
+net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.backprop)
+net.setLearningRate(learningRate)
+net.setUseDerivative(0)
+net.setMomentum(0.5)
+net.setBias(0)
+net.setLearningRateDiscountFactor(1)
+net.getLayer(0).setActivationFunction(deep_feedback_learning.Neuron.TANH)
+net.getLayer(1).setActivationFunction(deep_feedback_learning.Neuron.TANH)
+epoch = 200
+reflexGain = 1.0
+netGain = 10.
 
 # Initialize the game. Further configuration won't take any effect from now on.
 game.init()
 
 # Run this many episodes
-episodes = 100
+episodes = 1000
 
 # Sets time that will pause the engine after each action (in seconds)
 # Without this everything would go too fast for you to keep track of what's happening.
@@ -121,7 +136,6 @@ sleep_time = 1.0 / DEFAULT_TICRATE # = 0.028
 
 delta2 = 0
 dontshoot = 1
-deltaZeroCtr = 1
 
 inp = np.zeros(widthNet*heightNet)
 
@@ -135,10 +149,40 @@ edge = np.array((
 	[1, -4, 1],
 	[0, 1, 0]), dtype="int")
 
+
+
+
+
+
 plt.ion()
 plt.show()
 ln1 = False
 ln2 = [False,False,False,False]
+
+
+def getMaxColourPos(img, colour):
+    img = np.array(img, dtype='float64')
+    width = int(img.shape[1])
+    diff = np.ones(img.shape)
+    diff[:,:,0] = colour[0]
+    diff[:,:,1] = colour[1]
+    diff[:,:,2] = colour[2]
+    diff = np.absolute(np.add(diff, (-1*img)))
+    diff = np.sum(diff, axis=2)
+
+    indx = np.argmin(diff)
+    indx0 = int(indx / width)
+    indx1 = indx % width
+    pts = np.asarray(np.where((np.mean(diff) - diff) > 150))
+    if (pts.shape[1]>0):
+        bottomLeft = np.array([np.amin(pts[1]), np.amin(pts[0])])
+        topRight = np.array([np.amax(pts[1]), np.amax(pts[0])])
+    else:
+        bottomLeft = []
+        topRight = []
+
+    return np.array([indx1, indx0]), bottomLeft, topRight, np.mean(diff) - diff[indx0,indx1]
+
 
 def getWeights2D(neuron):
     n_neurons = net.getLayer(0).getNneurons()
@@ -164,6 +208,7 @@ def plotWeights():
     global ln2
 
     while True:
+
         if ln1:
             ln1.remove()
         plt.figure(1)
@@ -175,28 +220,47 @@ def plotWeights():
         plt.draw()
         plt.pause(0.1)
 
-        for j in range(1,3):
+        for j in range(1,net.getNumHidLayers()+1):
             if ln2[j]:
                 ln2[j].remove()
             plt.figure(j+1)
             w1 = np.zeros( (net.getLayer(j).getNneurons(),net.getLayer(j).getNeuron(0).getNinputs()) )
-            for i in range(0,net.getLayer(j).getNneurons()):
+            for i in range(net.getLayer(j).getNneurons()):
                 w1[i,:] = getWeights1D(j,i)
             ln2[j] = plt.imshow(w1,cmap='gray')
             plt.draw()
-            plt.pause(0.1)
+            plt.pause(1.0)
 
 
 t1 = threading.Thread(target=plotWeights)
 t1.start()
-            
+
+try:
+    checkpointFile = open("Models/checkpoint")
+    try:
+        modelName = checkpointFile.read().splitlines()
+        if(net.loadModel(modelName[0])):
+            print("loaded from Model file: ", modelName[0])
+        else:
+            print("FAILED loading from Model file: ", modelName[0])
+    except:
+        print ("Checkpoint file contains no valid model")
+    finally:
+        checkpointFile.close()
+except Exception:
+    print ("No checkpoint found...")
+
+imgRect = np.zeros((width,height,3))
+imgRect1 = np.zeros((widthNet,heightNet))
+simpleInputs = np.zeros((width, height))
 
 for i in range(episodes):
-    print("Episode #" + str(i + 1))
 
     # Starts a new episode. It is not needed right after init() but it doesn't cost much. At least the loop is nicer.
     game.new_episode()
 
+    tc = 0
+    output = 0
     while not game.is_episode_finished():
 
         # Gets the state
@@ -211,58 +275,67 @@ for i in range(episodes):
         automap_buf = state.automap_buffer
         labels = state.labels
 
-        midlinex = int(width/2);
-        midliney = int(height*0.75);
+        midlinex = int(width / 2)
+        midliney = int(height * 0.75)
         crcb = screen_buf
-        screen_left = screen_buf[100:midliney,0:midlinex-1,2]
-        screen_right = screen_buf[100:midliney,midlinex+1:(width-1),2]
-        screen_left = cv2.filter2D(screen_left, -1, sharpen);
-        screen_right = cv2.filter2D(screen_right, -1, sharpen);
-#        cv2.imwrite('/tmp/left.png',screen_left)
-#        cv2.imwrite('/tmp/right.png',screen_right)
-        lavg = np.average(screen_left)
-        ravg = np.average(screen_right)
-        delta = (lavg - ravg)*15
-        dd = delta - delta2
-        delta2 = delta
-#        print(delta)
 
-        # Makes a random action and get remember reward.
+        simpleInputs = np.array(np.sum(crcb, axis=2) / 3)
+
         shoot = 0
-        if (dontshoot > 1) :
+        if (dontshoot > 1):
             dontshoot = dontshoot - 1
-        else :
-            if (abs(dd) < 10) :
+        else:
+            if (tc > 30):
                 shoot = 1
-                dontshoot = 60
-                deltaZeroCtr = 4
+                dontshoot = 5
 
-        if deltaZeroCtr>0:
-            deltaZeroCtr = deltaZeroCtr - 1
+        centre, bottomLeft, topRight, colourStrength = getMaxColourPos(crcb, [255, 0, 0])
+        colourSteer = imgCentre[0]
+        imgRect[...] = 0.
+
+        if (len(bottomLeft) > 0 and len(topRight) > 0 and ((topRight[0] - bottomLeft[0]) < width / 3) and (
+                    (topRight[1] - bottomLeft[1]) < height / 2)):
+            colourSteer = bottomLeft[0] + int(0.5 * (topRight[0] - bottomLeft[0]))
+        cv2.arrowedLine(imgRect, (colourSteer, imgCentre[1] + 10), (colourSteer, imgCentre[1]),
+                        color=(255, 255, 255), thickness=2)
+        imgRect1 = cv2.resize(np.array(np.sum(imgRect, axis=2)), (widthNet, heightNet))
+
+        if (tc > 2):
+            delta = (float(colourSteer) - float(imgCentre[0])) / float(width)
+            net.setLearningRate(1E-3)
+
+        else:
             delta = 0
+            net.setLearningRate(0.)
 
-        blue = cv2.resize(crcb, (widthNet,heightNet));
-        blue = blue[:,:,2]
-        blue = cv2.filter2D(blue, -1, edge);
-        if (i>300):
-            delta = 0
-        err = np.zeros(1)
-        err[0] = delta
-        net.doStep(blue.flatten(),err,-2550,2550)
+        err = np.ones(nHidden0*nHidden0)*(delta)
+        net.doStep(imgRect1.flatten(),err[:1])
 
-        output = net.getOutput(0)*5000
-        print(delta,output)
-        action = [ delta+output , shoot ];
+        output = net.getOutput(0)
+        print(n,delta,output)
+
+        diff_theta = reflexGain * delta
+
+        action = [ 0., shoot, diff_theta + netGain*output]
         r = game.make_action(action)
+        tc = tc + 1
 
 #        if sleep_time > 0:
 #            sleep(sleep_time)
 
     # Check how the episode went.
-    print("Episode finished.")
-    print("Total reward:", game.get_total_reward())
-    print("************************")
-    sleep(1)
+    tc = 0
+
+    #30 fps
+    sleep(.03)
+
+    if not os.path.exists("Models"):
+        os.makedirs("Models")
+    net.saveModel("Models/BP-" + str(i) + ".txt")
+
+    file = open("Models/checkpoint", 'w')
+    file.write("Models/BP-" + str(i) + ".txt")
+    file.close()
 
 # It will be done automatically anyway but sometimes you need to do it in the middle of the program...
 game.close()
