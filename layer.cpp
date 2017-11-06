@@ -5,6 +5,14 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+/**
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
+ * (C) 2017, Bernd Porr <bernd@glasgowneuro.tech>
+ * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
+ **/
+
 Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _maxT) {
 
 	nNeurons = _nNeurons;

@@ -4,6 +4,14 @@
 #include <stdio.h>
 #include <assert.h>
 
+/**
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
+ * (C) 2017, Bernd Porr <bernd@glasgowneuro.tech>
+ * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
+ **/
+
 #define SUM_ERR_THRES 1000
 
 Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
