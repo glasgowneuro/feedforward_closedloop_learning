@@ -10,5 +10,11 @@
 #define NDEBUG
 #endif
 
+// danger zone
+// usually commented out
+
+// no derivative of the activation function
+// #define NO_DERIV_ACTIVATION
+
 
 #endif

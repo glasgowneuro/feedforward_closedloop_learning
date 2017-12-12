@@ -17,9 +17,6 @@
 
 
 
-// do the proper derivative of the activation function
-// #define DO_DERIV_ACTIVATION
-
 //#define DEBUG_DFL
 
 class DeepFeedbackLearning {
@@ -45,7 +42,8 @@ public:
 			int num_outputs,
 			int num_filtersInput,
 			int num_filtersHidden,
-			double _minT, double _maxT);
+			double _minT,
+			double _maxT);
 	
 	~DeepFeedbackLearning();
 
@@ -118,10 +116,10 @@ private:
 	void doLearning();
 	void setStep();
 
-#ifdef DO_DERIV_ACTIVATION
-	double dsigm(double y) { return (1.0 - y*y); };
+#ifdef NO_DERIV_ACTIVATION
+	double dsigm(double) { return 1.0; };
 #else
-	double dsigm(double y) { return 1.0; };
+	double dsigm(double y) { return (1.0 - y*y); };
 #endif
 };
 
