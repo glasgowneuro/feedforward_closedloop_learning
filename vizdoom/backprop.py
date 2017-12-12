@@ -105,7 +105,8 @@ maxT = 10
 nHidden0 = 2
 nHidden1 = 2
 
-learningRate = 0.001
+learningRate = 0
+#0.001
 
 net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0, nHidden1*nHidden1], 1, nFiltersInput, nFiltersHidden, minT,maxT)
 net.getLayer(0).setConvolution(widthNet,heightNet)
