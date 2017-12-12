@@ -10,14 +10,15 @@
  **/
 
 DeepFeedbackLearning::DeepFeedbackLearning(
-		int num_of_inputs,
-		int* num_of_hidden_neurons_per_layer_array,
-		int _num_hid_layers,
-		int num_outputs,
-		int num_filtersInput,
-		int num_filtersHidden,
-		double _minT, double _maxT) {
-
+	int num_of_inputs,
+	int* num_of_hidden_neurons_per_layer_array,
+	int _num_hid_layers,
+	int num_outputs,
+	int num_filtersInput,
+	int num_filtersHidden,
+	double _minT,
+	double _maxT) {
+	
 	assert(_num_hid_layers>0);
 	algorithm = backprop;
 
@@ -72,7 +73,10 @@ DeepFeedbackLearning::DeepFeedbackLearning(
 	setDebugInfo();
 }
 
-DeepFeedbackLearning::DeepFeedbackLearning(int num_input, int* num_hidden_array, int _num_hid_layers, int num_output) {
+DeepFeedbackLearning::DeepFeedbackLearning(int num_input,
+					   int* num_hidden_array,
+					   int _num_hid_layers,
+					   int num_output) {
 
 	algorithm = backprop;
 

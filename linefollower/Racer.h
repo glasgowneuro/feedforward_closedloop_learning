@@ -45,31 +45,17 @@ namespace Enki
 	class Racer : public DifferentialWheeled
 	{
 	public:
-		//! The infrared sensor 0 (left)
-		IRSensor infraredSensor0;
-		//! The infrared sensor 1 (front-left)
-		IRSensor infraredSensor1;
-		//! The infrared sensor 2 (front)
-		IRSensor infraredSensor2;
-		//! The infrared sensor 3 (front)
-		IRSensor infraredSensor3;
-		//! The infrared sensor 4 (front-right)
-		IRSensor infraredSensor4;
-		//! The infrared sensor 5 (right)
-		IRSensor infraredSensor5;
-		//! The infrared sensor 6 (back)
-		IRSensor infraredSensor6;
-		//! The infrared sensor 7 (back)
-		IRSensor infraredSensor7;
-		//! Linear camera
-		CircularCam camera;
-		//! Ground Sensor left
+		IRSensor infraredSensorLeft;
+		IRSensor infraredSensorRight;
 		GroundSensor groundSensorLeft;
-		//! Ground Sensor right
 		GroundSensor groundSensorRight;
+		GroundSensor** groundSensorArray;
 		
 	public:
 		Racer();
+
+		const int sensorArrayPos = 20;
+		const int nSensors = 5;
 	};
 }
 
