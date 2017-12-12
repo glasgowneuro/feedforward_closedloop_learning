@@ -1,12 +1,12 @@
 TEMPLATE = app
-TARGET = playground
+TARGET = linefollower
 INCLUDEPATH += .
 INCLUDEPATH += /usr/local/include/enki
 INCLUDEPATH += ..
 
 # Input
 HEADERS = Racer.h
-SOURCES += Playground.cpp Racer.cpp
+SOURCES += Linefollower.cpp Racer.cpp
 
 QT += opengl widgets
 CONFIG          += qt warn_on debug

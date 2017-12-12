@@ -4,16 +4,15 @@
 #include <signal.h>
 #include <stdio.h>
 
-
 #define IIRORDER 2
 
 void test_closedloop() {
 	// We have one input
-	int nInputs = 1;
+	int nInputs = 3;
 	// We have one output neuron
 	int nOutputs = 1;
 	// We have two hidden layers
-	int nHiddenLayers = 3;
+	int nHiddenLayers = 1;
 	// We set two neurons in the first hidden layer
 	int nNeuronsInHiddenLayers[] = {2,2,2,2};
 	// We set nFilters in the input
@@ -35,7 +34,7 @@ void test_closedloop() {
 			maxT);
 
 	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-	deep_fbl->setLearningRate(1);
+	deep_fbl->setLearningRate(0.01);
 	deep_fbl->setLearningRateDiscountFactor(1);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->setBias(0);
@@ -61,16 +60,25 @@ void test_closedloop() {
 
 	float fb_gain = 5;
 	
-	for(int step = 0; step < 1000000; step++) {
+	for(int step = 0; step < 100000; step++) {
 
 		int n = step % 1000;
 		
-		pred = 0;
+		float pred[nInputs];
+		pred[0] = 0;
+		pred[1] = 0;
+		pred[2] = 0;
 		dist = 0;
 		if ((n>100)&&(n<1000)) {
-			pred = 0;
-			if (n<200) {
-				pred = 1;
+			pred[0] = 0;
+			if ((n>200)&&(n<800)) {
+				pred[0] = 1;
+			}
+			if ((n>200)&&(n<300)) {
+				pred[1] = 1;
+			}
+			if ((n>400)&&(n<500)) {
+				pred[2] = 1;
 			}
 			if ((n>500)&&(n<800)) {
 				dist = 1;
@@ -81,7 +89,7 @@ void test_closedloop() {
 		}
 
 		for(int i=0;i<nInputs;i++) {
-			input[i] = pred*0.1;
+			input[i] = pred[i]*0.1;
 		}
 		
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
@@ -95,7 +103,7 @@ void test_closedloop() {
 		err = (setpoint - x0) * fb_gain;
 
 		// feedback filter plus the learned one
-		v = h0.filter(err) + 10 * deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
+		v = h0.filter(err) + 100 * deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
 
 		// the output of the controller plus disturbance
 		v0 = dist + v;
@@ -104,7 +112,7 @@ void test_closedloop() {
 		// controller
 		x0 = p0.filter(v0);
 		
-		fprintf(f,"%d %f %f %f %f ",step,pred,dist,err,v);
+		fprintf(f,"%d %f %f %f %f ",step,pred[0],dist,err,v);
 
 		fprintf(f,
 			"%f ",

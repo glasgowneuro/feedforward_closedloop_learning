@@ -12,4 +12,4 @@ sudo make install
 2) Compile the program:
 make
 qmake
-./playground
+./linefollower
