@@ -15,7 +15,7 @@ protected:
 	const double speed = 20;
 	const double fbgain = 100;
 
-	// We have one input
+	// number of sensor array inputs
 	int nInputs = 1;
 	// We have one output neuron
 	int nOutputs = 1;
@@ -31,13 +31,15 @@ protected:
 	double minT = 100;
 	double maxT = 500;
 	
-	DeepFeedbackLearning* deep_fbl;
+	DeepFeedbackLearning* deep_fbl = NULL;
 
-	
+	double* pred = NULL;
+	double* err = NULL;
+
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
 		EnkiWidget(world, parent) {
-
+		
 		// setting up the robot
 		racer = new Racer;
 		racer->pos = Point(40, 60);
@@ -45,8 +47,12 @@ public:
 		racer->rightSpeed = speed;
 		world->addObject(racer);
 
+		nInputs = racer->nSensors;
+		pred = new double[nInputs];
+		err = new double[nNeuronsInHiddenLayers[0]];
+
 		// setting up deep feedback learning
-		DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(
+		deep_fbl = new DeepFeedbackLearning(
 			nInputs,
 			nNeuronsInHiddenLayers,
 			nHiddenLayers,
@@ -79,8 +85,17 @@ public:
 		racer->leftSpeed = speed-rightIR/100+error*fbgain;
 		racer->rightSpeed = speed-leftIR/100-error*fbgain;
 		for(int i=0;i<racer->nSensors;i++) {
-			fprintf(stderr,"%f ",racer->groundSensorArray[i]->getValue());
 		}
+		for(int i=0;i<nInputs;i++) {
+			pred[i] = -(racer->groundSensorArray[i]->getValue())*100;
+			fprintf(stderr,"%f ",pred[i]);
+		}
+		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
+                        err[i] = error;
+                }
+		deep_fbl->doStep(pred,err);
+		float v = deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
+		fprintf(stderr,"%f ",v);
 		fprintf(stderr,"\n");
 	}
 
