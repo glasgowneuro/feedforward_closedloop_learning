@@ -13,14 +13,14 @@ protected:
 	Racer* racer;
 
 	const double speed = 30;
-	const double fbgain = 100;
+	const double fbgain = 150;
 
 	// number of sensor array inputs
 	int nInputs = 1;
 	// We have one output neuron
 	int nOutputs = 1;
 	// We have two hidden layers
-	int nHiddenLayers = 3;
+	int nHiddenLayers = 1;
 	// We set two neurons in the first hidden layer
 	int nNeuronsInHiddenLayers[4] = {2,2,2,2};
 	// We set nFilters in the input
@@ -63,7 +63,7 @@ public:
 			maxT);
 
 		deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-		deep_fbl->setLearningRate(0.01);
+		deep_fbl->setLearningRate(0.1);
 		deep_fbl->setLearningRateDiscountFactor(1);
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(1);
@@ -94,10 +94,12 @@ public:
 		deep_fbl->doStep(pred,err);
 		float v = deep_fbl->getOutputLayer()->getNeuron(0)->getOutput();
 		v = v * 10;
+		error = error * fbgain;
+		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",v);
 		fprintf(stderr,"\n");
-		racer->leftSpeed = speed-rightIR/100+error*fbgain+v;
-		racer->rightSpeed = speed-leftIR/100-error*fbgain-v;
+		racer->leftSpeed = speed-rightIR/100+error+v;
+		racer->rightSpeed = speed-leftIR/100-error-v;
 	}
 
 };
@@ -114,7 +116,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	const uint32_t *bits = (const uint32_t*)gt.constBits();
-	World world(120, Color(0.9, 0.9, 0.9), World::GroundTexture(gt.width(), gt.height(), bits));
+	World world(300, 300, Color(0.9, 0.9, 0.9), World::GroundTexture(gt.width(), gt.height(), bits));
 	LineFollower linefollower(&world);
 	linefollower.show();
 	return app.exec();

@@ -14,11 +14,14 @@ namespace Enki
 		addLocalInteraction(&groundSensorLeft);
 		addLocalInteraction(&groundSensorRight);
 
+		const int sensorArrayPos = 30;
 		groundSensorArray = new GroundSensor*[nSensors];
 		double width = 20;
 		double d = width*2 / (nSensors-1);
 		for(int i=0;i<nSensors;i++) {
-			groundSensorArray[i] = new GroundSensor(this, Vector(sensorArrayPos, -width+d*i), 0, 1, 1, -0.731059);
+			float y = -width+d*i;
+			fprintf(stderr,"%f\n",y);
+			groundSensorArray[i] = new GroundSensor(this, Vector(sensorArrayPos,y), 0, 1, 1, -0.731059);
 			addLocalInteraction(groundSensorArray[i]);
 		}
 		
