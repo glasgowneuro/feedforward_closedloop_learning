@@ -14,7 +14,7 @@ namespace Enki
 		addLocalInteraction(&groundSensorLeft);
 		addLocalInteraction(&groundSensorRight);
 
-		const int sensorArrayPos = 30;
+		const int sensorArrayPos = 50;
 		groundSensorArray = new GroundSensor*[nSensors];
 		double width = 20;
 		double d = width*2 / (nSensors-1);

@@ -3,6 +3,9 @@
 #include <QApplication>
 #include <QtGui>
 #include "deep_feedback_learning.h"
+#include <Iir.h>
+
+#define IIRORDER 2
 
 using namespace Enki;
 using namespace std;
@@ -12,37 +15,47 @@ class LineFollower : public EnkiWidget
 protected:
 	Racer* racer;
 
-	const double speed = 30;
-	const double fbgain = 150;
+	const double speed = 75;
+	const double fbgain = 200;
 
 	// number of sensor array inputs
 	int nInputs = 1;
 	// We have one output neuron
 	int nOutputs = 1;
 	// We have two hidden layers
-	int nHiddenLayers = 1;
+	int nHiddenLayers = 2;
 	// We set two neurons in the first hidden layer
-	int nNeuronsInHiddenLayers[4] = {2,2,2,2};
+	int nNeuronsInHiddenLayers[6] = {2,2,2,2,2,2};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
 	int nFiltersHidden = 10;
 	// Filterbank
-	double minT = 100;
-	double maxT = 500;
+	double minT = 10;
+	double maxT = 100;
+
+	double learningRate = 0.01;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
 	double* pred = NULL;
 	double* err = NULL;
 
+	FILE * flog = NULL;
+
+	Iir::Bessel::LowPass<IIRORDER> p0;
+	Iir::Bessel::LowPass<IIRORDER> s0;
+
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
 		EnkiWidget(world, parent) {
+
+		flog = fopen("log.dat","wt");
 		
 		// setting up the robot
 		racer = new Racer;
-		racer->pos = Point(40, 60);
+		racer->pos = Point(100, 40);
+		racer->angle = 1;
 		racer->leftSpeed = speed;
 		racer->rightSpeed = speed;
 		world->addObject(racer);
@@ -63,12 +76,19 @@ public:
 			maxT);
 
 		deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-		deep_fbl->setLearningRate(0.1);
+		deep_fbl->setLearningRate(learningRate);
 		deep_fbl->setLearningRateDiscountFactor(1);
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(1);
 		deep_fbl->setUseDerivative(1);
-		
+	
+		p0.setup(IIRORDER,1,0.02);
+		s0.setup(IIRORDER,1,0.05);
+
+	}
+
+	~LineFollower() {
+		fclose(flog);
 	}
 
 	// here we do all the behavioural computations
@@ -77,7 +97,9 @@ public:
 	{
 		double leftIR = racer->infraredSensorLeft.getValue();
 		double rightIR = racer->infraredSensorRight.getValue();
-		//fprintf(stderr,"%f %f\n",left,right);
+		if (leftIR<100) leftIR = 0;
+		if (rightIR<100) rightIR = 0;
+		//fprintf(stderr,"%f %f\n",leftIR,rightIR);
 		double leftGround = racer->groundSensorLeft.getValue();
 		double rightGround = racer->groundSensorRight.getValue();
 		double error = leftGround-rightGround;
@@ -85,7 +107,7 @@ public:
 		for(int i=0;i<racer->nSensors;i++) {
 		}
 		for(int i=0;i<nInputs;i++) {
-			pred[i] = -(racer->groundSensorArray[i]->getValue())*100;
+			pred[i] = -(racer->groundSensorArray[i]->getValue())*10;
 			fprintf(stderr,"%f ",pred[i]);
 		}
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
@@ -98,8 +120,11 @@ public:
 		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",v);
 		fprintf(stderr,"\n");
-		racer->leftSpeed = speed-rightIR/100+error+v;
-		racer->rightSpeed = speed-leftIR/100-error-v;
+		double dreflex = p0.filter(rightIR-leftIR);
+		double sreflex = s0.filter(rightIR+leftIR);
+		racer->leftSpeed = speed+dreflex/4+error+v-sreflex;
+		racer->rightSpeed = speed-dreflex/4-error-v-sreflex;
+		fprintf(flog,"%f %f\n",error,v);
 	}
 
 };
@@ -108,7 +133,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
-	QString filename("track.png");
+	QString filename("track2.png");
 	QImage gt;
 	gt = QGLWidget::convertToGLFormat(QImage(filename));
 	if (gt.isNull()) {
