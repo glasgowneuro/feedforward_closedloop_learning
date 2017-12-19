@@ -77,6 +77,8 @@ public:
 	void setBias(double _bias);
 	
 	int getNumHidLayers() {return num_hid_layers;};
+	int getNumLayers() {return num_hid_layers+1;};
+	
 	Layer* getLayer(int i) {assert (i<=num_hid_layers); return layers[i];};
 	Layer* getOutputLayer() {return layers[num_hid_layers];};
 	Layer** getLayers() {return layers;};
@@ -99,7 +101,7 @@ private:
 	int nfHidden;
 	double minT,maxT;
 
-	double learningRateDiscountFactor = 0;
+	double learningRateDiscountFactor = 1;
 
 	long int step = 0;
 

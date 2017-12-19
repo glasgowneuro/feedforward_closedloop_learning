@@ -296,15 +296,7 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 #endif
 //				if (fabs(err)>0) fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
-//			receiverLayer->getNeuron(i)->setError(dsigm(receiverLayer->getNeuron(i)->getOutput()) * err);
-			if (learningRateDiscountFactor>0) {
-//				double norm = receiverLayer->getNeuron(i)->getEuclideanNormOfWeightVector();
-				double norm = receiverLayer->getNeuron(i)->getAverageOfWeightVector();
-				norm = fabs(norm);
-				if (norm>0) {
-					err = (err / norm) * learningRateDiscountFactor;
-				}
-			}
+			err = err * learningRateDiscountFactor;
 			receiverLayer->getNeuron(i)->setError(err * receiverLayer->getNeuron(i)->dActivation());
 		}
 	}
