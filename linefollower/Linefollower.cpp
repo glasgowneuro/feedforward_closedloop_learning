@@ -44,7 +44,6 @@ protected:
 
 	Iir::Bessel::LowPass<IIRORDER> p0;
 	Iir::Bessel::LowPass<IIRORDER> s0;
-	Iir::Bessel::LowPass<IIRORDER> e0;
 
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
@@ -83,8 +82,6 @@ public:
 	
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);
-		e0.setup(IIRORDER,1,0.4);
-
 	}
 
 	~LineFollower() {
@@ -123,7 +120,6 @@ public:
 		deep_fbl->doStep(pred,err);
 		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*100;
 		float vR = (deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*100;
-		//error = e0.filter(error * fbgain);
 		error = error * fbgain;
 		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",vL);
@@ -146,15 +142,17 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
-	QString filename("track.png");
-	QImage gt;
-	gt = QGLWidget::convertToGLFormat(QImage(filename));
-	if (gt.isNull()) {
-		fprintf(stderr,"Texture file not found\n");
+	QString filename("loop.png");
+	QImage loopImage;
+	loopImage = QGLWidget::convertToGLFormat(QImage(filename));
+	if (loopImage.isNull()) {
+		fprintf(stderr,"Racetrack file not found\n");
 		exit(1);
 	}
-	const uint32_t *bits = (const uint32_t*)gt.constBits();
-	World world(300, 300, Color(0.9, 0.9, 0.9), World::GroundTexture(gt.width(), gt.height(), bits));
+	const uint32_t *bitmap = (const uint32_t*)loopImage.constBits();
+	World world(300, 300,
+		    Color(0.9, 0.9, 0.9),
+		    World::GroundTexture(loopImage.width(), loopImage.height(), bitmap));
 	LineFollower linefollower(&world);
 	linefollower.show();
 	return app.exec();
