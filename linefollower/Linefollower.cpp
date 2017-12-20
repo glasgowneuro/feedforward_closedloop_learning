@@ -22,18 +22,18 @@ protected:
 	// We have one output neuron
 	int nOutputs = 2;
 	// We have two hidden layers
-	int nHiddenLayers = 1;
+	int nHiddenLayers = 3;
 	// We set two neurons in the first hidden layer
 	int nNeuronsInHiddenLayers[6] = {5,5,5,5,5,5};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
-	int nFiltersHidden = 10;
+	int nFiltersHidden = 0;
 	// Filterbank
 	double minT = 5;
 	double maxT = 50;
 
-	double learningRate = 2;
+	double learningRate = 0.1;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
@@ -79,7 +79,7 @@ public:
 		deep_fbl->setLearningRateDiscountFactor(1);
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(0);
-		deep_fbl->setUseDerivative(1);
+		deep_fbl->setUseDerivative(0);
 	
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);
@@ -121,9 +121,10 @@ public:
                         err[i] = error;
                 }
 		deep_fbl->doStep(pred,err);
-		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*10;
-		float vR = (deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10;
-		error = e0.filter(error * fbgain);
+		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*100;
+		float vR = (deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*100;
+		//error = e0.filter(error * fbgain);
+		error = error * fbgain;
 		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",vL);
 		fprintf(stderr,"%f ",vR);
@@ -145,7 +146,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
-	QString filename("track2.png");
+	QString filename("track.png");
 	QImage gt;
 	gt = QGLWidget::convertToGLFormat(QImage(filename));
 	if (gt.isNull()) {

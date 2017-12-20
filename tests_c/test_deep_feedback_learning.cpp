@@ -83,7 +83,7 @@ void test_learning() {
 			for(int j=0;j<2;j++) {
 				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
 					fprintf(f, "%f ",
-							deep_fbl->getLayer(k)->getNeuron(i)->getWeight(j));
+							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
 				}
 			}
 		}
@@ -91,7 +91,7 @@ void test_learning() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%f ",
-					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
+					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
@@ -150,7 +150,7 @@ void test_learning_and_filters() {
 				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
 					fprintf(f,
 							"%e ",
-							deep_fbl->getLayer(k)->getNeuron(i)->getWeight(j));
+							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
 				}
 			}
 		}
@@ -158,7 +158,7 @@ void test_learning_and_filters() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					deep_fbl->getOutputLayer()->getNeuron(i)->getWeight(j));
+					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {

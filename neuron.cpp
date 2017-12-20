@@ -172,7 +172,7 @@ void Neuron::calcOutputWithoutFilterbank() {
 
 void Neuron::calcOutput() {
 
-	if ((bandpass)&&(!maxDet)) {
+	if (bandpass) {
 		calcFilterbankOutput();
 	} else {
 		calcOutputWithoutFilterbank();

@@ -67,16 +67,17 @@ public:
 
 	inline double getOutput() { return output; };
 	inline double getSum() { return sum; };
-	inline double getWeight( int _index,  int _filter = 0) {
+	inline double getWeight( int _index,  int _filter) {
 #ifdef RANGE_CHECKS
 		if (!((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters))) {
 			fprintf(stderr,"BUG! in Neuron::%s, layer=%d, _index=%d, _filter=%d\n",__FUNCTION__,layerIndex,_index,_filter);
 			assert(0==1);
 		}
 #endif
+		
 		return mask[_index] ? weights[_index][_filter] : 0;
 	};
-	inline void setWeight( int _index,  double _weight,  int _filter = 0) {
+	inline void setWeight( int _index,  double _weight,  int _filter) {
 		assert((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters));
 		weights[_index][_filter]=_weight;
 	};

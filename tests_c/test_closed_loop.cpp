@@ -122,15 +122,15 @@ void test_closedloop() {
 			for(int j=0;j<nInputs;j++) {
 				fprintf(f,
 					"%e ",
-					deep_fbl->getLayer(0)->getNeuron(i)->getWeight(j));
+					deep_fbl->getLayer(0)->getNeuron(i)->getAvgWeight(j));
 			}
 		}
 		fprintf(f,
 			"%e ",
-			deep_fbl->getOutputLayer()->getNeuron(0)->getWeight(0));
+			deep_fbl->getOutputLayer()->getNeuron(0)->getAvgWeight(0));
 		fprintf(f,
 			"%e ",
-			deep_fbl->getOutputLayer()->getNeuron(0)->getWeight(1));
+			deep_fbl->getOutputLayer()->getNeuron(0)->getAvgWeight(1));
 		fprintf(f,"\n");
 		
 	}
