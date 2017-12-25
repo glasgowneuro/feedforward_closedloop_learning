@@ -3,7 +3,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef __linux__
 #include <pthread.h>
+#endif
 
 /**
  * GNU GENERAL PUBLIC LICENSE
@@ -38,6 +40,8 @@ Layer::~Layer() {
 	delete [] neurons;
 }
 
+#ifdef __linux__
+
 void Layer::calcOutputs() {
 	pthread_t t[nNeurons];
 	for(int i=0;i<nNeurons;i++) {
@@ -67,6 +71,33 @@ void Layer::doLearning() {
 		neurons[i]->normaliseWeights();	
 	}
 }
+
+#else
+
+void Layer::calcOutputs() {
+	for (int i = 0; i<nNeurons; i++) {
+		neurons[i]->calcOutput();
+	}
+}
+
+void Layer::doLearning() {
+	if (maxDetLayer) {
+		for (int i = 0; i<nNeurons; i++) {
+			neurons[i]->doMaxDet();
+		}
+	}
+	else {
+		for (int i = 0; i<nNeurons; i++) {
+			neurons[i]->doLearning();
+		}
+	}
+	if (!normaliseWeights) return;
+	for (int i = 0; i<nNeurons; i++) {
+		neurons[i]->normaliseWeights();
+	}
+}
+
+#endif
 
 
 void Layer::setNormaliseWeights(int _normaliseWeights) {

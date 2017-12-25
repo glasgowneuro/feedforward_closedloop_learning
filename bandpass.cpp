@@ -2,8 +2,9 @@
 #include <math.h>
 #include <complex>
 #include <stdio.h>
+#ifdef __linux__
 #include <unistd.h>
-
+#endif
 
 
 Bandpass::Bandpass() {

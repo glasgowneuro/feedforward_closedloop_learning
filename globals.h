@@ -17,4 +17,16 @@
 // #define NO_DERIV_ACTIVATION
 
 
+#ifdef _WIN32
+
+#define srandom srand
+#define random rand
+
+#define _USE_MATH_DEFINES // for C++  
+#include <cmath>  
+
+#endif
+
+
+
 #endif

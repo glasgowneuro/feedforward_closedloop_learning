@@ -12,6 +12,8 @@ class Bandpass;
 
 #include <assert.h>
 
+#include "globals.h"
+
 class Bandpass {
 public:
 	/**
