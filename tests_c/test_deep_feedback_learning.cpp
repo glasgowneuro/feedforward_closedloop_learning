@@ -1,11 +1,11 @@
 #include "deep_feedback_learning.h"
-#include <Iir.h>
 #include<stdio.h>
 #include <signal.h>
 #include <stdio.h>
 #include <signal.h>
+#ifdef __linux__
 #include <execinfo.h>
-
+#endif
 
 // inits the network with random weights with quite a few hidden units so that
 // a nice response is generated
