@@ -577,7 +577,7 @@ double Neuron::getAvgWeight( int _input) {
 	return w/((double)n);
 }
 
-double Neuron::getAvgWeightCh( int _input) {
+double Neuron::getAvgWeightChange( int _input) {
 	if (!mask[_input]) return 0;
 	int n=0;
 	double wch=0;
@@ -590,12 +590,12 @@ double Neuron::getAvgWeightCh( int _input) {
 	return wch/((double)n);
 }
 
-double Neuron::getAvgWeightCh() {
+double Neuron::getAvgWeightChange() {
 	double wch=0;
 	int n=0;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {
-			wch += getAvgWeightCh(i);
+			wch += getAvgWeightChange(i);
 			n++;
 		}
 	}

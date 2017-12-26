@@ -1,5 +1,5 @@
-#CFLAGS = -g -O0 -march=native -std=c++11 -DRANGE_CHECKS
-CFLAGS = -Ofast -march=native -std=c++11
+CFLAGS = -g -O0 -march=native -std=c++11 -DRANGE_CHECKS
+#CFLAGS = -Ofast -march=native -std=c++11
 LDFLAGS = -pthread -std=c++11 -liir
 
 all: deep_feedback_learning.py deep_feedback_learning.a tests_c

@@ -12,16 +12,18 @@
 void test_forward() {
 	int nFiltersInput = 10;
 	int nFiltersHidden = 10;
-	int nHidden[] = {10,10};
+	int nNeuronsHidden[] = {10,10};
 
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
 	deep_fbl->setLearningRate(0.0);
 	// random init
 	deep_fbl->initWeights(0.1);
+	// matters in terms of the error signal 
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
 
 	double input[2];
-	double error[2];
+	double error[1];
 
 	for(int n = 0; n < 1000;n++) {
 

@@ -240,10 +240,7 @@ void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 				// that is the error from neuron j in the emitter
 				// layer influencing the error in the receiver
 				// layer i weighted by its corresponding weight
-				for(k=0;k<emitterLayer->getNeuron(j)->getNfilters();k++) {
-					err = err + emitterLayer->getNeuron(j)->getWeight(i,k) *
-						emitterLayer->getNeuron(j)->getError();
-				}
+				err = err + emitterLayer->getNeuron(j)->getAvgWeight(i);
 				// sanity check that it's not NAN
 				assert(!isnan(err));
 				//fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
