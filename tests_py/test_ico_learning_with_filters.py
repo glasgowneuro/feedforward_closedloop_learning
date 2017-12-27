@@ -53,8 +53,8 @@ with open('test_bp_filt_py.csv', 'ab') as csvfile:
         net.doStep([inp,0],[err,err])
         # gets the output of the output neuron
         outp[i] = net.getOutput(0)
-        a[i]=net.getLayer(0).getNeuron(0).getWeight(0)
-        b[i]=net.getLayer(1).getNeuron(0).getWeight(0)
+        a[i]=net.getLayer(0).getNeuron(0).getAvgWeight(0)
+        b[i]=net.getLayer(1).getNeuron(0).getAvgWeight(0)
         np.savetxt(csvfile,np.hstack((inp,err,outp[i])),delimiter="\t",newline="\t")
         crlf="\n"
         csvfile.write(crlf.encode())
