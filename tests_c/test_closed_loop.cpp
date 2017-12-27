@@ -140,5 +140,7 @@ void test_closedloop() {
 
 
 int main(int n,char** args) {
+	fprintf(stderr,"Use linefollower for now. This is broken. B\n");
+	exit(1);
 	test_closedloop();
 }

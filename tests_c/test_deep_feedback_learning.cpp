@@ -16,11 +16,12 @@ void test_forward() {
 
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
-	deep_fbl->setLearningRate(0.0);
-	// random init
-	deep_fbl->initWeights(0.1);
 	// matters in terms of the error signal 
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
+	// no learning
+	deep_fbl->setLearningRate(0.0);
+	// random init
+	deep_fbl->initWeights(1);
 
 	double input[2];
 	double error[1];
@@ -28,16 +29,18 @@ void test_forward() {
 	for(int n = 0; n < 1000;n++) {
 
 		input[0] = 0;
+		input[1] = 0;
 		if ((n>10)&&(n<20)) {
 			input[0] = 0.1;
+			input[1] = 0.1;
 		}
 		fprintf(f,"%f ",input[0]);
 
 		deep_fbl->doStep(input,error);
 		for(int i=0; i<deep_fbl->getNumHidLayers(); i++) {
-			fprintf(f,"%f ",deep_fbl->getLayer(i)->getNeuron(0)->getSum());
+			fprintf(f,"%e ",deep_fbl->getLayer(i)->getNeuron(0)->getSum());
 		}
-		fprintf(f,"%f ",deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
+		fprintf(f,"%e ",deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
 		
 		fprintf(f,"\n");
 		
@@ -48,29 +51,32 @@ void test_forward() {
 
 
 
-void test_learning() {
+void test_learning_ico() {
 	int nHidden[] = {2};
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
 	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->setLearningRate(0.01);
+	deep_fbl->setLearningRate(0.001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
+	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	deep_fbl->setLearningRateDiscountFactor(1);
+	deep_fbl->setBias(0);
+	deep_fbl->setUseDerivative(0);
+
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
 	double input[2];
 	double error[2];	
 	
-	for(int n = 0; n < 1000;n++) {
+	for(int n = 0; n < 10000;n++) {
 		
 		double stim = 0;
 		double err = 0;
-		if ((n>10)&&(n<1000)) {
+		int n2 = n% 1000;
+		if ((n2>100)&&(n2<1000)) {
 			stim = 1;
-			if ((n>500)&&(n<600)) {
+			if ((n2>500)&&(n2<600)) {
 				err = 1;
-			}
-			if ((n>700)&&(n<800)) {
-				err = -1;
 			}
 		}
 		fprintf(f,"%f %f ",stim,err);
@@ -84,7 +90,7 @@ void test_learning() {
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
-					fprintf(f, "%f ",
+					fprintf(f, "%e ",
 							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
 				}
 			}
@@ -92,13 +98,13 @@ void test_learning() {
 		for(int i=0;i<1;i++) {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
-					"%f ",
+					"%e ",
 					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
-				"%f ",
+				"%e ",
 				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
@@ -109,37 +115,34 @@ void test_learning() {
 }
 
 
-void test_learning_and_filters() {
+void test_learning_backprop() {
 	int nHidden[] = {2};
-	int nFiltersInput = 5;
-	int nFiltersHidden = 5;
-	double minT = 3;
-	double maxT = 15;
-	
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1,nFiltersInput, nFiltersHidden, minT,maxT);
-	deep_fbl->initWeights(0.001,0,Neuron::MAX_OUTPUT_CONST);
-	deep_fbl->setLearningRate(0.0001);
-	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
+	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->setLearningRate(0.001);
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
+	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
 	deep_fbl->setBias(0);
+	deep_fbl->setUseDerivative(0);
+
 	
-	FILE* f=fopen("test_deep_fbl_cpp_learning_with_filters.dat","wt");
+	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
-	double input[1];
-	double error[2];
-
-	int rep = 200;
+	double input[2];
+	double error[2];	
 	
 	for(int n = 0; n < 10000;n++) {
 		
 		double stim = 0;
 		double err = 0;
-		if (((n%rep)>100)&&((n%rep)<105)) {
+		int n2 = n% 1000;
+		if ((n2>100)&&(n2<1000)) {
 			stim = 1;
+			if ((n2>500)&&(n2<600)) {
+				err = 1;
+			}
 		}
-		if (((n%rep)>105)&&((n%rep)<110)&&(n<9000)) {
-			err = 1;
-		}
-		fprintf(f,"%e %e ",stim,err);
+		fprintf(f,"%f %f ",stim,err);
 
 		input[0] = stim;
 		error[0] = err;
@@ -150,8 +153,7 @@ void test_learning_and_filters() {
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
 				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
-					fprintf(f,
-							"%e ",
+					fprintf(f, "%e ",
 							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
 				}
 			}
@@ -177,12 +179,165 @@ void test_learning_and_filters() {
 
 
 
+
+
+
+void test_learning_ico_filters() {
+	int nHidden[] = {2};
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
+	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->setLearningRate(0.001);
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
+	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	deep_fbl->setLearningRateDiscountFactor(1);
+	deep_fbl->setBias(0);
+	deep_fbl->setUseDerivative(0);
+
+	
+	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
+
+	double input[2];
+	double error[2];	
+	
+	for(int n = 0; n < 10000;n++) {
+		
+		double stim = 0;
+		double err = 0;
+		int n2 = n% 1000;
+		if ((n2>100)&&(n2<1000)) {
+			stim = 1;
+			if ((n2>500)&&(n2<600)) {
+				err = 1;
+			}
+		}
+		fprintf(f,"%f %f ",stim,err);
+
+		input[0] = stim;
+		error[0] = err;
+		error[1] = err;
+
+		deep_fbl->doStep(input,error);
+
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<2;j++) {
+				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
+					fprintf(f, "%e ",
+							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
+				}
+			}
+		}
+		for(int i=0;i<1;i++) {
+			for(int j=0;j<2;j++) {
+				fprintf(f,
+					"%e ",
+					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
+			}
+		}
+		for(int i=0;i<1;i++) {
+			fprintf(f,
+				"%e ",
+				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
+		}
+		fprintf(f,"\n");
+		
+	}
+
+	fclose(f);
+}
+
+
+void test_learning_backprop_filters() {
+	int nHidden[] = {2};
+	double minT = 5;
+	double maxT = 50;
+
+	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(
+		2,
+		nHidden,1,
+		1,
+		10,
+		0,
+		minT,
+		maxT);
+
+	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->setLearningRate(0.001);
+	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
+	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	deep_fbl->setBias(0);
+	deep_fbl->setUseDerivative(0);
+
+	
+	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
+
+	double input[2];
+	double error[2];	
+	
+	for(int n = 0; n < 10000;n++) {
+		
+		double stim = 0;
+		double err = 0;
+		int n2 = n% 1000;
+		if ((n2>100)&&(n2<1000)) {
+			stim = 1;
+			if ((n2>500)&&(n2<600)) {
+				err = 1;
+			}
+		}
+		fprintf(f,"%f %f ",stim,err);
+
+		input[0] = stim;
+		error[0] = err;
+		error[1] = err;
+
+		deep_fbl->doStep(input,error);
+
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<2;j++) {
+				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
+					fprintf(f, "%e ",
+							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
+				}
+			}
+		}
+		for(int i=0;i<1;i++) {
+			for(int j=0;j<2;j++) {
+				fprintf(f,
+					"%e ",
+					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
+			}
+		}
+		for(int i=0;i<1;i++) {
+			fprintf(f,
+				"%e ",
+				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
+		}
+		fprintf(f,"\n");
+		
+	}
+
+	fclose(f);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 int main(int n,char** args) {
 	if (n<2) {
 		fprintf(stderr,"%s <number>:\n",args[0]);
 		fprintf(stderr,"0=network test / no learning\n");
-		fprintf(stderr,"1=learning w/o filters\n");
-		fprintf(stderr,"2=learning with filters\n");
+		fprintf(stderr,"1=ico learning w/o filters\n");
+		fprintf(stderr,"2=backprop learning w/o filters\n");
+		fprintf(stderr,"3=ico learning with filters\n");
+		fprintf(stderr,"4=backprop learning with filters\n");
 		exit(0);
 	}
 	switch (atoi(args[1])) {
@@ -190,10 +345,16 @@ int main(int n,char** args) {
 		test_forward();
 		break;
 	case 1:
-		test_learning();
+		test_learning_ico();
 		break;
 	case 2:
-		test_learning_and_filters();
+		test_learning_backprop();
+		break;
+	case 3:
+		test_learning_ico_filters();
+		break;
+	case 4:
+		test_learning_backprop_filters();
 		break;
 	}
 }
