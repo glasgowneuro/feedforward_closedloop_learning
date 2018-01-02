@@ -20,13 +20,13 @@ layer.o: layer.cpp layer.h neuron.o bandpass.o globals.h
 deep_feedback_learning.o: deep_feedback_learning.cpp deep_feedback_learning.h layer.o neuron.o bandpass.o globals.h
 	g++ $(CFLAGS) -fPIC -c deep_feedback_learning.cpp
 
+deep_feedback_learning.a: bandpass.o neuron.o layer.o deep_feedback_learning.o
+	ar rcs deep_feedback_learning.a bandpass.o neuron.o layer.o deep_feedback_learning.o
+
 deep_feedback_learning.py: deep_feedback_learning.i bandpass.o neuron.o layer.o deep_feedback_learning.o
 	swig -c++ -python -py3 deep_feedback_learning.i
 	g++ -fPIC $(CFLAGS) -c deep_feedback_learning_wrap.cxx -I /usr/include/python3.5
 	g++ -fPIC -shared bandpass.o neuron.o layer.o deep_feedback_learning.o deep_feedback_learning_wrap.o -o _deep_feedback_learning.so $(LDFLAGS) 
-
-deep_feedback_learning.a: bandpass.o neuron.o layer.o deep_feedback_learning.o
-	ar rcs deep_feedback_learning.a bandpass.o neuron.o layer.o deep_feedback_learning.o
 
 clean:
 	rm -rf *.o test_deep_feedback_learning test_neuron *~ *.dat deep_feedback_learning_wrap.cxx *.so *.pyc deep_feedback_learning.py *.csv *.dat

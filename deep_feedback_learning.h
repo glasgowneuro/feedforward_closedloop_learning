@@ -72,7 +72,7 @@ public:
 
 	void initWeights(double max = 0.001, int initBias = 1, Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
 
-	void seedRandom(int s) { srandom(s); };
+	void seedRandom(int s) { srand(s); };
 
 	void setBias(double _bias);
 	

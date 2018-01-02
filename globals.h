@@ -17,12 +17,11 @@
 // #define NO_DERIV_ACTIVATION
 
 
+
 #ifdef _WIN32
 
-#define srandom srand
-#define random rand
-
-#define _USE_MATH_DEFINES // for C++  
+// that includes the standard M_PI etc stuff
+#define _USE_MATH_DEFINES
 #include <cmath>  
 
 #endif

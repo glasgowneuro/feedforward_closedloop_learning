@@ -480,7 +480,7 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 			switch (weightInitMethod) {
 			case MAX_WEIGHT_RANDOM:
 			case MAX_OUTPUT_RANDOM:
-				weights[i][j] = (((double)random()*2)/((double)RAND_MAX)*max)-max;
+				weights[i][j] = (((double)rand()*2)/((double)RAND_MAX)*max)-max;
 				//fprintf(stderr,"Init Weights: weight(%d,%d)=%f\n",i,j,weights[i][j]);
 				break;
 			case CONST_WEIGHTS:
@@ -495,7 +495,7 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 		switch (weightInitMethod) {
 		case MAX_WEIGHT_RANDOM:
 		case MAX_OUTPUT_RANDOM:
-			biasweight = (((double)random()*2)/((double)RAND_MAX)*max)-max;
+			biasweight = (((double)rand()*2)/((double)RAND_MAX)*max)-max;
 			break;
 		case CONST_WEIGHTS:
 		case MAX_OUTPUT_CONST:

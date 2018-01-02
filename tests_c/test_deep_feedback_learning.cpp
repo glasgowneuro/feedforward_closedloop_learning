@@ -15,13 +15,14 @@ void test_forward() {
 	int nNeuronsHidden[] = {10,10};
 
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
+	deep_fbl->seedRandom(1);
 	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
 	// matters in terms of the error signal 
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
 	// no learning
 	deep_fbl->setLearningRate(0.0);
 	// random init
-	deep_fbl->initWeights(1);
+	deep_fbl->initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
 
 	double input[2];
 	double error[1];
@@ -54,7 +55,7 @@ void test_forward() {
 void test_learning_ico() {
 	int nHidden[] = {2};
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
-	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->seedRandom(1);
 	deep_fbl->setLearningRate(0.001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
@@ -65,8 +66,8 @@ void test_learning_ico() {
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
-	double input[2];
-	double error[2];	
+	double input[2] = { 0,0 };
+	double error[2] = { 0,0 };
 	
 	for(int n = 0; n < 10000;n++) {
 		
@@ -118,7 +119,7 @@ void test_learning_ico() {
 void test_learning_backprop() {
 	int nHidden[] = {2};
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
-	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->seedRandom(1);
 	deep_fbl->setLearningRate(0.001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
 	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
@@ -128,9 +129,9 @@ void test_learning_backprop() {
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
-	double input[2];
-	double error[2];	
-	
+	double input[2] = { 0,0 };
+	double error[2] = { 0,0 };
+
 	for(int n = 0; n < 10000;n++) {
 		
 		double stim = 0;
@@ -185,7 +186,7 @@ void test_learning_backprop() {
 void test_learning_ico_filters() {
 	int nHidden[] = {2};
 	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
-	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->seedRandom(1);
 	deep_fbl->setLearningRate(0.001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
@@ -196,9 +197,9 @@ void test_learning_ico_filters() {
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
-	double input[2];
-	double error[2];	
-	
+	double input[2] = { 0,0 };
+	double error[2] = { 0,0 };
+
 	for(int n = 0; n < 10000;n++) {
 		
 		double stim = 0;
@@ -260,7 +261,7 @@ void test_learning_backprop_filters() {
 		minT,
 		maxT);
 
-	deep_fbl->initWeights(0.1,0,Neuron::MAX_OUTPUT_CONST);
+	deep_fbl->seedRandom(1);
 	deep_fbl->setLearningRate(0.001);
 	deep_fbl->setAlgorithm(DeepFeedbackLearning::backprop);
 	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
@@ -270,9 +271,9 @@ void test_learning_backprop_filters() {
 	
 	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
 
-	double input[2];
-	double error[2];	
-	
+	double input[2] = { 0,0 };
+	double error[2] = { 0,0 };
+
 	for(int n = 0; n < 10000;n++) {
 		
 		double stim = 0;
