@@ -96,27 +96,19 @@ game.set_mode(Mode.PLAYER)
 #game.set_console_enabled(True)
 
 nFiltersInput = 2
-nFiltersHidden = 2
 minT = 2
 maxT = 10
 nHidden0 = 4
 nHidden1 = 2
 
-learningRate = 0.00005
+learningRate = 0.000005
 
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, nFiltersHidden, minT,maxT)
-#net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0,nHidden1*nHidden1], 1)
-net.getLayer(0).setConvolution(widthNet,heightNet)
-net.getLayer(1).setConvolution(nHidden0,nHidden0)
-#net.getLayer(2).setConvolution(nHidden1,nHidden1)
-net.initWeights(1,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
+net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,[nHidden0*nHidden0], 1, nFiltersInput, 0, minT,maxT)
+net.initWeights(0.1,0,deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
 net.setAlgorithm(deep_feedback_learning.DeepFeedbackLearning.ico);
 net.setLearningRate(learningRate)
 net.setUseDerivative(0)
 net.setBias(0)
-net.setLearningRateDiscountFactor(1)
-#net.getLayer(0).setActivationFunction(deep_feedback_learning.Neuron.RELU)
-#net.getLayer(1).setActivationFunction(deep_feedback_learning.Neuron.RELU)
 
 # Initialize the game. Further configuration won't take any effect from now on.
 game.init()

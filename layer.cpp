@@ -3,9 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef __linux__
-#include <pthread.h>
-#endif
 
 /**
  * GNU GENERAL PUBLIC LICENSE
@@ -26,11 +23,26 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 
 	neurons = new Neuron*[nNeurons];
 
+	calcOutputThread = new CalcOutputThread*[NUM_THREADS];
+	learningThread = new LearningThread*[NUM_THREADS];
+	maxDetThread = new MaxDetThread*[NUM_THREADS];
+
+	int neuronsPerThread = nNeurons/NUM_THREADS+1;
+	for(int i=0;i<NUM_THREADS;i++) {
+		calcOutputThread[i] = new CalcOutputThread(neuronsPerThread);
+		learningThread[i] = new LearningThread(neuronsPerThread);
+		maxDetThread[i] = new MaxDetThread(neuronsPerThread);
+	}
+
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i] = new Neuron(nInputs,nFilters,minT,maxT);
+		calcOutputThread[i%NUM_THREADS]->addNeuron(neurons[i]);
+		learningThread[i%NUM_THREADS]->addNeuron(neurons[i]);
+		maxDetThread[i%NUM_THREADS]->addNeuron(neurons[i]);
 	}
 
 	initWeights(0,0,Neuron::CONST_WEIGHTS);
+
 }
 
 Layer::~Layer() {
@@ -38,67 +50,75 @@ Layer::~Layer() {
 		delete neurons[i];
 	}
 	delete [] neurons;
+
+	for(int i=0;i<NUM_THREADS;i++) {
+		delete calcOutputThread[i];
+		delete learningThread[i];
+		delete maxDetThread[i];
+	}
+
+	delete [] calcOutputThread;
+	delete [] learningThread;
+	delete [] maxDetThread;
+	
 }
 
-#ifdef __linux__
-
 void Layer::calcOutputs() {
-	pthread_t t[nNeurons];
-	for(int i=0;i<nNeurons;i++) {
-		pthread_create(&t[i], NULL, neurons[i]->calcOutputThread, neurons[i]);
-	}
-	for(int i=0;i<nNeurons;i++) {
-		pthread_join(t[i], NULL);
+	if (useThreads) {
+		//fprintf(stderr,"+");
+		for(int i=0;i<NUM_THREADS;i++) {
+			calcOutputThread[i]->start();
+		}
+		for(int i=0;i<NUM_THREADS;i++) {
+			calcOutputThread[i]->join();
+		}
+	} else {
+		//fprintf(stderr,"-");
+		for (int i = 0; i<nNeurons; i++) {
+			neurons[i]->calcOutput();
+		}
 	}
 }
 
 void Layer::doLearning() {
-	pthread_t t[nNeurons];
-	if (maxDetLayer) {
-		for(int i=0;i<nNeurons;i++) {
-			pthread_create(&t[i], NULL, neurons[i]->doMaxDetThread, neurons[i]);
+	if (useThreads) {
+		if (maxDetLayer) {
+			for(int i=0;i<NUM_THREADS;i++) {
+				maxDetThread[i]->start();
+			}
+		} else {
+			//fprintf(stderr,"*");
+			for(int i=0;i<NUM_THREADS;i++) {
+				learningThread[i]->start();
+			}
+		}
+		if (maxDetLayer) {
+			for(int i=0;i<NUM_THREADS;i++) {
+				maxDetThread[i]->join();
+			}
+		} else {
+			for(int i=0;i<NUM_THREADS;i++) {
+				learningThread[i]->join();
+			}
 		}
 	} else {
-		for(int i=0;i<nNeurons;i++) {
-			pthread_create(&t[i], NULL, neurons[i]->doLearningThread, neurons[i]);
+		if (maxDetLayer) {
+			for (int i = 0; i<nNeurons; i++) {
+				neurons[i]->doMaxDet();
+			}
 		}
-	}
-	for(int i=0;i<nNeurons;i++) {
-		pthread_join(t[i], NULL);
+		else {
+			//fprintf(stderr,"_");
+			for (int i = 0; i<nNeurons; i++) {
+				neurons[i]->doLearning();
+			}
+		}
 	}
 	if (!normaliseWeights) return;
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->normaliseWeights();	
 	}
 }
-
-#else
-
-void Layer::calcOutputs() {
-	for (int i = 0; i<nNeurons; i++) {
-		neurons[i]->calcOutput();
-	}
-}
-
-void Layer::doLearning() {
-	if (maxDetLayer) {
-		for (int i = 0; i<nNeurons; i++) {
-			neurons[i]->doMaxDet();
-		}
-	}
-	else {
-		for (int i = 0; i<nNeurons; i++) {
-			neurons[i]->doLearning();
-		}
-	}
-	if (!normaliseWeights) return;
-	for (int i = 0; i<nNeurons; i++) {
-		neurons[i]->normaliseWeights();
-	}
-}
-
-#endif
-
 
 void Layer::setNormaliseWeights(int _normaliseWeights) {
 	normaliseWeights = _normaliseWeights;

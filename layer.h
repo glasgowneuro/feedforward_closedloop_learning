@@ -11,6 +11,106 @@
 
 #include "globals.h"
 #include "neuron.h"
+#include <stdlib.h>
+#include <string.h>
+#include <list>
+#ifdef __linux__
+#include <pthread.h>
+#endif
+
+
+#define NUM_THREADS 12
+
+
+// abstract thread which contains the inner workings of the thread model
+class LayerThread {
+
+protected:
+
+	Neuron** neurons;
+	int nNeurons = 0;
+	int maxNeurons = 0;
+	pthread_t id;
+
+	static void *exec(void *thr) {
+		reinterpret_cast<LayerThread *> (thr)->run();
+		return NULL;
+	}
+
+public:
+	LayerThread(int _maxNeurons) {
+		maxNeurons = _maxNeurons;
+		neurons = new Neuron*[maxNeurons];
+	}
+
+	~LayerThread() {
+		delete [] neurons;
+	}
+	
+	void addNeuron(Neuron* neuron) {
+		if (nNeurons >= maxNeurons) {
+			fprintf(stderr,"Not enough memory for threads.\n");
+			exit(1);
+		}
+		neurons[nNeurons] = neuron;
+		nNeurons++;
+	}
+
+	void start() {
+		if (nNeurons == 0) {
+			//fprintf(stderr,"Thread empty\n");
+			return;
+		}
+		int ret;
+		if ((ret = pthread_create(&id, NULL, &LayerThread::exec, this)) != 0) { 
+			fprintf(stderr,"%s\n",strerror(ret)); 
+			throw "Error"; 
+		}
+	}
+
+	void join() {
+		pthread_join(id,NULL);
+	}
+
+	// needs to be implemented
+	virtual void run() = 0;
+	
+};
+
+
+class CalcOutputThread : public LayerThread {
+	using LayerThread::LayerThread;
+	void run() {
+		for (int i=0;i<nNeurons;i++) {
+			neurons[i]->calcOutput();
+		}
+	}
+};
+
+
+class LearningThread : public LayerThread {
+	using LayerThread::LayerThread;
+	void run() {
+		for (int i=0;i<nNeurons;i++) {
+//			fprintf(stderr,"L");
+			neurons[i]->doLearning();
+		}
+	}
+};
+
+
+class MaxDetThread : public LayerThread {
+	using LayerThread::LayerThread;
+	void run() {
+		for (int i=0;i<nNeurons;i++) {
+			neurons[i]->doMaxDet();
+		}
+	}
+};
+
+
+
+
 
 class Layer {
 	
@@ -18,6 +118,9 @@ public:
 	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Layer();
 
+	CalcOutputThread** calcOutputThread;
+	LearningThread** learningThread;
+	MaxDetThread** maxDetThread;
 	
 	void calcOutputs();
 	void doLearning();
@@ -88,6 +191,14 @@ public:
 	void setStep(long int step);
 
 	double getWeightDistanceFromInitialWeights();
+
+	// 0 = no Threads, 1 = Threads
+	void setUseThreads(int _useThreads) {
+		useThreads = _useThreads;
+		if (!useThreads) {
+			fprintf(stderr,"Thread execution if OFF\n");
+		}
+	};
 	
 private:
 
@@ -109,6 +220,7 @@ private:
 	// for debugging output
 	int layerIndex = 0;
 	long int step = 0;
+	int useThreads = 1;
 };
 
 #endif

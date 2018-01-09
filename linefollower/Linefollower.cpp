@@ -33,7 +33,7 @@ protected:
 	double minT = 5;
 	double maxT = 50;
 
-	double learningRate = 0.1;
+	double learningRate = 0.05;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
