@@ -11,7 +11,9 @@ namespace Enki
 	class Racer : public DifferentialWheeled
 	{
 	public:
-		Racer(int _nSensors = 5, int _sensorArrayPos = 50, double _sensorArrayWidth = 20);
+		Racer(int _nSensors = 10,
+		      int _sensorArrayPos1 = 50, double _sensorArrayWidth1 = 20,
+		      int _sensorArrayPos2 = 100, double _sensorArrayWidth2 = 30	);
 
 		inline int getNsensors() {
 			return nSensors;
@@ -21,9 +23,13 @@ namespace Enki
 			return groundSensorArray[index]->getValue();
 		}
 
-		int sensorArrayPos;
-		double sensorArrayWidth;
 		int nSensors;
+
+		int sensorArrayPos1;
+		double sensorArrayWidth1;
+		
+		int sensorArrayPos2;
+		double sensorArrayWidth2;
 		
 		IRSensor infraredSensorLeft;
 		IRSensor infraredSensorRight;
@@ -31,6 +37,7 @@ namespace Enki
 		GroundSensor groundSensorRight;
 		GroundSensor groundSensorLeft2;
 		GroundSensor groundSensorRight2;
+
 		GroundSensor** groundSensorArray;
 		
 	};

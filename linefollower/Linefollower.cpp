@@ -18,11 +18,11 @@ protected:
 	const double speed = 90;
 	const double fbgain = 300;
 
-	int nInputs = 5;
+	int nInputs = 10;
 	// We have one output neuron
 	int nOutputs = 2;
 	// We have two hidden layers
-	int nHiddenLayers = 3;
+	int nHiddenLayers = 2;
 	// We set two neurons in the first hidden layer
 	int nNeuronsInHiddenLayers[6] = {5,5,5,5,5,5};
 	// We set nFilters in the input
@@ -33,7 +33,7 @@ protected:
 	double minT = 5;
 	double maxT = 50;
 
-	double learningRate = 0.05;
+	double learningRate = 0.01;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
@@ -52,7 +52,7 @@ public:
 		flog = fopen("log.dat","wt");
 		
 		// setting up the robot
-		racer = new Racer(nInputs,50);
+		racer = new Racer(nInputs);
 		racer->pos = Point(100, 40);
 		racer->angle = 1;
 		racer->leftSpeed = speed;
@@ -109,8 +109,6 @@ public:
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
 		//fprintf(stderr,"%f %f %f\n",leftGround,rightGround,error);
 		for(int i=0;i<racer->getNsensors();i++) {
-		}
-		for(int i=0;i<nInputs;i++) {
 			pred[i] = -(racer->getSensorArrayValue(i))*10;
 			fprintf(stderr,"%f ",pred[i]);
 		}

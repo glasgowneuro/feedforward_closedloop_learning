@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 /**
  * GNU GENERAL PUBLIC LICENSE
@@ -267,4 +268,17 @@ void Layer::setConvolution( int width,  int height) {
 			my = my + dy;
 		}
 	}
+}
+
+
+int Layer::saveWeightMatrix(char *filename) {
+	FILE* f = fopen(filename,"wt");
+	if (!f) return errno;
+	for(int i=0;i<nNeurons;i++) {
+		for(int j=0;j<neurons[i]->getNinputs();j++) {
+			fprintf(f,"%f\t",neurons[i]->getAvgWeight(j));
+		}
+		fprintf(f,"\n");
+	}
+	fclose(f);
 }

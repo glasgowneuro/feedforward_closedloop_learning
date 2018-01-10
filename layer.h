@@ -30,7 +30,7 @@ protected:
 	Neuron** neurons;
 	int nNeurons = 0;
 	int maxNeurons = 0;
-	pthread_t id;
+	pthread_t id = 0;
 
 	static void *exec(void *thr) {
 		reinterpret_cast<LayerThread *> (thr)->run();
@@ -58,7 +58,6 @@ public:
 
 	void start() {
 		if (nNeurons == 0) {
-			//fprintf(stderr,"Thread empty\n");
 			return;
 		}
 		int ret;
@@ -69,6 +68,9 @@ public:
 	}
 
 	void join() {
+		if (nNeurons == 0) {
+			return;
+		}
 		pthread_join(id,NULL);
 	}
 
@@ -92,7 +94,6 @@ class LearningThread : public LayerThread {
 	using LayerThread::LayerThread;
 	void run() {
 		for (int i=0;i<nNeurons;i++) {
-//			fprintf(stderr,"L");
 			neurons[i]->doLearning();
 		}
 	}
@@ -118,10 +119,6 @@ public:
 	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Layer();
 
-	CalcOutputThread** calcOutputThread;
-	LearningThread** learningThread;
-	MaxDetThread** maxDetThread;
-	
 	void calcOutputs();
 	void doLearning();
 
@@ -199,6 +196,8 @@ public:
 			fprintf(stderr,"Thread execution if OFF\n");
 		}
 	};
+
+	int saveWeightMatrix(char *filename);
 	
 private:
 
@@ -221,6 +220,9 @@ private:
 	int layerIndex = 0;
 	long int step = 0;
 	int useThreads = 1;
+	CalcOutputThread** calcOutputThread = NULL;
+	LearningThread** learningThread = NULL;
+	MaxDetThread** maxDetThread = NULL;
 };
 
 #endif
