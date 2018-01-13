@@ -9,10 +9,10 @@ namespace Enki
 		DifferentialWheeled(5.2, 100, 0.05),
 		infraredSensorLeft(this, Vector(10, 5),  1.8, M_PI/4, 10, 1200, -0.9, 7, 20),
 		infraredSensorRight(this, Vector(10, -5), 1.8, -M_PI/4,10, 1200, -0.9, 7, 20),
-		groundSensorLeft (this, Vector(10, 7.5), 0, 1, 1, 0),
-		groundSensorRight(this, Vector(10, -7.5),0, 1, 1, 0),
-		groundSensorLeft2 (this, Vector(10, 10), 0, 1, 1, 0),
-		groundSensorRight2(this, Vector(10, -10),0, 1, 1, 0)
+		groundSensorLeft (this, Vector(10, 10), 0, 1, 1, 0),
+		groundSensorRight(this, Vector(10, -10),0, 1, 1, 0),
+		groundSensorLeft2 (this, Vector(10, 15), 0, 1, 1, 0),
+		groundSensorRight2(this, Vector(10, -15),0, 1, 1, 0)
 	{
 		nSensors = _nSensors;
 		if (nSensors%2) {

@@ -183,6 +183,12 @@ void DeepFeedbackLearning::setStep() {
 	}
 }
 
+void DeepFeedbackLearning::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
+	for (int k=0; k<=num_hid_layers; k++) {
+		layers[k]->setActivationFunction(_activationFunction);
+	}	
+}
+
 void DeepFeedbackLearning::doLearning() {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->doLearning();
@@ -276,7 +282,10 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 		receiverLayer->calcOutputs();
 	}
 	// the error is injected into the 1st _hidden_ layer!
-	layers[0]->setErrors(error);
+	for(int i=0;i<(layers[0]->getNneurons());i++) {
+		double err = error[i] * layers[0]->getNeuron(i)->dActivation();
+		layers[0]->getNeuron(i)->setError(err);
+	}
 	for (int k=0; k<num_hid_layers; k++) {
 		Layer* emitterLayer = layers[k];
 		Layer* receiverLayer = layers[k+1];
@@ -296,7 +305,8 @@ void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
 //				if (fabs(err)>0) fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
 			err = err * learningRateDiscountFactor;
-			receiverLayer->getNeuron(i)->setError(err * receiverLayer->getNeuron(i)->dActivation());
+			err = err * receiverLayer->getNeuron(i)->dActivation();
+			receiverLayer->getNeuron(i)->setError(err);
 		}
 	}
 	doLearning();

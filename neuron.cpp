@@ -189,6 +189,7 @@ void Neuron::calcOutput() {
 		output = sum;
 		break;
 	case TANH:
+	case TANHLIMIT:
 		output = tanh(sum);
 		break;
 	case RELU:
@@ -217,11 +218,19 @@ void Neuron::calcOutput() {
 
 
 double Neuron::dActivation() {
+	double d;
 	switch (activationFunction) {
 	case LINEAR:
 		return 1;
 	case TANH:
-		return (1.0 - output*output);
+		d = (1.0 - output*output);
+		return d;
+		break;
+	case TANHLIMIT:
+		d = (1.0 - fabs(output*output*output));
+		if (d<0) return 0;
+		return d;
+		break;
 	case RELU:
 		if (output>0) {
 			return 1;

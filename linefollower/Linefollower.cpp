@@ -22,7 +22,7 @@ protected:
 	// We have one output neuron
 	int nOutputs = 2;
 	// We have two hidden layers
-	int nHiddenLayers = 2;
+	int nHiddenLayers = 3;
 	// We set two neurons in the first hidden layer
 	int nNeuronsInHiddenLayers[6] = {5,5,5,5,5,5};
 	// We set nFilters in the input
@@ -79,6 +79,7 @@ public:
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(0);
 		deep_fbl->setUseDerivative(0);
+		deep_fbl->setActivationFunction(Neuron::TANHLIMIT);
 	
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);

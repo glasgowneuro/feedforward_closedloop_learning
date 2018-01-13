@@ -53,7 +53,7 @@ public:
 	enum WeightInitMethod { MAX_OUTPUT_RANDOM = 0, MAX_WEIGHT_RANDOM = 1, MAX_OUTPUT_CONST = 2, CONST_WEIGHTS = 3};
 	void initWeights(double _max = 1, int initBias = 1, WeightInitMethod _wm = MAX_OUTPUT_RANDOM);
 
-	enum ActivationFunction { LINEAR = 0, TANH = 1, RELU = 2, REMAXLU};
+	enum ActivationFunction { LINEAR = 0, TANH = 1, RELU = 2, REMAXLU = 3, TANHLIMIT = 4};
 	void setActivationFunction(ActivationFunction _activationFunction) {
 		activationFunction = _activationFunction;
 	}

@@ -70,6 +70,8 @@ public:
 
 	Algorithm getAlgorithm() { return algorithm; }
 
+	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
+
 	void initWeights(double max = 0.001, int initBias = 1, Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
 
 	void seedRandom(int s) { srand(s); };
@@ -88,6 +90,7 @@ public:
 	bool saveModel(const char* name);
 	bool loadModel(const char* name);
 
+	
 
 private:
 
@@ -118,11 +121,6 @@ private:
 	void doLearning();
 	void setStep();
 
-#ifdef NO_DERIV_ACTIVATION
-	double dsigm(double) { return 1.0; };
-#else
-	double dsigm(double y) { return (1.0 - y*y); };
-#endif
 };
 
 #endif

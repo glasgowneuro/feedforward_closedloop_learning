@@ -11,9 +11,9 @@ namespace Enki
 	class Racer : public DifferentialWheeled
 	{
 	public:
-		Racer(int _nSensors = 10,
-		      int _sensorArrayPos1 = 50, double _sensorArrayWidth1 = 20,
-		      int _sensorArrayPos2 = 100, double _sensorArrayWidth2 = 30	);
+		Racer(int _nSensors = 20,
+		      int _sensorArrayPos1 = 20, double _sensorArrayWidth1 = 10,
+		      int _sensorArrayPos2 = 30, double _sensorArrayWidth2 = 40	);
 
 		inline int getNsensors() {
 			return nSensors;
