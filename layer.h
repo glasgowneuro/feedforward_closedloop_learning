@@ -13,9 +13,13 @@
 #include "neuron.h"
 #include <stdlib.h>
 #include <string.h>
-#include <list>
+
 #ifdef __linux__
 #include <pthread.h>
+#endif
+
+#ifdef _WIN32
+#include <windows.h>
 #endif
 
 
@@ -30,20 +34,40 @@ protected:
 	Neuron** neurons;
 	int nNeurons = 0;
 	int maxNeurons = 0;
-	pthread_t id = 0;
 
+#ifdef __linux__
+	pthread_t id = 0;
+#endif
+
+#ifdef _WIN32
+	DWORD id = 0;
+	HANDLE hThread = 0;
+#endif
+
+#ifdef __linux__
 	static void *exec(void *thr) {
 		reinterpret_cast<LayerThread *> (thr)->run();
 		return NULL;
 	}
+#endif
+
+#ifdef _WIN32
+	static DWORD WINAPI exec(LPVOID thr) {
+		reinterpret_cast<LayerThread *> (thr)->run();
+		return 0;
+	}
+#endif
+
 
 public:
+
 	LayerThread(int _maxNeurons) {
 		maxNeurons = _maxNeurons;
 		neurons = new Neuron*[maxNeurons];
 	}
 
 	~LayerThread() {
+		CloseHandle(hThread);
 		delete [] neurons;
 	}
 	
@@ -60,18 +84,37 @@ public:
 		if (nNeurons == 0) {
 			return;
 		}
+#ifdef __linux__
 		int ret;
-		if ((ret = pthread_create(&id, NULL, &LayerThread::exec, this)) != 0) { 
+		if ((ret = pthread_create(&id, NULL, &LayerThread::exec, this)) != 0) {
 			fprintf(stderr,"%s\n",strerror(ret)); 
 			throw "Error"; 
 		}
+#endif
+#ifdef _WIN32
+		hThread = CreateThread(
+			NULL,                   // default security attributes
+			0,                      // use default stack size  
+			&LayerThread::exec,     // thread function name
+			this,                   // argument to thread function 
+			0,                      // use default creation flags 
+			&id);   // returns the thread identifier 
+		if (hThread == NULL) {
+			ExitProcess(3);
+		}
+#endif
 	}
 
 	void join() {
 		if (nNeurons == 0) {
 			return;
 		}
+#ifdef __linux__
 		pthread_join(id,NULL);
+#endif
+#ifdef _WIN32
+		WaitForSingleObject(hThread, INFINITE);
+#endif
 	}
 
 	// needs to be implemented
@@ -201,11 +244,11 @@ public:
 	
 private:
 
-	enum InputNormMethod { INPUT_NORM_NONE=0, INPUT_NORM_ZEROMEAN_AUTO = 1, INPUT_NORM_ZEROMEAN_MANUAL = 2 };
+//	enum InputNormMethod { INPUT_NORM_NONE=0, INPUT_NORM_ZEROMEAN_AUTO = 1, INPUT_NORM_ZEROMEAN_MANUAL = 2 };
 
-	void setInputsNormalised2zeroMean( double* inputs, int doCalc = 1 );
+//	void setInputsNormalised2zeroMean( double* inputs, int doCalc = 1 );
 
-	void setInputsWithoutNormalisation( double* inputs );
+//	void setInputsWithoutNormalisation( double* inputs );
 	
 	int nNeurons;
 	int nInputs;

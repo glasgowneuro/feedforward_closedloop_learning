@@ -363,7 +363,6 @@ void DeepFeedbackLearning::setDebugInfo() {
 bool DeepFeedbackLearning::saveModel(const char* name) {
 	Layer *layer;
 	Neuron *neuron;
-	double weight;
 
 	FILE *f=fopen(name, "wt");
 

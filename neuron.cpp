@@ -60,7 +60,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 					if (k==minT) {
 						a = 1;
 					}
-					float b = bandpass[i][j]->filter(a);
+					double b = bandpass[i][j]->filter(a);
 					assert(b != NAN);
 					assert(b != INFINITY);
 				}
@@ -249,6 +249,7 @@ double Neuron::dActivation() {
 	default:
 		fprintf(stderr,"BUG: undefined activation function in Neuron::%s\n",__FUNCTION__);
 		assert(1==0);
+		return 0;
 	}
 }
 

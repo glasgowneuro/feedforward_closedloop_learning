@@ -89,14 +89,14 @@ double Bandpass::filter(double value) {
 
 
 void Bandpass::calcNorm(double f) {
-	float max = 0;
+	double max = 0;
 	norm = 1;
 	for(int i=0;i<(2/f);i++) {
-		float v = 0;
+		double v = 0;
 		if (i>1) {
 			v = 1;
 		}
-		float v2 = fabs(filter(v));
+		double v2 = fabs(filter(v));
 		if (v2>max) max = v2;
 	}
 //	fprintf(stderr,"BPmax=%f\n",max);

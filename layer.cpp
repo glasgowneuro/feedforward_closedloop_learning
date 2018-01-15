@@ -249,11 +249,11 @@ void Layer::setInputs( double* inputs ) {
 
 
 void Layer::setConvolution( int width,  int height) {
-	float  d = round(sqrt(nNeurons));
-	int dx = round(width/d);
-	int dy = round(height/d);
-	int mx = round(dx/2.0);
-	int my = round(dy/2.0);
+	double d = round(sqrt(nNeurons));
+	int dx = (int)round(width/d);
+	int dy = (int)round(height/d);
+	int mx = (int)round(dx/2.0);
+	int my = (int)round(dy/2.0);
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setGeometry(width,height);
 		neurons[i]->setMask(0);
@@ -264,7 +264,7 @@ void Layer::setConvolution( int width,  int height) {
 		}
 		mx = mx + dx;
 		if (mx > width) {
-			mx = round(dx/2.0);
+			mx = (int)round(dx/2.0);
 			my = my + dy;
 		}
 	}
@@ -281,4 +281,5 @@ int Layer::saveWeightMatrix(char *filename) {
 		fprintf(f,"\n");
 	}
 	fclose(f);
+	return 0;
 }
