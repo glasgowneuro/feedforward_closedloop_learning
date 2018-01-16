@@ -20,7 +20,7 @@ protected:
 
 	int nInputs = 10;
 	// We have one output neuron
-	int nOutputs = 2;
+	int nOutputs = 4;
 	// We have two hidden layers
 	int nHiddenLayers = 3;
 	// We set two neurons in the first hidden layer
@@ -30,10 +30,10 @@ protected:
 	// We set nFilters in the hidden unit
 	int nFiltersHidden = 0;
 	// Filterbank
-	double minT = 5;
-	double maxT = 50;
+	double minT = 2;
+	double maxT = 20;
 
-	double learningRate = 0.01;
+	double learningRate = 0.001;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
@@ -79,8 +79,13 @@ public:
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(0);
 		deep_fbl->setUseDerivative(0);
-		deep_fbl->setActivationFunction(Neuron::TANHLIMIT);
-	
+		deep_fbl->setActivationFunction(Neuron::TANH);
+		deep_fbl->setMomentum(0.9);
+		deep_fbl->getLayer(0)->setNormaliseWeights(1);
+		deep_fbl->getLayer(1)->setNormaliseWeights(1);
+		//deep_fbl->getLayer(2)->setNormaliseWeights(1);
+		//deep_fbl->getLayer(3)->setNormaliseWeights(1);
+		
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);
 	}
@@ -117,8 +122,10 @@ public:
                         err[i] = error;
                 }
 		deep_fbl->doStep(pred,err);
-		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*100;
-		float vR = (deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*100;
+		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
+			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10;
+		float vR = (deep_fbl->getOutputLayer()->getNeuron(2)->getOutput())*50 +
+			(deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*10;
 		error = error * fbgain;
 		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",vL);

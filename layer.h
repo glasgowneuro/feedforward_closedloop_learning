@@ -67,7 +67,9 @@ public:
 	}
 
 	~LayerThread() {
+#ifdef _WIN32
 		CloseHandle(hThread);
+#endif
 		delete [] neurons;
 	}
 	
@@ -117,7 +119,7 @@ public:
 #endif
 	}
 
-	// needs to be implemented
+	// is implemented by its children to do the specfic task the thread
 	virtual void run() = 0;
 	
 };
@@ -244,12 +246,6 @@ public:
 	
 private:
 
-//	enum InputNormMethod { INPUT_NORM_NONE=0, INPUT_NORM_ZEROMEAN_AUTO = 1, INPUT_NORM_ZEROMEAN_MANUAL = 2 };
-
-//	void setInputsNormalised2zeroMean( double* inputs, int doCalc = 1 );
-
-//	void setInputsWithoutNormalisation( double* inputs );
-	
 	int nNeurons;
 	int nInputs;
 	int nFilters;
