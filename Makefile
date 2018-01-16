@@ -1,4 +1,4 @@
-CFLAGS = -g -O0 -march=native -std=c++11 -DRANGE_CHECKS
+CFLAGS = -g -O0 -march=native -std=c++11 -DRANGE_CHECKS -pedantic
 #CFLAGS = -Ofast -march=native -std=c++11
 LDFLAGS = -pthread -std=c++11 -liir
 

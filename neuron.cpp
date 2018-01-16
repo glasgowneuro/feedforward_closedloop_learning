@@ -56,7 +56,7 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 				bandpass[i][j]->setParameters(f,dampingCoeff);
 				f = f + df;
 				for(int k=0;k<maxT;k++) {
-					float a = 0;
+					double a = 0;
 					if (k==minT) {
 						a = 1;
 					}
