@@ -33,23 +33,28 @@ protected:
 	double minT = 2;
 	double maxT = 20;
 
-	double learningRate = 0.001;
+	double learningRate = 0.01;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
 	double* pred = NULL;
 	double* err = NULL;
 
-	FILE * flog = NULL;
+	FILE* flog = NULL;
+
+	FILE* llog = NULL;
 
 	Iir::Bessel::LowPass<IIRORDER> p0;
 	Iir::Bessel::LowPass<IIRORDER> s0;
+
+	double IRthres = 150;
 
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
 		EnkiWidget(world, parent) {
 
 		flog = fopen("log.dat","wt");
+		llog = fopen("l.dat","wt");
 		
 		// setting up the robot
 		racer = new Racer(nInputs);
@@ -101,13 +106,15 @@ public:
 		double leftIR = racer->infraredSensorLeft.getValue();
 		double rightIR = racer->infraredSensorRight.getValue();
 		//fprintf(stderr,"%f %f\n",leftIR,rightIR);
-		if ((leftIR>50) || (rightIR>50)) {
+		if (leftIR<IRthres) leftIR = 0;
+		if (rightIR<IRthres) rightIR = 0;
+		if ((leftIR>0) || (rightIR>0)) {
 			deep_fbl->setLearningRate(0);
+			fprintf(stderr,"Wall!\n");
+			exit(1);
 		} else {
 			deep_fbl->setLearningRate(learningRate);
 		}
-		if (leftIR<100) leftIR = 0;
-		if (rightIR<100) rightIR = 0;
 		double leftGround = racer->groundSensorLeft.getValue();
 		double rightGround = racer->groundSensorRight.getValue();
 		double leftGround2 = racer->groundSensorLeft2.getValue();
@@ -119,7 +126,9 @@ public:
 			fprintf(stderr,"%f ",pred[i]);
 		}
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
-                        err[i] = error;
+			double tmpErr = error*error;
+			if (error<0) tmpErr = -tmpErr;
+                        err[i] = tmpErr;
                 }
 		deep_fbl->doStep(pred,err);
 		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
@@ -140,6 +149,14 @@ public:
 			fprintf(flog,"%f ",deep_fbl->getLayer(i)->getWeightDistanceFromInitialWeights());
 		}
 		fprintf(flog,"\n");
+		int n = 0;
+		fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getError());
+		fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getInput(n));
+		for(int i=0;i<deep_fbl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
+			fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
+			fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getWeight(n,i));
+		}
+		fprintf(llog,"%f\n",deep_fbl->getLayer(0)->getNeuron(0)->getOutput());
 	}
 
 };

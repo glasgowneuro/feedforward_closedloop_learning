@@ -12,7 +12,7 @@ test_deep_feedback_learning: ../deep_feedback_learning.a test_deep_feedback_lear
 test_closed_loop.o: test_closed_loop.cpp
 	g++ $(CFLAGS) -c test_closed_loop.cpp
 
-test_closed_loop: ../deep_feedback_learning.a test_closed_loop.o  ../deep_feedback_learning.a
+test_closed_loop: ../deep_feedback_learning.a test_closed_loop.o ../deep_feedback_learning.a test_bandpass
 	g++ -o test_closed_loop test_closed_loop.o $(LDFLAGS) 
 
 test_neuron.o: test_neuron.cpp
@@ -27,8 +27,12 @@ test_layer.o: test_layer.cpp
 test_layer: test_layer.o  ../deep_feedback_learning.a
 	g++ -o test_layer test_layer.o $(LDFLAGS) 
 
+test_bandpass.o: test_bandpass.cpp
+	g++ $(CFLAGS) -c test_bandpass.cpp
 
+test_bandpass: test_bandpass.o  ../deep_feedback_learning.a
+	g++ -o test_bandpass test_bandpass.o $(LDFLAGS) 
 
 
 clean:
-	rm -rf *.o test_deep_feedback_learning test_closed_loop test_neuron *~ *.dat *.csv *.dat
+	rm -rf *.o test_deep_feedback_learning test_closed_loop test_neuron test_bandpass *~ *.dat *.csv *.dat

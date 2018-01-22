@@ -26,11 +26,11 @@ void Bandpass::setParameters(double f,double q) {
 	std::complex<double> s2;
 	
 	assert(q>0.5);
-	assert(f<0.5);
+	assert(f<=0.5);
 	assert(f>0);
 	double fTimesPi=f*M_PI*2;
 	double e=fTimesPi/(2.0*q);
-	assert((fTimesPi*fTimesPi-e*e)>0);
+	assert((fTimesPi*fTimesPi-e*e)>=0);
 	double w=sqrt(fTimesPi*fTimesPi-e*e);
 	s1=std::complex<double>(-e,w);
 	s2=std::complex<double>(-e,-w);

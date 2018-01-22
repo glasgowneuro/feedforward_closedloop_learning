@@ -42,15 +42,15 @@ Neuron::Neuron(int _nInputs, int _nFilters, double _minT, double _maxT) {
 			 double fs = 1;
 			 double fmin = fs/maxT;
 			 double fmax = fs/minT;
-			 double df = (fmax-fmin)/((double)nFilters);
+			 double df = (fmax-fmin)/((double)(nFilters-1));
 			 double f = fmin;
 #ifdef DEBUG_BP
-			fprintf(stderr,"fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
+			fprintf(stderr,"bandpass: fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
 			for(int j=0;j<_nFilters;j++) {
 				bandpass[i][j] = new Bandpass();
 #ifdef DEBUG_BP
-				fprintf(stderr,"bandpass[%d][%d]->setup(2,%f,%f)\n",
+				fprintf(stderr,"bandpass[%d][%d]->setParameters(%f,%f)\n",
 					i,j,fs,f);
 #endif
 				bandpass[i][j]->setParameters(f,dampingCoeff);

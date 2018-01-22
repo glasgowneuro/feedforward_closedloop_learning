@@ -18,6 +18,9 @@
 // enables denbug output to sdt out
 // #define DEBUG_NEURON
 
+// enables bandpass debug
+#define DEBUG_BP
+
 #include "globals.h"
 #include "bandpass.h"
 
@@ -66,6 +69,15 @@ public:
 	double getWeightDistanceFromInitialWeights();
 
 	inline double getOutput() { return output; };
+	inline double getFilterOutput(int _index, int _filter) {
+#ifdef RANGE_CHECKS
+		if (!((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters))) {
+			fprintf(stderr,"BUG! in Neuron::%s, layer=%d, _index=%d, _filter=%d\n",__FUNCTION__,layerIndex,_index,_filter);
+			assert(0==1);
+		}
+#endif
+		return bandpass[_index][_filter]->getOutput();
+	}
 	inline double getSum() { return sum; };
 	inline double getWeight( int _index,  int _filter) {
 #ifdef RANGE_CHECKS
