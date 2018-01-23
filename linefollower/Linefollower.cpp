@@ -33,7 +33,7 @@ protected:
 	double minT = 2;
 	double maxT = 20;
 
-	double learningRate = 0.01;
+	double learningRate = 0.05;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
@@ -82,12 +82,12 @@ public:
 		deep_fbl->setLearningRate(learningRate);
 		deep_fbl->setLearningRateDiscountFactor(1);
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
-		deep_fbl->setBias(0);
+		deep_fbl->setBias(1);
 		deep_fbl->setUseDerivative(0);
 		deep_fbl->setActivationFunction(Neuron::TANH);
 		deep_fbl->setMomentum(0.9);
-		deep_fbl->getLayer(0)->setNormaliseWeights(1);
-		deep_fbl->getLayer(1)->setNormaliseWeights(1);
+		//deep_fbl->getLayer(0)->setNormaliseWeights(1);
+		//deep_fbl->getLayer(1)->setNormaliseWeights(1);
 		//deep_fbl->getLayer(2)->setNormaliseWeights(1);
 		//deep_fbl->getLayer(3)->setNormaliseWeights(1);
 		
@@ -97,6 +97,7 @@ public:
 
 	~LineFollower() {
 		fclose(flog);
+		fclose(llog);
 	}
 
 	// here we do all the behavioural computations
