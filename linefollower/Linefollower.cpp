@@ -86,6 +86,7 @@ public:
 		deep_fbl->setUseDerivative(0);
 		deep_fbl->setActivationFunction(Neuron::TANH);
 		deep_fbl->setMomentum(0.9);
+		deep_fbl->getLayer(0)->setDecay(0.1);
 		//deep_fbl->getLayer(0)->setNormaliseWeights(1);
 		//deep_fbl->getLayer(1)->setNormaliseWeights(1);
 		//deep_fbl->getLayer(2)->setNormaliseWeights(1);

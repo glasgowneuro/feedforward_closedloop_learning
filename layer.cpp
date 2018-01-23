@@ -175,6 +175,12 @@ void Layer::setUseDerivative( int _useIt) {
 	}
 }
 
+void Layer::setDecay( double _decay) {
+	for(int i=0;i<nNeurons;i++) {
+		neurons[i]->setDecay(_decay);
+	}
+}
+
 void Layer::initWeights( double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->initWeights(max,initBias,weightInitMethod);
@@ -227,10 +233,6 @@ double Layer::getWeightDistanceFromInitialWeights() {
 	}
 	return distance;
 }
-
-
-	double weightDistanceFromInitialWeights();
-
 
 
 void Layer::setInputs( double* inputs ) {

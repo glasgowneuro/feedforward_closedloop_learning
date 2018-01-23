@@ -276,7 +276,8 @@ void Neuron::doLearningWithFilterbank() {
 		if (*maskp) {
 			for(int j=0;j<nFilters;j++) {
 				*weightschp2 = momentum * (*weightschp2) +
-						(*bandpassp2)->getOutput() * internal_error * learningRate * learningRateFactor;
+					(*bandpassp2)->getOutput() * internal_error * learningRate * learningRateFactor -
+					(*weightsp2) * decay * learningRate;
 				*weightsp2 = *weightsp2 + *weightschp2;
 #ifdef RANGE_CHECKS				
 				if (*weightsp2 > 10000) printf("Neuron::%s, step=%ld, L=%d,N=%d (%d,%d,%e,%e,%e,%e)\n",
@@ -304,7 +305,7 @@ void Neuron::doLearningWithFilterbank() {
 		weightschp1++;
 	}
 //	printf("\n");
-	biasweight = biasweight + bias * internal_error * learningRate;
+	biasweight = biasweight + bias * internal_error * learningRate - biasweight * decay * learningRate;
 }
 
 
@@ -321,7 +322,8 @@ void Neuron::doLearningWithoutFilterbank() {
 			double* weightschp2 = *weightschp1;
 			for(int j=0;j<nFilters;j++) {
 				*weightschp2 = momentum * (*weightschp2) +
-						input * internal_error * learningRate * learningRateFactor;
+					input * internal_error * learningRate * learningRateFactor -
+					(*weightsp2) * decay * learningRate;
 				*weightsp2 = *weightsp2 + *weightschp2;
 				weightsp2++;
 				weightschp2++;
@@ -339,7 +341,7 @@ void Neuron::doLearningWithoutFilterbank() {
 		weightschp1++;
 	}
 //	printf("\n");
-	biasweight = biasweight + bias * internal_error * learningRate;
+	biasweight = biasweight + bias * internal_error * learningRate - biasweight * decay * learningRate;
 }
 
 

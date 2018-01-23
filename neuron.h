@@ -158,6 +158,14 @@ public:
 		step = _step;
 	}
 
+	inline void setDecay(double _decay) {
+		decay = _decay;
+	}
+
+	inline double getDecay() {
+		return decay;
+	}
+
 private:
 	void calcFilterbankOutput();
 	void calcOutputWithoutFilterbank();
@@ -172,6 +180,7 @@ private:
 	double** weights = 0;
 	double** initialWeights = 0;
 	double** weightChange = 0;
+	double decay = 0;
 	double biasweight = 0;
 	double biasweightChange = 0;
 	double bias = 0;

@@ -200,6 +200,9 @@ public:
 	// set the momentum of all neurons in this layer
 	void setMomentum( double _momentum);
 
+	// sets the weight decay scaled by the learning rate
+	void setDecay( double _decay);
+
 	// inits weights with a random value between -_max and max
 	void initWeights( double _max = 1,
 			  int initBiasWeight = 1,
