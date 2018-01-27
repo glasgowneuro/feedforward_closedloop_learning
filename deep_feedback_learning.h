@@ -77,6 +77,8 @@ public:
 	void seedRandom(int s) { srand(s); };
 
 	void setBias(double _bias);
+
+	void setDecay(double decay);
 	
 	int getNumHidLayers() {return num_hid_layers;};
 	int getNumLayers() {return num_hid_layers+1;};

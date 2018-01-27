@@ -140,6 +140,9 @@ public:
 	// calculates the Manhattan length of the weight vector
 	double getManhattanNormOfWeightVector();
 
+	// calculates the Infinity norm of the vector
+	double getInfinityNormOfWeightVector();
+
 	// calculates the average of the weight values
 	double getAverageOfWeightVector();
 

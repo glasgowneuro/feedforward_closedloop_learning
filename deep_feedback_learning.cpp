@@ -196,6 +196,13 @@ void DeepFeedbackLearning::doLearning() {
 }
 
 
+void DeepFeedbackLearning::setDecay(double decay) {
+	for (int k=0; k<=num_hid_layers; k++) {
+		layers[k]->setDecay(decay);
+	}
+}
+
+
 void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
 	// Let's first propagate the signal through the layers
 	// we set the input to the input layer

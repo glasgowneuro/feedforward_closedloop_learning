@@ -277,7 +277,7 @@ void Neuron::doLearningWithFilterbank() {
 			for(int j=0;j<nFilters;j++) {
 				*weightschp2 = momentum * (*weightschp2) +
 					(*bandpassp2)->getOutput() * internal_error * learningRate * learningRateFactor -
-					(*weightsp2) * decay * learningRate;
+					(*weightsp2) * decay * learningRate * fabs(internal_error);
 				*weightsp2 = *weightsp2 + *weightschp2;
 #ifdef RANGE_CHECKS				
 				if (*weightsp2 > 10000) printf("Neuron::%s, step=%ld, L=%d,N=%d (%d,%d,%e,%e,%e,%e)\n",
@@ -323,7 +323,7 @@ void Neuron::doLearningWithoutFilterbank() {
 			for(int j=0;j<nFilters;j++) {
 				*weightschp2 = momentum * (*weightschp2) +
 					input * internal_error * learningRate * learningRateFactor -
-					(*weightsp2) * decay * learningRate;
+					(*weightsp2) * decay * learningRate * fabs(internal_error);
 				*weightsp2 = *weightsp2 + *weightschp2;
 				weightsp2++;
 				weightschp2++;
@@ -389,6 +389,27 @@ double Neuron::getManhattanNormOfWeightVector() {
 }
 
 
+double Neuron::getInfinityNormOfWeightVector() {
+	double** weightsp1 = weights;
+	unsigned char * maskp = mask;
+	double norm = 0;
+	for(int i=0;i<nInputs;i++) {
+		if (*maskp) {
+			double* weightsp2 = *weightsp1;
+			for(int j=0;j<nFilters;j++) {
+				double a = fabs(*weightsp2);
+				if (a>norm) norm = a;
+				weightsp2++;
+			}
+		}
+		maskp++;
+		weightsp1++;
+	}
+	norm = norm + fabs(biasweight);
+	return norm;
+}
+
+
 double Neuron::getAverageOfWeightVector() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
@@ -416,9 +437,14 @@ double Neuron::getAverageOfWeightVector() {
 void Neuron::normaliseWeights() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
+	
 	double norm = getEuclideanNormOfWeightVector();
+	
 	//note to myself: Manhattan Norm Doesn't work!!!!
 	//double norm = getManhattanNormOfWeightVector();
+
+	//very lazy norm...
+	//double norm = getInfinityNormOfWeightVector();
 
 	//fprintf(stderr,"norm=%e\n",norm);
 	if (fabs(norm) > 0) {
