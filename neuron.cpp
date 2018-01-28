@@ -346,26 +346,26 @@ void Neuron::doLearningWithoutFilterbank() {
 
 
 
-double Neuron::getEuclideanNormOfWeightVector() {
+double Neuron::getSumOfSquaredWeightVector() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
-	double norm = 0;
+	double sq = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			double* weightsp2 = *weightsp1;
 			for(int j=0;j<nFilters;j++) {
 				double a = *weightsp2;
-				norm = norm + a*a;
+				sq = sq + a*a;
 				weightsp2++;
 			}
 		}
 		maskp++;
 		weightsp1++;
 	}
-	norm = norm + biasweight*biasweight;
-	norm = sqrt(norm);
-	return norm;
+	sq = sq + biasweight*biasweight;
+	return sq;
 }
+
 
 
 double Neuron::getManhattanNormOfWeightVector() {
@@ -434,11 +434,9 @@ double Neuron::getAverageOfWeightVector() {
 }
 
 
-void Neuron::normaliseWeights() {
+void Neuron::normaliseWeights(double norm) {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
-	
-	double norm = getEuclideanNormOfWeightVector();
 	
 	//note to myself: Manhattan Norm Doesn't work!!!!
 	//double norm = getManhattanNormOfWeightVector();

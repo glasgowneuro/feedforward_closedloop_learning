@@ -20,7 +20,7 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 	nFilters = _nFilters;
 	minT = _minT;
 	maxT = _maxT;
-	normaliseWeights = 0;
+	normaliseWeights = WEIGHT_NORM_NONE;
 
 	neurons = new Neuron*[nNeurons];
 
@@ -81,6 +81,29 @@ void Layer::calcOutputs() {
 	}
 }
 
+void Layer::doNormaliseWeights() {
+	double norm = 0;
+	switch (normaliseWeights) {
+	case WEIGHT_NORM_LAYER:
+		for(int i=0;i<nNeurons;i++) {
+			norm = norm + neurons[i]->getSumOfSquaredWeightVector();
+		}
+		norm = sqrt(norm);
+		for(int i=0;i<nNeurons;i++) {
+			neurons[i]->normaliseWeights(norm);
+		}
+		break;
+	case WEIGHT_NORM_NEURON:
+		for(int i=0;i<nNeurons;i++) {
+			norm = neurons[i]->getEuclideanNormOfWeightVector();
+			neurons[i]->normaliseWeights(norm);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 void Layer::doLearning() {
 	if (useThreads) {
 		if (maxDetLayer) {
@@ -115,16 +138,13 @@ void Layer::doLearning() {
 			}
 		}
 	}
-	if (!normaliseWeights) return;
-	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->normaliseWeights();	
-	}
+	doNormaliseWeights();
 }
 
-void Layer::setNormaliseWeights(int _normaliseWeights) {
+void Layer::setNormaliseWeights(WeightNormalisation _normaliseWeights) {
 	normaliseWeights = _normaliseWeights;
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->normaliseWeights();
+		doNormaliseWeights();
 		neurons[i]->saveInitialWeights();
 	}	
 }

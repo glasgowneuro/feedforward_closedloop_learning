@@ -134,8 +134,13 @@ public:
 	// mask in linear form
 	unsigned char getMask( int index) { return mask[index]; };
 
+	// calculates just the squared vector values
+	double getSumOfSquaredWeightVector();
+
 	// calculates the Eucledian length of the weight vector
-	double getEuclideanNormOfWeightVector();
+	double getEuclideanNormOfWeightVector() {
+		return sqrt(getSumOfSquaredWeightVector());
+	}
 
 	// calculates the Manhattan length of the weight vector
 	double getManhattanNormOfWeightVector();
@@ -147,7 +152,7 @@ public:
 	double getAverageOfWeightVector();
 
 	// normalises weights
-	void normaliseWeights();
+	void normaliseWeights(double norm);
 
 	void saveInitialWeights();
 

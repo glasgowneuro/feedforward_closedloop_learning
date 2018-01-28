@@ -56,7 +56,7 @@ protected:
 
 	double a = -0.5;
 
-	double border = 21;
+	double border = 25;
 
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
@@ -96,8 +96,10 @@ public:
 		deep_fbl->setActivationFunction(Neuron::TANH);
 		deep_fbl->setMomentum(0.9);
 		//deep_fbl->setDecay(0.01);
-		deep_fbl->getLayer(0)->setNormaliseWeights(1);
-		//deep_fbl->getLayer(1)->setNormaliseWeights(1);
+		deep_fbl->getLayer(0)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
+		deep_fbl->getLayer(1)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
+		deep_fbl->getLayer(2)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
+		deep_fbl->getLayer(3)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
 		
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);
@@ -119,7 +121,7 @@ public:
 
 		fprintf(stderr,"%f ",racer->pos.x);
 		// check if we've bumped into a wall
-		if ((racer->pos.x<border) ||
+		if ((racer->pos.x<100) ||
 		    (racer->pos.x>(maxx-border)) ||
 		    (racer->pos.y<border) ||
 		    (racer->pos.y>(maxy+border)) ||
@@ -127,7 +129,10 @@ public:
 		    (rightGround<a) ||
 		    (leftGround2<a) ||
 		    (rightGround2<a)) {
-			learningOff = 5;
+			learningOff = 30;
+		}
+		if (racer->pos.x < border) {
+			racer->angle = 0;
 		}
 		fprintf(stderr,"%d ",learningOff);
 		if (learningOff>0) {

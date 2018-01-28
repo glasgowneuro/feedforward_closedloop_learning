@@ -13,7 +13,7 @@ namespace Enki
 	public:
 		Racer(int _nSensors,
 		      int _sensorArrayPos1 = 20, double _sensorArrayWidth1 = 10,
-		      int _sensorArrayPos2 = 60, double _sensorArrayWidth2 = 30	);
+		      int _sensorArrayPos2 = 30, double _sensorArrayWidth2 = 20	);
 
 		inline int getNsensors() {
 			return nSensors;

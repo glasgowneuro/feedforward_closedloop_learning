@@ -66,7 +66,7 @@ public:
 		neurons = new Neuron*[maxNeurons];
 	}
 
-	~LayerThread() {
+	virtual ~LayerThread() {
 #ifdef _WIN32
 		CloseHandle(hThread);
 #endif
@@ -164,6 +164,12 @@ public:
 	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
 	~Layer();
 
+	enum WeightNormalisation {
+		WEIGHT_NORM_NONE = 0,
+		WEIGHT_NORM_LAYER = 1,
+		WEIGHT_NORM_NEURON = 2
+	};
+
 	void calcOutputs();
 	void doLearning();
 
@@ -195,12 +201,13 @@ public:
 	// sets the learning rate of all neurons
 	void setLearningRate( double _learningRate);
 
+	// chooses the activation function
 	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
 
 	// set the momentum of all neurons in this layer
 	void setMomentum( double _momentum);
 
-	// sets the weight decay scaled by the learning rate
+	// sets the weight decay scaled by the learning rate and abs(error)
 	void setDecay( double _decay);
 
 	// inits weights with a random value between -_max and max
@@ -229,13 +236,15 @@ public:
 
 	void setMaxDetLayer(int _m) { maxDetLayer = _m; };
 
-	void setNormaliseWeights(int _normaliseWeights);
+	void setNormaliseWeights(WeightNormalisation _normaliseWeights);
 
 	void setDebugInfo(int layerIndex);
 
 	void setStep(long int step);
 
 	double getWeightDistanceFromInitialWeights();
+
+	void doNormaliseWeights();
 
 	// 0 = no Threads, 1 = Threads
 	void setUseThreads(int _useThreads) {
@@ -256,7 +265,7 @@ private:
 	double minT;
 	double maxT;
 	int maxDetLayer = 0;
-	int normaliseWeights = 0;
+	WeightNormalisation normaliseWeights = WEIGHT_NORM_NONE;
 	int debugOutput = 0;
 	// for debugging output
 	int layerIndex = 0;
