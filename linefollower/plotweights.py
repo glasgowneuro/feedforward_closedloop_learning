@@ -18,7 +18,7 @@ def plotOneMatrix(i):
         ln[i].remove()
     plt.title(str(i))
     w1 = np.loadtxt("layer"+str(i)+".dat");
-    ln[i] = plt.imshow(w1,cmap='gray')
+    ln[i] = plt.imshow(w1,cmap='gray',interpolation='none')
 
 
 while True:
@@ -28,7 +28,7 @@ while True:
     plotOneMatrix(1)   
     plt.subplot(223)
     plotOneMatrix(2)   
-    plt.subplot(224)
-    plotOneMatrix(3)   
+#    plt.subplot(224)
+#    plotOneMatrix(3)   
     plt.draw()        
     plt.pause(1)

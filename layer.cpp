@@ -84,7 +84,7 @@ void Layer::calcOutputs() {
 void Layer::doNormaliseWeights() {
 	double norm = 0;
 	switch (normaliseWeights) {
-	case WEIGHT_NORM_LAYER:
+	case WEIGHT_NORM_LAYER_EUCLEDIAN:
 		for(int i=0;i<nNeurons;i++) {
 			norm = norm + neurons[i]->getSumOfSquaredWeightVector();
 		}
@@ -93,9 +93,38 @@ void Layer::doNormaliseWeights() {
 			neurons[i]->normaliseWeights(norm);
 		}
 		break;
-	case WEIGHT_NORM_NEURON:
+	case WEIGHT_NORM_NEURON_EUCLEDIAN:
 		for(int i=0;i<nNeurons;i++) {
 			norm = neurons[i]->getEuclideanNormOfWeightVector();
+			neurons[i]->normaliseWeights(norm);
+		}
+		break;
+	case WEIGHT_NORM_LAYER_MANHATTAN:
+		for(int i=0;i<nNeurons;i++) {
+			norm = norm + neurons[i]->getManhattanNormOfWeightVector();
+		}
+		for(int i=0;i<nNeurons;i++) {
+			neurons[i]->normaliseWeights(norm);
+		}
+		break;
+	case WEIGHT_NORM_NEURON_MANHATTAN:
+		for(int i=0;i<nNeurons;i++) {
+			norm = neurons[i]->getManhattanNormOfWeightVector();
+			neurons[i]->normaliseWeights(norm);
+		}
+		break;
+	case WEIGHT_NORM_LAYER_INFINITY:
+		for(int i=0;i<nNeurons;i++) {
+			double a = neurons[i]->getInfinityNormOfWeightVector();
+			if (a>norm) norm = a;
+		}
+		for(int i=0;i<nNeurons;i++) {
+			neurons[i]->normaliseWeights(norm);
+		}
+		break;
+	case WEIGHT_NORM_NEURON_INFINITY:
+		for(int i=0;i<nNeurons;i++) {
+			norm = neurons[i]->getInfinityNormOfWeightVector();
 			neurons[i]->normaliseWeights(norm);
 		}
 		break;

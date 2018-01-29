@@ -25,16 +25,16 @@ protected:
 	// We have one output neuron
 	int nOutputs = 6;
 	// We have two hidden layers
-	int nHiddenLayers = 3;
+	int nHiddenLayers = 2;
 	// We set two neurons in the first hidden layer
-	int nNeuronsInHiddenLayers[6] = {15,10,6,6,6,6};
+	int nNeuronsInHiddenLayers[6] = {9,6,6,6,6,6};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
 	int nFiltersHidden = 0;
 	// Filterbank
 	double minT = 2;
-	double maxT = 100;
+	double maxT = 30;
 
 	double learningRate = 0.0001;
 	
@@ -91,17 +91,17 @@ public:
 
 		deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
 		deep_fbl->setLearningRate(learningRate);
-		deep_fbl->setLearningRateDiscountFactor(2);
+		deep_fbl->setLearningRateDiscountFactor(1);
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
-		deep_fbl->setBias(0);
+		deep_fbl->setBias(1);
 		deep_fbl->setUseDerivative(0);
 		deep_fbl->setActivationFunction(Neuron::TANH);
 		deep_fbl->setMomentum(0.9);
-		//deep_fbl->setDecay(0.01);
-		deep_fbl->getLayer(0)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
-		deep_fbl->getLayer(1)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
-		deep_fbl->getLayer(2)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
-		deep_fbl->getLayer(3)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
+		//deep_fbl->setDecay(10);
+		//deep_fbl->getLayer(0)->setNormaliseWeights(Layer::WEIGHT_NORM_NEURON_INFINITY);
+		//deep_fbl->getLayer(1)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
+		//deep_fbl->getLayer(2)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
+		//deep_fbl->getLayer(3)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
 		
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);
@@ -152,7 +152,7 @@ public:
 		}
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
-                        err[i] = error;
+			err[i] = error;
                 }
 		deep_fbl->doStep(pred,err);
 		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +

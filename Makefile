@@ -1,9 +1,13 @@
-#CFLAGS = -g -O0 -march=native -std=c++11 -DRANGE_CHECKS -pedantic
-CFLAGS = -Ofast -march=native -std=c++11
+CFLAGS = -g -O0 -march=native -std=c++11 -DRANGE_CHECKS -pedantic
+#CFLAGS = -Ofast -march=native -std=c++11
 LDFLAGS = -pthread -std=c++11 -liir
 
-all: deep_feedback_learning.py deep_feedback_learning.a tests_c
+all: deep_feedback_learning.py deep_feedback_learning.a tests_c linefollower
 	ulimit -c unlimited
+
+linefollower: deep_feedback_learning.a
+	make -C linefollower clean
+	make -C linefollower
 
 tests_c: deep_feedback_learning.a
 	make -C tests_c
