@@ -381,11 +381,11 @@ bool DeepFeedbackLearning::saveModel(const char* name) {
 				for (int k=0; k<neuron->getNinputs(); k++) {
 					if(neuron->getMask(k)) {
 						for (int l=0; l<neuron->getNfilters(); l++) {
-							fprintf(f, "%lf ", neuron->getWeight(k,l));
+							fprintf(f, "%.16lf ", neuron->getWeight(k,l));
 						}
 					}
 				}
-				fprintf(f, "%lf ", neuron->getBiasWeight());
+				fprintf(f, "%.16lf ", neuron->getBiasWeight());
 				fprintf(f, "\n");
 			}
 			fprintf(f, "\n");
