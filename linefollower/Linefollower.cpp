@@ -23,11 +23,11 @@ protected:
 
 	int nInputs = 30;
 	// We have one output neuron
-	int nOutputs = 4;
+	int nOutputs = 6;
 	// We have two hidden layers
 	int nHiddenLayers = 3;
 	// We set two neurons in the first hidden layer
-	int nNeuronsInHiddenLayers[6] = {30,10,5,5,5,5};
+	int nNeuronsInHiddenLayers[6] = {15,10,6,6,6,6};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
 	// We set nFilters in the hidden unit
@@ -36,7 +36,7 @@ protected:
 	double minT = 2;
 	double maxT = 100;
 
-	double learningRate = 0.001;
+	double learningRate = 0.0001;
 	
 	DeepFeedbackLearning* deep_fbl = NULL;
 
@@ -57,6 +57,8 @@ protected:
 	double a = -0.5;
 
 	double border = 25;
+
+	long step = 0;
 
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
@@ -89,7 +91,7 @@ public:
 
 		deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
 		deep_fbl->setLearningRate(learningRate);
-		deep_fbl->setLearningRateDiscountFactor(1);
+		deep_fbl->setLearningRateDiscountFactor(2);
 		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(0);
 		deep_fbl->setUseDerivative(0);
@@ -121,7 +123,7 @@ public:
 
 		fprintf(stderr,"%f ",racer->pos.x);
 		// check if we've bumped into a wall
-		if ((racer->pos.x<100) ||
+		if ((racer->pos.x<75) ||
 		    (racer->pos.x>(maxx-border)) ||
 		    (racer->pos.y<border) ||
 		    (racer->pos.y>(maxy+border)) ||
@@ -154,9 +156,11 @@ public:
                 }
 		deep_fbl->doStep(pred,err);
 		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
-			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10;
-		float vR = (deep_fbl->getOutputLayer()->getNeuron(2)->getOutput())*50 +
-			(deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*10;
+			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
+			(deep_fbl->getOutputLayer()->getNeuron(2)->getOutput())*2;
+		float vR = (deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
+			(deep_fbl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
+			(deep_fbl->getOutputLayer()->getNeuron(5)->getOutput())*2;
 		error = error * fbgain;
 		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",vL);
@@ -179,6 +183,14 @@ public:
 			fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getWeight(n,i));
 		}
 		fprintf(llog,"%f\n",deep_fbl->getLayer(0)->getNeuron(0)->getOutput());
+		if ((step%100)==0) {
+			for(int i=0;i<deep_fbl->getNumLayers();i++) {
+				char tmp[256];
+				sprintf(tmp,"layer%d.dat",i);
+				deep_fbl->getLayer(i)->saveWeightMatrix(tmp);
+			}
+		}
+		step++;
 	}
 
 };
