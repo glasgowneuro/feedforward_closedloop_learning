@@ -60,6 +60,11 @@ protected:
 
 	long step = 0;
 
+	double avgError = 0;
+	double avgErrorDecay = 0.001;
+
+	int errorCtr = 1000;
+		
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
 		EnkiWidget(world, parent) {
@@ -105,6 +110,7 @@ public:
 		
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);
+
 	}
 
 	~LineFollower() {
@@ -147,13 +153,24 @@ public:
 		fprintf(stderr,"%f %f %f %f ",leftGround,rightGround,leftGround2,rightGround2);
 		for(int i=0;i<racer->getNsensors();i++) {
 			pred[i] = -(racer->getSensorArrayValue(i))*10;
+			// workaround of a bug in Enki
 			if (pred[i]<0) pred[i] = 0;
 			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%f ",pred[i]);
 		}
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
+       		avgError = avgError + (error - avgError)*avgErrorDecay;
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
 			err[i] = error;
                 }
+		double sqAvgError = avgError * avgError;
+		if (sqAvgError > 0.3E-6) {
+			errorCtr = 1000;
+		}
+		if (errorCtr>0) {
+			errorCtr--;
+		} else {
+			deep_fbl->setLearningRate(0);
+		}
 		deep_fbl->doStep(pred,err);
 		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
 			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
@@ -161,6 +178,7 @@ public:
 		float vR = (deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
 			(deep_fbl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
 			(deep_fbl->getOutputLayer()->getNeuron(5)->getOutput())*2;
+		
 		error = error * fbgain;
 		fprintf(stderr,"%f ",error);
 		fprintf(stderr,"%f ",vL);
@@ -176,11 +194,11 @@ public:
 		}
 		fprintf(flog,"\n");
 		int n = 0;
-		fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getError());
-		fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getInput(n));
+		fprintf(llog,"%e ",avgError);
+		fprintf(llog,"%e ",sqAvgError);
 		for(int i=0;i<deep_fbl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
-			fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
-			fprintf(llog,"%f ",deep_fbl->getLayer(0)->getNeuron(0)->getWeight(n,i));
+			fprintf(llog,"%e ",deep_fbl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
+			fprintf(llog,"%e ",deep_fbl->getLayer(0)->getNeuron(0)->getWeight(n,i));
 		}
 		fprintf(llog,"%f\n",deep_fbl->getLayer(0)->getNeuron(0)->getOutput());
 		if ((step%100)==0) {
