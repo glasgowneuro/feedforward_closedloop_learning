@@ -143,7 +143,7 @@ public:
 		} else {
 			deep_fbl->setLearningRate(learningRate);
 		}
-
+		if (step>13500) deep_fbl->setLearningRate(0);
 		fprintf(stderr,"%f %f %f %f ",leftGround,rightGround,leftGround2,rightGround2);
 		for(int i=0;i<racer->getNsensors();i++) {
 			pred[i] = -(racer->getSensorArrayValue(i))*10;
