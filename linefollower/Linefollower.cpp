@@ -10,14 +10,19 @@
 using namespace Enki;
 using namespace std;
 
+// size of the playground
 double	maxx = 300;
 double	maxy = 300;
 
-class LineFollower : public EnkiWidget
-{
-protected:
-	Racer* racer;
+#define STEPS_BELOW_ERR_THRESHOLD 2500
 
+#define MAX_STEPS 100000
+
+class LineFollower : public EnkiWidget {
+protected:
+	// The robot
+	Racer* racer;
+	
 	const double speed = 90;
 	const double fbgain = 300;
 
@@ -63,7 +68,7 @@ protected:
 	double avgError = 0;
 	double avgErrorDecay = 0.001;
 
-	int errorCtr = 1000;
+	int successCtr = 0;
 		
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
@@ -110,7 +115,20 @@ public:
 	~LineFollower() {
 		fclose(flog);
 		fclose(llog);
+		delete deep_fbl;
+		delete[] pred;
+		delete[] err;
 	}
+
+	void setLearningRate(double _learningRate) {
+		if (_learningRate < 0) return;
+		learningRate = _learningRate;
+		deep_fbl->setLearningRate(learningRate);	
+	}
+
+	inline long getStep() {return step;}
+
+	inline double getAvgError() {return avgError;}
 
 	// here we do all the behavioural computations
 	// as an example: line following and obstacle avoidance
@@ -157,13 +175,16 @@ public:
 			err[i] = error;
                 }
 		double sqAvgError = avgError * avgError;
-		if (sqAvgError > 0.3E-6) {
-			errorCtr = 1000;
-		}
-		if (errorCtr>0) {
-			errorCtr--;
+		if (sqAvgError > 3E-7) {
+			successCtr = 0;
 		} else {
-			deep_fbl->setLearningRate(0);
+			successCtr++;
+		}
+		if (successCtr>STEPS_BELOW_ERR_THRESHOLD) {
+			qApp->quit();
+		}
+		if (step>MAX_STEPS) {
+			qApp->quit();
 		}
 		deep_fbl->doStep(pred,err);
 		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
@@ -207,10 +228,11 @@ public:
 
 };
 
-int main(int argc, char *argv[])
-{
+void singleRun(int argc,
+	       char *argv[],
+	       float learningrate = 0,
+	       FILE* f = NULL) {
 	QApplication app(argc, argv);
-
 	QString filename("loop.png");
 	QImage loopImage;
 	loopImage = QGLWidget::convertToGLFormat(QImage(filename));
@@ -223,6 +245,44 @@ int main(int argc, char *argv[])
 		    Color(1000, 1000, 100),
 		    World::GroundTexture(loopImage.width(), loopImage.height(), bitmap));
 	LineFollower linefollower(&world);
+	if (learningrate>0) {
+		linefollower.setLearningRate(learningrate);
+	}
 	linefollower.show();
-	return app.exec();
+	app.exec();
+	fprintf(stderr,"Finished.\n");
+	if (f) {
+		fprintf(f,"%e %ld %e\n",learningrate,linefollower.getStep(),linefollower.getAvgError());
+	}
+}
+
+void statsRun(int argc,
+	      char *argv[]) {
+	FILE* f = fopen("stats.dat","wt");
+	for(double learningRate = 0.0001; learningRate < 0.1; learningRate = learningRate * 2) {
+		singleRun(argc,argv,learningRate,f);
+		fflush(f);
+	}
+	fclose(f);
+}
+
+
+int main(int argc, char *argv[]) {
+	int n = 0;
+	if (argc>1) {
+		n = atoi(argv[1]);
+	} else {
+		fprintf(stderr,"Single run: %s 0\n",argv[0]);
+		fprintf(stderr,"Stats run: %s 1\n",argv[0]);
+		return 0;
+	}
+	switch (n) {
+	case 0:
+		singleRun(argc,argv);
+		break;
+	case 1:
+		statsRun(argc,argv);
+		break;
+	}
+	return 0;
 }
