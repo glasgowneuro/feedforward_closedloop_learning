@@ -20,7 +20,6 @@ DeepFeedbackLearning::DeepFeedbackLearning(
 	double _maxT) {
 	
 	assert(_num_hid_layers>0);
-	algorithm = backprop;
 
 	ni = num_of_inputs;
 	no = num_outputs;
@@ -77,8 +76,6 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input,
 					   int* num_hidden_array,
 					   int _num_hid_layers,
 					   int num_output) {
-
-	algorithm = backprop;
 
 	ni = num_input;
 	no = num_output;
@@ -141,14 +138,7 @@ void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) 
 			return;
 		}
 		switch (algorithm) {
-		case backprop:
-			if (n2 != no) {
-				fprintf(stderr,"Error array dim mismatch: got: %d, want: %d\n",n2,no);
-				return;
-			}
-			doStepBackprop(input,error);
-			break;
-		case ico:
+		case DFL:
 			if (n2 != layers[0]->getNneurons()) {
 				fprintf(stderr,
 					"Error array dim mismatch: got: %d, want: %d "
@@ -156,10 +146,13 @@ void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) 
 					n2,layers[0]->getNneurons());
 				return;
 			}
-			doStepForwardprop(input,error);
+			doStepDFL(input,error);
 			break;
+		default:
+			fprintf(stderr,"BUG: unknown learning algorithm\n");
+			exit(EXIT_FAILURE);
 		}
-	}
+}
 
 
 void DeepFeedbackLearning::doStep(double* input, double* error) {
@@ -167,12 +160,12 @@ void DeepFeedbackLearning::doStep(double* input, double* error) {
 		fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
 #endif
 		switch (algorithm) {
-		case backprop:
-			doStepBackprop(input,error);
+		case DFL:
+			doStepDFL(input,error);
 			break;
-		case ico:
-			doStepForwardprop(input,error);
-			break;
+		default:
+			fprintf(stderr,"BUG: unknown learning algorithm\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -203,70 +196,7 @@ void DeepFeedbackLearning::setDecay(double decay) {
 }
 
 
-void DeepFeedbackLearning::doStepBackprop(double* input, double* error) {
-	// Let's first propagate the signal through the layers
-	// we set the input to the input layer
-	layers[0]->setInputs(input);
-	// ..and calc its output
-	layers[0]->calcOutputs();
-	// new lets calc the other outputs
-	for (int k=1; k<=num_hid_layers; k++) {
-		// This layer generates the output
-		Layer* emitterLayer = layers[k-1];
-		Layer* receiverLayer = layers[k];
-		// now that we have the outputs from the previous layer
-		// we can shovel them into the next layer
-		// loop through all neurons and copy the content to the next layer
-		for(int i=0;i<emitterLayer->getNneurons();i++) {
-			// get the output of a neuron in the input layer
-			double v = emitterLayer->getNeuron(i)->getOutput();
-			// set that output as an input to the next layer which
-			// is distributed to all neurons
-			receiverLayer->setInput(i,v);
-		}
-		// now let's calc the output which can then be sent out
-		receiverLayer->calcOutputs();
-	}
-	// error processing
-	// we put the error in the last layer, the output layer
-	for (int i=0; i<layers[num_hid_layers]->getNneurons(); i++) {
-		layers[num_hid_layers]->setError(i,error[i] * layers[num_hid_layers]->getNeuron(i)->dActivation());
-	}
-	// let's now loop through the layers backwards
-	for (int k=num_hid_layers; k>0; k--) {
-		// the layer which has the error which is further down towards the
-		// output
-		Layer* emitterLayer = layers[k];
-		// the layer which receives the error is the one which is towards
-		// the input
-		Layer* receiverLayer = layers[k-1];
-		// Calculate the errors for the hidden layers and the input layer
-		// loop through all neurons of the receiver layer and set their
-		// errors
-		for(int i=0;i<receiverLayer->getNneurons();i++) {
-			// accumulate the error by looping through the
-			// emitter layer, get their errors and weight them
-			// with the corresponding weights leading to that
-			// neuron
-			double err = 0;
-			for(int j=0;j<emitterLayer->getNneurons();j++) {
-				// that is the error from neuron j in the emitter
-				// layer influencing the error in the receiver
-				// layer i weighted by its corresponding weight
-				err = err + emitterLayer->getNeuron(j)->getAvgWeight(i);
-				// sanity check that it's not NAN
-				assert(!isnan(err));
-				//fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
-			}
-			receiverLayer->getNeuron(i)->setError(receiverLayer->getNeuron(i)->dActivation() * err);
-		}
-	}
-	doLearning();
-	setStep();
-	step++;
-}
-
-void DeepFeedbackLearning::doStepForwardprop(double* input, double* error) {
+void DeepFeedbackLearning::doStepDFL(double* input, double* error) {
 	// we set the input to the input layer
 	layers[0]->setInputs(input);
 	// ..and calc its output

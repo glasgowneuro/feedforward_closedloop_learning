@@ -97,16 +97,10 @@ public:
 		deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
 		deep_fbl->setLearningRate(learningRate);
 		deep_fbl->setLearningRateDiscountFactor(1);
-		deep_fbl->setAlgorithm(DeepFeedbackLearning::ico);
 		deep_fbl->setBias(1);
 		deep_fbl->setUseDerivative(0);
 		deep_fbl->setActivationFunction(Neuron::TANH);
 		deep_fbl->setMomentum(0.9);
-		//deep_fbl->setDecay(10);
-		//deep_fbl->getLayer(0)->setNormaliseWeights(Layer::WEIGHT_NORM_NEURON_INFINITY);
-		//deep_fbl->getLayer(1)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
-		//deep_fbl->getLayer(2)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
-		//deep_fbl->getLayer(3)->setNormaliseWeights(Layer::WEIGHT_NORM_LAYER);
 		
 		p0.setup(IIRORDER,1,0.02);
 		s0.setup(IIRORDER,1,0.05);

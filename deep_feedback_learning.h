@@ -5,8 +5,8 @@
  * GNU GENERAL PUBLIC LICENSE
  * Version 3, 29 June 2007
  *
- * (C) 2017, Bernd Porr <bernd@glasgowneuro.tech>
- * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
+ * (C) 2017,2018, Bernd Porr <bernd@glasgowneuro.tech>
+ * (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
  **/
 
 #include "globals.h"
@@ -22,14 +22,14 @@
 class DeepFeedbackLearning {
 
 public:
-	// deep ico without any filters
+	// deep fbl without any filters
 	DeepFeedbackLearning(
 			int num_of_inputs,
 			int* num_of_hidden_neurons_per_layer_array,
 			int _num_hid_layers,
 			int num_outputs);
 
-	// deep ico with filters for both the input and hidden layer
+	// deep fbl with filters for both the input and hidden layer
 	// filter number >0 means: filterbank
 	// filter number = 0 means layer without filters
 	// filter parameters: are in time steps. For ex, minT = 10 means
@@ -44,15 +44,20 @@ public:
 			int num_filtersHidden,
 			double _minT,
 			double _maxT);
-	
+
+	// destructor
 	~DeepFeedbackLearning();
 
-	enum Algorithm { backprop = 0, ico = 1 };
+	// Algorithm just now only DFL!
+	enum Algorithm { DFL = 0 };
 
+	// here is where all the magic is happening
 	void doStep(double* input, double* error);
 
+	// here is where all the magic is happening with array range checks
 	void doStep(double* input, int n1, double* error, int n2);
 
+	// get the output of the network
 	double getOutput(int index) {
 		return layers[num_hid_layers]->getOutput(index);
 	}
@@ -60,19 +65,24 @@ public:
 	// set globally the learning rate
 	void setLearningRate(double learningRate);
 
+	// sets how the learnign rate increases or decreases in deeper layers
 	void setLearningRateDiscountFactor(double _learningRateDiscountFactor) {
 		learningRateDiscountFactor = _learningRateDiscountFactor;
 	}
 
+	// global momentum for all layers
 	void setMomentum(double momentum);
 
+	// sets the learning algorithm
 	void setAlgorithm(Algorithm _algorithm) { algorithm = _algorithm; }
 
 	Algorithm getAlgorithm() { return algorithm; }
 
 	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
 
-	void initWeights(double max = 0.001, int initBias = 1, Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
+	void initWeights(double max = 0.001,
+			 int initBias = 1,
+			 Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
 
 	void seedRandom(int s) { srand(s); };
 
@@ -112,13 +122,12 @@ private:
 
 	Layer** layers;
 
-	Algorithm algorithm;
+	Algorithm algorithm = DFL;
 
 	// should be called to relay layer index to the layer
 	void setDebugInfo();
 
-	void doStepBackprop(double* input, double* error);
-	void doStepForwardprop(double* input, double* error);
+	void doStepDFL(double* input, double* error);
 
 	void doLearning();
 	void setStep();

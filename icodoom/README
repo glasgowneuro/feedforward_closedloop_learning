@@ -1,0 +1,5 @@
+There are a few different doom maps (.wad files); the multispawnmultiammo variants are for playing against another bot, and are designed to
+1). make sure the enemy bot never runs out of ammo, and 2). have a wide range of spawn positions to randomise the visual inputs better. 
+
+There are several different versions of the .cfg file here - _vizdoomNetwork will assume a client-server setup, and will attempt to connect
+to a host running at localhost. _vizdoomBasic.cfg is a standalone config, e.g. for running basic.wad against a single monster. 
