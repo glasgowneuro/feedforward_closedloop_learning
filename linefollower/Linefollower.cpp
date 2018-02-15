@@ -16,7 +16,7 @@ double	maxy = 300;
 
 #define STEPS_BELOW_ERR_THRESHOLD 2500
 
-#define MAX_STEPS 100000
+#define MAX_STEPS 200000
 
 class LineFollower : public EnkiWidget {
 protected:
@@ -175,7 +175,7 @@ public:
 			err[i] = error;
                 }
 		double sqAvgError = avgError * avgError;
-		if (sqAvgError > 3E-7) {
+		if (sqAvgError > 1E-6) {
 			successCtr = 0;
 		} else {
 			successCtr++;
@@ -228,6 +228,7 @@ public:
 
 };
 
+
 void singleRun(int argc,
 	       char *argv[],
 	       float learningrate = 0,
@@ -256,12 +257,16 @@ void singleRun(int argc,
 	}
 }
 
+
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-	for(double learningRate = 0.0001; learningRate < 0.1; learningRate = learningRate * 2) {
-		singleRun(argc,argv,learningRate,f);
-		fflush(f);
+	for(double learningRate = 0.000001; learningRate < 0.1; learningRate = learningRate * 1.5) {
+		srandom(42);
+		for(int j=0;j<2;j++) {
+			singleRun(argc,argv,learningRate,f);
+			fflush(f);
+		}
 	}
 	fclose(f);
 }

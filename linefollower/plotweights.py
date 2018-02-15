@@ -3,6 +3,7 @@
 import sys
 import threading
 import math
+import time
 
 from matplotlib import pyplot as plt
 import numpy as np
@@ -30,5 +31,6 @@ while True:
     plotOneMatrix(2)   
 #    plt.subplot(224)
 #    plotOneMatrix(3)   
-    plt.draw()        
-    plt.pause(1)
+    plt.draw()   
+    plt.pause(10)     
+
