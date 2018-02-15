@@ -1,8 +1,7 @@
-#!/usr/bin/python3
-
 from __future__ import print_function
 from vizdoom import *
 import sys
+import os
 import threading
 import math
 
@@ -10,36 +9,27 @@ from random import choice
 from time import sleep
 from matplotlib import pyplot as plt
 
-sys.path.append('../')
+sys.path.append('./..')
 
 import numpy as np
 import cv2
 import deep_feedback_learning
+from deep_feedback_learning import DeepFeedbackLearning
 
-# Create DoomGame instance. It will run the game and communicate with you.
 game = DoomGame()
 
-# Now it's time for configuration!
-# load_config could be used to load configuration instead of doing it here with code.
-# If load_config is used in-code configuration will also work - most recent changes will add to previous ones.
-# game.load_config("../../scenarios/basic.cfg")
-
-# Sets path to additional resources wad file which is basically your scenario wad.
-# If not specified default maps will be used and it's pretty much useless... unless you want to play good old Doom.
 game.set_doom_scenario_path("./basic.wad")
 
-# Sets map to start (scenario .wad files can contain many maps).
 game.set_doom_map("map01")
 
 # Sets resolution. Default is 320X240
-game.set_screen_resolution(ScreenResolution.RES_640X480)
+game.set_screen_resolution(ScreenResolution.RES_160X120)
 
-# create masks for left and right visual fields - note that these only cover the upper half of the image
-# this is to help prevent the tracking getting confused by the floor pattern
-width = 640
-widthNet = 320
-height = 480
-heightNet = 240
+width = 160
+widthNet = 160
+height = 120
+heightNet = 120
+imgCentre = np.array([int(width / 2), int(height / 2)])
 
 # Sets the screen buffer format. Not used here but now you can change it. Defalut is CRCGCB.
 game.set_screen_format(ScreenFormat.RGB24)
@@ -95,14 +85,27 @@ game.set_mode(Mode.PLAYER)
 # Enables engine output to console.
 #game.set_console_enabled(True)
 
-learningRate = 0.05
-nHidden = [5,5]
+nFiltersInput = 0
+nFiltersHidden = 0
+nHidden = [5]
+nOut = 3
+learningRate = 1e-3
+# nFiltersHidden = 0 means that the layer is linear without filters
+minT = 5
+maxT = 10
 
-net = deep_feedback_learning.DeepFeedbackLearning(widthNet*heightNet,nHidden,1)
-net.initWeights(1., deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM);
+net = DeepFeedbackLearning(widthNet*heightNet, nHidden, nOut, nFiltersInput, nFiltersHidden, minT,maxT)
+#net.getLayer(0).setConvolution(widthNet,heightNet)
+#net.getLayer(1).setConvolution(nHidden0,nHidden0)
+net.initWeights(1., deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM)
 net.setLearningRate(learningRate)
-
-err = np.zeros(nHidden[0])
+net.setUseDerivative(0)
+net.setMomentum(0.5)
+net.setBias(0)
+#net.setLearningRateDiscountFactor(1)
+net.getLayer(0).setActivationFunction(deep_feedback_learning.Neuron.TANH)
+net.getLayer(1).setActivationFunction(deep_feedback_learning.Neuron.TANH)
+epoch = 200
 
 # Initialize the game. Further configuration won't take any effect from now on.
 game.init()
@@ -129,15 +132,36 @@ edge = np.array((
 	[1, -4, 1],
 	[0, 1, 0]), dtype="int")
 
-
-
-
-
-
 plt.ion()
 plt.show()
 ln1 = False
 ln2 = [False,False,False,False]
+
+def getMaxColourPos(img, colour):
+    img = np.array(img, dtype='float64')
+    width = int(img.shape[1])
+    height = int(img.shape[0])
+#    img[:,10,10] = [0,0,255]
+    diff = np.ones(img.shape)
+    diff[:,:,0] = colour[0]
+    diff[:,:,1] = colour[1]
+    diff[:,:,2] = colour[2]
+    diff = np.absolute(np.add(diff, (-1*img)))
+    cv2.imwrite("/home/paul/tmp/Images/Positive/diff-" + ".jpg", diff)
+    diff = np.sum(diff, axis=2)
+    cv2.imwrite("/home/paul/tmp/Images/Positive/diffGrey-" + ".jpg", diff)
+
+    indx = np.argmin(diff)
+    indx0 = int(indx / width)
+    indx1 = indx % width
+    pts = np.asarray(np.where((np.mean(diff) - diff) > 150))
+    if (pts.shape[1]>0):
+        bottomLeft = np.array([np.amin(pts[1]), np.amin(pts[0])])
+        topRight = np.array([np.amax(pts[1]), np.amax(pts[0])])
+    else:
+        bottomLeft = []
+        topRight = []
+    return np.array([indx1, indx0]), bottomLeft, topRight, np.mean(diff) - diff[indx0,indx1]
 
 def getWeights2D(neuron):
     n_neurons = net.getLayer(0).getNneurons()
@@ -184,20 +208,47 @@ def plotWeights():
                 w1[i,:] = getWeights1D(j,i)
             ln2[j] = plt.imshow(w1,cmap='gray')
             plt.draw()
-            plt.pause(0.1)
+            plt.pause(5.0)
 
 
 t1 = threading.Thread(target=plotWeights)
 t1.start()
-            
+
+try:
+    checkpointFile = open("Models/checkpoint")
+    try:
+        modelName = checkpointFile.read().splitlines()
+        if(net.loadModel(modelName[0])):
+            print("loaded from Model file: ", modelName[0])
+        else:
+            print("FAILED loading from Model file: ", modelName[0])
+    except:
+        print ("Checkpoint file contains no valid model")
+    finally:
+        checkpointFile.close()
+except Exception:
+    print ("No checkpoint found...")
+
+rawInputs = np.zeros((width, height))
+input_buff = np.zeros((width * height))
+netErr = np.zeros(nHidden[0])
+netOut = 0.
+
+reflexGain = 1E-4
+netGain = 20.
+reflexReduceGain = -0.01
+
+delta = 0.
+oldDelta = 0.
+deltaDiff = 0.
+diff_theta = 0.
 for i in range(episodes):
-    print("Episode #" + str(i + 1))
 
     # Starts a new episode. It is not needed right after init() but it doesn't cost much. At least the loop is nicer.
     game.new_episode()
 
     tc = 0
-
+    output = 0
     while not game.is_episode_finished():
 
         # Gets the state
@@ -212,67 +263,73 @@ for i in range(episodes):
         automap_buf = state.automap_buffer
         labels = state.labels
 
-        midlinex = int(width/2);
-        midliney = int(height*0.75);
+        midlinex = int(width / 2)
+        midliney = int(height * 0.75)
         crcb = screen_buf
-        screen_left = screen_buf[100:midliney,0:midlinex,2]
-        screen_right = screen_buf[100:midliney,midlinex:width,2]
-        screen_left = cv2.filter2D(screen_left, -1, sharpen);
-        screen_right = cv2.filter2D(screen_right, -1, sharpen);
-        screen_diff = screen_left-np.fliplr(screen_right)
-        cv2.imwrite('/tmp/left.png',screen_left)
-        cv2.imwrite('/tmp/right.png',screen_right)
-        cv2.imwrite('/tmp/diff.png',screen_diff)
-        lavg = np.average(screen_left)
-        ravg = np.average(screen_right)
-        delta = (lavg - ravg)*3
-        dd = delta - delta2
-        delta2 = delta
-#        print(delta)
 
-#        net.setLearningRate(0)
+        rawInputs = np.array(np.sum(crcb, axis=2) / 3)
+        input_buff[:] = np.ndarray.flatten(rawInputs)
+        input_buff = input_buff - np.mean(input_buff)
+        input_buff = input_buff / np.sqrt(np.var(input_buff))
+
         shoot = 0
-        if (dontshoot > 1) :
+        if (dontshoot > 1):
             dontshoot = dontshoot - 1
-        else :
-            if (tc > 10):
+        else:
+            if (tc > 30):
                 shoot = 1
-                #print("learn")
-#                net.setLearningRate(learningRate)
-                dontshoot = 0
+                dontshoot = 5
 
-        err[:] = delta
-        res = (cv2.resize(screen_diff, (widthNet,heightNet)).flatten())
-#        for i in err:
-#            print(i,end=' ')
-#        print(0)
-#        print(res)
-#        cv2.imwrite('/tmp/res.png',res)
-        net.doStep(res,err)
+        centre, bottomLeft, topRight, colourStrength = getMaxColourPos(crcb, [255, 0, 0])
+        colourSteer = imgCentre[0]
 
-        output = net.getOutput(0)*20
-        print(n,delta,output,
-              net.getLayer(0).getWeightDistanceFromInitialWeights(),"\t",
-              net.getLayer(1).getWeightDistanceFromInitialWeights(),"\t")
+        if (len(bottomLeft) > 0 and len(topRight) > 0 and ((topRight[0] - bottomLeft[0]) < width / 3) and (
+            (topRight[1] - bottomLeft[1]) < height / 2)):
+            colourSteer = bottomLeft[0] + int(0.5 * (topRight[0] - bottomLeft[0]))
+            shoot = 1
 
-        if i>1000:
-            delta = 0
-#            net.setLearningRate(0)
+        if (tc > 2):
+            delta = (float(colourSteer) - float(imgCentre[0])) / float(width)
+            if (np.abs(delta) > 0.01):
+                shoot = 0
 
-        action = [ 0., shoot, (delta+output)*0.1 ]
+        else:
+            delta = 0.
+
+        netErr[:] = delta
+
+        net.setLearningRate(0.)
+        net.doStep(np.ndarray.flatten(input_buff), netErr)
+        netOut = net.getOutput(0) + 0.3 * net.getOutput(1) + 0.1 * net.getOutput(2)
+        netErr += reflexReduceGain * netGain * netOut
+
+        net.setLearningRate(learningRate)
+        net.doStep(np.ndarray.flatten(input_buff), netErr)
+        netOut = net.getOutput(0) + 0.3 * net.getOutput(1) + 0.1 * net.getOutput(2)
+
+        diff_theta = reflexGain * colourStrength * delta
+
+        action = [ 0., shoot, diff_theta + netGain*output]
+        print(tc, delta, netGain * netOut)
         r = game.make_action(action)
-
         tc = tc + 1
 
 #        if sleep_time > 0:
 #            sleep(sleep_time)
 
     # Check how the episode went.
-    print("Episode finished.")
-    print("Total reward:", game.get_total_reward())
-    print("************************")
     tc = 0
-    sleep(1)
+
+    #30 fps
+    sleep(.03)
+
+    if not os.path.exists("Models"):
+        os.makedirs("Models")
+    net.saveModel("Models/BP-" + str(i) + ".txt")
+
+    file = open("Models/checkpoint", 'w')
+    file.write("Models/BP-" + str(i) + ".txt")
+    file.close()
 
 # It will be done automatically anyway but sometimes you need to do it in the middle of the program...
 game.close()
