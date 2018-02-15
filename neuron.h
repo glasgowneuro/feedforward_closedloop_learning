@@ -19,7 +19,7 @@
 // #define DEBUG_NEURON
 
 // enables bandpass debug
-#define DEBUG_BP
+// #define DEBUG_BP
 
 #include "globals.h"
 #include "bandpass.h"
