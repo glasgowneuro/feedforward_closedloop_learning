@@ -1,0 +1,74 @@
+\documentclass{llncs}
+
+\usepackage{graphicx}                                        % for pdf, jpeg, png and tif graphics
+\usepackage{amsmath}                                         % for align
+\usepackage{amssymb}                                         % for >= and <= signs
+\usepackage{xfrac}                                           % for nice x/y fractions (sfrac)
+\usepackage{tikz}
+\usepackage{amsbsy}                     % for boldsymbol
+\usepackage{upgreek}
+
+\mathchardef\mhyp="2D    % define math mode hyphen
+
+\allowdisplaybreaks[4]
+
+\title{Deep feedback learning}
+
+\author{Bernd Porr \and Paul Miller}
+
+\institute{Glasgow Neuro, bernd,paul@glasgowneuro.tech}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+\section{Introduction}
+
+\section{Deep feedback learning}
+We define a multi layered network where every neuron is a standard computational
+unit which calculates the weighted sums of its inputs and then sent through an
+activation function:
+\begin{equation}
+  v_j = \Theta\left( \sum_i w_{ij} v_{i} \right)
+\end{equation}
+where the activity feeds from neurons in layer $v_i$ to neurons in layer $v_j$
+and so forth. The activities are weighted by the weights $w_{ij}$.
+
+The errors are also injected into the input layer and then propagrated through
+the network:
+\begin{equation}
+  e_j = \frac{\left( \sum_i w_{ij} e_{i} \right) \Theta^\prime (v_j) }{\sqrt{\sum_i w_{ij}}}
+\end{equation}
+where the $\Theta^\prime (v_j)$ is the derivative from the activation function.
+
+The weight change is then calculated in a heterosynaptic fashion:
+\begin{equation}
+  w_{ij} = w_{ij} + \gamma v_i * e_j
+\end{equation}
+where $\gamma$ is the learning rate and the weights are normalised
+
+Learning is then performed in two passes: first the activity is propagated and
+then the error signal is propagated via the same mechanism.
+
+\section{Results}
+
+\section{Discussion}
+
+\bibliographystyle{splncs03}
+
+\bibliography{sab_submission,isab,ours}
+
+\end{document}
+
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\columnwidth]{arena_cct.pdf}
+  \caption{A. Overview of the simulation environment. The arena has two markers, labelled R and B (red and blue), within   \label{fig:cct}
+    }
+\end{figure}
+
