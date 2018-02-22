@@ -14,6 +14,7 @@ using namespace std;
 double	maxx = 300;
 double	maxy = 300;
 
+#define SQ_ERROR_THRES 1E-7 // 1E-6 for stats
 #define STEPS_BELOW_ERR_THRESHOLD 2500
 
 #define MAX_STEPS 200000
@@ -52,6 +53,8 @@ protected:
 
 	FILE* llog = NULL;
 
+	FILE* fcoord = NULL;
+
 	Iir::Bessel::LowPass<IIRORDER> p0;
 	Iir::Bessel::LowPass<IIRORDER> s0;
 
@@ -76,6 +79,7 @@ public:
 
 		flog = fopen("log.dat","wt");
 		llog = fopen("l.dat","wt");
+		fcoord = fopen("coord.dat","wt");
 
 		// setting up the robot
 		racer = new Racer(nInputs);
@@ -115,6 +119,7 @@ public:
 	~LineFollower() {
 		fclose(flog);
 		fclose(llog);
+		fclose(fcoord);
 		delete deep_fbl;
 		delete[] pred;
 		delete[] err;
@@ -140,6 +145,7 @@ public:
 		double rightGround2 = racer->groundSensorRight2.getValue();
 
 		fprintf(stderr,"%f ",racer->pos.x);
+		fprintf(fcoord,"%f %f\n",racer->pos.x,racer->pos.y);
 		// check if we've bumped into a wall
 		if ((racer->pos.x<75) ||
 		    (racer->pos.x>(maxx-border)) ||
@@ -175,7 +181,7 @@ public:
 			err[i] = error;
                 }
 		double sqAvgError = avgError * avgError;
-		if (sqAvgError > 1E-6) {
+		if (sqAvgError > SQ_ERROR_THRES) {
 			successCtr = 0;
 		} else {
 			successCtr++;
