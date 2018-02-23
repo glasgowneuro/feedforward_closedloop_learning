@@ -29,6 +29,52 @@
 
 \begin{figure}[h!]
   \centering
+  \includegraphics[width=0.75\columnwidth]{closed_loop}
+  \caption{A closed loop system with a setpoint $SP$, transfer function $H$ and the
+    environment $P_0$ which needs to work against unpredictable disturbances $D$.
+    The error signal generated tunes a deep neuronal network which has inputs
+    $v_j$ which predict the disturbances. The network tries to pre-empt these
+    disturbances and generate an appropriate action $v_k$.
+    \label{closed_loop}}
+\end{figure}
+
+\section{Closed loop learning}
+
+Deep feedback learning operates in a closed loop scenario. Before we can describe
+the actual deep feedback algorithm we need to put the algoritm into a closed loop
+system. Fig.~\ref{closed_loop} shows the whole closed loop system with the deep
+feedback learning as a black box for now. The main idea is that we have a fixed
+closed loop which is able to fend off disturbances. For example this can be
+an unexpected bend on a road or the sudden appearance of an enemy. The loop then
+takes appropriate action to solve this disturbance, e.g. steering the car along
+the road or shoots the enemy. In formal terms we have a setpoint $SP$ which
+compares the input of organism to an input. If that input deviates from the
+setpoint an action is generated with the transfer function $H_0$. This action
+then eliminates the disturbance $D$ and arrives via the environmental
+transfer function $P_0$ at the input again, thus, the loop is closed. However,
+we are not so much interested in the particular design of the the closed loop
+but that it generates an \textsl{error signal}. This error signal is non-zero
+if a disturbance has happend. This error signal can now be used to tune our
+deep feedback learning network.
+
+The deep feedback learning network receives additional inputs which are able
+to predict the disturbance and thus can prevent the trigger of the feedback
+loop. These additional inputs are provided via the transfer function $P_1$
+and represent the disturbance in a filtered form. For example a video camera
+can provide images of the road ahead or that of the enemy. Deep feedback
+learning has the task to take the error signal and tune its network
+to generate an action which helps to minimise the error. In the next section
+we are going to describe the deep feedback learning now how this can
+compute the appropriate output. Note that deep feedback learning receives
+its feedback via the environment so that it only learns if it has been
+successful after its actions have travelled through the environment. Thus learning
+evaluates if certain inputs to its network can be used to generate
+appropriate actions and these are then slowly transformed into actions.
+For that reason the error signal is propagated in a \textsl{forward} fashion
+throught the network which will be presented next.
+
+\begin{figure}[h!]
+  \centering
   \includegraphics[width=\columnwidth]{netw_together}
   \caption{A) Overview of the network. Except for the input layer
     every neuron is a composite neuron with an activation $v$ and
