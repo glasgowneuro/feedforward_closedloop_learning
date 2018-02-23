@@ -188,8 +188,9 @@ need to add the deep feedback learning circuit to it.
 
 We now need to add our deep feedback learning circuit which uses the
 predictive ground sensors where their outputs all feed into $v_j$ of
-the input layer (see Eq.~\ref{act_sum}). We have two rows of sensors. One which
-is right in front of the robot and another one which looks further ahead.
+the input layer (see Eq.~\ref{act_sum}) after having been filtered bbb
+fixme Filterbank bbb. We have two rows of sensors. One which is right
+in front of the robot and another one which looks further ahead.
 
 The output layer of our deep feedback learner with its activations
 $v_k$ has 6 neurons ($k=0 \ldots 5$) which can be seen as soft
@@ -197,8 +198,10 @@ decision making units where 3 of them determine the change of the speed of
 the wheel on the right and 3 of them the speed of the wheel on the
 left which leads to the final formulas for the motor outputs:
 \begin{eqnarray}
-\mathrm{leftSpeed} &= s_0 + g\, \mathrm{error} + &\left( 50 v_0 + 10 v_1 + 2 v_2 \right) \\
-\mathrm{rightSpeed} &= s_0 - g\, \mathrm{error} + &\left( 50 v_3 + 10 v_4 + 2 v_5 \right)
+  \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
+                     &=& s_0 + v_l \\
+  \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r} \\
+                     &=& s_0 - v_r
 \end{eqnarray}
 where $v_0, \ldots, v_5$ are the 6 outputs from the deep feedback learning network.
 Note that neither the inputs nor the outputs are organised in a topographically
@@ -206,7 +209,38 @@ organised way. The network needs to find out with the help of the error signals
 which sensor inputs $v_k$ will lead eventually to appropriate steering actions $v_j$.
 
 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\columnwidth]{line_results}
+  \caption{Results of the linefollowing task. A) Shows the robot at
+    the very start of the simulation run from time step 0 to 600.
+    B) the difference between the robot wheel speeds just for the learned
+    actions (i.e. the output of the dfl network): $v_l-v_r$.
+    C) the error signal squared: $\mathrm{error}^2$.
+    D) simulation run just before the end at 13400 to 14000 time steps.
+    E) the weights of the 1st layer, F) the weights of the 2nd layer and
+    G) the weights of the output layer and 
+    H) the euclidean distance of the weights for each layer from their initial starting point.
+    \label{line_results}}
+\end{figure}
+
+
+
 \subsection{Results}
+Fig.~\ref{line_results} shows the results of a simulation run. In the panels
+A) and D) we see the trajectory of the agent at the starts of the run and
+at the end of the run afer 13400 time steps. While the agent in A) clearly
+just follows the reflex reaction which leads to a large deviation from the track
+in D) the agent follows closely the track and the deviation is minimal, thus
+learning has been successful. The steering output of the DFL network are shown
+in B) which generate the steering actions to keep the agent closely on track.
+It can be seen that the network clearly slows down in the change of output.
+C) is the squared error signal which shows that it quickly drops to near zero
+and then only small components are left. This error signal has been smoothed out
+to see if the average error becomes zero. E) is the weight matrix at the end
+of learning of the 1st layer which correlates the error with the two rows of
+predictive ground sensors $v_j$.
 
 
 \section{Shooter game}
