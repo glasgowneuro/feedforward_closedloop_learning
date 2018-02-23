@@ -102,7 +102,7 @@ where every neuron is a standard computational unit which calculates
 the weighted sums of its inputs and then sent through an activation
 function:
 \begin{equation}
-  v_k = \Theta\left( \sum_i w_{jk} v_{j} \right)
+  v_k = \Theta\left( \sum_i w_{jk} v_{j} \right) \label{act_sum}
 \end{equation}
 where the activity feeds from neurons in layer $v_j$ to neurons in layer $v_k$
 and so forth. The activities are weighted by the weights $w_{jk}$
@@ -148,9 +148,72 @@ signal and the activity is propagated in a forward fashion through the network.
 Learning itself is the ``Hebbian'' but by correlating the actual activation
 and the error signal. 
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\columnwidth]{linefollower_robot_playground}
+  \caption{A) Robot setup. The robot is simulated with a updated
+    version of enki for QT5 (https://github.com/berndporr/enki)
+    where the line follower is using just the ground sensors of the
+    robot to create the error signal and the predictive signals ($v_j$)
+    for DFL. The robot has two wheels which speed is controlled
+    by the feedback control and DFL.
+    B) The line following scenario used for the simulations. The robot
+    attempts to drive along the line and is reversed at the end of the
+    line and the drives back. If it hits the boundaries of the playground
+    it is also turned around.
+    \label{linefollower_robot_playground}}
+\end{figure}
 
 
-\section{Results}
+
+
+\section{Line follower}
+In order to demonstrate DFL we need a simple closed loop scenario which can be
+improved with the help of our adaptive neuronal network. 
+Fig.~\ref{linefollower_robot_playground} shows a simple line following robot which has the task to
+follow the line as depicted in
+Fig.~\ref{linefollower_robot_playground}B wheret the robot at the end the robot is reversed
+and then drives it back in the other direction and so forth. The 4 ground sensors
+in Fig.~\ref{linefollower_robot_playground}A right to both sides of the robot create
+an error signal:
+\begin{equation}
+\mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2})
+\end{equation}
+which then directly create a steering reaction to keep the robot on track by
+controlling the speed of the wheels. Without taking into account the contribution
+of our deep feedback learning output this yields: $\mathrm{leftSpeed} = s_0 + g error$ for the
+left wheel and $\mathrm{rightSpeed} = s_0 - g error$ for the right wheel
+where $s_0$ is the baseline speed of the robot and $g$ the feedback gain. We now
+need to add the deep feedback learning circuit to it.
+
+We now need to add our deep feedback learning circuit which uses the
+predictive ground sensors where their outputs all feed into $v_j$ of
+the input layer (see Eq.~\ref{act_sum}). We have two rows of sensors. One which
+is right in front of the robot and another one which looks further ahead.
+
+The output layer of our deep feedback learner with its activations
+$v_k$ has 6 neurons ($k=0 \ldots 5$) which can be seen as soft
+decision making units where 3 of them determine the change of the speed of
+the wheel on the right and 3 of them the speed of the wheel on the
+left which leads to the final formulas for the motor outputs:
+\begin{eqnarray}
+\mathrm{leftSpeed} &= s_0 + g\, \mathrm{error} + &\left( 50 v_0 + 10 v_1 + 2 v_2 \right) \\
+\mathrm{rightSpeed} &= s_0 - g\, \mathrm{error} + &\left( 50 v_3 + 10 v_4 + 2 v_5 \right)
+\end{eqnarray}
+where $v_0, \ldots, v_5$ are the 6 outputs from the deep feedback learning network.
+Note that neither the inputs nor the outputs are organised in a topographically
+organised way. The network needs to find out with the help of the error signals
+which sensor inputs $v_k$ will lead eventually to appropriate steering actions $v_j$.
+
+
+\subsection{Results}
+
+
+\section{Shooter game}
+
+
+\subsection{Results}
+
 
 \section{Discussion}
 

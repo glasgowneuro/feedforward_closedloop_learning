@@ -55,9 +55,6 @@ protected:
 
 	FILE* fcoord = NULL;
 
-	Iir::Bessel::LowPass<IIRORDER> p0;
-	Iir::Bessel::LowPass<IIRORDER> s0;
-
 	double IRthres = 100;
 
 	int learningOff = 1;
@@ -111,9 +108,6 @@ public:
 		deep_fbl->setActivationFunction(Neuron::TANH);
 		deep_fbl->setMomentum(0.9);
 		
-		p0.setup(IIRORDER,1,0.02);
-		s0.setup(IIRORDER,1,0.05);
-
 	}
 
 	~LineFollower() {
