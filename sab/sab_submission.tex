@@ -353,6 +353,25 @@ signal can correct mistakes.
 
 \section{Shooter game}
 
+In this scenario, we try to learn to play a first-person shooter purely from visual inputs. We use the Vizdoom (http://vizdoom.cs.put.edu.pl/) environment for this purpose, and train a controller to play against a single pretrained bot from Intel that ran in the Vizdoom 2016 competition. The setup was as follows:
+
+Our bot’s only actions were to rotate in the plane, and shoot. We did also experiment with having our bot move around, but it is far more difficult to get effective learning trials. In the majority of cases, our bot would almost never see the enemy as it was facing towards the wall. We tried two different input representations - ‘flat’ input image vs assigning a spatial receptive field for each hidden unit. We found little difference in learning, so the flat form is reported here. We also experimented with a variety of temporal filters on the inputs, but found that the best results came from having no filters at all. We report the filterless version here. We created a custom Doom map that randomised spawn positions, so as to help generalise across visual inputs.
+
+The images returned from Vizdoom are RGB. We rendered the enemy in blue, and formed a reflex signal by finding the bounding box of the pixels within a defined similarity of that colour. Note that the reflex is inherently noisy, as other events in the game are also rendered blue (e.g. the ‘flashes’ that happen when an ammo box respawns). The reflex also fails at times when the enemy is too distant or too close to the camera. For learning, we only supply the network with the greyscale image, so it is forced to discover purely spatial cues. The reflex is computed relative to the image centre, so a negative value implies the enemy is on the left. Shooting behaviour is entirely hardwired: if an enemy is detected within a threshold of the image centre, the bot fires. Instead of separate outputs for left and right, we have a single value produced by 3 neurons acting at different sensitivites:
+\begin{equation}
+\mathrm{rotation} = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
+\end{equation}
+where $v_0, \ldots, v_2$ are the network outputs.
+
+
+
+\subsection{Results}
+
+As before, we see that the controller outputs steadily increase over time. With a high value of $g_{net}$, the bot can make very rapid aiming movements. This has the advantage that the error can in principle be reduced very quickly; it also causes the bot to sometimes make large rotations even when the enemy is out of the field of view, which helps with exploration. On the other hand, it can cause the aiming to overshoot and oscillate around the target. 
+
+Unlike the Line follower, in the shooting scenario it is not possible to drive the error to zero, as there are discontinuities when either bot respawns, and so the enemy will often abruptly appear somewhere in the image. A good measure of performance is simply how often our bot is killed vs how often it kills the enemy. In gaming, this is called the kill/death ratio, and we plot some smoothed KD curves in Fig.~\ref{shooter_results}
+
+
 
 \subsection{Results}
 
