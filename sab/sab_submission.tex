@@ -325,6 +325,28 @@ is required.
     \label{line_stats}}
 \end{figure}
 
+We have run statistics of the line follower where we varied the learning
+rate over 4 orders of magnitudes and evaluated how long it takes to stay
+below a certain error threshold (Fig.~\ref{line_stats}A) for a specified
+time and the resulting squared error for these runs (Fig.~\ref{line_stats}B).
+We see that the time to reach the criterion decreases with higher learning
+rates and is stable between a learning rate of approx $10^{-5}$ and $10^{-4}$ and,
+thus about one order of magnitude. In order to test if the network initialisation
+plays a role for every learning rate the simulation was run with two different
+random number seeds. It can be seen that in the stable region this results
+in different times till success whereas outwidth the stable region about
+half of the runs fail. For lower learning rates this might still become successful
+in the end which suggests Fig.~\ref{line_stats}B where only three runs resulted
+in non-convergence. At low learning rates the robot sometimes learns essentially
+``open loop'' where the error signal has very little impact and thus learning
+might drift very slowly into the wrong direction only to be corrected later on.
+At very high learning rates the predictive learning turns into one shot
+learning which also might learn accidentially the wrong behaviour. This is
+then detrimental in numerous cases. In the optimal regime (between the dotted lines)
+learning always reaches low error values. Overall it's interesting that lower
+learning rates won't neccessary are better but that intermediate learning rates
+perform best which does both, learning fast but slow enough so that the error
+signal can correct mistakes.
 
 
 
