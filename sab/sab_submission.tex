@@ -1,6 +1,6 @@
 \documentclass{llncs}
 
-\usepackage{graphicx}                                        % for pdf, jpeg, png and tif graphics
+\usepackage{graphicx}                                        % for eps, pdf, jpeg, png and tif graphics
 \usepackage{amsmath}                                         % for align
 \usepackage{amssymb}                                         % for >= and <= signs
 \usepackage{xfrac}                                           % for nice x/y fractions (sfrac)
@@ -26,6 +26,60 @@
 \end{abstract}
 
 \section{Introduction}
+When an agent acts in its environment then it's actions in turn will
+change its sensor inputs which in turn will cause certain actions, or in
+short: the agent acts in a close loop system. In the simplest case this
+is a reactive system where the agent encounters threats or rewards and
+then acts accordingly. Both, threats and rewards are unpredictable events
+where the agent needs to react as quickly as possible. These have been
+called in the past ``disturbances'' or ``perturbations'' because they force
+the agent to act at a random moment in time. Important here is that these
+occur at the \textsl{input} of the agent and, thus, a closed loop system
+performs ``input control'' -- in contrast to a pattern recognition system
+which performs ``output control''.
+
+The above scenario has a major drawback that it's always too late.
+It is safer for an agent to predict these disturbances with
+the help of additional information and at this point adaptive behaviour comes
+into play. Obviously at the moment of the disturbance it's already too late.
+For example the tiger has already attacked or the food has been found by
+pure coincidence. In order to become smarter one can then look back in time
+and determine which additional input signals could have been used. This has been
+shown in many scenarios (loads of refs bbb) but is always based on the premise
+that earlier signals can prevent unexpected threats or rewards.
+
+Adaptive controller for this kind of learning are either correlation based (ICO, ISO, bbb)
+or state space based (RL, bbb) which calculate predictions. The state space based
+ones have become very powerful because they could be drastically enhanced
+up by a deep learning network. However, their main drawback is that they are slow
+and their reliance on a state space limits their applicability to real
+world problems. In addition the deep learning architecture requires backprop
+which contradicts the feedforward nature of biologically realistic networks
+and can only be justified in special cases, for example by precisely tuned gating and/or
+feedback in very simple scenarios. On the other hand correlation based methods can be very fast but
+so far it has been difficult to implement them on deep networks with many layers.
+These correlation based methods use ``input control'' which means that the
+error signal is fed into the network at its inputs. This is by far more compatible
+with biology which calls for a network which can propagate errors in a feedforward
+fashion instead in the backprop fashion.
+
+How could an error propagated through a network in a forward fashion? Here we can
+take inspiration from backprop when we look how the error in backprop is propagated.
+In essence the hidden layers receive a \textsl{weighted} sum of the errors from the
+previous layers which makes sense in an intuitive way: the strongest weights
+contribute strongest to the error. Now, thinking of a forward propagation we
+can do the same: the error introduced at the input will have its strongest
+impact via the weights which are high. So, consequently we propagate the error
+in a forward fashion in the same way as done in backprop. Eventually the agent
+will make an action and this will feedback to the input of the agent which
+then in turn will correct the weights in all layers.
+
+In this paper we present a novel deep network algorithm for closed loop systems
+which we call ``Deep Feedback Learning'' (DFL). This algorithm marries the
+ideas for correlation based closed loop learning with those from deep learning
+by turning deep learning from a backprop based algorithm to a forward-prop
+algorithm. We demonstrate that it works with the help of two scenarios:
+a line following scenario and a 1st person shooter.
 
 \begin{figure}[h!]
   \centering
