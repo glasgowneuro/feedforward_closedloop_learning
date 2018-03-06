@@ -26,115 +26,103 @@
 \end{abstract}
 
 \section{Introduction}
-When an agent acts in its environment then it's actions in turn will
-change its sensor inputs which in turn will cause certain actions, or in
-short: the agent acts in a close loop system. In the simplest case this
-is a reactive system where the agent encounters threats or rewards and
-then acts accordingly. Both, threats and rewards are unpredictable events
+When an agent acts in its environment, its actions in turn will
+change its sensor inputs which in turn will cause new actions, or in
+short: the agent acts in a closed-loop system. In the simplest case this
+is a reactive system where the agent encounters threats or rewards, and
+then acts accordingly. Both threats and rewards are unpredictable events
 where the agent needs to react as quickly as possible. These have been
 called in the past ``disturbances'' or ``perturbations'' because they force
-the agent to act at a random moment in time. Important here is that these
+the agent to act at an unpredictable moment in time. Importantly,these
 occur at the \textsl{input} of the agent and, thus, a closed loop system
 performs ``input control'' -- in contrast to a pattern recognition system
 which performs ``output control''.
 
-The above scenario has a major drawback that it's always too late.
-It is safer for an agent to predict these disturbances with
-the help of additional information and at this point adaptive behaviour comes
-into play. Obviously at the moment of the disturbance it's already too late.
-For example the tiger has already attacked or the food has been found by
-pure coincidence. In order to become smarter one can then look back in time
-and determine which additional input signals could have been used. This has been
-shown in many scenarios (loads of refs bbb) but is always based on the premise
-that earlier signals can prevent unexpected threats or rewards.
+The above scenario has a major drawback that the reactions are always too late.
+It would be safer for an agent to learn to predict these disturbances from other cues, and so adaptive behaviour becomes relevant. At the moment of the disturbance it's already too late - the tiger has already attacked, or the food has been found by pure coincidence. However, one can then look back in time and determine which input signals could have been used to predict this unexpected threat or reward. (loads of refs bbb). 
 
-Adaptive controller for this kind of learning are either correlation based (ICO, ISO, bbb)
-or state space based (RL, bbb) which calculate predictions. The state space based
-ones have become very powerful because they could be drastically enhanced
-up by a deep learning network. However, their main drawback is that they are slow
-and their reliance on a state space limits their applicability to real
-world problems. In addition the deep learning architecture requires backprop
-which contradicts the feedforward nature of biologically realistic networks
-and can only be justified in special cases, for example by precisely tuned gating and/or
-feedback in very simple scenarios. On the other hand correlation based methods can be very fast but
-so far it has been difficult to implement them on deep networks with many layers.
-These correlation based methods use ``input control'' which means that the
-error signal is fed into the network at its inputs. This is by far more compatible
-with biology which calls for a network which can propagate errors in a feedforward
+Adaptive controllers for this kind of learning are either correlation-based (ICO, ISO, bbb)
+or state space-based (RL, bbb). The state space-based
+ones have become very powerful because they can be drastically enhanced
+by a deep learning network. However, their main drawback is that they are slow
+and the state space approach limits their applicability to real
+world problems. In addition the deep learning architecture requires backprop,
+which contradicts the feedforward nature of biologically-realistic networks,
+and can only be justified in special cases, e.g. by precisely tuned gating and/or
+feedback in very simple scenarios. On the other hand correlation based methods can be very fast, but so far it has been difficult to use them on deep networks with many layers.
+These correlation based methods use ``input control'', which means that the
+error signal is fed into the network at its inputs. This is much more compatible
+with biology, which requires a network that propagates errors in a feedforward
 fashion instead in the backprop fashion.
 
 How could an error propagated through a network in a forward fashion? Here we can
-take inspiration from backprop when we look how the error in backprop is propagated.
-In essence the hidden layers receive a \textsl{weighted} sum of the errors from the
-previous layers which makes sense in an intuitive way: the strongest weights
-contribute strongest to the error. Now, thinking of a forward propagation we
-can do the same: the error introduced at the input will have its strongest
+take inspiration from how errors are transmitted in backprop. 
+In essence the hidden layers receive a \textsl{weighted sum} of the errors from the
+previous layers which makes intuitive sense: the strongest weights
+contribute the most to the error. Imagine we take a similar approach using forward propagation: the error introduced, at the input, will have its strongest
 impact via the weights which are high. So, consequently we propagate the error
 in a forward fashion in the same way as done in backprop. Eventually the agent
-will make an action and this will feedback to the input of the agent which
-then in turn will correct the weights in all layers.
+will make an action and this will feedback to the input of the agent, which
+in turn then corrects the weights in all layers.
 
 In this paper we present a novel deep network algorithm for closed loop systems
 which we call ``Deep Feedback Learning'' (DFL). This algorithm marries the
-ideas for correlation based closed loop learning with those from deep learning
-by turning deep learning from a backprop based algorithm to a forward-prop
-algorithm. We demonstrate that it works with the help of two scenarios:
-a line following scenario and a 1st person shooter.
+ideas for correlation based closed loop learning with those from deep learning,
+by turning deep learning from a backprop-based algorithm to a forward-prop
+one. We demonstrate that this works with the use of two scenarios: a driving task and a 1st-person shooter.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.75\columnwidth]{closed_loop}
   \caption{A closed loop system with a setpoint $SP$, transfer function $H$ and the
     environment $P_0$ which needs to work against unpredictable disturbances $D$.
-    The error signal generated tunes a deep neuronal network which has inputs
-    $v_j$ which predict the disturbances. The network tries to pre-empt these
+    The error signal generated tunes a deep neuronal network, which has inputs
+    $v_j$ that predict the disturbances. The network tries to pre-empt these
     disturbances and generate an appropriate action $v_k$.
     \label{closed_loop}}
 \end{figure}
 
 \section{Closed loop learning}
 
-Deep feedback learning operates in a closed loop scenario. Before we can describe
-the actual deep feedback algorithm we need to put the algoritm into a closed loop
-system. Fig.~\ref{closed_loop} shows the whole closed loop system with the deep
+Deep feedback learning operates in a closed loop scenario. Before we describe
+the actual algorithm, we need to place it in a closed loop context. Fig.~\ref{closed_loop} shows the whole closed loop system with the deep
 feedback learning as a black box for now. The main idea is that we have a fixed
-closed loop which is able to fend off disturbances. For example this can be
-an unexpected bend on a road or the sudden appearance of an enemy. The loop then
+closed loop which is able to fend off disturbances, such as an unexpected bend on a road or the sudden appearance of an enemy. This fixed loop then
 takes appropriate action to solve this disturbance, e.g. steering the car along
-the road or shoots the enemy. In formal terms we have a setpoint $SP$ which
-compares the input of organism to an input. If that input deviates from the
+the road or aiming towards, and then shooting the enemy. In formal terms we have a setpoint $SP$ which
+compares the input of organism to a desired input. If that input deviates from the
 setpoint an action is generated with the transfer function $H_0$. This action
 then eliminates the disturbance $D$ and arrives via the environmental
-transfer function $P_0$ at the input again, thus, the loop is closed. However,
+transfer function $P_0$ at the input again; thus, the loop is closed. However,
 we are not so much interested in the particular design of the the closed loop
 but that it generates an \textsl{error signal}. This error signal is non-zero
-if a disturbance has happend. This error signal can now be used to tune our
+if a disturbance has happened. This error signal can now be used to tune our
 deep feedback learning network.
 
 The deep feedback learning network receives additional inputs which are able
-to predict the disturbance and thus can prevent the trigger of the feedback
+to predict the disturbance, and thus prevent the trigger of the feedback
 loop. These additional inputs are provided via the transfer function $P_1$
 and represent the disturbance in a filtered form. For example a video camera
-can provide images of the road ahead or that of the enemy. Deep feedback
+can provide images of the road ahead or that of an enemy. Deep feedback
 learning has the task to take the error signal and tune its network
-to generate an action which helps to minimise the error. In the next section
-we are going to describe the deep feedback learning now how this can
+to generate an action to minimise the error. In the next section
+we describe the deep feedback learning and how this can
 compute the appropriate output. Note that deep feedback learning receives
-its feedback via the environment so that it only learns if it has been
-successful after its actions have travelled through the environment. Thus learning
+its feedback via the environment, so that it only knows if it has been
+successful once its actions have travelled through the environment. Thus learning
 evaluates if certain inputs to its network can be used to generate
 appropriate actions and these are then slowly transformed into actions.
 For that reason the error signal is propagated in a \textsl{forward} fashion
-throught the network which will be presented next.
+through the network.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\columnwidth]{netw_together}
-  \caption{A) Overview of the network. Except for the input layer
+  \caption{A) Network overview. Except for the input layer
     every neuron is a composite neuron with an activation $v$ and
     and an error term $e$. These are propagated through the network
     in a weighted fashion in parallel.
-B) Computation in a single cell composite cell in the network.
+B) Computation in a single composite cell.
     The presynaptic activities $v_k$ and error signals $e_k$ are used
     to perform correlation based learning and change the weight $w_{kj}$
     which weights both the activity and the error towards the next
@@ -144,22 +132,20 @@ B) Computation in a single cell composite cell in the network.
 
 \section{Deep feedback learning}
 We define a network with an input layer, hidden units and an output
-layer which can all have different number of neurons (see
-Fig~\ref{netw_together}A). However, in contrast to traditional
-networks every layer (except for the input layer) consists of two
+layer which can all have different numbers of neurons (see
+Fig~\ref{netw_together}A). In contrast to traditional
+networks, every layer (except for the input layer) consists of two
 summation nodes: the actual activity and an error signal. These
 are processed in two parallel streams.
 
-Let us first focus on the calculation of the network activity and then
-we deal with the error processing. We define a multi layered network
-where every neuron is a standard computational unit which calculates
-the weighted sums of its inputs and then sent through an activation
+Let us first focus on the calculation of the network activity. We define a multi-layered network, where every neuron is a standard computational unit that calculates
+a weighted sum of its inputs and then applies an activation
 function:
 \begin{equation}
   v_k = \Theta\left( \sum_i w_{jk} v_{j} \right) \label{act_sum}
 \end{equation}
-where the activity feeds from neurons in layer $v_j$ to neurons in layer $v_k$
-and so forth. The activities are weighted by the weights $w_{jk}$
+where the activity flows from neurons in layer $v_j$ to neurons in layer $v_k$
+and so on. The activities are weighted by the weights $w_{jk}$
 in a standard fashion.
 
 The weight change is then calculated in a semi Hebbian fashion:
@@ -172,10 +158,9 @@ calculated between the input signals and the error signals. This is similar
 to Hebbian learning but here the presynaptic term is the activity
 and postsynaptic one is the error signal.
 
-The error signal needs to be described in more detail how this
-is propagated through the network. As described above the error
-signal emerges from the feedback loop which is injected into the
-network at its first hidden layer as the ``postsynaptic'' activity.
+The error signal propagation needs to be described in more detail. As outlined above, the error
+signal emerges from the feedback loop and is then injected into the
+network at its 1st hidden layer as the ``postsynaptic'' activity.
 Since the 1st hidden layer directly receives its error signal this
 can be computed instantly.
 
@@ -187,19 +172,19 @@ sum of the error signals from the previous layer:
 where the $\Theta^\prime (v_k)$ is the derivative of the activation
 function $\Theta(v_k)$.
 
-The computations performed in every layer are shown in
+The computations performed in each layer are shown in
 Fig~\ref{netw_together}B where we see that the activity $v_j$ is
-weighted by the weight $w_{jk}$ and then summed up in the next
+weighted by $w_{jk}$ and then summed in the next
 layer. The same happens for the error signal $v_j$ which is also
-weighted by $w_{jk}$. Remember that for the 1st hidden layer this
+weighted by $w_{jk}$. Remember that for the 1st hidden layer, this
 error signal is just the injected error signal from the feedback loop
 and is not the weighted sum.
 
 Learning is then performed in three steps: first the activity is propagated through
-the network, then the error signal is propagated via the same mechanism and then the
+the network, then the error signal is propagated via the same mechanism, and finally the
 weights are adjusted. Thus, both the error
-signal and the activity is propagated in a forward fashion through the network.
-Learning itself is the ``Hebbian'' but by correlating the actual activation
+signal and the activity is propagated in a forward fashion. 
+Learning itself is ``Hebbian'' but operates by correlating the actual activation
 and the error signal. 
 
 \begin{figure}[h!]
@@ -209,7 +194,7 @@ and the error signal.
     version of enki for QT5 (https://github.com/berndporr/enki)
     where the line follower is using just the ground sensors of the
     robot to create the error signal and the predictive signals ($v_j$)
-    for DFL. The robot has two wheels which speed is controlled
+    for DFL. The robot has two wheels whose speed is controlled
     by the feedback control and DFL.
     B) The line following scenario used for the simulations. The robot
     attempts to drive along the line and is reversed at the end of the
@@ -223,64 +208,56 @@ and the error signal.
 
 \section{Line follower}
 In order to demonstrate DFL we need a simple closed loop scenario which can be
-improved with the help of our adaptive neuronal network. 
-Fig.~\ref{linefollower_robot_playground} shows a simple line following robot which has the task to
-follow the line as depicted in
-Fig.~\ref{linefollower_robot_playground}B wheret the robot at the end the robot is reversed
-and then drives it back in the other direction and so forth. The 4 ground sensors
-in Fig.~\ref{linefollower_robot_playground}A right to both sides of the robot create
+improved with the help of an adaptive network. 
+Fig.~\ref{linefollower_robot_playground} shows a simple line following robot which has the task of following the line depicted in
+Fig.~\ref{linefollower_robot_playground}B to the end, where it reverses and drives back, and so on. The 4 ground sensors
+in Fig.~\ref{linefollower_robot_playground}A fixme??? right to both sides of the robot create
 an error signal:
 \begin{equation}
 \mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2}) \label{line_error}
 \end{equation}
-which then directly create a steering reaction to keep the robot on track by
-controlling the speed of the wheels. Without taking into account the contribution
-of our deep feedback learning output this yields: $\mathrm{leftSpeed} = s_0 + g error$ for the
-left wheel and $\mathrm{rightSpeed} = s_0 - g error$ for the right wheel
+this error directly creates a steering reaction from the fixed feedback loop by controlling the speed of the wheels. Ignoring the contribution of our DFL network this yields: $\mathrm{leftSpeed} = s_0 + g error$ for the
+left wheel and $\mathrm{rightSpeed} = s_0 - g error$ for the right wheel,
 where $s_0$ is the baseline speed of the robot and $g$ the feedback gain. We now
-need to add the deep feedback learning circuit to it.
+add the deep feedback learning circuit. 
 
-We now need to add our deep feedback learning circuit which uses the
-predictive ground sensors where their outputs all feed into $v_j$ of
+The DFL learning circuit uses the predictive ground sensors, such that their outputs feed into the $v_j$ of
 the input layer (see Eq.~\ref{act_sum}) after having been filtered bbb
-fixme Filterbank bbb. We have two rows of sensors. One which is right
-in front of the robot and another one which looks further ahead.
+fixme Filterbank bbb. We have two rows of sensors, one directly in front of the robot and one which looks further ahead.
 
-The output layer of our deep feedback learner with its activations
-$v_k$ has 6 neurons ($k=0 \ldots 5$) which can be seen as soft
-decision making units where 3 of them determine the change of the speed of
-the wheel on the right and 3 of them the speed of the wheel on the
-left which leads to the final formulas for the motor outputs:
+The output layer of our deep feedback learner consists of 6 neurons with activations
+$v_k$ ($k=0 \ldots 5$) 
+- these can be seen as soft
+decision-making units where 3 of them determine the change of speed of
+the right wheel, and 3 the speed of left wheel. This leads to the final formulas for the motor outputs:
 \begin{eqnarray}
   \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
                      &=& s_0 + v_l \\
   \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r} \\
                      &=& s_0 - v_r
 \end{eqnarray}
-where $v_0, \ldots, v_5$ are the 6 outputs from the deep feedback learning network.
-Note that neither the inputs nor the outputs are organised in a topographically
-organised way. The network needs to find out with the help of the error signals
+where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network.
+Note that neither inputs nor outputs are organised in a topographically
+meangingful way. The network must discover from the error signals
 which sensor inputs $v_k$ will lead eventually to appropriate steering actions $v_j$.
 
-In order to have a performance criterion which indicates a successful
-run we have average the error Eq.~\ref{line_error}:
+For performance criterion we use the squared average of the error from Eq.~\ref{line_error}:
 \begin{equation}
   \mathrm{error}_\mathrm{avg} =  \mathrm{error}_\mathrm{avg} + 0.001 (\mathrm{error} - \mathrm{error}_\mathrm{avg}) 
 \end{equation}
-and then squared it:
 \begin{equation}
   \mathrm{error}_\mathrm{sq} =  \mathrm{error}_\mathrm{avg}^2 \label{line_sqerr}
 \end{equation}
 Remember that the learning tries to minimise the average error so that $\mathrm{error}_\mathrm{avg}$
 should reach zero in an ideal scenario. Realistically it will fluctuate between negative and
-postive vales because the driving will never be 100\% perfect. By squaring these fluctuations
+postive values because the driving will never be 100\% perfect. By squaring these fluctuations
 we have a positive value which should decay and then stabilise at small values.
 
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\columnwidth]{line_results}
-  \caption{Results of the linefollowing task. A) Shows the robot at
+  \caption{Results of the linefollowing task. A) shows the robot at
     the very start of the simulation run from time step 0 to 600.
     B) the difference between the robot wheel speeds just for the learned
     actions (i.e. the output of the dfl network): $v_l-v_r$.
@@ -298,64 +275,64 @@ we have a positive value which should decay and then stabilise at small values.
 
 \subsection{Results}
 Fig.~\ref{line_results} shows the results of a simulation run. In the panels
-A) and D) we see the trajectory of the agent at the starts of the run and
-at the end of the run afer 11400 time steps. While the agent in A) clearly
-just follows the reflex reaction which leads to a large deviation from the track
+A) and D) we see the trajectory of the agent over the course of 11400 time steps 
+of learning. While the agent in A) clearly
+just follows the reflex reaction, leading to a large deviation from the track,
 in D) the agent follows closely the track and the deviation is minimal, thus
-learning has been successful. The steering output of the DFL network are shown
-in B) which generate the steering actions to keep the agent closely on track.
+learning has been successful. The steering outputs of the DFL network are shown
+in B); they learn the steering actions that keep the agent closely on track.
 It can be seen that the network clearly slows down in the change of output.
-C) is the squared error signal which shows that it quickly drops to near zero
-and then only small components are left. E) is the weight matrix at the end
-of learning of the 1st layer which correlates the error with the two rows of
+C) shows the squared error quickly dropping to near zero, leaving only small 
+components remaining. E) is the final weight matrix after learning of the 1st layer, 
+which correlates the error with the two rows of
 predictive ground sensors $v_j$. F) is the weight matrix of the hidden layer and G)
-the weigth matrix of the output layer. H) shows the eucledian distance of the
+the weight matrix of the output layer. H) shows the eucledian distance of the
 different layers from their starting position. Remember that learning is
 always on and the learning rate is set to 0.0001 for the single run. See appendix
 for the other parameters.
 
-Let's first compare the trajectories at the start of learning. Figure
+Let us compare the trajectories at the start of learning. Figure
 Fig.~\ref{line_results}A shows the robot right at the start. It locks
-onto the track and then drives it back and forth with jerkey
+onto the track and then drives it back and forth with jerky
 movements. After $11,400$ time steps learning has turned the erratic
-driving into a smooth driving scenario whree the robot only deviates
+driving into a smooth behaviour where the robot deviates only
 minimally from the track (Fig.~\ref{line_results}D). This smooth
-steeting behaviour is generated by the DFL network which output is
-shown in Fig.~\ref{line_results}B where the steering angle is shown.
+steering behaviour is generated by the DFL network output 
+shown in Fig.~\ref{line_results}B (net steering angle is shown).
 
 The network learns to use the predictive signals from the sensors in
-front of the robot to generate its steering which is shown in
-Fig.~\ref{line_results}B.  The steering angle slowly becomes stronger and
-then stabilises towards a final amplitude. Note that this is not
-measured in degrees but this value is added and subtracted from the
+front of the robot to generate its steering output.  This steering 
+output slowly becomes stronger and
+then stabilises. Note that this is not
+measured in degrees but rather a value that is added and subtracted from the
 speed of the robot wheels.
 
 The squared average error in Fig.~\ref{line_results}C slowly decays
-and then small remaining error spikes remain. This is mainly because
-the robot is not able to learn one of the more steep bends (see
-coordinate 120x50 in D) which always causes a spike in the error and
-then the robot overcompensating which again causes learning in the
+leaving only small spikes remaining. This is mainly because
+the robot is not able to learn one of the steeper bends (see
+coordinate 120x50 in D); this causes a spike in the error and
+then the robot overcompensates, causing learning in the
 other direction and so on.
 
-The weights of the different layers are shown in
+The weights of the various layers are shown in
 Fig.~\ref{line_results}E-G.  The weights in the input layer
-(Fig.~\ref{line_results}E) show a slow change from left to right as
-expected. Remember that there are two rows of predictive ground
+(Fig.~\ref{line_results}E) show a slow gradation  from left to right as
+expected. Recall that there are two rows of predictive ground
 sensors in front of the robot which cause two different weight maps
-which can clearly be seen. The inputs 0 to 14 correspond to the nearer
-ground sensor and the inputs 15 to 31 correspond to the ground sensor
-further ahead of the robot which can predict bends further
-ahead. These feed then into the hidden layer Fig.~\ref{line_results}F
+which can clearly be seen. The inputs 0 to 14 correspond to the near
+ground sensor, and 15 to 31 the far sensor which looks further ahead, 
+helping the robot predict bends better. These feed then into the 
+hidden layer Fig.~\ref{line_results}F
 and from there into the output layer Fig.~\ref{line_results}G.
 
 The weight development overall per layer over the time of learning
 is shown in Fig.~\ref{line_results}H. It's interesting to note
 that the input layer learns fastest and also its weights converge
-quickest while the output layer learns at the slowest rate. Remember
+quickest while the output layer learns at the slowest rate. Recall 
 that the error signal is weighted by the weights for the deeper
-layers but normalised so that that learning happens at about the
+layers, but also normalised so that learning happens at about the
 same speed in every layer. However, the deeper layers show more
-of a an exponential growths. The weights continue to grow at a slower
+of a an exponential growths. The weights grow at a slower
 and slower pace but still continue because the robot is not completely
 able to avoid its reflex and probably because the system is non-linear.
 However, the error is very low even when the weights still change
@@ -384,22 +361,19 @@ rate over 4 orders of magnitudes and evaluated how long it takes to stay
 below a certain error threshold (Fig.~\ref{line_stats}A) for a specified
 time and the resulting squared error for these runs (Fig.~\ref{line_stats}B).
 We see that the time to reach the criterion decreases with higher learning
-rates and is stable between a learning rate of approx $10^{-5}$ and $10^{-4}$ and,
-thus about one order of magnitude. In order to test if the network initialisation
-plays a role for every learning rate the simulation was run with two different
-random number seeds. It can be seen that in the stable region this results
-in different times till success whereas outwidth the stable region about
-half of the runs fail. For lower learning rates this might still become successful
-in the end which suggests Fig.~\ref{line_stats}B where only three runs resulted
-in non-convergence. At low learning rates the robot sometimes learns essentially
-``open loop'' where the error signal has very little impact and thus learning
-might drift very slowly into the wrong direction only to be corrected later on.
+rates and is stable between learning rates of approx $10^{-5}$ and $10^{-4}$,
+i.e. about one order of magnitude. Each simulation was run twice with different random seeds to test for initialisation effects. It can be seen that in the stable region this results
+in different times till success, whereas outwith the stable region about
+half of the runs fail. For lower learning rates the trial might still become successful
+in the end which, e.g. Fig.~\ref{line_stats}B shows only three runs with low learning rates not converging. At low learning rates the robot sometimes learns essentially
+``open loop'' with the error signal having very little impact, and learning
+can drift very slowly in the wrong direction only to be corrected later.
 At very high learning rates the predictive learning turns into one shot
-learning which also might learn accidentially the wrong behaviour. This is
+learning, which might learn accidentially learn the wrong behaviour. This is
 then detrimental in numerous cases. In the optimal regime (between the dotted lines)
 learning always reaches low error values. Overall it's interesting that lower
-learning rates won't neccessary are better but that intermediate learning rates
-perform best which does both, learning fast but slow enough so that the error
+learning rates aren't neccessarily better, but rather that intermediate learning rates
+perform best as they combine both, learning fast but slow enough so that the error
 signal can correct mistakes.
 
 
