@@ -405,6 +405,56 @@ Unlike the Line follower, in the shooting scenario it is not possible to drive t
 
 
 \section{Discussion}
+We have shown that a network which propagates its errors in a forward
+fashion from its inputs to its outputs is able to solve closed loop
+learning tasks. We have demonstrated this in both a first person
+shooter and a driving scenario.
+
+Closed loop learning which aims to maximise a function or minimise one
+is usually referred to reinforcement learning where an agent learns to
+navigate an action space in a way that it maximises its accumulative
+reward (bbb Sutton etc, deep mind). The main drawback of this approach
+is the discrete state space which makes it hard to solve analogue
+problems. The overcome this problem closed learning rules using
+correlation based techniques (bbb Porr, Verschure) were introduced.
+These networks perform well in real robot tasks but suffer from
+usually simple network architecture. DFL aims to fix this
+deficiency by introducing a deep architecture but staying firmly
+on correlation based territory.
+
+Plasticity has always been hotly debated in neurophysiology where the
+general understanding is that a large postsynaptic Calcium
+concentration causes LTP and a low causes LTD (bbb classic LTP
+reference). In turn this requires a strong pre-synaptic drive to
+achieve a strong postsynaptic activity and with that Ca influx.  In
+mathematical terms this would just lead to self-amplification of the
+synaptic weight where strong presynaptic activity would lead to more
+postsynaptic activity and in turn stronger weights and so on. However:
+what if the learning signal and the actual activity were transmitted
+via the same synapse but fundamentally separated for example by using
+different frequencies. High frequency potentials could in this respect
+cause plasticity changes while low frequency potentials could
+propagate actual activity (bbb hot amazing papers about frequ
+coupling). In this way one could still use Hebbian plasticity but
+there won't be any autocorrelation term because the correlation is
+performed between two different signals.
+
+Closed loop control or autonomous behaviour can only be understood by
+observing the whole loop. This was already clear with DFL's
+predecessor ICO learning (bbb Porr) which only makes sense if the
+feedback from the environment is taken into account. The same applies
+to reinforcement learning (bbb S Barto etc). However, here the
+novel aspect is that the more layers DFL has the more it is
+remote from the immediate error feedback. This allows for
+flexibility which can be tuned by the number of layers and demonstrates
+that the agent performs input control. The actions can be wildly
+different as long as the error signal can be minimised and will
+be more pronounced with more hidden layers. In other words
+the more hidden layers we have the more behavioural flexibility
+the agent will achieve.
+
+
+
 
 \bibliographystyle{splncs03}
 
