@@ -170,9 +170,11 @@ The weight changes are then calculated in a semi-Hebbian fashion:
 \end{equation}
 where $v_j$ is the presynaptic activity and $e_k$ is an error signal
 attached to the postsynaptic neuron so that the correlation is
-calculated between the input signals and the error signal. This is similar
-to Hebbian learning but here the presynaptic term is the activity
-and postsynaptic one is an error signal.
+calculated between the input signals and the error signal.  This is
+similar to Hebbian learning but here the presynaptic term is the
+activity and postsynaptic one is an error signal. The rate of
+learning is determined by $\gamma$.
+
 
 After we have described the propagation of the activities we need to
 describe the error signal propagation. As outlined above, the error
@@ -184,19 +186,24 @@ weight change can be calculated instantly with Eq.~\ref{learningRule}.
 For the deeper layers the error signal is computed as a weighted
 sum of the error signals from the previous layer:
 \begin{equation}
-  e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\sqrt{\sum_j w_{jk}}}
+  e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\sqrt{\sum_j w_{jk}^2}}
 \end{equation}
 where the $\Theta^\prime (v) = 1 - v^2$ is the derivative of the activation
 function $\Theta(v)$ which limits learning when the unit approaches saturation
-as done in backprop.
+as done in backprop. The normalisation by the Eucledian weight
+distance guarantees that the error propagates through all layers and
+not vanishes from layer to layer due to small weights.
 
-The computations performed in each layer are shown in
-Fig~\ref{netw_together}B where we see that the activity $v_j$ is
-weighted by $w_{jk}$ and then summed in the next layer. The same
-happens for the error signal from the previous layer $e_j$ which is
-also weighted by $w_{jk}$ and then summed in the next layer. Remember
-that for the 1st hidden layer, this error signal is just the injected
-error signal from the feedback loop.
+A simplified data flow diagram of the learning performed in each layer
+is shown in Fig~\ref{netw_together}B where we see the two processing
+streams: both, the activity $v_j$ and the error signal $e_j$ are
+weighted by $w_{jk}$ and then summed separately in the next layer.
+Remember that for the 1st hidden layer, the error signal is just the
+injected error signal from the feedback loop. We have omitted the
+error normalisation and error scaling with the derivative from this
+circuit diagram in order to focus on the main point, namely that
+learning happens between two signals: the error signal and the
+presynaptic activity.
 
 Learning is then performed in three steps: first the activity is
 propagated through the network, then the error signal is propagated
