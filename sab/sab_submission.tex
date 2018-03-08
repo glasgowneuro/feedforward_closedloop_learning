@@ -430,8 +430,19 @@ where $v_0, \ldots, v_2$ are the network outputs.
 \subsection{Results}
 
 As before, we see that the controller outputs steadily increase over time. With a high value of $g_{net}$, the bot can make very rapid aiming movements. This has the advantage that the error can in principle be reduced very quickly; it also causes the bot to sometimes make large rotations even when the enemy is out of the field of view, which helps with exploration. On the other hand, it can cause the aiming to overshoot and oscillate around the target. 
+The weights grow in a similar pattern to before, although their progression is less smooth, due to the more discontinuous nature of the error signal. 
 
 Unlike the Line follower, in the shooting scenario it is not possible to drive the error to zero, as there are discontinuities when either bot respawns, and so the enemy will often abruptly appear somewhere in the image. A good measure of performance is simply how often our bot is killed vs how often it kills the enemy. In gaming, this is called the kill/death ratio, and we plot some smoothed KD curves in Fig.~\ref{shooter_results}
+
+Note that this is not really a functioning FPS bot, as that would require skills such as finding health packs and navigating the environment. Future research will investigate whether the DFL approach can be used to acquire such skills, using the same fundamental approach of learning to anticipate a prewired behaviour. 
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\columnwidth]{statsKD}
+	\caption{Statistics.
+		\label{line_stats}}
+\end{figure}
 
 
 
