@@ -94,20 +94,24 @@ one. We demonstrate that this works with the use of two scenarios: a driving tas
 
 \section{Closed loop learning}
 
-Deep feedback learning operates in a closed loop scenario. Before we describe
-the actual algorithm, we need to place it in a closed loop context. Fig.~\ref{closed_loop} shows the whole closed loop system with the deep
-feedback learning as a black box for now. The main idea is that we have a fixed
-closed loop which is able to fend off disturbances, such as an unexpected bend on a road or the sudden appearance of an enemy. This fixed loop then
-takes appropriate action to solve this disturbance, e.g. steering the car along
-the road or aiming towards, and then shooting the enemy. In formal terms we have a setpoint $SP$ which
-compares the input of organism to a desired input. If that input deviates from the
-setpoint an action is generated with the transfer function $H_0$. This action
-then eliminates the disturbance $D$ and arrives via the environmental
-transfer function $P_0$ at the input again; thus, the loop is closed. However,
-we are not so much interested in the particular design of the the closed loop
-but that it generates an \textsl{error signal}. This error signal is non-zero
-if a disturbance has happened. This error signal can now be used to tune our
-deep feedback learning network.
+Deep feedback learning operates in a closed loop scenario. Before we
+describe the actual algorithm, we need to place it in a closed loop
+context. Fig.~\ref{closed_loop} shows the whole closed loop system
+with the deep feedback learning as a black box for now. The main idea
+is that we have a fixed closed loop which is able to fend off
+disturbances, such as an unexpected bend on a road or the sudden
+appearance of an enemy. This fixed loop then takes appropriate action
+to solve this disturbance, e.g. steering the car along the road or
+aiming towards, and then shooting the enemy. In formal terms we have a
+setpoint $SP$ which compares the input of organism to a desired
+input. If that input deviates from the setpoint an action is generated
+with the transfer function $H_0$. This action then eliminates the
+disturbance $D$ and arrives via the environmental transfer function
+$P_0$ at the input again; thus, the loop is closed. However, we are
+not so much interested in the particular design of the the closed loop
+but that it generates an \textsl{error signal}. This error signal is
+non-zero if a disturbance has happened. This error signal can now be
+used to tune our deep feedback learning network.
 
 The deep feedback learning network receives additional inputs which are able
 to predict the disturbance, and thus prevent the trigger of the feedback
@@ -148,54 +152,58 @@ networks, every layer (except for the input layer) consists of two
 summation nodes: the actual activity and an error signal. These
 are processed in two parallel streams.
 
-Let us first focus on the calculation of the network activity. We define a multi-layered network, where every neuron is a standard computational unit that calculates
-a weighted sum of its inputs and then applies an activation
-function:
+Let us first focus on the calculation of the network activity. We
+define a multi-layered network, where every neuron is a standard
+computational unit that calculates a weighted sum $v_k$ of its inputs $v_j$ and
+then applies the activation function $\Theta(v) = \tanh(v)$:
 \begin{equation}
   v_k = \Theta\left( \sum_i w_{jk} v_{j} \right) \label{act_sum}
 \end{equation}
-where the activity flows from neurons in layer $v_j$ to neurons in layer $v_k$
-and so on. The activities are weighted by the weights $w_{jk}$
-in a standard fashion.
+where the activity flows from neurons in layer $v_j$ to neurons in
+layer $v_k$ multiplied by the wegights $w_{jk}$ and then this
+is repeated in the next layer. This means for a network with
+$N$ layers we have $N-1$ sets of weights $w_{jk}$.
 
-The weight change is then calculated in a semi Hebbian fashion:
+The weight changes are then calculated in a semi-Hebbian fashion:
 \begin{equation}
-  w_{jk} = w_{jk} + \gamma v_j * e_k
+  w_{jk} = w_{jk} + \gamma v_j * e_k \label{learningRule}
 \end{equation}
-where $v_j$ is the presynaptic activity and $e_k$ is the error signal
+where $v_j$ is the presynaptic activity and $e_k$ is an error signal
 attached to the postsynaptic neuron so that the correlation is
-calculated between the input signals and the error signals. This is similar
+calculated between the input signals and the error signal. This is similar
 to Hebbian learning but here the presynaptic term is the activity
-and postsynaptic one is the error signal.
+and postsynaptic one is an error signal.
 
-The error signal propagation needs to be described in more detail. As outlined above, the error
+After we have described the propagation of the activities we need to
+describe the error signal propagation. As outlined above, the error
 signal emerges from the feedback loop and is then injected into the
 network at its 1st hidden layer as the ``postsynaptic'' activity.
-Since the 1st hidden layer directly receives its error signal this
-can be computed instantly.
+Having injected the error signal into the 1st hidden layer the
+weight change can be calculated instantly with Eq.~\ref{learningRule}.
 
 For the deeper layers the error signal is computed as a weighted
 sum of the error signals from the previous layer:
 \begin{equation}
   e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\sqrt{\sum_j w_{jk}}}
 \end{equation}
-where the $\Theta^\prime (v_k)$ is the derivative of the activation
-function $\Theta(v_k)$.
+where the $\Theta^\prime (v) = 1 - v^2$ is the derivative of the activation
+function $\Theta(v)$ which limits learning when the unit approaches saturation
+as done in backprop.
 
 The computations performed in each layer are shown in
 Fig~\ref{netw_together}B where we see that the activity $v_j$ is
-weighted by $w_{jk}$ and then summed in the next
-layer. The same happens for the error signal $v_j$ which is also
-weighted by $w_{jk}$. Remember that for the 1st hidden layer, this
-error signal is just the injected error signal from the feedback loop
-and is not the weighted sum.
+weighted by $w_{jk}$ and then summed in the next layer. The same
+happens for the error signal from the previous layer $e_j$ which is
+also weighted by $w_{jk}$ and then summed in the next layer. Remember
+that for the 1st hidden layer, this error signal is just the injected
+error signal from the feedback loop.
 
-Learning is then performed in three steps: first the activity is propagated through
-the network, then the error signal is propagated via the same mechanism, and finally the
-weights are adjusted. Thus, both the error
-signal and the activity is propagated in a forward fashion. 
-Learning itself is ``Hebbian'' but operates by correlating the actual activation
-and the error signal. 
+Learning is then performed in three steps: first the activity is
+propagated through the network, then the error signal is propagated
+via the same mechanism, and finally the weights are adjusted. Thus,
+both the error signal and the activity is propagated in a forward
+fashion.  Learning itself is ``Hebbian'' but operates by correlating
+the actual activation and the error signal.
 
 \begin{figure}[h!]
   \centering
@@ -203,8 +211,12 @@ and the error signal.
   \caption{A) Robot setup. The robot is simulated with a updated
     version of enki for QT5 (https://github.com/berndporr/enki)
     where the line follower is using just the ground sensors of the
-    robot to create the error signal and the predictive signals ($v_j$)
-    for DFL. The robot has two wheels whose speed is controlled
+    robot to create the error signal ($g_l$, £g_r$) and the predictive signals ($p_m$)
+    for DFL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
+    is split up into 10 2nd order lowpass filters with impulse responses
+    lasting from $2$ timesteps to $30$ timesteps and then all feed into the DFL
+    network as predictive inputs $v_j$ so that we have in total 300 inputs.
+    The robot has two wheels whose speed is controlled
     by the feedback control and DFL.
     B) The line following scenario used for the simulations. The robot
     attempts to drive along the line and is reversed at the end of the
@@ -217,53 +229,56 @@ and the error signal.
 
 
 \section{Line follower}
-In order to demonstrate DFL we need a simple closed loop scenario which can be
-improved with the help of an adaptive network. 
-Fig.~\ref{linefollower_robot_playground} shows a simple line following robot which has the task of following the line depicted in
-Fig.~\ref{linefollower_robot_playground}B to the end, where it reverses and drives back, and so on. The 4 ground sensors
-in Fig.~\ref{linefollower_robot_playground}A fixme??? right to both sides of the robot create
-an error signal:
+In order to demonstrate DFL we need a simple closed loop scenario
+which can be improved with the help of an adaptive network.
+Fig.~\ref{linefollower_robot_playground} shows a simple line following
+robot which has the task of following the line depicted in
+Fig.~\ref{linefollower_robot_playground}B to the end, where it
+reverses and drives back, and so on. The four ground sensors in
+Fig.~\ref{linefollower_robot_playground}A left/right to both sides
+of the robot create an error signal:
 \begin{equation}
 \mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2}) \label{line_error}
 \end{equation}
-this error directly creates a steering reaction from the fixed feedback loop by controlling the speed of the wheels. Ignoring the contribution of our DFL network this yields: $\mathrm{leftSpeed} = s_0 + g error$ for the
-left wheel and $\mathrm{rightSpeed} = s_0 - g error$ for the right wheel,
-where $s_0$ is the baseline speed of the robot and $g$ the feedback gain. We now
-add the deep feedback learning circuit. 
+this error directly creates a steering reaction from the fixed
+feedback loop by controlling the speed of the wheels.
 
 The DFL learning circuit uses the predictive ground sensors, such that
 their outputs feed into the $v_j$ of the input layer (see
-Eq.~\ref{act_sum}) after having been filtered bbb fixme Filterbank
-bbb. We have two rows of sensors, one directly in front of the robot
-and one which looks further ahead.
+Eq.~\ref{act_sum}) after having been filtered by a Filterbank so that
+the inputs receive smeared out predictive signals so that we have a
+temporal overlap with the error signal. We have two rows of sensors,
+one directly in front of the robot and one which looks further ahead.
+In total the network receives 300 inputs from 30 ground sensors and
+every ground sensor signal filtered by 10 filters.
 
-The output layer of our deep feedback learner consists of 6 neurons with activations
-$v_k$ ($k=0 \ldots 5$) 
-- these can be seen as soft
+The output layer of our deep feedback learner consists of 6 neurons
+with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
 decision-making units where 3 of them determine the change of speed of
-the right wheel, and 3 the speed of left wheel. This leads to the final formulas for the motor outputs:
+the right wheel, and 3 the speed of left wheel. This leads to the
+final formulas for the motor outputs:
 \begin{eqnarray}
   \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
-                     &=& s_0 + v_l \\
   \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r} \\
-                     &=& s_0 - v_r
 \end{eqnarray}
-where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network.
-Note that neither inputs nor outputs are organised in a topographically
+where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network. Note
+that neither inputs nor outputs are organised in a topographically
 meangingful way. The network must discover from the error signals
-which sensor inputs $v_k$ will lead eventually to appropriate steering actions $v_j$.
+which sensor inputs $v_k$ will lead eventually to appropriate steering
+actions.
 
-For performance criterion we use the squared average of the error from Eq.~\ref{line_error}:
+As performance criterion we use the squared average of the error from
+Eq.~\ref{line_error}:
 \begin{equation}
   \mathrm{error}_\mathrm{avg} =  \mathrm{error}_\mathrm{avg} + 0.001 (\mathrm{error} - \mathrm{error}_\mathrm{avg}) 
 \end{equation}
 \begin{equation}
   \mathrm{error}_\mathrm{sq} =  \mathrm{error}_\mathrm{avg}^2 \label{line_sqerr}
 \end{equation}
-Remember that the learning tries to minimise the average error so that $\mathrm{error}_\mathrm{avg}$
-should reach zero in an ideal scenario. Realistically it will fluctuate between negative and
-postive values because the driving will never be 100\% perfect. By squaring these fluctuations
-we have a positive value which should decay and then stabilise at small values.
+Remember that the learning tries to minimise the average error so that
+$\mathrm{error}_\mathrm{avg}$ should reach zero in an ideal
+scenario. Realistically driving will never be 100\% perfect but
+will stabilise the squared error at small values.
 
 
 \begin{figure}[h!]
