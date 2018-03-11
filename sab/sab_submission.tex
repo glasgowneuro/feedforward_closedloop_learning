@@ -25,14 +25,14 @@
 \maketitle
 
 \begin{abstract}
-  An agent acting in an enviromnet aims to minimise uncertainties so
-  that being attacked can be predicted and that rewards are not just
-  found by chance. This defines an error signal which can be used to
-  become better. In this paper we present a new algorithm where an
-  error signal from a reflex trains a novel network where the error is
-  propagated from its input to its output to generate pro-active
+  An agent acting in an enviroment aims to minimise uncertainties so
+  that being attacked can be predicted, and rewards are not just
+  found by chance. These events define an error signal which can be used to
+  improve performance. In this paper we present a new algorithm where an
+  error signal from a reflex trains a novel deep network where the error is
+  propagated through the network from its input to its output, to generate pro-active
   actions. We demonstrate the algorithm in two scenarios: a 1st person
-  shooter game and a driving car scenario where in both cases the network
+  shooter game and a driving car scenario, where in both cases the network
   develops strategies to become pro-active.
 \end{abstract}
 
@@ -75,7 +75,7 @@ which means that the error signal is fed into the network at its
 inputs. This is much more compatible with biology, which requires a
 network that propagates errors in a feedforward fashion.
 
-How could an error propagated through a network in a forward fashion? Here we can
+How could an error propagated through a deep network in a forward fashion? Here we can
 take inspiration from how errors are transmitted in backprop. 
 In essence the hidden layers receive a \textsl{weighted sum} of the errors from the
 previous layers which makes intuitive sense: the strongest weights
@@ -142,7 +142,7 @@ through the network.
   \centering
   \includegraphics[width=\columnwidth]{netw_together}
   \caption{A) Network overview. Except for the input layer, every
-    neuron is a composite cell with an activation $v$ and and an error
+    neuron is a composite cell with an activation $v$ and an error
     term $e$. These are propagated through the network in a weighted
     fashion in parallel.  B) Computation in a single composite cell.
     The presynaptic activities $v_j$ and error signals $e_j$ are used
@@ -165,7 +165,7 @@ define a multi-layered network, where every neuron is a standard
 computational unit that calculates a weighted sum $v_k$ of its inputs $v_j$ and
 then applies an activation function $\Theta(v) = \tanh(v)$:
 \begin{equation}
-  v_k = \Theta\left( \sum_i w_{jk} v_{j} \right) \label{act_sum}
+  v_k = \Theta\left( \sum_j w_{jk} v_{j} \right) \label{act_sum}
 \end{equation}
 where the activity flows from neurons in layer $v_j$ to neurons in
 layer $v_k$ multiplied by the wegights $w_{jk}$, and then this
@@ -244,7 +244,7 @@ Fig.~\ref{linefollower_robot_playground} shows a simple line following
 robot which has the task of following the line depicted in
 Fig.~\ref{linefollower_robot_playground}B to the end, where it
 reverses and drives back, and so on. The four ground sensors in
-Fig.~\ref{linefollower_robot_playground}A left/right on both sides
+Fig.~\ref{linefollower_robot_playground}A left/right on either side
 of the robot create an error signal:
 \begin{equation}
 \mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2}) \label{line_error}
@@ -310,7 +310,7 @@ Fig.~\ref{line_results} shows the results of a simulation run. In the panels
 A) and D) we see the trajectory of the agent over the course of 11400 time steps 
 of learning. While in A) the agent clearly
 just follows the reflex reaction, leading to large deviations from the track,
-in D) the agent follows closely the track and the deviation is minimal;
+in D) the agent follows closely the track and the deviation is minimal --
 learning has been successful. In B) we see the network learning the steering actions that keep the agent closely on track.
 It can be seen that the network clearly slows down in the change of output.
 C) shows the squared error quickly dropping to near zero, leaving only small 
@@ -413,28 +413,27 @@ The images returned from Vizdoom are RGB 160x120. We rendered the
 enemy in blue, and formed a reflex signal by finding the bounding box
 of the pixels closest to that colour. Note that the reflex is
 inherently noisy, as other events in the game are also rendered blue
-(e.g. the ‘flashes’ that happen when an ammo box respawns). The reflex
+(e.g. the ‘flashes’ that happen at respawns). The reflex
 also fails at times when the enemy is too distant or too close to the
 camera. For learning, we only supply the network with the greyscale
-image (Fig.~\ref{shooter_results}G), so it is forced to discover
+image (Fig.~\ref{shooter_results}G) flattened into a vector of $19200$ inputs, so it is forced to discover
 purely spatial cues. The reflex is computed relative to the image
 centre, so a negative value implies the enemy is on the left. Shooting
 behaviour is entirely hardwired: if an enemy is detected within a
-threshold of the image centre, the bot fires. Instead of separate
+threshold of the image centre, the bot fires. Note that the bot's only actions are to rotate in the plane, and shoot. Instead of separate
 outputs for left and right, we have a single value produced by 3
 neurons acting at different sensitivites:
 \begin{equation}
-\mathrm{rotation} = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
+\Delta \theta = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
-where $v_0, \ldots, v_2$ are the network outputs.
+where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$ is the change in orientation.
 
 
 \begin{figure}[h!]
 	\centering \includegraphics[width=\columnwidth]{FPSFig7}
 	\caption{A) KD at end of trial. B) Time to success vs learning
-          rate. C) Typical output in time. D) KD learning curves. E)
-          Typical weight growth. F) Example input weights. G) Example
-          input frame.
+          rate - success is if the smoothed KD ratio reaches a threshold of 0.15. C) $\Delta \theta$, the change in bot's orientation over time, purely from the DFL output, in arbitrary units. D) KD learning curves - the time series of kills/deaths is filtered with a 2nd order lowpass filter to get a moving average, plotted against kill event number. E)
+          Euclidean distance of weights for each layer from their initial point, against learning step. F) Example input weights. G) Example input frame.
 		\label{shooter_results}}
 \end{figure}
 
@@ -448,7 +447,7 @@ is out of the field of view, which helps with exploration. On the
 other hand, it can cause the aiming to overshoot and oscillate around
 the target.  The weights grow in a similar pattern to before, although
 their progression is less smooth, due to the more discontinuous nature
-of the error signal (Fig.~\ref{shooter_results}E).
+of the error signal (Fig.~\ref{shooter_results}E). The different scales are likely due to the inputs having 
 
 Unlike the Line Follower, it is not possible here to drive the error
 to zero, as there are discontinuities when either bot respawns, and so
@@ -456,36 +455,36 @@ the enemy will often abruptly appear somewhere in the image. One
 performance measure is simply how often our bot is killed vs how often
 it kills the enemy. In gaming, this is called the kill/death ratio,
 and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
-do statistics, we measure the time taken to reach a threshold KD -
+do statistics, we measure the time taken to reach a threshold KD (0.15) -
 Fig.~\ref{shooter_results}B shows this as a function of learning
 rate. As before, there is a stable region in the middle where learning
 is consistently successful. We also plot the smoothed KD for the final
 step of each trial(Fig.~\ref{shooter_results}A); although a noisy
 measure, the same pattern emerges. Over time, the input weights blur
 the background, leaving dark and light blobs to detect the enemy and
-generate a steering response (Fig.~\ref{shooter_results}F).
+generate an aiming response (Fig.~\ref{shooter_results}F).
 
 Note that this is not really a functioning FPS bot, as that would
-require skills such as finding health packs and navigating the
-environment. Future research will investigate whether the DFL approach
+require skills such as seeking rewards (e.g. finding health packs) and navigating the
+environment (e.g. avoiding collisions). Future research will investigate whether the DFL approach
 can be used to acquire such skills, using the same fundamental
 approach of learning to anticipate a prewired behaviour.
 
 
 \section{Discussion}
-We have shown that a network which propagates its errors in a forward
+We have shown that a deep network which propagates its errors in a forward
 fashion from its inputs to its outputs is able to solve closed loop
 learning tasks. We have demonstrated this in both a first person
 shooter and a driving scenario.
 
 Closed loop learning which aims to maximise a function or minimise one
-is usually referred to reinforcement learning, where an agent learns to
+is usually referred to as reinforcement learning, where an agent learns to
 navigate an action space in a way that it maximises its accumulative
 reward \cite{Dayan1992}. The main drawback of this approach
 is the discrete state space which makes it hard to solve analogue
 problems. To overcome this problem, closed loop learning rules using
 correlation-based techniques \cite{Verschure98summary} were introduced.
-These networks perform well in real robot tasks but usually suffer from
+These networks perform well in real robot tasks but are usually restricted to 
 simple network architectures. DFL addresses this
 deficiency by introducing a deep architecture but staying firmly
 on correlation-based territory.
@@ -504,7 +503,7 @@ fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
 plasticity changes while low frequency potentials propagate behaviourally
 relevant activity \cite{Canolty2010}. In this way one could still use Hebbian
-plasticity but without its detrimental autocorrelation term because the
+plasticity but without its detrimental autocorrelation term, because the
 correlation would be between two different signals.
 
 A different stance about synaptic plasticity (and ultimately how
@@ -515,7 +514,7 @@ demonstrated in a network with one hidden layer by introducing a
 separate feedback pathway from the output of the network to this
 hidden layer. While this shows promising results it still operates in
 an open loop fashion (i.e. output control), and thus contradicts the
-requirement for an agent to control its inputs which leads to a
+requirement for an agent to control its inputs, which leads to a
 discussion about closed loop learning.
 
 Autonomous behaviour can only be understood by observing the whole
@@ -526,10 +525,10 @@ be efference copies \cite{Uexkuell26,Graesser86} or gating signals
 which are presented to minimise errors. However, even these signals
 need to be evaluated at the input of the agent, for example when
 stabilising an input image, the goal is itself an image, and therefore
-an inputs and not an output.
+an input and not an output.
 
 Given that in DFL the error is propagated from the input to the output
-the novel aspect is that the more layers DFL has the more it is remote
+the novel aspect is that the more layers DFL has, the more it is remote
 from the immediate error feedback. This allows for flexibility which
 can be tuned by the number of layers, and demonstrates that the agent
 performs input control. The actions can be wildly varied as long as
