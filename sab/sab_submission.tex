@@ -47,7 +47,7 @@ called ``disturbances'' or ``perturbations'' because they force
 the agent to act at an unpredictable moment in time. Importantly, these
 occur at the \textsl{input} of the agent and, thus, a closed loop system
 performs ``input control'' -- in contrast to a pattern recognition system
-which performs ``output control''.
+which performs ``output control'' \cite{Phillips2000}.
 
 The above scenario has a major drawback in that the reactions are always
 too late.  It would be safer for an agent to learn to predict these
@@ -160,7 +160,7 @@ networks, every layer (except for the input layer) consists of two
 summation nodes: the actual activity and an error signal. These
 are processed in two parallel streams.
 
-Let us focus on the network activity. We
+Let us first focus on the network activity. We
 define a multi-layered network, where every neuron is a standard
 computational unit that calculates a weighted sum $v_k$ of its inputs $v_j$ and
 then applies an activation function $\Theta(v) = \tanh(v)$:
@@ -174,18 +174,21 @@ $N$ layers we have $N-1$ sets of weights $w_{jk}$.
 
 The weight changes are then updated in a semi-Hebbian fashion:
 \begin{equation}
-  w_{jk} = w_{jk} + \gamma v_j * e_k \label{learningRule}
+  w_{jk}(t+1) = w_{jk}(t) + \gamma v_j(t)  e_k(t) \label{learningRule}
 \end{equation}
-where $v_j$ is the presynaptic activity and $e_k$ is an error signal
+where $v_j(t)$ is the presynaptic activity and $e_k(t)$ is an error signal
 attached to the postsynaptic neuron, so the correlation is
-calculated between input signals and the error signal.  This is
+calculated between input signals and the error signal. This is
 similar to Hebbian learning except the presynaptic term is the
 activity and postsynaptic one is an error signal. The learning rate is $\gamma$.
 
 
-We now describe the error signal propagation. As outlined above, the error
-signal emerges from the feedback loop, and is injected into the
-network at its 1st hidden layer as the ``postsynaptic'' activity. The weight change for the 1st hidden layer can then be calculated directly with Eq.~\ref{learningRule}.
+We now describe the error signal propagation. As outlined above, the
+error signal emerges from the feedback loop, and is injected into the
+network at its 1st hidden layer as the ``postsynaptic'' activity. The
+weight change for this 1st layer can then be calculated directly with
+Eq.~\ref{learningRule} by setting $e_k$ to the error signal of the
+feedback loop (see Fig.~\ref{closed_loop}).
 
 For the deeper layers, the error signal is computed as a weighted
 sum of the error signals from the previous layer:
@@ -252,11 +255,13 @@ of the robot create an error signal:
 this error directly creates a steering reaction from the fixed
 feedback loop by controlling the speed of the wheels.
 
-
-
-The DFL learning circuit uses the predictive ground sensors - these are first filtered by a Filterbank, which smears them in time and creates a temporal overlap with the error signal. These filtered signals are then presented to the  $v_j$ of the input layer (see
-Eq.~\ref{act_sum}). We have two rows of sensors,
-one directly in front of the robot and one which looks further ahead. There are 30 ground sensors each filtered by 10 filters, giving 300 inputs in total. 
+The DFL learning circuit uses the predictive ground sensors - these
+are first filtered by a Filterbank, which smears them in time and
+creates a temporal overlap with the error signal. These filtered
+signals are then presented to the $v_j$ of the input layer (see
+Eq.~\ref{act_sum}). We have two rows of sensors, one directly in front
+of the robot and one which looks further ahead. There are 30 ground
+sensors each filtered by 10 filters, giving 300 inputs in total.
 
 The output layer of our deep feedback learner consists of 6 neurons
 with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
@@ -271,7 +276,7 @@ where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network. Note
 that neither inputs nor outputs are organised in a topographically
 meangingful way. The network must discover from the error signals
 which sensor inputs $v_k$ will eventually lead to appropriate steering
-actions.
+actions. At the start the network is initialised with random values.
 
 As performance criterion we use the squared average of the error from
 Eq.~\ref{line_error}:
@@ -411,18 +416,19 @@ that ran in the Vizdoom 2016 competition. The setup was as follows:
 
 The images returned from Vizdoom are RGB 160x120. We rendered the
 enemy in blue, and formed a reflex signal by finding the bounding box
-of the pixels closest to that colour. Note that the reflex is
+of the pixels closest to that colour. Note that the reflex is slow and is
 inherently noisy, as other events in the game are also rendered blue
-(e.g. the ‘flashes’ that happen at respawns). The reflex
-also fails at times when the enemy is too distant or too close to the
-camera. For learning, we only supply the network with the greyscale
-image (Fig.~\ref{shooter_results}G) flattened into a vector of $19200$ inputs, so it is forced to discover
-purely spatial cues. The reflex is computed relative to the image
-centre, so a negative value implies the enemy is on the left. Shooting
-behaviour is entirely hardwired: if an enemy is detected within a
-threshold of the image centre, the bot fires. Note that the bot's only actions are to rotate in the plane, and shoot. Instead of separate
-outputs for left and right, we have a single value produced by 3
-neurons acting at different sensitivites:
+(e.g. the ‘flashes’ that happen at respawns). The reflex also fails at
+times when the enemy is too distant or too close to the camera. For
+learning, we only supply the network with the greyscale image
+(Fig.~\ref{shooter_results}G) flattened into a vector of $19200$
+inputs, so it is forced to discover purely spatial cues. The reflex is
+computed relative to the image centre, so a negative value implies the
+enemy is on the left. Shooting behaviour is entirely hardwired: if an
+enemy is detected within a threshold of the image centre, the bot
+fires. Note that the bot's only actions are to rotate in the plane,
+and shoot. Instead of separate outputs for left and right, we have a
+single value produced by 3 neurons acting at different sensitivites:
 \begin{equation}
 \Delta \theta = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
@@ -464,11 +470,12 @@ measure, the same pattern emerges. Over time, the input weights blur
 the background, leaving dark and light blobs to detect the enemy and
 generate an aiming response (Fig.~\ref{shooter_results}F).
 
-Note that this is not really a functioning FPS bot, as that would
-require skills such as seeking rewards (e.g. finding health packs) and navigating the
-environment (e.g. avoiding collisions). Future research will investigate whether the DFL approach
-can be used to acquire such skills, using the same fundamental
-approach of learning to anticipate a prewired behaviour.
+Note that this is only one skill of a functioning FPS bot, as that would
+require additional skills such as seeking rewards (e.g. finding health packs) and
+navigating the environment (e.g. avoiding collisions). Future research
+will investigate whether the DFL approach can be used to acquire such
+skills, using the same fundamental approach of learning to anticipate
+a prewired behaviour.
 
 
 \section{Discussion}
@@ -531,7 +538,7 @@ Given that in DFL the error is propagated from the input to the output
 the novel aspect is that the more layers DFL has, the more it is remote
 from the immediate error feedback. This allows for flexibility which
 can be tuned by the number of layers, and demonstrates that the agent
-performs input control. The actions can be wildly varied as long as
+performs input control. The actions can be substantially varied as long as
 the error signal can be minimised and will be more pronounced with
 more hidden layers. In other words the more hidden layers we have the
 more behavioural flexibility the agent will achieve.
@@ -543,7 +550,7 @@ more behavioural flexibility the agent will achieve.
 
 \bibliographystyle{splncs03}
 
-\bibliography{hebb,ours,embodiment}
+\bibliography{hebb,ours,embodiment,laplace}
 
 \end{document}
 
