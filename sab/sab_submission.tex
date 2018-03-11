@@ -25,13 +25,12 @@
 \maketitle
 
 \begin{abstract}
-  An agent acting in an enviroment aims to minimise uncertainties so
+ An agent acting in an enviroment aims to minimise uncertainties so
   that being attacked can be predicted, and rewards are not just
   found by chance. These events define an error signal which can be used to
   improve performance. In this paper we present a new algorithm where an
-  error signal from a reflex trains a novel deep network where the error is
-  propagated through the network from its input to its output, to generate pro-active
-  actions. We demonstrate the algorithm in two scenarios: a 1st person
+  error signal from a reflex trains a novel deep network: the error is
+  propagated \textsl{forwards} through the network from its input to its output, in order to generate pro-active actions. We demonstrate the algorithm in two scenarios: a 1st-person
   shooter game and a driving car scenario, where in both cases the network
   develops strategies to become pro-active.
 \end{abstract}
@@ -198,7 +197,7 @@ sum of the error signals from the previous layer:
 where the $\Theta^\prime (v) = 1 - v^2$ is the derivative of the activation
 function $\Theta(v)$: this limits learning when the unit approaches saturation,
 as in backprop. The normalisation by the Eucledian weight
-distance guarantees that the error propagates through all layers and
+distance guarantees that the error propagates through all layers and does 
 not vanishes from layer to layer due to small weights.
 
 A simplified data flow diagram of the learning performed in each layer
@@ -315,7 +314,7 @@ Fig.~\ref{line_results} shows the results of a simulation run. In the panels
 A) and D) we see the trajectory of the agent over the course of 11400 time steps 
 of learning. While in A) the agent clearly
 just follows the reflex reaction, leading to large deviations from the track,
-in D) the agent follows closely the track and the deviation is minimal --
+in D) the agent closely follows the track and the deviation is minimal --
 learning has been successful. In B) we see the network learning the steering actions that keep the agent closely on track.
 It can be seen that the network clearly slows down in the change of output.
 C) shows the squared error quickly dropping to near zero, leaving only small 
@@ -326,7 +325,7 @@ of the output layer. H) shows the Eucledian distance of the
 different layers from their starting point. Remember that learning is
 always on and the learning rate is 0.0001 for this run.
 
-Overall Fig~\ref{line_results} shows that the network learns to use
+Overall, Fig~\ref{line_results} shows that the network learns to use
 the predictive signals from the sensors in front of the robot to
 generate its steering output. This steering output slowly becomes
 stronger and then stabilises.
@@ -397,7 +396,7 @@ learning rates the robot sometimes learns essentially ``open loop''
 with the error signal having very little impact, and learning can
 drift very slowly in the wrong direction only to be corrected later.
 At very high learning rates we get essentially one shot learning,
-which might learn accidentally the wrong behaviour. In the
+which might accidentally learn the wrong behaviour. In the
 optimal regime (between the dotted lines) learning always arrives at low
 error values. Overall it's interesting that lower learning rates
 aren't neccessarily better, but rather that intermediate learning
@@ -427,8 +426,8 @@ computed relative to the image centre, so a negative value implies the
 enemy is on the left. Shooting behaviour is entirely hardwired: if an
 enemy is detected within a threshold of the image centre, the bot
 fires. Note that the bot's only actions are to rotate in the plane,
-and shoot. Instead of separate outputs for left and right, we have a
-single value produced by 3 neurons acting at different sensitivites:
+and shoot -- it does not translate (but the enemy does). Instead of separate outputs for left and right, we have a
+single value produced by 3 neurons acting at different sensitivities:
 \begin{equation}
 \Delta \theta = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
@@ -438,7 +437,7 @@ where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$ is the cha
 \begin{figure}[h!]
 	\centering \includegraphics[width=\columnwidth]{FPSFig7}
 	\caption{A) KD at end of trial. B) Time to success vs learning
-          rate - success is if the smoothed KD ratio reaches a threshold of 0.15. C) $\Delta \theta$, the change in bot's orientation over time, purely from the DFL output, in arbitrary units. D) KD learning curves - the time series of kills/deaths is filtered with a 2nd order lowpass filter to get a moving average, plotted against kill event number. E)
+          rate - success is if the smoothed KD ratio reaches a threshold of 0.15. C) $\Delta \theta$, the rate of change in bot's orientation against simulation step number, purely from the DFL output, in arbitrary units. D) KD learning curves - the time series of kills/deaths is filtered with a 2nd order lowpass filter to get a moving average, plotted against kill event number. E)
           Euclidean distance of weights for each layer from their initial point, against learning step. F) Example input weights. G) Example input frame.
 		\label{shooter_results}}
 \end{figure}
@@ -453,7 +452,7 @@ is out of the field of view, which helps with exploration. On the
 other hand, it can cause the aiming to overshoot and oscillate around
 the target.  The weights grow in a similar pattern to before, although
 their progression is less smooth, due to the more discontinuous nature
-of the error signal (Fig.~\ref{shooter_results}E). The different scales are likely due to the inputs having 
+of the error signal (Fig.~\ref{shooter_results}E). The different scales are likely due to the inputs having more dimensions.
 
 Unlike the Line Follower, it is not possible here to drive the error
 to zero, as there are discontinuities when either bot respawns, and so
@@ -505,7 +504,7 @@ influx \cite{Meunier2017}. In mathematical terms this would just lead
 to self-amplification of the synaptic weight, where strong presynaptic
 activity would lead to more postsynaptic activity and in turn stronger
 weights, and so on. However, suppose the learning signal and the
-actual activity were transmitted via the same synapse but
+actual activity were transmitted via the same synapse but were
 fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
 plasticity changes while low frequency potentials propagate behaviourally
@@ -541,7 +540,7 @@ can be tuned by the number of layers, and demonstrates that the agent
 performs input control. The actions can be substantially varied as long as
 the error signal can be minimised and will be more pronounced with
 more hidden layers. In other words the more hidden layers we have the
-more behavioural flexibility the agent will achieve.
+more behavioural flexibility the agent will show.
 
 
 
