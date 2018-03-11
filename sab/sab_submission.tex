@@ -55,22 +55,25 @@ disturbances from other cues, and so adaptive behaviour becomes
 relevant. At the moment of the disturbance it's already too late - the
 tiger has already attacked, or the food has been found by pure
 coincidence. However, one can then look back in time and determine
-which input signals could have predicted been used to predict this unexpected
+which input signals could have predicted this unexpected
 threat or reward \cite{Sutton98,Woergoetter2005,PorrNecoInvco2003}.
 
 Adaptive controllers for this kind of learning are either
 correlation-based \cite{PorrNecoISO2003,Verschure91} or state
-space-based \cite{Dayan1992,Sutton98}. The state space-based ones can become very powerful by utilising
-a deep learning network. However, their main drawback is that they are
-slow and the state space approach limits their applicability to real
-world problems. In addition, the deep learning architecture requires
-backprop, which contradicts the feedforward nature of
-biologically-realistic networks, and can only be justified in special
-cases, e.g. by precisely tuned gating and/or simple feedback circuits. On the other hand correlation based-methods can be very
-fast, but so far it has been difficult to use them on very deep networks.  These correlation based methods use ``input
-control'', which means that the error signal is fed into the network
-at its inputs. This is much more compatible with biology, which
-requires a network that propagates errors in a feedforward fashion.
+space-based \cite{Dayan1992,Sutton98}. The state space-based ones can
+become very powerful by utilising a deep learning network. However,
+their main drawback is that they are slow and the state space approach
+limits their applicability to real world problems. In addition, the
+deep learning architecture requires backprop, which contradicts the
+feedforward nature of biologically-realistic networks
+\cite{Bennett2000}, and can only be justified in special cases,
+e.g. by precisely tuned gating and/or simple feedback circuits
+\cite{Lillicrap2016}. On the other hand correlation based-methods can
+be very fast, but so far it has been difficult to use them on
+deep networks.  These correlation based methods use ``input control'',
+which means that the error signal is fed into the network at its
+inputs. This is much more compatible with biology, which requires a
+network that propagates errors in a feedforward fashion.
 
 How could an error propagated through a network in a forward fashion? Here we can
 take inspiration from how errors are transmitted in backprop. 
@@ -138,14 +141,13 @@ through the network.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\columnwidth]{netw_together}
-  \caption{A) Network overview. Except for the input layer,
-    every neuron is a composite cell with an activation $v$ and
-    and an error term $e$. These are propagated through the network
-    in a weighted fashion in parallel.
-B) Computation in a single composite cell.
-    The presynaptic activities $v_k$ and error signals $e_k$ are used
-    to perform correlation based learning and change the weight $w_{kj}$
-    which weights both activity and error towards the next
+  \caption{A) Network overview. Except for the input layer, every
+    neuron is a composite cell with an activation $v$ and and an error
+    term $e$. These are propagated through the network in a weighted
+    fashion in parallel.  B) Computation in a single composite cell.
+    The presynaptic activities $v_j$ and error signals $e_j$ are used
+    to perform correlation based learning and change the weight
+    $w_{kj}$ which weights for both activity and error towards the next
     layer.\label{netw_together}}
 \end{figure}
 
@@ -263,7 +265,7 @@ the right wheel, and 3 the left wheel. This leads to the
 final formulas for the motor outputs:
 \begin{eqnarray}
   \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
-  \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r} \\
+  \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r}
 \end{eqnarray}
 where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network. Note
 that neither inputs nor outputs are organised in a topographically
@@ -317,24 +319,12 @@ which correlates the error with the two rows of
 predictive ground sensors $v_j$. F) is the weight matrix of the hidden layer and G)
 of the output layer. H) shows the Eucledian distance of the
 different layers from their starting point. Remember that learning is
-always on and the learning rate is 0.0001 for this run. See appendix
-for other parameters.
+always on and the learning rate is 0.0001 for this run.
 
-Let us compare the trajectories at the start of learning. Figure
-Fig.~\ref{line_results}A shows the robot right at the start. It locks
-onto the track and then drives it back and forth with jerky
-movements. After $11,400$ time steps learning has turned the erratic
-driving into a smooth behaviour where the robot deviates only
-minimally from the track (Fig.~\ref{line_results}D). This smooth
-steering behaviour is generated by the DFL network output 
-shown in Fig.~\ref{line_results}B (net steering angle is shown).
-
-The network learns to use the predictive signals from the sensors in
-front of the robot to generate its steering output.  This steering 
-output slowly becomes stronger and
-then stabilises. Note that this is not
-measured in degrees but rather a value that is added and subtracted from the
-speed of the robot wheels.
+Overall Fig~\ref{line_results} shows that the network learns to use
+the predictive signals from the sensors in front of the robot to
+generate its steering output. This steering output slowly becomes
+stronger and then stabilises.
 
 The squared average error in Fig.~\ref{line_results}C slowly decays
 leaving only small spikes remaining. This is mainly because
@@ -343,7 +333,7 @@ coordinate 120x50 in D); this causes a spike in the error and
 then the robot overcompensates, causing learning in the
 other direction and so on.
 
-The weights of the various layers are shown in
+The weights of the different layers are shown in
 Fig.~\ref{line_results}E-G.  The weights in the input layer
 (Fig.~\ref{line_results}E) show a slow gradation  from left to right as
 expected. Recall that there are two rows of predictive ground
@@ -385,58 +375,102 @@ is required.
     \label{line_stats}}
 \end{figure}
 
-We have run statistics of the line follower where we varied the learning
-rate over 4 orders of magnitudes and evaluated how long it takes to stay
-below a certain error threshold for a specified
-time (Fig.~\ref{line_stats}A), and the resulting squared error (Fig.~\ref{line_stats}B).
-We see that the time to reach the criterion decreases with higher learning
-rates and is stable between learning rates of approx $10^{-5}$ and $10^{-4}$,
-i.e. about one order of magnitude. Each simulation was run twice with different random seeds to test for initialisation effects. It can be seen that in the stable region this results
-in different times until success, whereas outwith this region about
-half of the runs fail. For lower learning rates the trial might still succeed 
-in the end, e.g. Fig.~\ref{line_stats}B shows only three runs with low learning rates not converging. At low learning rates the robot sometimes learns essentially
-``open loop'' with the error signal having very little impact, and learning
-can drift very slowly in the wrong direction only to be corrected later.
-At very high learning rates we get essentially one shot
-learning, which might learn accidentially learn the wrong behaviour. In the optimal regime (between the dotted lines)
-learning always reaches low error values. Overall it's interesting that lower
-learning rates aren't neccessarily better, but rather that intermediate learning rates
-perform best as they combine both, learning fast but slow enough so that the error
-signal can correct mistakes.
+We have run statistics of the line follower where we varied the
+learning rate over 4 orders of magnitudes and evaluated how long it
+takes to stay below a certain error threshold for a specified time
+(Fig.~\ref{line_stats}A), and the resulting squared error
+(Fig.~\ref{line_stats}B). The time to reach the criterion decreases
+with higher learning rates and is stable between learning rates of
+approx $10^{-5}$ and $10^{-4}$, i.e. about one order of
+magnitude. Each simulation was run twice with different random seeds
+to test for initialisation effects. In the stable
+region this results in different times until success, whereas outwith
+this region about half of the runs fail. For lower learning rates the
+trial might still succeed in the end, e.g. Fig.~\ref{line_stats}B
+shows only three runs with low learning rates not converging. At low
+learning rates the robot sometimes learns essentially ``open loop''
+with the error signal having very little impact, and learning can
+drift very slowly in the wrong direction only to be corrected later.
+At very high learning rates we get essentially one shot learning,
+which might learn accidentally the wrong behaviour. In the
+optimal regime (between the dotted lines) learning always arrives at low
+error values. Overall it's interesting that lower learning rates
+aren't neccessarily better, but rather that intermediate learning
+rates perform best as they combine both, learning fast but slow enough
+so that the error signal can correct mistakes.
 
 
 
 
 \section{Shooter game}
+In this scenario, we try to learn to play a first-person shooter
+purely from visual inputs. We use the Vizdoom
+(http://vizdoom.cs.put.edu.pl/) environment for this purpose, and
+train a controller to play against a single pretrained bot from Intel
+that ran in the Vizdoom 2016 competition. The setup was as follows:
 
-In this scenario, we try to learn to play a first-person shooter purely from visual inputs. We use the Vizdoom (http://vizdoom.cs.put.edu.pl/) environment for this purpose, and train a controller to play against a single pretrained bot from Intel that ran in the Vizdoom 2016 competition. The setup was as follows:
-
-Our bot’s only actions were to rotate in the plane, and shoot. We did also experiment with having our bot move around, but it is far more difficult to get effective learning trials. In the majority of cases, our bot would almost never see the enemy as it was facing towards the wall. We tried two different input representations - ‘flat’ input image vs assigning a spatial receptive field for each hidden unit. We found little difference in learning, so the flat form is reported here. We also experimented with a variety of temporal filters on the inputs, but found that the best results came from having no filters at all. We report the filterless version here. We created a custom Doom map that randomised spawn positions, so as to help generalise across visual inputs.
-
-The images returned from Vizdoom are RGB 160x120. We rendered the enemy in blue, and formed a reflex signal by finding the bounding box of the pixels closest to that colour. Note that the reflex is inherently noisy, as other events in the game are also rendered blue (e.g. the ‘flashes’ that happen when an ammo box respawns). The reflex also fails at times when the enemy is too distant or too close to the camera. For learning, we only supply the network with the greyscale image (Fig.~\ref{shooter_results}G), so it is forced to discover purely spatial cues. The reflex is computed relative to the image centre, so a negative value implies the enemy is on the left. Shooting behaviour is entirely hardwired: if an enemy is detected within a threshold of the image centre, the bot fires. Instead of separate outputs for left and right, we have a single value produced by 3 neurons acting at different sensitivites:
+The images returned from Vizdoom are RGB 160x120. We rendered the
+enemy in blue, and formed a reflex signal by finding the bounding box
+of the pixels closest to that colour. Note that the reflex is
+inherently noisy, as other events in the game are also rendered blue
+(e.g. the ‘flashes’ that happen when an ammo box respawns). The reflex
+also fails at times when the enemy is too distant or too close to the
+camera. For learning, we only supply the network with the greyscale
+image (Fig.~\ref{shooter_results}G), so it is forced to discover
+purely spatial cues. The reflex is computed relative to the image
+centre, so a negative value implies the enemy is on the left. Shooting
+behaviour is entirely hardwired: if an enemy is detected within a
+threshold of the image centre, the bot fires. Instead of separate
+outputs for left and right, we have a single value produced by 3
+neurons acting at different sensitivites:
 \begin{equation}
 \mathrm{rotation} = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
 where $v_0, \ldots, v_2$ are the network outputs.
 
 
-
-\subsection{Results}
-
-As before, we see that the controller outputs steadily increase over time (Fig.~\ref{shooter_results}C). With a high value of $g_{net}$, the bot can make very rapid aiming movements. This has the advantage that the error can in principle be reduced very quickly; it also causes the bot to sometimes make large rotations even when the enemy is out of the field of view, which helps with exploration. On the other hand, it can cause the aiming to overshoot and oscillate around the target. 
-The weights grow in a similar pattern to before, although their progression is less smooth, due to the more discontinuous nature of the error signal(Fig.~\ref{shooter_results}E)
-
-Unlike the Line Follower, it is not possible here to drive the error to zero, as there are discontinuities when either bot respawns, and so the enemy will often abruptly appear somewhere in the image. One performance measure is simply how often our bot is killed vs how often it kills the enemy. In gaming, this is called the kill/death ratio, and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To do statistics, we measure the time taken to reach a threshold KD - Fig.~\ref{shooter_results}B shows this as a function of learning rate. As before, there is a stable region in the middle where learning is consistently successful. We also plot the smoothed KD for the final step of each trial(Fig.~\ref{shooter_results}A); although a noisy measure, the same pattern emerges. Over time, the input weights blur the background, leaving dark and light blobs to detect the enemy and generate a steering response (Fig.~\ref{shooter_results}F).
-
-Note that this is not really a functioning FPS bot, as that would require skills such as finding health packs and navigating the environment. Future research will investigate whether the DFL approach can be used to acquire such skills, using the same fundamental approach of learning to anticipate a prewired behaviour. 
-
-
 \begin{figure}[h!]
-	\centering
-	\includegraphics[width=\columnwidth]{FPSFig7}
-	\caption{A) KD at end of trial. B) Time to success vs learning rate. C) Typical output in time. D) KD learning curves. E) Typical weight growth. F) Example input weights. G) Example input frame.
+	\centering \includegraphics[width=\columnwidth]{FPSFig7}
+	\caption{A) KD at end of trial. B) Time to success vs learning
+          rate. C) Typical output in time. D) KD learning curves. E)
+          Typical weight growth. F) Example input weights. G) Example
+          input frame.
 		\label{shooter_results}}
 \end{figure}
+
+\subsection{Results}
+As before, we see that the controller outputs steadily increase over
+time (Fig.~\ref{shooter_results}C). With a high value of $g_{net}$,
+the bot can make very rapid aiming movements. This has the advantage
+that the error can in principle be reduced very quickly; it also
+causes the bot to sometimes make large rotations even when the enemy
+is out of the field of view, which helps with exploration. On the
+other hand, it can cause the aiming to overshoot and oscillate around
+the target.  The weights grow in a similar pattern to before, although
+their progression is less smooth, due to the more discontinuous nature
+of the error signal (Fig.~\ref{shooter_results}E).
+
+Unlike the Line Follower, it is not possible here to drive the error
+to zero, as there are discontinuities when either bot respawns, and so
+the enemy will often abruptly appear somewhere in the image. One
+performance measure is simply how often our bot is killed vs how often
+it kills the enemy. In gaming, this is called the kill/death ratio,
+and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
+do statistics, we measure the time taken to reach a threshold KD -
+Fig.~\ref{shooter_results}B shows this as a function of learning
+rate. As before, there is a stable region in the middle where learning
+is consistently successful. We also plot the smoothed KD for the final
+step of each trial(Fig.~\ref{shooter_results}A); although a noisy
+measure, the same pattern emerges. Over time, the input weights blur
+the background, leaving dark and light blobs to detect the enemy and
+generate a steering response (Fig.~\ref{shooter_results}F).
+
+Note that this is not really a functioning FPS bot, as that would
+require skills such as finding health packs and navigating the
+environment. Future research will investigate whether the DFL approach
+can be used to acquire such skills, using the same fundamental
+approach of learning to anticipate a prewired behaviour.
+
 
 \section{Discussion}
 We have shown that a network which propagates its errors in a forward
@@ -449,7 +483,7 @@ is usually referred to reinforcement learning, where an agent learns to
 navigate an action space in a way that it maximises its accumulative
 reward \cite{Dayan1992}. The main drawback of this approach
 is the discrete state space which makes it hard to solve analogue
-problems. The overcome this problem, closed loop learning rules using
+problems. To overcome this problem, closed loop learning rules using
 correlation-based techniques \cite{Verschure98summary} were introduced.
 These networks perform well in real robot tasks but usually suffer from
 simple network architectures. DFL addresses this
@@ -458,19 +492,19 @@ on correlation-based territory.
 
 Plasticity has always been hotly debated in neurophysiology -- the
 general understanding is that a large postsynaptic Calcium
-concentration causes LTP \cite{Malenka99,Bennett2000} and a low causes LTD
-\cite{Mulkey1992}. This requires a strong pre-synaptic drive
-to achieve a strong postsynaptic activity, and with that Ca influx
-\cite{Meunier2017}. In mathematical terms this would just lead to
-self-amplification of the synaptic weight, where strong presynaptic
+concentration causes LTP \cite{Malenka99,Bennett2000} and a low one
+causes LTD \cite{Mulkey1992}. This requires a strong pre-synaptic
+drive to achieve a strong postsynaptic activity, and with that Ca
+influx \cite{Meunier2017}. In mathematical terms this would just lead
+to self-amplification of the synaptic weight, where strong presynaptic
 activity would lead to more postsynaptic activity and in turn stronger
-weights, and so on. However, suppose the learning signal and the actual
-activity were transmitted via the same synapse but fundamentally
-separated \cite{Lindsay2017} e.g. by using different
-frequencies. High frequency potentials could cause
-plasticity changes while low frequency potentials propagate
-actual activity \cite{Canolty2010}. In this way one could still use
-Hebbian plasticity but without any autocorrelation term because the
+weights, and so on. However, suppose the learning signal and the
+actual activity were transmitted via the same synapse but
+fundamentally separated \cite{Lindsay2017}, for example by using
+different frequencies: high frequency potentials could cause
+plasticity changes while low frequency potentials propagate behaviourally
+relevant activity \cite{Canolty2010}. In this way one could still use Hebbian
+plasticity but without its detrimental autocorrelation term because the
 correlation would be between two different signals.
 
 A different stance about synaptic plasticity (and ultimately how
@@ -484,24 +518,25 @@ an open loop fashion (i.e. output control), and thus contradicts the
 requirement for an agent to control its inputs which leads to a
 discussion about closed loop learning.
 
-Closed loop control or autonomous behaviour can only be understood by
-observing the whole loop \cite{Porr2005kyb}. This was already clear with DFL's
-predecessor ICO learning \cite{Porr2006ICO} which only makes sense if the
-feedback from the environment is taken into account. The same applies
-to reinforcement learning \cite{Sutton98}. However, here the
-novel aspect is that the more layers DFL has the more it is
-remote from the immediate error feedback. This allows for
-flexibility which can be tuned by the number of layers, and demonstrates
-that the agent performs input control. The actions can be wildly
-varied as long as the error signal can be minimised and will
-be more pronounced with more hidden layers. In other words
-the more hidden layers we have the more behavioural flexibility
-the agent will achieve.
+Autonomous behaviour can only be understood by observing the whole
+loop \cite{Porr2005kyb}, be it reinforcement learning \cite{Sutton98}
+or correlation based learning \cite{Verschure91}. Of course not all
+feedback loops traverse through the physical environment; they could
+be efference copies \cite{Uexkuell26,Graesser86} or gating signals
+which are presented to minimise errors. However, even these signals
+need to be evaluated at the input of the agent, for example when
+stabilising an input image, the goal is itself an image, and therefore
+an inputs and not an output.
 
-The deep learing community has also introduced feedback pathways to make a case for backprop. Of course not all feedback loops traverse through the physical environment; they could be
-efference copies \cite{Uexkuell26,Graesser86} or gating signals which are presented 
-to minimise errors. However, even these signals need to be evaluated
-at the input of the agent, for example when stabilising an input image, the goal is itself an image, and therefore an inputs and not an output.
+Given that in DFL the error is propagated from the input to the output
+the novel aspect is that the more layers DFL has the more it is remote
+from the immediate error feedback. This allows for flexibility which
+can be tuned by the number of layers, and demonstrates that the agent
+performs input control. The actions can be wildly varied as long as
+the error signal can be minimised and will be more pronounced with
+more hidden layers. In other words the more hidden layers we have the
+more behavioural flexibility the agent will achieve.
+
 
 
 
