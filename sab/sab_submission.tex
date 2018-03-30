@@ -299,16 +299,20 @@ will stabilise at small values.
   \centering
   \includegraphics[width=\columnwidth]{line_results}
   \caption{Results of the line following task. A) shows the robot at
-    the very start of the simulation run from time step 0 to 600.
-    B) the difference between the robot wheel speeds just for the learned
-    actions (i.e. the output of the DFL network): $v_l-v_r$.
-    C) the error signal squared: $\mathrm{error}_{sq}$.
-    D) simulation run just before the end at 13400 to 14000 time steps.
-    E-G show the weights of the different layers. The input neurons are on the x-axis
-    and the output neurons are on the y-axis.
-    E) the weights of the 1st layer, F) the weights of the 2nd layer and
-    G) the weights of the output layer.
-        H) shows the euclidean distance of the weights for each layer from their initial starting point. \tiny Parameters: 30 inputs from two predictive rows of sensors (15 each). Every input was fed into a filterbank of 10 filters with T=2 \ldots 30. 2 hidden layers with 9 and 6 neurons. 6 output neurons. The learningrate was 0.0001.
+    the very start of the simulation run from time step 0 to 600.  B)
+    the difference between the robot wheel speeds just for the learned
+    actions (i.e. the output of the DFL network): $v_l-v_r$.  C) the
+    error signal squared: $\mathrm{error}_{sq}$.  D) simulation run
+    just before the end at 13400 to 14000 time steps.  E-G show the
+    weights of the different layers. The input neurons are on the
+    x-axis and the output neurons are on the y-axis.  E) the weights
+    of the 1st layer, F) the weights of the 2nd layer and G) the
+    weights of the output layer.  H) shows the euclidean distance of
+    the weights for each layer from their initial starting
+    point. Parameters: 30 inputs from two predictive rows of sensors
+    (15 each). Every input was fed into a filterbank of 10 filters
+    with T=2 \ldots 30. 2 hidden layers with 9 and 6 neurons. 6 output
+    neurons. The learningrate was 0.0001.
     \label{line_results}}
 \end{figure}
 
@@ -507,7 +511,7 @@ navigate an action space in a way that it maximises its accumulative
 reward \cite{Dayan1992}. The main drawback of this approach
 is the discrete state space which makes it hard to solve analogue
 problems. To overcome this problem, closed loop learning rules using
-correlation-based techniques \cite{Verschure98summary} were introduced.
+correlation-based techniques \cite{Verschure91} were introduced.
 These networks perform well in real robot tasks but are usually restricted to 
 simple network architectures. DFL addresses this
 deficiency by introducing a deep architecture but staying firmly
