@@ -196,13 +196,13 @@ feedback loop (see Fig.~\ref{closed_loop}).
 For the deeper layers, the error signal is computed as a weighted
 sum of the error signals from the previous layer:
 \begin{equation}
-  e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\sqrt{\sum_j w_{jk}^2}}
+  e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\frac{\sum_j {|w_{jk}|}}{\sum_j 1}}
 \end{equation}
-where the $\Theta^\prime (v) = 1 - v^2$ is the derivative of the activation
-function $\Theta(v)$: this limits learning when the unit approaches saturation,
-as in backprop. The normalisation by the Euclidean weight
-distance guarantees that the error propagates through all layers and does 
-not vanishes from layer to layer due to small weights.
+where the $\Theta^\prime (v) = 1 - v^2$ is the derivative of the
+activation function $\Theta(v)$: this limits learning when the unit
+approaches saturation, as in backprop. The norm guarantees that
+the error propagates through all layers and does not vanish from
+layer to layer due to small weights.
 
 A simplified data flow diagram of the learning performed in each layer
 is shown in Fig~\ref{netw_together}B, where we see the two processing

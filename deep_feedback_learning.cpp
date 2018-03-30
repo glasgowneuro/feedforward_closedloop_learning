@@ -229,12 +229,9 @@ void DeepFeedbackLearning::doStepDFL(double* input, double* error) {
 		// Calculate the errors for the hidden layer
 		for(int i=0;i<receiverLayer->getNneurons();i++) {
 			double norm = 0;
-			for(int j=0;j<emitterLayer->getNneurons();j++) {
-				double a = receiverLayer->getNeuron(i)->getManhattanNormOfWeightVector();
-				a = a / (receiverLayer->getNeuron(i)->getNfilters() * receiverLayer->getNeuron(i)->getNinputs());
-				norm += a;
-			}
-			norm = norm / emitterLayer->getNneurons();
+			double a = receiverLayer->getNeuron(i)->getManhattanNormOfWeightVector();
+			a = a / (receiverLayer->getNeuron(i)->getNfilters() * receiverLayer->getNeuron(i)->getNinputs());
+			norm += a;
 			if (norm < 1E-30) norm = 1;
 			double err = 0;
 			for(int j=0;j<emitterLayer->getNneurons();j++) {
