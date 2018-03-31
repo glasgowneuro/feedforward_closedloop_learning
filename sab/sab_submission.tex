@@ -181,10 +181,8 @@ The weight changes are then updated in a semi-Hebbian fashion:
 \end{equation}
 where $v_j(t)$ is the presynaptic activity and $e_k(t)$ is an error signal
 attached to the postsynaptic neuron, so the correlation is
-calculated between input signals and the error signal. This is
-similar to Hebbian learning except the presynaptic term is the
-activity and postsynaptic one is an error signal. The learning rate is $\gamma$.
-
+calculated between input signals and the error signal.
+The learning rate is $\gamma$.
 
 We now describe the error signal propagation. As outlined above, the
 error signal emerges from the feedback loop, and is injected into the
@@ -207,7 +205,7 @@ layer to layer due to small weights.
 A simplified data flow diagram of the learning performed in each layer
 is shown in Fig~\ref{netw_together}B, where we see the two processing
 streams: both the activity $v_j$ and error signal $e_j$ are weighted
-by $w_{jk}$, and summed separately in the next layer.  Remember that
+by $w_{jk}$, and summed separately in the next layer. Remember that
 for the 1st hidden layer, the error signal is just the error signal
 directly injected from the feedback loop. The diagram omits the error
 normalisation, scaling and activation derivative in order to focus on
@@ -218,8 +216,8 @@ Learning is then performed in three steps: first the activity is
 propagated through the network, then the error signal is propagated
 via the same mechanism, and finally the weights are adjusted. Thus,
 both the error signal and the activity is propagated in a forward
-fashion.  Learning itself is ``Hebbian'' but operates by correlating
-the actual activation and the error signal.
+fashion. Learning itself can be interpreted as heterosynaptic for the
+activity $v_j$ and Hebbian for the error $e_j$.
 
 \begin{figure}[h!]
   \centering
@@ -459,7 +457,10 @@ is the change in orientation.
           against kill event number. E) Euclidean distance of weights
           for each layer from their initial point, against learning
           step. F) Example input weights. G) Example input frame.
-          \scriptsize Parameters: 19200 inputs from grayscale image; 2 hidden layers of 5 units each; no filterbank. Inputs were normalised to zero-mean, unit variance. Learning rate in D and E was 0.0001. 
+          \scriptsize Parameters: 19200 inputs from grayscale image; 2
+          hidden layers of 5 units each; no filterbank. Inputs were
+          normalised to zero-mean, unit variance. Learning rate in D
+          and E was 0.0001.
 		\label{shooter_results}}
 \end{figure}
 
