@@ -530,10 +530,12 @@ weights, and so on. However, suppose the learning signal and the
 actual activity were transmitted via the same synapse but were
 fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
-plasticity changes while low frequency potentials propagate behaviourally
-relevant activity \cite{Canolty2010}. In this way one could still use Hebbian
-plasticity but without its detrimental autocorrelation term, because the
-correlation would be between two different signals.
+plasticity changes while low frequency potentials propagate
+behaviourally relevant activity \cite{Canolty2010}. DFL would provide
+here a mechanism which allows stable behaviourally relevant learning
+driven by heterosynaptic plasticity and Hebbian learning for the error
+signal which is also stable because it is constantly corrected by the
+error signal.
 
 A different stance about synaptic plasticity (and ultimately how
 autonomous agents learn) has been taken by the deep learning community
@@ -543,8 +545,7 @@ demonstrated in a network with one hidden layer by introducing a
 separate feedback pathway from the output of the network to this
 hidden layer. While this shows promising results it still operates in
 an open loop fashion (i.e. output control), and thus contradicts the
-requirement for an agent to control its inputs, which leads to a
-discussion about closed loop learning.
+requirement for an agent to control its inputs.
 
 Autonomous behaviour can only be understood by observing the whole
 loop \cite{Porr2005kyb}, be it reinforcement learning \cite{Sutton98}
