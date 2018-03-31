@@ -94,7 +94,7 @@ ideas for correlation based closed loop learning with those from deep learning,
 by turning deep learning from a backprop-based algorithm to a forward-prop
 one. We demonstrate this with two scenarios: a driving task and a 1st-person shooter.
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=0.75\columnwidth]{closed_loop}
   \caption{A closed loop system with a setpoint $SP$, transfer function $H$ and the
@@ -141,7 +141,7 @@ appropriate actions and these are then slowly transformed into actions.
 For that reason the error signal is propagated in a \textsl{forward} fashion
 through the network.
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{netw_together}
   \caption{A) Network overview. Except for the input layer, every
@@ -219,7 +219,7 @@ both the error signal and the activity is propagated in a forward
 fashion. Learning itself can be interpreted as heterosynaptic for the
 activity $v_j$ and Hebbian for the error $e_j$.
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{linefollower_robot_playground}
   \caption{A) Robot setup. The robot is simulated with a updated
@@ -293,7 +293,7 @@ scenario. Realistically, driving will never be 100\% perfect, and $\mathrm{error
 will stabilise at small values.
 
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{line_results}
   \caption{Results of the line following task. A) shows the robot at
@@ -373,7 +373,7 @@ is required.
 
 
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{line_stats}
   \caption{Statistics of the line following task. A) shows the relation between
@@ -445,7 +445,7 @@ where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$
 is the change in orientation.
 
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\centering \includegraphics[width=\columnwidth]{FPSFig7}
 	\caption{A) KD at end of trial. B) Time to success vs learning
           rate - success is if the smoothed KD ratio reaches a
