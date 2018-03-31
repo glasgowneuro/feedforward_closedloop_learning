@@ -26,7 +26,7 @@
 
 \begin{abstract}
  An agent acting in an environment aims to minimise uncertainties so
- that being attacked can be predicted, and rewards are not just found
+ that being attacked can be predicted, and rewards are not only found
  by chance. These events define an error signal which can be used to
  improve performance. In this paper we present a new algorithm where
  an error signal from a reflex trains a novel deep network: the error
@@ -39,11 +39,10 @@
 
 \section{Introduction}
 When an agent acts in its environment, its actions in turn will
-change its sensor inputs which in turn will cause new actions, or in
-short: the agent acts in a closed-loop system. In the simplest case this
+change its sensor inputs which in turn will cause new actions -- in short, the agent acts in a closed-loop system. In the simplest case this
 is a reactive system where the agent encounters threats or rewards and
 acts accordingly. Both threats and rewards are unpredictable events
-where the agent needs to react as quickly as possible. These are often 
+where the agent must respond as quickly as possible. These are often 
 called ``disturbances'' or ``perturbations'' because they force
 the agent to act at an unpredictable moment in time. Importantly, these
 occur at the \textsl{input} of the agent and, thus, a closed loop system
@@ -52,8 +51,7 @@ which performs ``output control'' \cite{Phillips2000}.
 
 The above scenario has a major drawback in that the reactions are always
 too late.  It would be safer for an agent to learn to predict these
-disturbances from other cues, and so adaptive behaviour becomes
-relevant. At the moment of the disturbance it's already too late - the
+disturbances from other cues, which introduces the concept of adaptive behaviour. At the moment of the disturbance it's already too late - the
 tiger has already attacked, or the food has been found by pure
 coincidence. However, one can then look back in time and determine
 which input signals could have predicted this unexpected
@@ -76,10 +74,10 @@ which means that the error signal is fed into the network at its
 inputs. This is much more compatible with biology, which requires a
 network that propagates errors in a feedforward fashion.
 
-How could an error propagated through a deep network in a forward
-fashion? Here we can take inspiration from how errors are transmitted
-in backprop.  In essence the hidden layers receive a \textsl{weighted
-  sum} of the errors from the previous layers which makes intuitive
+How could an error be propagated through a deep network in a forward
+fashion? Here we take inspiration from how errors are transmitted
+in backprop. In essence the hidden layers receive a \textsl{weighted
+  sum} of the errors from the previous layers, which makes intuitive
 sense: the strongest weights contribute the most to the error. Imagine
 we take a similar approach using forward propagation: the error,
 introduced at the input, will have its strongest impact via the
@@ -122,7 +120,7 @@ with the transfer function $H_0$. This action then eliminates the
 disturbance $D$ and arrives via the environmental transfer function
 $P_0$ at the input again; thus, the loop is closed. However, we are
 not so much interested in the design of the closed loop
-but that it generates an \textsl{error signal}. This error signal is
+but rather that it generates an \textsl{error signal}. This error signal is
 non-zero if a disturbance has happened, and can be
 used to tune our deep feedback learning network.
 
@@ -130,9 +128,9 @@ The deep feedback learning network receives additional inputs which are able
 to predict the disturbance, and thus prevent the trigger of the feedback
 loop. These additional inputs are provided via the transfer function $P_1$
 and represent the disturbance in a filtered form. For example a video camera
-can provide images of the road ahead, or that of an enemy. Deep feedback
-learning has the task to take the error signal and tune its network
-to generate an action to minimise the error. In the next section
+can provide images of the road ahead, or of an enemy. Deep feedback
+learning has the task to take the error signal, and tune its network
+to generate actions to minimise the error. In the next section
 we describe the deep feedback learning and how this can
 compute the appropriate output. Note that deep feedback learning only knows if it has been
 successful once its actions have travelled through the environment. Thus learning
@@ -144,13 +142,13 @@ through the network.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\columnwidth]{netw_together}
-  \caption{A) Network overview. Except for the input layer, every
+  \caption{A) Network overview. With the exception of the input layer, every
     neuron is a composite cell with an activation $v$ and an error
     term $e$. These are propagated through the network in a weighted
     fashion in parallel.  B) Computation in a single composite cell.
     The presynaptic activities $v_j$ and error signals $e_j$ are used
     to perform correlation based learning and change the weight
-    $w_{kj}$ which weights for both activity and error towards the next
+    $w_{kj}$ which weights for both activity and error propagation towards the next
     layer.\label{netw_together}}
 \end{figure}
 
@@ -171,8 +169,8 @@ then applies an activation function $\Theta(v) = \tanh(v)$:
   v_k = \Theta\left( \sum_j w_{jk} v_{j} \right) \label{act_sum}
 \end{equation}
 where the activity flows from neurons in layer $v_j$ to neurons in
-layer $v_k$ multiplied by the weights $w_{jk}$, and then this
-is repeated in the next layer. This means for a network with
+layer $v_k$ multiplied by the weights $w_{jk}$, and this
+is then repeated in the next layer. This means that for a network with
 $N$ layers we have $N-1$ sets of weights $w_{jk}$.
 
 The weight changes are then updated in a semi-Hebbian fashion:
@@ -194,7 +192,7 @@ feedback loop (see Fig.~\ref{closed_loop}).
 For the deeper layers, the error signal is computed as a weighted
 sum of the error signals from the previous layer:
 \begin{equation}
-  e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\frac{\sum_j {|w_{jk}|}}{\sum_j 1}}
+e_k = \frac{\left( \sum_j w_{jk} e_{j} \right) \Theta^\prime (v_k) }{\frac{\sum_j {|w_{jk}|}}{\sum_j 1}}
 \end{equation}
 where the $\Theta^\prime (v) = 1 - v^2$ is the derivative of the
 activation function $\Theta(v)$: this limits learning when the unit
@@ -202,11 +200,12 @@ approaches saturation, as in backprop. The norm guarantees that
 the error propagates through all layers and does not vanish from
 layer to layer due to small weights.
 
+
 A simplified data flow diagram of the learning performed in each layer
 is shown in Fig~\ref{netw_together}B, where we see the two processing
 streams: both the activity $v_j$ and error signal $e_j$ are weighted
 by $w_{jk}$, and summed separately in the next layer. Remember that
-for the 1st hidden layer, the error signal is just the error signal
+for the 1st hidden layer, the error is just the error signal
 directly injected from the feedback loop. The diagram omits the error
 normalisation, scaling and activation derivative in order to focus on
 the main point that learning happens between the error signal and the
@@ -227,8 +226,8 @@ activity $v_j$ and Hebbian for the error $e_j$.
     where the line follower is using just the ground sensors of the
     robot to create the error signal ($g_l$, $g_r$) and the predictive signals ($p_m$)
     for DFL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
-    is split up into 10 2nd order lowpass filters with impulse responses
-    lasting from $2$ timesteps to $30$ timesteps and then all feed into the DFL
+    is split into 10 2nd-order lowpass filters with impulse responses
+    lasting from $2$ timesteps to $30$ timesteps, and then all feed into the DFL
     network as predictive inputs $v_j$, giving 300 inputs in total.
     The robot has two wheels whose speed is controlled
     by the feedback control and DFL.
@@ -309,8 +308,8 @@ will stabilise at small values.
     the weights for each layer from their initial starting
     point. Parameters: 30 inputs from two predictive rows of sensors
     (15 each). Every input was fed into a filterbank of 10 filters
-    with T=2 \ldots 30. 2 hidden layers with 9 and 6 neurons. 6 output
-    neurons. The learningrate was 0.0001.
+    with T=2 \ldots 30. There were 2 hidden layers with 9 and 6 neurons; 6 output
+    neurons. The learning rate was 0.0001.
     \label{line_results}}
 \end{figure}
 
@@ -330,8 +329,7 @@ leaving only small components remaining. E) is the final weight matrix
 of the 1st layer after learning, which correlates the error with the
 two rows of predictive ground sensors $v_j$. F) is the weight matrix
 of the hidden layer and G) of the output layer. H) shows the Euclidean
-distance of the different layers from their starting point. Remember
-that learning is always on and the learning rate is 0.0001 for this
+distance of the different layers from their starting point. Learning is always on and the learning rate is 0.0001 for this
 run.
 
 Overall, Fig~\ref{line_results} shows that the network learns to use
@@ -340,17 +338,17 @@ generate its steering output. This steering output slowly becomes
 stronger and then stabilises.
 
 The squared average error in Fig.~\ref{line_results}C slowly decays
-leaving only small spikes remaining. This is mainly because
-the robot is not able to learn one of the steeper bends (see
+leaving only small spikes remaining. These spikes are mainly caused by 
+the robot failing to learn one of the steeper bends (see
 coordinate 120x50 in D); this causes a spike in the error and
 then the robot overcompensates, causing learning in the
 other direction and so on.
 
-The weights of the different layers are shown in
+The weights of the various layers are shown in
 Fig.~\ref{line_results}E-G.  The weights in the input layer
 (Fig.~\ref{line_results}E) show a slow gradation  from left to right as
 expected. Recall that there are two rows of predictive ground
-sensors in front of the robot which cause two different weight maps
+sensors in front of the robot; these cause two different weight maps
 which can clearly be seen. The inputs 0 to 14 correspond to the near
 ground sensor, and 15 to 31 the far sensor which looks further ahead, 
 helping the robot predict bends better. These feed then into the 
@@ -362,7 +360,7 @@ is shown in Fig.~\ref{line_results}H. It's interesting to note
 that the input layer learns fastest and its weights converge
 quickest, while the output layer learns at the slowest rate. Recall 
 that the error signal is weighted by the weights for the deeper
-layers, but also normalised so that learning happens at about the
+layers, but also normalised so that learning happens at approximately the
 same rate in every layer. However, the deeper layers show more
 of an exponential growth. The weights grow at a slower
 and slower pace but still continue because the robot is not able to completely
@@ -377,29 +375,29 @@ is required.
   \centering
   \includegraphics[width=\columnwidth]{line_stats}
   \caption{Statistics of the line following task. A) shows the relation between
-    simulation steps against learning rate. For every learning rate two runs have
+    'time to success' and learning rate. For every learning rate two runs have
     been conducted with different random number seeds to test the dependence on the
     initialisation of the weights. The simulation was marked successful if the
     squared error Eq.~\ref{line_sqerr} stayed below $10^{-6}$ for more than $2500$
     timesteps. The simulation was aborted after $200,000$ time steps if this criterion
     hasn't been reached. Between the dotted lines every run has been successful.
-    B) shows the final squared error for different learning rates and again between
+    B) shows the final squared error for different learning rates, and again between
     the dotted lines we have runs which resulted in low squared errors.
     \label{line_stats}}
 \end{figure}
 
 We have run statistics of the line follower where we varied the
-learning rate over 4 orders of magnitudes and evaluated how long it
+learning rate over 4 orders of magnitudes, and evaluated how long it
 takes to stay below a certain error threshold for a specified time
 (Fig.~\ref{line_stats}A), and the resulting squared error
 (Fig.~\ref{line_stats}B). The time to reach the criterion decreases
-with higher learning rates and is stable between learning rates of
+with higher learning rates, and is stable between learning rates of
 approx $10^{-5}$ and $10^{-4}$, i.e. about one order of
 magnitude. Each simulation was run twice with different random seeds
 to test for initialisation effects. In the stable
 region this results in different times until success, whereas outwith
 this region about half of the runs fail. For lower learning rates the
-trial might still succeed in the end, e.g. Fig.~\ref{line_stats}B
+trial might still succeed eventually, e.g. Fig.~\ref{line_stats}B
 shows only three runs with low learning rates not converging. At low
 learning rates the robot sometimes learns essentially ``open loop''
 with the error signal having very little impact, and learning can
@@ -425,7 +423,7 @@ that ran in the Vizdoom 2016 competition. The setup was as follows:
 The images returned from Vizdoom are RGB 160x120. We rendered the
 enemy in blue, and formed a reflex signal by finding the bounding box
 of the pixels closest to that colour. Note that the reflex is slow and
-is inherently noisy, as other events in the game are also rendered
+also inherently noisy, as other events in the game are also rendered
 blue (e.g. the ‘flashes’ that happen at respawns). The reflex also
 fails at times when the enemy is too distant or too close to the
 camera. For learning, we only supply the network with the greyscale
@@ -457,7 +455,7 @@ is the change in orientation.
           against kill event number. E) Euclidean distance of weights
           for each layer from their initial point, against learning
           step. F) Example input weights. G) Example input frame.
-          \scriptsize Parameters: 19200 inputs from grayscale image; 2
+          Parameters: 19200 inputs from grayscale image; 2
           hidden layers of 5 units each; no filterbank. Inputs were
           normalised to zero-mean, unit variance. Learning rate in D
           and E was 0.0001.
@@ -483,7 +481,7 @@ the enemy will often abruptly appear somewhere in the image. One
 performance measure is simply how often our bot is killed vs how often
 it kills the enemy. In gaming, this is called the kill/death ratio,
 and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
-do statistics, we measure the time taken to reach a threshold KD (0.15) -
+do statistics, we measure the time taken to reach a threshold KD of 0.15 -
 Fig.~\ref{shooter_results}B shows this as a function of learning
 rate. As before, there is a stable region in the middle where learning
 is consistently successful. We also plot the smoothed KD for the final
@@ -492,7 +490,7 @@ measure, the same pattern emerges. Over time, the input weights blur
 the background, leaving dark and light blobs to detect the enemy and
 generate an aiming response (Fig.~\ref{shooter_results}F).
 
-Note that this is only one skill of a functioning FPS bot, as that would
+Note that this is only one skill of a functioning FPS bot, as a real bot would
 require additional skills such as seeking rewards (e.g. finding health packs) and
 navigating the environment (e.g. avoiding collisions). Future research
 will investigate whether the DFL approach can be used to acquire such
