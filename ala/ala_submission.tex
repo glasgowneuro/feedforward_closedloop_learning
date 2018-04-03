@@ -1,4 +1,7 @@
-\documentclass{llncs}
+\documentclass{aamas2017}
+
+\pdfpagewidth=8.5truein
+\pdfpageheight=11truein
 
 \usepackage{graphicx}                                        % for eps, pdf, jpeg, png and tif graphics
 \usepackage{amsmath}                                         % for align
@@ -14,11 +17,33 @@
 
 \title{Deep feedback learning}
 
-\author{Bernd Porr \and Paul Miller}
+\numberofauthors{1}
 
-\institute{Glasgow Neuro LTD, United Kingdom\\
-  \email{bernd@glasgowneuro.tech}\\
-  \email{paul@glasgowneuro.tech}}
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+% 1st. author
+\alignauthor
+Paper XXX
+%Bernd Porr\\
+%       \affaddr{Glasgow Neuro LTD}\\
+%       \affaddr{Glasgow, United Kingdom}\\
+%       \email{bernd@glasgowneuro.tech}
+% 2nd. author
+%\alignauthor
+%Paul Miller\\
+%       \affaddr{Glasgow Neuro LTD}\\
+%       \affaddr{Glasgow, United Kingdom}\\
+%       \email{paul@glasgowneuro.tech}
+}
+
 
 \begin{document}
 
@@ -37,17 +62,50 @@
  strategies to become pro-active.
 \end{abstract}
 
+
+% Note that the category section should be completed after reference to the ACM Computing Classification Scheme available at
+% http://www.acm.org/publications/class-2012
+% Hint: a useful place to start could be  Computing methodologies →  Artificial intelligence →  Distributed artificial intelligence
+
+ \begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10003752.10010070.10010071.10010289</concept_id>
+<concept_desc>Theory of computation~Semi-supervised learning</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+<concept>
+<concept_id>10010147.10010257.10010293.10011809.10011810</concept_id>
+<concept_desc>Computing methodologies~Artificial life</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[300]{Theory of computation~Semi-supervised learning}
+\ccsdesc[300]{Computing methodologies~Artificial life}
+
+
+\printccsdesc
+
+
+%Keywords are your own choice of terms by which you would like the paper to be indexed.
+
+\keywords{Hebbian learning, Heterosynaptic learning, closed loop, autonomous behaviour}
+
+
 \section{Introduction}
-When an agent acts in its environment, its actions in turn will
-change its sensor inputs which in turn will cause new actions -- in short, the agent acts in a closed-loop system. In the simplest case this
-is a reactive system where the agent encounters threats or rewards and
-acts accordingly. Both threats and rewards are unpredictable events
-where the agent must respond as quickly as possible. These are often 
-called ``disturbances'' or ``perturbations'' because they force
-the agent to act at an unpredictable moment in time. Importantly, these
-occur at the \textsl{input} of the agent and, thus, a closed loop system
-performs ``input control'' -- in contrast to a pattern recognition system
-which performs ``output control'' \cite{Phillips2000}.
+When an agent acts in its environment, its actions in turn will change
+its sensor inputs which in turn will cause new actions -- in short,
+the agent acts in a closed-loop system. In the simplest case this is a
+reactive system where the agent encounters threats or rewards and acts
+accordingly. Both threats and rewards are unpredictable events where
+the agent must respond as quickly as possible. These are often called
+``disturbances'' or ``perturbations'' because they force the agent to
+act at an unpredictable moment in time. Importantly, these occur at
+the \textsl{input} of the agent and, thus, a closed loop system
+performs ``input control'' -- in contrast to a pattern recognition
+system which performs ``output control'' \cite{Phillips2000}.
 
 The above scenario has a major drawback in that the reactions are always
 too late.  It would be safer for an agent to learn to predict these
@@ -369,7 +427,7 @@ the error signal can be minimised and will be more pronounced with
 more hidden layers. In other words the more hidden layers we have the
 more behavioural flexibility the agent will show.
 
-\bibliographystyle{splncs03}
+\bibliographystyle{abbrv}
 
 \bibliography{hebb,ours,embodiment,laplace}
 
