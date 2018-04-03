@@ -1,4 +1,4 @@
-\documentclass{aamas2017}
+\documentclass{aamas2018}
 
 \pdfpagewidth=8.5truein
 \pdfpageheight=11truein
@@ -17,7 +17,7 @@
 
 \title{Deep feedback learning}
 
-\numberofauthors{1}
+\numberofauthors{2}
 
 \author{
 % You can go ahead and credit any number of authors here,
@@ -31,17 +31,16 @@
 % e-mail address with \email.
 % 1st. author
 \alignauthor
-Paper XXX
-%Bernd Porr\\
-%       \affaddr{Glasgow Neuro LTD}\\
-%       \affaddr{Glasgow, United Kingdom}\\
-%       \email{bernd@glasgowneuro.tech}
+Bernd Porr\\
+       \affaddr{Glasgow Neuro LTD}\\
+       \affaddr{Glasgow, United Kingdom}\\
+       \email{bernd@glasgowneuro.tech}
 % 2nd. author
-%\alignauthor
-%Paul Miller\\
-%       \affaddr{Glasgow Neuro LTD}\\
-%       \affaddr{Glasgow, United Kingdom}\\
-%       \email{paul@glasgowneuro.tech}
+\alignauthor
+Paul Miller\\
+       \affaddr{Glasgow Neuro LTD}\\
+       \affaddr{Glasgow, United Kingdom}\\
+       \email{paul@glasgowneuro.tech}
 }
 
 
@@ -63,10 +62,6 @@ Paper XXX
 \end{abstract}
 
 
-% Note that the category section should be completed after reference to the ACM Computing Classification Scheme available at
-% http://www.acm.org/publications/class-2012
-% Hint: a useful place to start could be  Computing methodologies →  Artificial intelligence →  Distributed artificial intelligence
-
  \begin{CCSXML}
 <ccs2012>
 <concept>
@@ -74,16 +69,10 @@ Paper XXX
 <concept_desc>Theory of computation~Semi-supervised learning</concept_desc>
 <concept_significance>300</concept_significance>
 </concept>
-<concept>
-<concept_id>10010147.10010257.10010293.10011809.10011810</concept_id>
-<concept_desc>Computing methodologies~Artificial life</concept_desc>
-<concept_significance>300</concept_significance>
-</concept>
 </ccs2012>
 \end{CCSXML}
 
 \ccsdesc[300]{Theory of computation~Semi-supervised learning}
-\ccsdesc[300]{Computing methodologies~Artificial life}
 
 
 \printccsdesc
@@ -109,7 +98,8 @@ system which performs ``output control'' \cite{Phillips2000}.
 
 The above scenario has a major drawback in that the reactions are always
 too late.  It would be safer for an agent to learn to predict these
-disturbances from other cues, which introduces the concept of adaptive behaviour. At the moment of the disturbance it's already too late - the
+disturbances from other cues, which introduces the concept of adaptive behaviour.
+At the moment of the disturbance it's already too late - the
 tiger has already attacked, or the food has been found by pure
 coincidence. However, one can then look back in time and determine
 which input signals could have predicted this unexpected
@@ -276,6 +266,204 @@ both the error signal and the activity is propagated in a forward
 fashion. Learning itself can be interpreted as heterosynaptic for the
 activity $v_j$ and Hebbian for the error $e_j$.
 
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\columnwidth]{linefollower_robot_playground}
+  \caption{A) Robot setup. The robot is simulated with a updated
+    version of enki for QT5 (https://github.com/berndporr/enki)
+    where the line follower is using just the ground sensors of the
+    robot to create the error signal ($g_l$, $g_r$) and the predictive signals ($p_m$)
+    for DFL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
+    is split into 10 2nd-order lowpass filters with impulse responses
+    lasting from $2$ timesteps to $30$ timesteps, and then all feed into the DFL
+    network as predictive inputs $v_j$, giving 300 inputs in total.
+    The robot has two wheels whose speed is controlled
+    by the feedback control and DFL.
+    B) The line following scenario used for the simulations. The robot
+    attempts to drive along the line and is reversed at the end of the
+    line and then drives back. If it hits the boundaries of the playground
+    it is also turned around.
+    \label{linefollower_robot_playground}}
+\end{figure}
+
+
+
+
+
+\section{Line follower}
+In order to demonstrate DFL we need a simple closed loop scenario
+which can be improved with the help of an adaptive network.
+Fig.~\ref{linefollower_robot_playground} shows a simple line following
+robot which has the task of following the line depicted in
+Fig.~\ref{linefollower_robot_playground}B to the end, where it
+reverses and drives back, and so on. The four ground sensors in
+Fig.~\ref{linefollower_robot_playground}A left/right on either side
+of the robot create an error signal:
+\begin{equation}
+\mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2}) \label{line_error}
+\end{equation}
+this error directly creates a steering reaction from the fixed
+feedback loop by controlling the speed of the wheels.
+
+The DFL learning circuit uses the predictive ground sensors - these
+are first filtered by a Filterbank, which smears them in time and
+creates a temporal overlap with the error signal. These filtered
+signals are then presented to the $v_j$ of the input layer (see
+Eq.~\ref{act_sum}). We have two rows of sensors, one directly in front
+of the robot and one which looks further ahead. There are 30 ground
+sensors each filtered by 10 filters, giving 300 inputs in total.
+
+The output layer of our deep feedback learner consists of 6 neurons
+with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
+decision-making units where 3 of them determine the change of speed of
+the right wheel, and 3 the left wheel. This leads to the
+final formulas for the motor outputs:
+\begin{eqnarray}
+  \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
+  \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r}
+\end{eqnarray}
+where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network. Note
+that neither inputs nor outputs are organised in a topographically
+meaningful way. The network must discover from the error signals
+which sensor inputs $v_k$ will eventually lead to appropriate steering
+actions. At the start the network is initialised with random values.
+
+As performance criterion we use the squared average of the error from
+Eq.~\ref{line_error}:
+\begin{equation}
+  \mathrm{error}_\mathrm{avg} =  \mathrm{error}_\mathrm{avg} + 0.001 (\mathrm{error} - \mathrm{error}_\mathrm{avg}) 
+\end{equation}
+\begin{equation}
+  \mathrm{error}_\mathrm{sq} =  \mathrm{error}_\mathrm{avg}^2 \label{line_sqerr}
+\end{equation}
+As learning tries to minimise the average error, $\mathrm{error}_\mathrm{avg}$ should reach zero in an ideal
+scenario. Realistically, driving will never be 100\% perfect, and $\mathrm{error}_\mathrm{avg}$
+will stabilise at small values.
+
+
+\begin{figure*}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{line_results}
+  \caption{Results of the line following task. A) shows the robot at
+    the very start of the simulation run from time step 0 to 600.  B)
+    the difference between the robot wheel speeds just for the learned
+    actions (i.e. the output of the DFL network): $v_l-v_r$.  C) the
+    error signal squared: $\mathrm{error}_{sq}$.  D) simulation run
+    just before the end at 13400 to 14000 time steps.  E-G show the
+    weights of the different layers. The input neurons are on the
+    x-axis and the output neurons are on the y-axis.  E) the weights
+    of the 1st layer, F) the weights of the 2nd layer and G) the
+    weights of the output layer.  H) shows the euclidean distance of
+    the weights for each layer from their initial starting
+    point. Parameters: 30 inputs from two predictive rows of sensors
+    (15 each). Every input was fed into a filterbank of 10 filters
+    with T=2 \ldots 30. There were 2 hidden layers with 9 and 6 neurons; 6 output
+    neurons. The learning rate was 0.0001.
+    \label{line_results}}
+\end{figure*}
+
+
+
+\subsection{Results}
+Fig.~\ref{line_results} shows the results of a simulation run. In the
+panels A) and D) we see the trajectory of the agent over the course of
+11400 time steps of learning. While in A) the agent clearly just
+follows the reflex reaction, leading to large deviations from the
+track, in D) the agent closely follows the track and the deviation is
+minimal -- learning has been successful. In B) we see the network
+learning the steering actions that keep the agent closely on track.
+It can be seen that the network clearly slows down in the change of
+output.  C) shows the squared error quickly dropping to near zero,
+leaving only small components remaining. E) is the final weight matrix
+of the 1st layer after learning, which correlates the error with the
+two rows of predictive ground sensors $v_j$. F) is the weight matrix
+of the hidden layer and G) of the output layer. H) shows the Euclidean
+distance of the different layers from their starting point. Learning is always on and the learning rate is 0.0001 for this
+run.
+
+Overall, Fig~\ref{line_results} shows that the network learns to use
+the predictive signals from the sensors in front of the robot to
+generate its steering output. This steering output slowly becomes
+stronger and then stabilises.
+
+The squared average error in Fig.~\ref{line_results}C slowly decays
+leaving only small spikes remaining. These spikes are mainly caused by 
+the robot failing to learn one of the steeper bends (see
+coordinate 120x50 in D); this causes a spike in the error and
+then the robot overcompensates, causing learning in the
+other direction and so on.
+
+The weights of the various layers are shown in
+Fig.~\ref{line_results}E-G.  The weights in the input layer
+(Fig.~\ref{line_results}E) show a slow gradation  from left to right as
+expected. Recall that there are two rows of predictive ground
+sensors in front of the robot; these cause two different weight maps
+which can clearly be seen. The inputs 0 to 14 correspond to the near
+ground sensor, and 15 to 31 the far sensor which looks further ahead, 
+helping the robot predict bends better. These feed then into the 
+hidden layer Fig.~\ref{line_results}F
+and from there into the output layer Fig.~\ref{line_results}G.
+
+The overall weight development per layer over the time 
+is shown in Fig.~\ref{line_results}H. It's interesting to note
+that the input layer learns fastest and its weights converge
+quickest, while the output layer learns at the slowest rate. Recall 
+that the error signal is weighted by the weights for the deeper
+layers, but also normalised so that learning happens at approximately the
+same rate in every layer. However, the deeper layers show more
+of an exponential growth. The weights grow at a slower
+and slower pace but still continue because the robot is not able to completely
+avoid its reflex, and also probably because the system is non-linear.
+However, the error is very low even when the weights still change
+substantially; one could switch off learning if early stability
+is required.
+
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\columnwidth]{line_stats}
+  \caption{Statistics of the line following task. A) shows the relation between
+    'time to success' and learning rate. For every learning rate two runs have
+    been conducted with different random number seeds to test the dependence on the
+    initialisation of the weights. The simulation was marked successful if the
+    squared error Eq.~\ref{line_sqerr} stayed below $10^{-6}$ for more than $2500$
+    timesteps. The simulation was aborted after $200,000$ time steps if this criterion
+    hasn't been reached. Between the dotted lines every run has been successful.
+    B) shows the final squared error for different learning rates, and again between
+    the dotted lines we have runs which resulted in low squared errors.
+    \label{line_stats}}
+\end{figure}
+
+We have run statistics of the line follower where we varied the
+learning rate over 4 orders of magnitudes, and evaluated how long it
+takes to stay below a certain error threshold for a specified time
+(Fig.~\ref{line_stats}A), and the resulting squared error
+(Fig.~\ref{line_stats}B). The time to reach the criterion decreases
+with higher learning rates, and is stable between learning rates of
+approx $10^{-5}$ and $10^{-4}$, i.e. about one order of
+magnitude. Each simulation was run twice with different random seeds
+to test for initialisation effects. In the stable
+region this results in different times until success, whereas outwith
+this region about half of the runs fail. For lower learning rates the
+trial might still succeed eventually, e.g. Fig.~\ref{line_stats}B
+shows only three runs with low learning rates not converging. At low
+learning rates the robot sometimes learns essentially ``open loop''
+with the error signal having very little impact, and learning can
+drift very slowly in the wrong direction only to be corrected later.
+At very high learning rates we get essentially one shot learning,
+which might accidentally learn the wrong behaviour. In the
+optimal regime (between the dotted lines) learning always arrives at low
+error values. Overall it's interesting that lower learning rates
+aren't necessarily better, but rather that intermediate learning
+rates perform best as they combine both, learning fast but slow enough
+so that the error signal can correct mistakes.
+
+
+
+
+
 \section{Shooter game}
 In this scenario, we try to learn to play a first-person shooter
 purely from visual inputs. We use the Vizdoom
@@ -306,8 +494,8 @@ where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$
 is the change in orientation.
 
 
-\begin{figure}[!ht]
-	\centering \includegraphics[width=\columnwidth]{FPSFig7}
+\begin{figure*}[!ht]
+	\centering \includegraphics[width=\textwidth]{FPSFig7}
 	\caption{A) KD at end of trial. B) Time to success vs learning
           rate - success is if the smoothed KD ratio reaches a
           threshold of 0.15. C) $\Delta \theta$, the rate of change in
@@ -323,7 +511,7 @@ is the change in orientation.
           normalised to zero-mean, unit variance. Learning rate in D
           and E was 0.0001.
 		\label{shooter_results}}
-\end{figure}
+\end{figure*}
 
 \subsection{Results}
 As before, we see that the controller outputs steadily increase over
