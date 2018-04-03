@@ -14,10 +14,15 @@ using namespace std;
 double	maxx = 300;
 double	maxy = 300;
 
-#define SQ_ERROR_THRES 1E-7 // 1E-6 for stats
+// for stats
+#define SQ_ERROR_THRES 1E-8
 #define STEPS_BELOW_ERR_THRESHOLD 2500
 
+// max number of steps to terminate
 #define MAX_STEPS 200000
+
+// terminates if the agent won't turn after these steps
+#define STEPS_OFF_TRACK 2000
 
 class LineFollower : public EnkiWidget {
 protected:
@@ -69,6 +74,8 @@ protected:
 	double avgErrorDecay = 0.001;
 
 	int successCtr = 0;
+
+	int trackCompletedCtr = 5000;
 		
 public:
 	LineFollower(World *world, QWidget *parent = 0) :
@@ -153,6 +160,12 @@ public:
 		}
 		if (racer->pos.x < border) {
 			racer->angle = 0;
+			trackCompletedCtr = STEPS_OFF_TRACK;
+		}
+		trackCompletedCtr--;
+		if (trackCompletedCtr < 1) {
+			// been off the track for a long time!
+			qApp->quit();
 		}
 		fprintf(stderr,"%d ",learningOff);
 		if (learningOff>0) {
@@ -283,7 +296,7 @@ int main(int argc, char *argv[]) {
 	}
 	switch (n) {
 	case 0:
-		singleRun(argc,argv);
+		singleRun(argc,argv,0.0005);
 		break;
 	case 1:
 		statsRun(argc,argv);
