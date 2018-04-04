@@ -15,14 +15,14 @@ double	maxx = 300;
 double	maxy = 300;
 
 // for stats
-#define SQ_ERROR_THRES 1E-8
+#define SQ_ERROR_THRES 0.5E-7
 #define STEPS_BELOW_ERR_THRESHOLD 2500
 
 // max number of steps to terminate
 #define MAX_STEPS 200000
 
 // terminates if the agent won't turn after these steps
-#define STEPS_OFF_TRACK 2000
+#define STEPS_OFF_TRACK 1000
 
 class LineFollower : public EnkiWidget {
 protected:
@@ -165,6 +165,7 @@ public:
 		trackCompletedCtr--;
 		if (trackCompletedCtr < 1) {
 			// been off the track for a long time!
+			step = MAX_STEPS;
 			qApp->quit();
 		}
 		fprintf(stderr,"%d ",learningOff);
@@ -274,7 +275,8 @@ void singleRun(int argc,
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-	for(double learningRate = 0.000001; learningRate < 0.1; learningRate = learningRate * 1.5) {
+//	for(double learningRate = 0.000001; learningRate < 0.1; learningRate = learningRate * 1.5) {
+	for(double learningRate = 2.562891e-05; learningRate < 0.1; learningRate = learningRate * 1.5) {
 		srandom(42);
 		for(int j=0;j<2;j++) {
 			singleRun(argc,argv,learningRate,f);
