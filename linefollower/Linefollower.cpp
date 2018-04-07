@@ -15,7 +15,7 @@ double	maxx = 300;
 double	maxy = 300;
 
 // for stats
-#define SQ_ERROR_THRES 0.5E-7
+#define SQ_ERROR_THRES 1E-7
 #define STEPS_BELOW_ERR_THRESHOLD 2500
 
 // max number of steps to terminate
@@ -183,7 +183,7 @@ public:
 			if (pred[i]<0) pred[i] = 0;
 			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%f ",pred[i]);
 		}
-		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
+		double error = (leftGround+leftGround2*4)-(rightGround+rightGround2*4);
        		avgError = avgError + (error - avgError)*avgErrorDecay;
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
 			err[i] = error;
@@ -275,8 +275,7 @@ void singleRun(int argc,
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-//	for(double learningRate = 0.000001; learningRate < 0.1; learningRate = learningRate * 1.5) {
-	for(double learningRate = 2.562891e-05; learningRate < 0.1; learningRate = learningRate * 1.5) {
+	for(double learningRate = 1.0E-05; learningRate < 0.1; learningRate = learningRate * 1.5) {
 		srandom(42);
 		for(int j=0;j<2;j++) {
 			singleRun(argc,argv,learningRate,f);
