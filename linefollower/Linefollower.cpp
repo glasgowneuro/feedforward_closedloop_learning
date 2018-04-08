@@ -183,7 +183,7 @@ public:
 			if (pred[i]<0) pred[i] = 0;
 			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%e ",pred[i]);
 		}
-		double error = (leftGround*2+leftGround2*5)-(rightGround*2+rightGround2*5);
+		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
 			err[i] = error;
                 }
@@ -282,12 +282,13 @@ void singleRun(int argc,
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-	for(double learningRate =0.0001; learningRate < 0.1; learningRate = learningRate * 1.5) {
+	for(double learningRate = 0.00001; learningRate < 0.1; learningRate = learningRate * 1.25) {
+		srandom(1);
+		singleRun(argc,argv,learningRate,f);
+		fflush(f);
 		srandom(42);
-		for(int j=0;j<2;j++) {
-			singleRun(argc,argv,learningRate,f);
-			fflush(f);
-		}
+		singleRun(argc,argv,learningRate,f);
+		fflush(f);
 	}
 	fclose(f);
 }
