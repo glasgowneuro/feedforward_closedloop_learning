@@ -15,8 +15,8 @@ double	maxx = 300;
 double	maxy = 300;
 
 // for stats
-#define SQ_ERROR_THRES 1E-7
-#define STEPS_BELOW_ERR_THRESHOLD 2500
+#define SQ_ERROR_THRES 0.001
+#define STEPS_BELOW_ERR_THRESHOLD 1000
 
 // max number of steps to terminate
 #define MAX_STEPS 200000
@@ -71,7 +71,7 @@ protected:
 	long step = 0;
 
 	double avgError = 0;
-	double avgErrorDecay = 0.001;
+	double avgErrorDecay = 0.01;
 
 	int successCtr = 0;
 
@@ -145,8 +145,8 @@ public:
 		double leftGround2 = racer->groundSensorLeft2.getValue();
 		double rightGround2 = racer->groundSensorRight2.getValue();
 
-		fprintf(stderr,"%f ",racer->pos.x);
-		fprintf(fcoord,"%f %f\n",racer->pos.x,racer->pos.y);
+		fprintf(stderr,"%e ",racer->pos.x);
+		fprintf(fcoord,"%e %e\n",racer->pos.x,racer->pos.y);
 		// check if we've bumped into a wall
 		if ((racer->pos.x<75) ||
 		    (racer->pos.x>(maxx-border)) ||
@@ -176,20 +176,38 @@ public:
 			deep_fbl->setLearningRate(learningRate);
 		}
 
-		fprintf(stderr,"%f %f %f %f ",leftGround,rightGround,leftGround2,rightGround2);
+		fprintf(stderr,"%e %e %e %e ",leftGround,rightGround,leftGround2,rightGround2);
 		for(int i=0;i<racer->getNsensors();i++) {
 			pred[i] = -(racer->getSensorArrayValue(i))*10;
 			// workaround of a bug in Enki
 			if (pred[i]<0) pred[i] = 0;
-			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%f ",pred[i]);
+			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%e ",pred[i]);
 		}
-		double error = (leftGround+leftGround2*4)-(rightGround+rightGround2*4);
-       		avgError = avgError + (error - avgError)*avgErrorDecay;
+		double error = (leftGround*2+leftGround2*5)-(rightGround*2+rightGround2*5);
 		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
 			err[i] = error;
                 }
-		double sqAvgError = avgError * avgError;
-		if (sqAvgError > SQ_ERROR_THRES) {
+		// !!!!
+		deep_fbl->doStep(pred,err);
+		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
+			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
+			(deep_fbl->getOutputLayer()->getNeuron(2)->getOutput())*2;
+		float vR = (deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
+			(deep_fbl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
+			(deep_fbl->getOutputLayer()->getNeuron(5)->getOutput())*2;
+		
+		double erroramp = error * fbgain;
+		fprintf(stderr,"%e ",erroramp);
+		fprintf(stderr,"%e ",vL);
+		fprintf(stderr,"%e ",vR);
+		fprintf(stderr,"\n");
+		racer->leftSpeed = speed+erroramp+vL;
+		racer->rightSpeed = speed-erroramp+vR;
+
+		// documenting
+       		avgError = avgError + (error - avgError)*avgErrorDecay;
+		double absError = fabs(avgError);
+		if (absError > SQ_ERROR_THRES) {
 			successCtr = 0;
 		} else {
 			successCtr++;
@@ -200,36 +218,22 @@ public:
 		if (step>MAX_STEPS) {
 			qApp->quit();
 		}
-		deep_fbl->doStep(pred,err);
-		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
-			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
-			(deep_fbl->getOutputLayer()->getNeuron(2)->getOutput())*2;
-		float vR = (deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
-			(deep_fbl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
-			(deep_fbl->getOutputLayer()->getNeuron(5)->getOutput())*2;
 		
-		error = error * fbgain;
-		fprintf(stderr,"%f ",error);
-		fprintf(stderr,"%f ",vL);
-		fprintf(stderr,"%f ",vR);
-		fprintf(stderr,"\n");
-		racer->leftSpeed = speed+error+vL;
-		racer->rightSpeed = speed-error+vR;
-		
-		if (learningOff) error = 0;
-		fprintf(flog,"%f %f %f ",error,vL,vR);
+		if (learningOff) erroramp = 0;
+		fprintf(flog,"%e %e %e ",erroramp,vL,vR);
 		for(int i=0;i<deep_fbl->getNumLayers();i++) {
-			fprintf(flog,"%f ",deep_fbl->getLayer(i)->getWeightDistanceFromInitialWeights());
+			fprintf(flog,"%e ",deep_fbl->getLayer(i)->getWeightDistanceFromInitialWeights());
 		}
 		fprintf(flog,"\n");
 		int n = 0;
+		fprintf(llog,"%e ",error);
 		fprintf(llog,"%e ",avgError);
-		fprintf(llog,"%e ",sqAvgError);
+		fprintf(llog,"%e ",absError);
 		for(int i=0;i<deep_fbl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
 			fprintf(llog,"%e ",deep_fbl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
 			fprintf(llog,"%e ",deep_fbl->getLayer(0)->getNeuron(0)->getWeight(n,i));
 		}
-		fprintf(llog,"%f\n",deep_fbl->getLayer(0)->getNeuron(0)->getOutput());
+		fprintf(llog,"%e\n",deep_fbl->getLayer(0)->getNeuron(0)->getOutput());
 		if ((step%100)==0) {
 			for(int i=0;i<deep_fbl->getNumLayers();i++) {
 				char tmp[256];
@@ -237,6 +241,7 @@ public:
 				deep_fbl->getLayer(i)->saveWeightMatrix(tmp);
 			}
 		}
+
 		step++;
 	}
 
@@ -275,10 +280,12 @@ void singleRun(int argc,
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-	srandom(42);
-	for(double learningRate = 1.0E-05; learningRate < 0.1; learningRate = learningRate * 1.25) {
-		singleRun(argc,argv,learningRate,f);
-		fflush(f);
+	for(double learningRate =0.0001; learningRate < 0.1; learningRate = learningRate * 1.5) {
+		srandom(42);
+		for(int j=0;j<2;j++) {
+			singleRun(argc,argv,learningRate,f);
+			fflush(f);
+		}
 	}
 	fclose(f);
 }
