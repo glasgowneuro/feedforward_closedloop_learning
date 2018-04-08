@@ -275,12 +275,10 @@ void singleRun(int argc,
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-	for(double learningRate = 1.0E-05; learningRate < 0.1; learningRate = learningRate * 1.5) {
-		srandom(42);
-		for(int j=0;j<2;j++) {
-			singleRun(argc,argv,learningRate,f);
-			fflush(f);
-		}
+	srandom(42);
+	for(double learningRate = 1.0E-05; learningRate < 0.1; learningRate = learningRate * 1.25) {
+		singleRun(argc,argv,learningRate,f);
+		fflush(f);
 	}
 	fclose(f);
 }
