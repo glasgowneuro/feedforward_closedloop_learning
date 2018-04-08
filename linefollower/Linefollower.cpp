@@ -205,6 +205,9 @@ public:
 		racer->rightSpeed = speed-erroramp+vR;
 
 		// documenting
+		// if the learning is off we set the error to zero which
+		// happens on the edges when the robot is turned violently around
+		if (learningOff) error = 0;
        		avgError = avgError + (error - avgError)*avgErrorDecay;
 		double absError = fabs(avgError);
 		if (absError > SQ_ERROR_THRES) {
@@ -219,7 +222,6 @@ public:
 			qApp->quit();
 		}
 		
-		if (learningOff) erroramp = 0;
 		fprintf(flog,"%e %e %e ",erroramp,vL,vR);
 		for(int i=0;i<deep_fbl->getNumLayers();i++) {
 			fprintf(flog,"%e ",deep_fbl->getLayer(i)->getWeightDistanceFromInitialWeights());
