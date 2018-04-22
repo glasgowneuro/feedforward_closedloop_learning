@@ -1,48 +1,53 @@
-\documentclass{aamas2018}
+\documentclass{article}
 
-\pdfpagewidth=8.5truein
-\pdfpageheight=11truein
+% 8 pages MAX!
 
-\usepackage{graphicx}                                        % for eps, pdf, jpeg, png and tif graphics
-\usepackage{amsmath}                                         % for align
-\usepackage{amssymb}                                         % for >= and <= signs
-\usepackage{xfrac}                                           % for nice x/y fractions (sfrac)
-\usepackage{tikz}
-\usepackage{amsbsy}                     % for boldsymbol
-\usepackage{upgreek}
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2016
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2016}
 
-\mathchardef\mhyp="2D    % define math mode hyphen
+\usepackage{nips_2016}
 
-\allowdisplaybreaks[4]
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[final]{nips_2016}
 
-\title{Deep feedback learning}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{graphicx}
 
-\numberofauthors{2}
+\title{Feedforward error propagation in a deep neural network}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
 
 \author{
-% You can go ahead and credit any number of authors here,
-% e.g. one 'row of three' or two rows (consisting of one row of three
-% and a second row of one, two or three).
-%
-% The command \alignauthor (no curly braces needed) should
-% precede each author name, affiliation/snail-mail address and
-% e-mail address. Additionally, tag each line of
-% affiliation/address with \affaddr, and tag the
-% e-mail address with \email.
-% 1st. author
-\alignauthor
-Bernd Porr\\
-       \affaddr{Glasgow Neuro LTD}\\
-       \affaddr{Glasgow, United Kingdom}\\
-       \email{bernd@glasgowneuro.tech}
-% 2nd. author
-\alignauthor
-Paul Miller\\
-       \affaddr{Glasgow Neuro LTD}\\
-       \affaddr{Glasgow, United Kingdom}\\
-       \email{paul@glasgowneuro.tech}
+  Bernd Porr\\
+  Glasgow Neuro LTD\\
+  United Kingdom\\
+  \texttt{bernd@glasgowneuro.tech} \\
+  %% examples of more authors
+  %% \And
+  Paul Miller \\
+  Glasgow Neuro LTD \\
+  United Kingdom \\
+  \texttt{paul@glasgowneuro.tech}
 }
-
 
 \begin{document}
 
@@ -65,27 +70,7 @@ Paul Miller\\
 \end{abstract}
 
 
- \begin{CCSXML}
-<ccs2012>
-<concept>
-<concept_id>10003752.10010070.10010071.10010289</concept_id>
-<concept_desc>Theory of computation~Semi-supervised learning</concept_desc>
-<concept_significance>300</concept_significance>
-</concept>
-</ccs2012>
-\end{CCSXML}
-
-\ccsdesc[300]{Theory of computation~Semi-supervised learning}
-
-
-\printccsdesc
-
-
-%Keywords are your own choice of terms by which you would like the paper to be indexed.
-
-\keywords{Hebbian learning, Heterosynaptic learning, closed loop, autonomous behaviour}
-
-
+ 
 \section{Introduction}
 When an agent acts in its environment, its actions in turn will change
 its sensor inputs which in turn will cause new actions -- in short,
@@ -286,6 +271,67 @@ fashion. Learning itself can be interpreted as heterosynaptic for the
 activity $v_j$ and Hebbian for the error $e_j$.
 
 
+\section{Derivation of the learning rule}
+The learning rule for the 1st layer is ICO learning and it has been
+proven that this learning rule creates stable closed loop learning \cite{Porr2006ICO}.
+We need to show that a network which implement this rule in a distributed
+way behaves still in a stable way. We show this in the z-space to be
+able to deal with closed loop. Let's assume two layers $j$ and $k$ where
+the input signals to the deep network are signals with index i so that
+we have $V_i, V_j$ and $V_k$. The error signal, called $X_0$, can be expressed as
+\begin{equation}
+  X_0 = \frac{P_0 \left[ V_k V_J + D z^{-1} \right]}{1-P_0 \rho H_0}
+\end{equation}
+We know that a weight change $\delta w$ by correlating $X_0$ with an input
+$V_i$ leads to convergence in a closed loop system. This can be expressed
+as:
+\begin{equation}
+  \Delta w_{ij} = X_0(z) V_i(-z)
+\end{equation}
+We need to show now that if we have deeper weights such as $w_{jk}$
+that these change in the same way as those of the input layer.  In
+order to find this we look at small weight changes in $w_{jk}$ and see
+how they are related to the weights in the input layer $w_{ij}$.
+\begin{equation}
+    \frac{\partial X_0}{\partial w_{jk}} =
+    \frac{\partial X_0}{\partial V_j}
+    \frac{\partial V_j}{\partial V_k}
+    \frac{\partial V_k}{\partial w_{jk}}
+\end{equation}    
+where
+\begin{equation}
+\frac{\partial X_0}{\partial V_j} = \frac{P_0 V_k}{1-P_0 \rho H_0}
+\end{equation}
+If we assume for now that the layers are just a linear neurons:
+\begin{eqnarray}
+  V_k &=& \sum_j w_{jk} V_j \\
+  V_j &=& \sum_i w_{ij} V_i
+\end{eqnarray}
+then this yields:
+\begin{eqnarray}
+    \frac{\partial X_0}{\partial w_{jk}} &=&
+    \frac{P_0 V_k}{1-P_0 \rho H_0}
+    \frac{\partial V_j}{\partial V_k}
+    V_j \\
+                                        &=&
+    \frac{P_0 V_k}{1-P_0 \rho H_0}
+    \frac{\partial V_j}{\partial V_k}
+    \sum_i w_{ij} V_i
+\end{eqnarray}    
+  if we now multiply this equation with $V_i(-z)=V_j^-$ to indicate a correlation then this
+  gives us:
+\begin{equation}
+    \frac{\partial X_0}{\partial w_{jk}} V_i^- =   
+    \frac{P_0 V_k}{1-P_0 \rho H_0}
+    \frac{\partial V_j}{\partial V_k}
+    \underbrace{\left( \sum_i w_{ij} V_i \right)}_\textrm{\tiny deep layer error signal} V_i^-
+\end{equation}
+This means that if we introduce a small change in the deeper weights $w_{jk}$
+they will depend on the weighted covariance at the input where this correlation
+at the input propagates weighted by the input weights $w_{ij}$ to the deeper layer
+$w_{jk}$.
+
+    
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{linefollower_robot_playground}
