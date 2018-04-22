@@ -324,7 +324,7 @@ then this yields:
     \frac{\partial X_0}{\partial w_{jk}} V_i^- =   
     \frac{P_0 V_k}{1-P_0 \rho H_0}
     \frac{\partial V_j}{\partial V_k}
-    \underbrace{\left( \sum_i w_{ij} V_i \right)}_\textrm{\tiny deep layer error signal} V_i^-
+    \underbrace{\left( \sum_{i^\prime} w_{i^\prime j} V_{i^\prime} \right)}_\textrm{\tiny deep layer error signal} V_i^-
 \end{equation}
 This means that if we introduce a small change in the deeper weights $w_{jk}$
 they will depend on the weighted covariance at the input where this correlation
