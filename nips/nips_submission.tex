@@ -24,7 +24,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
 
-\title{Feedforward error propagation in a deep neural network}
+\title{Feedforward error propagation in a deep closed loop neural network}
 
 % The \author macro works with any number of authors. There are two
 % commands used to separate the names and addresses of multiple
@@ -72,78 +72,60 @@
 
  
 \section{Introduction}
-When an agent acts in its environment, its actions in turn will change
-its sensor inputs which in turn will cause new actions -- in short,
-the agent acts in a closed-loop system. In the simplest case this is a
-reactive system where the agent encounters threats or rewards and acts
-accordingly. Both threats and rewards are unpredictable events where
-the agent must respond as quickly as possible. These are often called
-``disturbances'' or ``perturbations'' because they force the agent to
-act at an unpredictable moment in time. Importantly, these occur at
-the \textsl{input} of the agent and, thus, a closed loop system
-performs ``input control'' -- in contrast to a pattern recognition
-system which performs ``output control'' \cite{Phillips2000}.
+Adaptive autonomous agents such as animals act in a closed loop system
+which guarantees their survival. In the simplest case this can be
+achieved by a reflex where the agent reacts to unexpected changes in
+their enviromment. In the language of control \cite{Phillips2000} this
+means that a desired state should be maintained all the time. This
+leads to the notion of ``input control'' where the agent wants to be
+or achieve a certain state, for example ``no Tiger'' or ``food
+exprected now''. The difference between the desired state and the
+actual state is the error signal of the control loop and can not only
+be used to trigger a behavoural action but also learning. The agent
+can now look back in time and determine which input signals could have
+predicted this unexpected deviation of the error signal
+\cite{Sutton98,Woergoetter2005,PorrNecoInvco2003}. Coming back to our
+notion of input control this means that also the error signal is
+generated at the agent's \textsl{inputs}. This has consquences for the
+design of controllers which propagate an error signal from its inputs
+to its outputs and then see the consqueneces again as sensor inputs.
 
-The above scenario has a major drawback in that the reactions are always
-too late. It would be safer for an agent to learn to predict these
-disturbances from other cues, which introduces the concept of adaptive behaviour.
-At the moment of the disturbance it's already too late - the
-tiger has already attacked, or the food has been found by pure
-coincidence. However, one can then look back in time and determine
-which input signals could have predicted this unexpected
-threat or reward \cite{Sutton98,Woergoetter2005,PorrNecoInvco2003}.
+Adaptive controllers for autonomous learning are either
+correlation-based \cite{Sutton82,Klopf86,PorrNecoISO2003,Verschure91}
+or state space-based \cite{Dayan1992,Sutton98}. All of these
+controllers perform input control by using an error signal and are not
+only compatible with biology but also fit into the concept of
+autonomous behaviour. However, the most popular neural network at the
+moment is deep learning which requires backprop which is an open loop
+algorithm and can only be used by by embedding it into closed loop
+paradigms \cite{Dayan1992,Guo2014} which then in turn perform input
+control. On the other hand correlation based-methods can be adopted
+for closed loop control easily and can be very fast
+\cite{Verschure91,Porr2006ICO}, but so far it has been difficult to
+use them directly on deep network architectures.
 
-Adaptive controllers for this kind of learning are either
-correlation-based \cite{Klopf86,PorrNecoISO2003,Verschure91} or state
-space-based \cite{Dayan1992,Sutton98}. The state space-based ones can
-become very powerful by utilising a deep learning network
-\cite{Guo2014}. However, their main drawback is that the state space
-approach limits their applicability to real world problems. In
-addition, the deep learning architecture requires backprop which
-is an open loop algorithm and can only be used by
-by embedding them into traditional Q/RL learning
-paradigms \cite{Dayan1992,Guo2014}. On the other hand correlation
-based-methods can be very fast \cite{Porr2006ICO}, but so far it has
-been difficult to use them directly on deep networks. These
-correlation based methods use ``input control'', which means that the
-error signal is fed into the network at its inputs.
+In neurophysiology there is strong emerging evidence that different
+brain oscillations can carry separate information via the same neurons
+which allows transmission of separate streams through the same
+networks in a forward fashion \cite{Canolty2010}. These streams
+representeted by different frequencies have different impact on
+plasticity where the higher frequency components are those which alter
+plasticity and the lower ones are relevant for behaviour while keeping
+plasticity constant. This opens up new approaches of how closed loop
+learning can be combined with well established rules for plasticity
+\cite{Hebb49, Bliss73, Luescher2012}.
 
-Neurophysiology also supports a forward propagation mechanism
-which has first been proposed theoretically by Hebb \cite{Hebb49}
-and then confirmed many times that for long term potentiation to happen
-both pre- and postsynaptic neurons need to be active \cite{Luescher2012}.
-There has been along tradition of work showing that unsupervised
-learning is possible in these networks \cite{Linsker88}. However,
-here, we are in the realm of reinforcement learning. One solution
-is to introduce direct feedback to mimick backproop 
-\cite{Lillicrap2016} but this will fail in deeper architectures.
-However, there is emerging evidence that different brain oscillations
-can carry separate information via the same neurons which allows
-transmission of separate streams through the same networks in a
-forward fashion \cite{Canolty2010} which are not just separate
-streams but also have different impact on plasticity where the
-higher frequency components are most likely the ones altering
-plasticity and the lower ones are relevant for behaviour and
-keep plasticity constant.
-
-How could an error be propagated through a deep network in a forward
-fashion? Here we take inspiration from how errors are transmitted in
-backprop. In essence the hidden layers receive a \textsl{weighted sum}
-of the errors from the previous layers, which makes intuitive sense:
-the strongest weights contribute the most to the error. Imagine we
-take a similar approach using forward propagation: the error,
-introduced at the input, will have its strongest impact via the
-largest weights. Therefore we propagate the error in a forward fashion
-in the same way as in backprop. Eventually the agent will make an
-action and this will feedback to the input of the agent, which in turn
-then corrects the weights in all layers.
+This leads to our new biolgically realistic learning rule which
+propagates both activation and an error signal in a forward fashion:
+while the error and the activation can carry different information the
+synaptic weights need to be shared between them. In a multi layered
+network this means that the hidden layers receive the \textsl{weighted
+  sum} of the errors from the previous layers, which makes intuitive
+sense: the strongest weights contribute the most to the error.
 
 In this paper we present a novel deep network algorithm for closed
-loop systems which we call ``Deep Feedback Learning'' (DFL). This
-algorithm marries the ideas for correlation based closed loop learning
-with those from deep learning, by turning deep learning from a
-backprop-based algorithm to a forward-prop one. We demonstrate this
-with two scenarios: a driving task and a 1st-person shooter.
+loop systems which we call ``Deep Feedback Learning'' (DFL).
+We demonstrate this in a 1st-person shooter game using vizdoom.
 
 \begin{figure}[!ht]
   \centering
