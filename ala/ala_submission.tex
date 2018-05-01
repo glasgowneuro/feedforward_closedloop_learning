@@ -386,7 +386,9 @@ will stabilise at small values.
     predictive rows of sensors (15 each). Every input was fed into a
     filterbank of 10 filters with T=2 \ldots 30. There were 2 hidden
     layers with 9 and 6 neurons; 6 output neurons. The learning rate $\gamma$
-    was 0.0001 and the momentum $\mu$ was set to 0.9.
+    was 0.0001 and the momentum $\mu$ was set to 0.9. Learning was disabled
+    when the robot turned to avoid large error spikes caused by the learning
+    and the error was also set to zero during turning.
     \label{line_results}}
 \end{figure}
 
@@ -406,9 +408,7 @@ only small components remaining. E) is the final weight matrix of the
 1st layer after learning, which correlates the error with the two rows
 of predictive ground sensors $v_j$. F) is the weight matrix of the
 hidden layer and G) of the output layer. H) shows the Euclidean
-distance of the different layers from their starting point. Learning
-is always on and the learning rate is 0.0001; for this run while
-the momentum was 0.9.
+distance of the different layers from their starting point.
 
 Overall, Fig~\ref{line_results} shows that the network learns to use
 the predictive signals from the sensors in front of the robot to
@@ -463,11 +463,11 @@ it takes to stay below the error threshold for a specified time
 error (Fig.~\ref{line_stats}B). The time to reach the criterion
 decreases with higher learning rates, and is stable up to a learning
 rate of approx $\gamma = 0.001$ with no failures below a learning rate of
-$\gamma = 0.0002$. Each simulation was run twice with different random seeds to
+$\gamma = 0.0002$. Each simulation was run twice with two different random seeds to
 test for initialisation effects -- it can clearly be seen that
 the seed has an effect on both the number of simulation steps,
-and at higher learning rates it even has detrimental effects which
-cannot be corrected by learning.
+and at higher learning rates and is in agreement with other neural
+network architectures.
 
 
 
