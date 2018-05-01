@@ -414,8 +414,6 @@ are usually restricted to simple network architectures. DFL addresses
 this deficiency by introducing a deep architecture but staying firmly
 on correlation-based territory.
 
-%%%% changed up to this point so far %%%%
-
 Plasticity has always been hotly debated in neurophysiology -- the
 general understanding is that a large postsynaptic Calcium
 concentration causes LTP \cite{Malenka99,Bennett2000} and a low one
@@ -430,54 +428,69 @@ fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
 plasticity changes while low frequency potentials propagate
 behaviourally relevant activity \cite{Canolty2010}. DFL would provide
-here a mechanism which allows stable behaviourally relevant learning
+here a mechanism which allows stable behaviourally-relevant learning
 driven by heterosynaptic plasticity and Hebbian learning for the error
-signal which is also stable because it is constantly corrected by the
-error signal.
+signal; the stability arising from the fact that it is constantly
+corrected by the error signal.
 
-Looking at a system-wide perspective one can see DFL as a flexible
+Looking at a system-wide perspective, one can see DFL as a flexible
 actor which has a high freedom in generating actions as long as they
 minimise the error. For example in the basal ganglia the striatum is
 seen as an actor receiving an error signal via dopamine, the famous
-reward prediction error which is understood of being closely related
-to the error of temporal difference learning
+reward prediction error \cite{Schultz97} which is understood as being
+closely related to the error of temporal difference learning
 \cite{gurney98:_basal_gangl_action_selec_devic}. It is curious that
-the striatum receives the error signal but then downstream neurons in
-the basal ganglia and the cortex receive little dopaminergic
-modulation. However, plasticity is not just happening in the striatum
-but in many downstream targets so it makes sense to propagate this
-error in a forward fashion downstream as well and not using a dopamine
-as a broadcast signal all over the brain which ultimately will provide
-much more behavioural flexibility.
+the striatum receives the error signal but both downstream neurons in
+the basal ganglia and upstream in the cortex receive little
+dopaminergic modulation \cite{Beckstead1979}. However, plasticity is
+not just limited to the striatum, but happens in all brain areas, so
+it makes sense to propagate this further back into the cortex
+\cite{Groenewegen1993} where high level decision-making takes place.
+
+Coming back to classical TD learning \cite{Sutton87}, which is
+certainly a perfect match for striatal decision making, one can see
+deep feedback learning in this context as an actor which receives an
+error signal from a critic. In a biological context this error signal
+could indeed then feed into the striatum initially as dopamine but
+then when fed back into the cortex would then propagate as activity
+as well and not neuromodulation but using cross frequency coupling
+as described above \cite{Lipski2017}.
+
+Given that in DFL the error is propagated from the input to the
+output, the novel aspect is that the more layers DFL has, the more it
+is remote from the immediate error feedback. This allows for
+flexibility which is then a function of the number of layers, and
+creates an actor which is far less rigid than a standard Q learning
+actor \cite{Dayan1992}. The actions can be substantially varied as
+long as the error signal can be minimised, and the variability will be
+more pronounced with more hidden layers. In other words the more
+hidden layers we have the more behavioural flexibility the agent will
+show.
 
 A different stance about synaptic plasticity (and ultimately how
-autonomous agents learn) has been taken by the deep learning community
-which recently claimed that error backpropagation is biologically
-realistic \cite{Lillicrap2016,Roelfsema2018}. This has been
-demonstrated in a network with one hidden layer by introducing a
+autonomous agents learn) has been taken by the deep learning
+community, which has recently claimed that error backpropagation is
+biologically realistic \cite{Lillicrap2016,Roelfsema2018}. This has
+been demonstrated in a network with one hidden layer by introducing a
 separate feedback pathway from the output of the network to this
-hidden layer. While this shows promising results it still operates in
-an open loop fashion (i.e. output control), and thus contradicts the
-requirement for an agent to control its inputs.
+hidden layer and does not take account the above mentioned
+cortico-striatal network. While this shows promising results for
+abstract models of biologically motivated decision making it still
+operates in an open loop fashion (i.e. output control), and thus
+contradicts the requirement for an agent to control its inputs.
 
 Autonomous behaviour can only be understood by observing the whole
 loop \cite{Porr2005kyb}, be it reinforcement learning \cite{Sutton98}
 or correlation based learning \cite{Verschure91}. Of course not all
 feedback loops traverse through the physical environment; they could
-be efference copies \cite{Uexkuell26,Graesser86} or gating signals
-which are presented to minimise errors. However, even these signals
-need to be evaluated at the input of the agent, for example when
-stabilising an input image, the goal is itself an image, and therefore
-an input and not an output.
+be efference copies \cite{Uexkuell26,Graesser86}, gating signals or
+mental processes. However, even these signals need to be evaluated at
+the input of the agent, for example when stabilising an input image,
+the goal is itself an image, and therefore an input and not an output.
 
-Given that in DFL the error is propagated from the input to the output
-the novel aspect is that the more layers DFL has, the more it is remote
-from the immediate error feedback. This allows for flexibility which
-can be tuned by the number of layers, and demonstrates that the agent
-performs input control. The actions can be substantially varied as long as
-the error signal can be minimised and will be more pronounced with
-more hidden layers. In other words the more hidden layers we have the
-more behavioural flexibility the agent will show.
+
+
+
 
 \bibliographystyle{abbrv}
 
