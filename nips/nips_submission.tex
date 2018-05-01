@@ -446,26 +446,25 @@ dopaminergic modulation \cite{Beckstead1979}. However, plasticity is
 not just limited to the striatum, but happens in all brain areas, so
 it makes sense to propagate this further back into the cortex
 \cite{Groenewegen1993} where high level decision-making takes place.
-
-Coming back to classical TD learning \cite{Sutton87}, which is
-certainly a perfect match for striatal decision making, one can see
-deep feedback learning in this context as an actor which receives an
-error signal from a critic. In a biological context this error signal
-could indeed then feed into the striatum initially as dopamine but
-then when fed back into the cortex would then propagate as activity
-as well and not neuromodulation but using cross frequency coupling
+In the language of TD learning \cite{Sutton87} this means that we
+have a distributed actor where its first layer is modulated by
+reward prediction error and then the following stages which project
+back to the cortex rather use cross frequency coupling
 as described above \cite{Lipski2017}.
 
-Given that in DFL the error is propagated from the input to the
+Given that the error is propagated from the input to the
 output, the novel aspect is that the more layers DFL has, the more it
 is remote from the immediate error feedback. This allows for
 flexibility which is then a function of the number of layers, and
-creates an actor which is far less rigid than a standard Q learning
-actor \cite{Dayan1992}. The actions can be substantially varied as
-long as the error signal can be minimised, and the variability will be
+creates an actor which is far less rigid than a standard Q learner
+\cite{Dayan1992}. The actions can be substantially varied as
+long as the error signal can eventually be minimised, and the variability will be
 more pronounced with more hidden layers. In other words the more
 hidden layers we have the more behavioural flexibility the agent will
-show.
+show. In a biological context this means that then cortical processing
+takes over in the deeper stages it also can develop more flexibility
+while still receiving \textsl{distributed} error signals and not
+a global one.
 
 A different stance about synaptic plasticity (and ultimately how
 autonomous agents learn) has been taken by the deep learning
@@ -473,24 +472,11 @@ community, which has recently claimed that error backpropagation is
 biologically realistic \cite{Lillicrap2016,Roelfsema2018}. This has
 been demonstrated in a network with one hidden layer by introducing a
 separate feedback pathway from the output of the network to this
-hidden layer and does not take account the above mentioned
+hidden layer but does not take account the above mentioned
 cortico-striatal network. While this shows promising results for
-abstract models of biologically motivated decision making it still
-operates in an open loop fashion (i.e. output control), and thus
+abstract models of biologically inspired decision making the underlying
+backprop operates in an open loop fashion (i.e. output control), and thus
 contradicts the requirement for an agent to control its inputs.
-
-Autonomous behaviour can only be understood by observing the whole
-loop \cite{Porr2005kyb}, be it reinforcement learning \cite{Sutton98}
-or correlation based learning \cite{Verschure91}. Of course not all
-feedback loops traverse through the physical environment; they could
-be efference copies \cite{Uexkuell26,Graesser86}, gating signals or
-mental processes. However, even these signals need to be evaluated at
-the input of the agent, for example when stabilising an input image,
-the goal is itself an image, and therefore an input and not an output.
-
-
-
-
 
 \bibliographystyle{abbrv}
 
