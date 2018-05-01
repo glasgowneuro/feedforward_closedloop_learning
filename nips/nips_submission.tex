@@ -116,48 +116,44 @@ We demonstrate this in a 1st-person shooter game using vizdoom.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.75\columnwidth]{closed_loop}
-  \caption{A closed loop system with a setpoint $SP$, transfer function $H$ and the
+  \caption{A closed loop system with a setpoint $SP$, transfer function $H_0$ and the
     environment $P_0$ which needs to work against unpredictable disturbances $D$.
     The error signal tunes a deep neuronal network, which has inputs
-    $v_j$ that predict the disturbances. The network tries to pre-empt these
-    disturbances and generate an appropriate action $v_k$.
+    $V_i$ that predict the disturbances. The network tries to pre-empt these
+    disturbances and generate an appropriate action $V_k$. The Transfer
+    functions here are indicated with capital letters and are in the
+    sampled z-domain.
     \label{closed_loop}}
 \end{figure}
 
 \section{Closed loop learning}
-Deep feedback learning operates in a closed loop scenario. Before we
-describe the algorithm, we need to place it in a closed loop
+Before we describe the algorithm, we need to place it in a closed loop
 context. Fig.~\ref{closed_loop} shows the entire closed loop system
 with the deep feedback learning as a black box for now. The idea is
 that we have a fixed closed loop which is able to fend off
 disturbances, such as an unexpected bend on a road or the sudden
 appearance of an enemy. This fixed loop then takes appropriate action
-to solve this disturbance, e.g. correcting a car's steering, or aiming
-towards and shooting an enemy. In formal terms we have a setpoint $SP$
-which compares the input of organism to a desired input. If the input
-deviates from the setpoint an action is generated with the transfer
-function $H_0$. This action then eliminates the disturbance $D$ and
-arrives via the environmental transfer function $P_0$ at the input
-again; thus, the loop is closed. However, we are not so much
-interested in the design of the closed loop but rather that it
-generates an \textsl{error signal}. This error signal is non-zero if a
-disturbance has happened, and can be used to tune our deep feedback
-learning network.
+to solve this disturbance, e.g. correcting a car's steering, targeting
+food or aiming towards and shooting an enemy. In formal terms we have
+a setpoint $SP$ which compares the input of organism to a desired
+input. If the input deviates from the setpoint an action is generated
+with the transfer function $H_0$. This action then eliminates the
+disturbance $D$ and arrives via the environmental transfer function
+$P_0$ at the input again; thus, the loop is closed. However, we are
+not so much interested in the design of the closed loop but rather
+that it generates an \textsl{error signal}. This error signal is
+non-zero if a disturbance has happened, and can be used to tune our
+deep feedback learning network.
 
-The deep feedback learning network receives additional inputs which are able
-to predict the disturbance, and thus prevent the trigger of the feedback
-loop. These additional inputs are provided via the transfer function $P_1$
-and represent the disturbance in a filtered form. For example a video camera
-can provide images of the road ahead, or of an enemy. Deep feedback
-learning has the task to take the error signal, and tune its network
-to generate actions to minimise the error. In the next section
-we describe the deep feedback learning and how this can
-compute the appropriate output. Note that deep feedback learning only knows if it has been
-successful once its actions have travelled through the environment. Thus learning
-evaluates if certain inputs to its network can be used to generate
-appropriate actions and these are then slowly transformed into actions.
-For that reason the error signal is propagated in a \textsl{forward} fashion
-through the network.
+Our network receives additional inputs which are able to predict the
+disturbance, and thus prevent the trigger of the feedback loop. These
+additional inputs are provided via $V_i$ where we have shown one
+pathway and possible additional inputs as a dashed line in
+Fig~.\ref{closed_loop}).
+For example a video camera or eyes can provide images of the way ahead,
+or of an enemy. Our network has the task to take the error
+signal, and tune its network to minimise this error which we describe
+in the next section.
 
 \begin{figure}[!ht]
   \centering
@@ -169,7 +165,9 @@ through the network.
     The presynaptic activities $v_j$ and error signals $e_j$ are used
     to perform correlation based learning and change the weight
     $w_{kj}$ which weights for both activity and error propagation towards the next
-    layer.\label{netw_together}}
+    layer. The contents of the dotted box only exist for the deeper
+    layers as also illustrated on the left with the input layer
+    having only activities $v$ but no errors. \label{netw_together}}
 \end{figure}
 
 
@@ -233,20 +231,24 @@ presynaptic activity.
 
 Learning is then performed in three steps: first the activity is
 propagated through the network, then the error signal is propagated
-via the same mechanism, and finally the weights are adjusted. Thus,
-both the error signal and the activity is propagated in a forward
-fashion. Learning itself can be interpreted as heterosynaptic for the
-activity $v_j$ and Hebbian for the error $e_j$.
+via the \textsl{same} weights, and finally the weights are adjusted. Thus,
+both the error signal and the activity are propagated in a forward
+fashion. Learning itself can be interpreted as \textsl{heterosynaptic} for the
+activity $v_j$ and \textsl{Hebbian} for the error $e_j$.
 
 
 \section{Derivation of the learning rule}
-The learning rule for the 1st layer is ICO learning and it has been
-proven that this learning rule creates stable closed loop learning \cite{Porr2006ICO}.
-We need to show that a network which implement this rule in a distributed
-way behaves still in a stable way. We show this in the z-space to be
-able to deal with closed loop. Let's assume two layers $j$ and $k$ where
-the input signals to the deep network are signals with index i so that
-we have $V_i, V_j$ and $V_k$. The error signal, called $X_0$, can be expressed as
+We start from the assumption that a single neuron using heterosynaptic
+plasticity is able to eliminates an error signal
+\cite{Porr2006ICO}. Because of the exploding complexity of closed loop
+learning we focus here how an error signal $X_0$ should be propagated
+to deeper layers from its input by using the approach in
+\cite{Mehta1986} by taking partial derivatives in the z-space assuming
+that weight development in time is slow in contrast to the closed loop
+dynamics.  Let's assume two layers $j$ and $k$ where the input signals
+to the deep network are signals with index i so that we have $V_i,
+V_j$ and $V_k$. The error signal (see Fig.~\ref{closed_loop}), called
+$X_0$, can be expressed as
 \begin{equation}
   X_0 = \frac{P_0 \left[ V_k V_J + D z^{-1} \right]}{1-P_0 \rho H_0}
 \end{equation}
@@ -257,7 +259,7 @@ as:
   \Delta w_{ij} = X_0(z) V_i(-z)
 \end{equation}
 We need to show now that if we have deeper weights such as $w_{jk}$
-that these change in the same way as those of the input layer.  In
+that these change in the same way as those of the input layer. In
 order to find this we look at small weight changes in $w_{jk}$ and see
 how they are related to the weights in the input layer $w_{ij}$.
 \begin{equation}
@@ -286,8 +288,7 @@ then this yields:
     \frac{\partial V_j}{\partial V_k}
     \sum_i w_{ij} V_i
 \end{eqnarray}    
-  if we now multiply this equation with $V_i(-z)=V_j^-$ to indicate a correlation then this
-  gives us:
+  if we now multiply this equation with $V_i(-z)=V_j^-$ to indicate a correlation then this gives us:
 \begin{equation}
     \frac{\partial X_0}{\partial w_{jk}} V_i^- =   
     \frac{P_0 V_k}{1-P_0 \rho H_0}
@@ -297,8 +298,14 @@ then this yields:
 This means that if we introduce a small change in the deeper weights $w_{jk}$
 they will depend on the weighted covariance at the input where this correlation
 at the input propagates weighted by the input weights $w_{ij}$ to the deeper layer
-$w_{jk}$.
-
+$w_{jk}$. This shows that the error signal is propagated in a weighted
+fashion to deeper layers. Note that this is not a stability proof but rather
+the derivation of the network structure by using a similar trick to deep learning
+but in closed loop and forward fashion. For a stability analysis one needs
+to take into account for the non-linear activation functions and unrol the
+partial derivative $\frac{\partial V_j}{\partial V_k}$ where its derviative depends
+again on the whole closed loop. However, this is not of practical relevance
+because the environmental transfer function is rarely known.
     
 \section{Shooter game}
 In this scenario, we try to learn to play a first-person shooter
