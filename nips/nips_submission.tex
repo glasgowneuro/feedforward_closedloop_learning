@@ -382,22 +382,6 @@ forward fashion from its inputs to its outputs is able to solve closed
 loop learning tasks. We have demonstrated this in a first person
 shooter game.
 
-Closed loop learning which aims to maximise a function or minimise one
-is usually referred to as reinforcement learning, where an agent
-learns to navigate an action space in a way that it maximises its
-accumulative reward \cite{Dayan1992}. A deep network based on backprop
-can substantially speed up reinforcement learning and improve its
-performance \cite{Guo2014} but because backprop is an open loop algorithm
-it still needs to be integrated into a closed loop learning algorithm such
-as Q learning. Even with its major perforance advances the main
-drawback of this approach is the discrete state space which makes it
-hard to solve analogue problems. To overcome this problem, closed loop
-learning rules using correlation-based techniques \cite{Verschure91}
-were introduced. These networks perform well in real robot tasks but
-are usually restricted to simple network architectures. DFL addresses
-this deficiency by introducing a deep architecture but staying firmly
-on correlation-based territory.
-
 Plasticity has always been hotly debated in neurophysiology -- the
 general understanding is that a large postsynaptic Calcium
 concentration causes LTP \cite{Malenka99,Bennett2000} and a low one
@@ -461,6 +445,15 @@ cortico-striatal network. While this shows promising results for
 abstract models of biologically inspired decision making the underlying
 backprop operates in an open loop fashion (i.e. output control), and thus
 contradicts the requirement for an agent to control its inputs.
+
+\cite{Guo2014} have gone a different way and have presented an
+approach which uses backprop to solve closed loop problems. To turn the
+open loop backprop into a closed loop algorithm they embedded it into
+into Q-learning which in turn is closed loop. Even with its major
+performance advances the main drawback of this approach is the
+discrete state space which makes it hard to solve analogue problems
+and Q-learning is not biologically realistic when compared to the
+biological evidence outlined above.
 
 \bibliographystyle{abbrv}
 
