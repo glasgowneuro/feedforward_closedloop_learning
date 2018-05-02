@@ -54,63 +54,47 @@
 \maketitle
 
 \begin{abstract}
-  Recent advances in neurophysology suggest that via cross frequency
-  coupling the same network can transmit both activity and an error
-  signal in a forward fashion which then allows error based learning
-  in a deep network. This can then be embedeed in a closed loop
-  scenario where the error is generated at the input of a network, for
-  example by comparing it to a desired state or by trying to predict
-  rewards or punishments. We present a deep network embedded in a
-  closed loop scenario which propagates errors in a forward fashion
-  and we demonstrate its performance with a 1st person shooter game.
+  Recent advances in neurophysiology suggest that via cross frequency
+  coupling a neural network can transmit two separate signals which
+  have distinct functions. We propose that one signal carries
+  behaviourally relevant activity and the other an error signal
+  controlling plasticity which allows error based learning in such a
+  deep network. We have embedded this network in a closed loop
+  scenario where an error signal is propagated from its input via its
+  deeper layers to its output with the goal to minimise the error
+  signal. We demonstrate its performance with a 1st person shooter
+  game.
 \end{abstract}
 
 \section{Introduction}
-Adaptive autonomous agents such as animals act in a closed loop system
-which guarantees their survival. In the simplest case this can be
-achieved by a reflex where the agent reacts to unexpected changes in
-their enviromment. In the language of control \cite{Phillips2000} this
-means that a desired state should be maintained as close as
-possible. This leads to the notion of ``input control'' where the
-agent wants to be or achieve a certain state, for example ``no Tiger''
-or ``food exprected now''. The difference between the desired state
-and the actual state is the error signal of the control loop and can
-not only be used to trigger a behavoural action but also learning. The
-agent can then look back in time and determine which input signals
-could have predicted this unexpected deviation of the error signal
-\cite{Sutton82,Klopf86,Verschure91,Sutton98,
-  Woergoetter2005,PorrNecoInvco2003,Dayan1992}. Note that this
-also means that for an observer the actions (i.e network output) might
-not be in their interestes but for the agent they do because they feed
-back to their inputs. Coming back to our notion of input control this
-means that also the error signal is generated at the agent's
-\textsl{inputs}. This has consquences for the structure of the neural
-networks which propagate an error signal from its inputs to its
-outputs and then evaluate the consqueneces again as their sensor
-inputs.
+There is strong neurophysiological evidence that different brain
+oscillations enable the brain to carry separate information via the
+same synapses and neurons in a forward fashion
+\cite{Canolty2010}. These streams, represented by the different
+frequency bands control plasticity in specific ways where the higher
+frequency components are those which alter plasticity \cite{Bliss73}
+and the lower ones are relevant for behaviour \cite{Luescher2012} --
+while keeping plasticity constant. This means that error signals are
+propagated in a forward fashion from the inputs of the network to its
+outputs and alter plasticity while progressing through the network.
 
-In neurophysiology there is strong evidence that different
-brain oscillations can carry separate information via the same neurons
-which allows transmission of separate streams through the same
-networks in a forward fashion \cite{Canolty2010}. These streams,
-representeted by different frequencies control plasticity in specific
-ways where the higher frequency components are those which alter
-plasticity and the lower ones are relevant for behaviour while keeping
-plasticity constant. This opens up new approaches of how closed loop
-learning can be combined with well established rules for plasticity
-\cite{Hebb49, Bliss73, Luescher2012}.
-
-This leads to a new learning rule which propagates both activation and
-error signals in a forward fashion: while the error and the activation
-can carry different information the synaptic weights are shared
-between them. In a multi layered network this means that the hidden
-layers receive the \textsl{weighted sum} of the errors from the
-previous layers, which makes intuitive sense: the strongest weights
-contribute the most to the error. This is essentially the inuition
-of Backprop but reversed running from the input to the output.
+Propagating errors from the input to the output is the realm of
+reinforcement learning where actions feed back from the environment
+and then are evaluated with the help of sensor
+inputs\cite{Verschure91,Dayan1992,Sutton88,Sutton98,PorrNecoInvco2003,Woergoetter2005}. In
+the simplest case an error signal can be achieved by a reflex
+\cite{Verschure91,PorrNecoInvco2003} where the agent reacts to
+unexpected changes in their environment. In the language of control
+\cite{Phillips2000} this means that a desired state should be
+maintained as close as possible. The difference between the desired
+state and the actual state is the error signal of the control loop and
+can not only be used to trigger a behavioural action but can be fed
+into a neural network which are going to demonstrate on our novel
+architecture.
 
 In this paper we present a novel deep network algorithm for closed
-loop systems which we call ``Deep Feedback Learning'' (DFL).
+loop systems which we call ``Deep Feedback Learning'' (DFL) which
+propagates an error signal in a forward fashion through its network.
 We demonstrate this in a 1st-person shooter game using vizdoom.
 
 \begin{figure}[!ht]
