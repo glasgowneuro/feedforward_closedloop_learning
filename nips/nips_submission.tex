@@ -78,6 +78,15 @@ while keeping plasticity constant. This means that error signals are
 propagated in a forward fashion from the inputs of the network to its
 outputs and alter plasticity while progressing through the network.
 
+On a system level brain decision networks reveive an error signal in
+the striatum in form of dopaminergic innervation \cite{Schultz97} but
+their cortical targets receive very little dopamine
+\cite{Groenewegen1993}. This poses a problem of how higher level
+decision making is still receiving errors and at the same time wanting
+to be more flexible than rigidly aiming for a reward. A single
+reward prediction error cannot account for the large behavioural
+flexibility which higher animals and humans show.
+
 Propagating errors from the input to the output is the realm of
 reinforcement learning where actions feed back from the environment
 and then are evaluated with the help of sensor
@@ -94,7 +103,9 @@ architecture.
 
 In this paper we present a novel deep network algorithm for closed
 loop systems which we call ``Deep Feedback Learning'' (DFL) which
-propagates an error signal in a forward fashion through its network.
+propagates an error signal in a forward fashion through its network where
+the input is directly driven by the error signal but then the deeper
+layers receive weighted sums of the error from the previous layers.
 We demonstrate this in a 1st-person shooter game using vizdoom.
 
 \begin{figure}[!ht]
