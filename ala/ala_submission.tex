@@ -117,8 +117,7 @@ correlation-based \cite{Klopf86,PorrNecoISO2003,Verschure91} or state
 space-based \cite{Dayan1992,Sutton98}. The state space-based ones can
 become very powerful by utilising a deep learning network
 \cite{Guo2014}. However, the deep learning architecture requires backprop which
-is an open loop algorithm and can only be used by
-by embedding them into traditional Q/RL learning
+is an open loop algorithm, and can only be used by embedding the the network into traditional Q/RL learning
 paradigms \cite{Dayan1992,Guo2014}. On the other hand correlation
 based-methods can be very fast \cite{Porr2006ICO}, but so far it has
 been difficult to use them directly on deep networks. These
@@ -133,17 +132,17 @@ to be active \cite{Luescher2012}.  There has been a long tradition of
 work showing that unsupervised learning is possible in these networks
 \cite{Linsker88}, in particular in the visual cortex \cite{Miller00}
 in an open loop fashion. However, here we are in the realm of
-reinforcement learning which is closed loop. One solution is to
+reinforcement learning, which is closed loop. One solution is to
 introduce direct feedback to mimick backprop \cite{Lillicrap2016}, but
-this will fail in deeper architectures and requires additional
+this will fail in deeper architectures, and requires additional
 assumptions which are not biologically realistic.  However, there is
 emerging evidence that different brain oscillations can carry separate
-information via the same neurons which allows transmission of separate
+information via the same neurons, which allows for transmission of separate
 streams through the same networks in a forward fashion
-\cite{Mizuhara2007,Canolty2010} and its disruption has been linked to
+\cite{Mizuhara2007,Canolty2010}. Disruption has been linked to
 various mental illnesses \cite{Kim2016,Won2017}. These different
 streams of activity are not just carrying different kind of
-information, but also have different impact on plasticity, with the
+information, but also have different impacts on plasticity, with the
 higher frequency components most likely altering plasticity as shown
 in high frequency stimulations (HFS) \cite{Bliss73}, and the lower
 ones relevant for behaviour or mental processes while keeping
@@ -158,8 +157,7 @@ take a similar approach using forward propagation: the error,
 introduced at the input, will have its strongest impact via the
 largest weights. Therefore we propagate the error in a forward fashion
 in the same way as in backprop. Eventually the agent will make an
-action and this will feedback to the input of the agent, which in turn
-then corrects the weights in all layers.
+action and this will feedback to the input of the agent, which then in turn corrects the weights in all layers.
 
 In this paper we present a novel deep network algorithm for closed
 loop systems which we call ``Deep Feedback Learning'' (DFL). This
@@ -451,7 +449,7 @@ that the environmental feedback is responsible for this development.
     initialisation of the weights. The simulation was marked successful if the
     absolute value of the error Eq.~\ref{line_sqerr} stayed below $0.001$ for more than $1000$
     timesteps. The simulation was aborted after $200,000$ time steps if this criterion
-    hasn't been reached. Indside of the quare every run has been successful.
+    hasn't been reached. Inside of the square every run has been successful.
     B) shows the final absolute error for different learning rates.
     \label{line_stats}}
 \end{figure}
@@ -466,7 +464,7 @@ rate of approx $\gamma = 0.001$ with no failures below a learning rate of
 $\gamma = 0.0002$. Each simulation was run twice with two different random seeds to
 test for initialisation effects -- it can clearly be seen that
 the seed has an effect on both the number of simulation steps,
-and at higher learning rates and is in agreement with other neural
+and at higher learning rates the final error, which is in agreement with other neural
 network architectures that initialisation matters.
 
 
@@ -595,7 +593,7 @@ signal; the stability arising from the fact that it is constantly
 corrected by the error signal.
 
 Looking at a system-wide perspective, one can see DFL as a flexible
-actor which has a high freedom in generating actions as long as they
+actor which has a high degree of freedom in generating actions as long as they
 minimise the error. For example in the basal ganglia the striatum is
 seen as an actor receiving an error signal via dopamine, the famous
 reward prediction error \cite{Schultz97} which is understood as being
@@ -612,15 +610,15 @@ Coming back to classical TD learning \cite{Sutton87}, which is
 certainly a perfect match for striatal decision making, one can see
 deep feedback learning in this context as an actor which receives an
 error signal from a critic. In a biological context this error signal
-could indeed then feed into the striatum initially as dopamine but
-then when fed back into the cortex would then propagate as activity
-as well and not neuromodulation but using cross frequency coupling
+could indeed then feed into the striatum initially as dopamine, but
+then when fed back into the cortex would propagate as activity
+as well and not just neuromodulation, using cross frequency coupling
 as described above \cite{Lipski2017}.
 
 Given that in DFL the error is propagated from the input to the
 output, the novel aspect is that the more layers DFL has, the more it
 is remote from the immediate error feedback. This allows for
-flexibility which is then a function of the number of layers, and
+a flexibility which is a function of the number of layers, and
 creates an actor which is far less rigid than a standard Q learning
 actor \cite{Dayan1992}. The actions can be substantially varied as
 long as the error signal can be minimised, and the variability will be
@@ -634,7 +632,7 @@ community, which has recently claimed that error backpropagation is
 biologically realistic \cite{Lillicrap2016,Roelfsema2018}. This has
 been demonstrated in a network with one hidden layer by introducing a
 separate feedback pathway from the output of the network to this
-hidden layer and does not take account the above mentioned
+hidden layer; this does not take account the above mentioned
 cortico-striatal network. While this shows promising results for
 abstract models of biologically motivated decision making it still
 operates in an open loop fashion (i.e. output control), and thus
