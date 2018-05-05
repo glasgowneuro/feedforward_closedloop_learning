@@ -1,5 +1,7 @@
 \documentclass{aamas2018}
 
+% We invite submission of original work, up to 8 pages in length
+
 \pdfpagewidth=8.5truein
 \pdfpageheight=11truein
 
@@ -168,7 +170,7 @@ with two scenarios: a driving task and a 1st-person shooter.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.75\columnwidth]{closed_loop}
+  \includegraphics[width=0.9\columnwidth]{closed_loop}
   \caption{A closed loop system with a setpoint $SP$, transfer function $H_0$ and the
     environment $P_0$ which needs to work against unpredictable disturbances $D$.
     The error signal tunes a deep neuronal network, which has inputs
@@ -214,7 +216,7 @@ through the network.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{netw_together}
+  \includegraphics[width=0.9\columnwidth]{netw_together}
   \caption{A) Network overview. With the exception of the input layer, every
     neuron is a composite cell with an activation $v$ and an error
     term $e$. These are propagated through the network in a weighted
@@ -296,7 +298,7 @@ activity $v_j$ and Hebbian for the error $e_j$.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{linefollower_robot_playground}
+  \includegraphics[width=0.9\columnwidth]{linefollower_robot_playground}
   \caption{A) Robot setup. The robot is simulated with a updated
     version of enki for QT5 (https://github.com/berndporr/enki)
     where the line follower is using just the ground sensors of the
@@ -366,9 +368,9 @@ Realistically, driving will never be 100\% perfect, and $\mathrm{error}_\mathrm{
 will stabilise at small values.
 
 
-\begin{figure}[!ht]
+\begin{figure*}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{line_results}
+  \includegraphics[width=\linewidth]{line_results}
   \caption{Results of the line following task. A) shows the robot at
     the very start of the simulation run from time step 0 to 1000. B)
     the difference between the robot wheel speeds just for the learned
@@ -388,7 +390,7 @@ will stabilise at small values.
     when the robot turned to avoid large error spikes caused by the learning
     and the error was also set to zero during turning.
     \label{line_results}}
-\end{figure}
+\end{figure*}
 
 
 
@@ -442,7 +444,7 @@ that the environmental feedback is responsible for this development.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\columnwidth]{line_stats}
+  \includegraphics[width=0.9\columnwidth]{line_stats}
   \caption{Statistics of the line following task. A) shows the relation between
     'time to success' and learning rate. For every learning rate two runs have
     been conducted with different random number seeds to test the dependence on the
