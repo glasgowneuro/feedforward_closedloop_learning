@@ -86,7 +86,7 @@ Paul Miller\\
 
 %Keywords are your own choice of terms by which you would like the paper to be indexed.
 
-\keywords{Hebbian learning, heterosynaptic learning, closed loop, autonomous behaviour}
+\keywords{Hebbian learning, heterosynaptic learning, deep learning, neural network, closed loop, autonomous behaviour, feedback, error signal}
 
 
 \section{Introduction}
@@ -136,7 +136,7 @@ work showing that unsupervised learning is possible in these networks
 \cite{Linsker88}, in particular in the visual cortex \cite{Miller00}
 in an open loop fashion. However, here we are in the realm of
 reinforcement learning, which is closed loop. One solution is to
-introduce direct feedback to mimick backprop \cite{Lillicrap2016}, but
+introduce direct feedback to mimic backprop \cite{Lillicrap2016}, but
 this will fail in deeper architectures, and requires additional
 assumptions which are not biologically realistic.  However, there is
 emerging evidence that different brain oscillations can carry separate
@@ -190,7 +190,7 @@ disturbances, such as an unexpected bend on a road or the sudden
 appearance of an enemy. This fixed loop then takes appropriate action
 to solve this disturbance, e.g. correcting a car's steering, or aiming
 towards and shooting an enemy. In formal terms we have a setpoint $SP$
-which compares the input of organism to a desired input. If the input
+which compares the input of the organism to a desired input. If the input
 deviates from the setpoint an action is generated with the transfer
 function $H_0$. This action then eliminates the disturbance $D$ and
 arrives via the environmental transfer function $P_0$ at the input
@@ -208,12 +208,7 @@ can provide images of the road ahead, or of an enemy. Deep feedback
 learning has the task to take the error signal, and tune its network
 to generate actions to minimise the error. In the next section
 we describe the deep feedback learning and how this can
-compute the appropriate output. Note that deep feedback learning only knows if it has been
-successful once its actions have travelled through the environment. Thus learning
-evaluates if certain inputs to its network can be used to generate
-appropriate actions and these are then slowly transformed into actions.
-For that reason the error signal is propagated in a \textsl{forward} fashion
-through the network.
+compute the appropriate output.
 
 \begin{figure}[!ht]
   \centering
@@ -299,7 +294,7 @@ activity $v_j$ and Hebbian for the error $e_j$.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.9\columnwidth]{linefollower_robot_playground}
+  \includegraphics[width=0.85\columnwidth]{linefollower_robot_playground}
   \caption{A) Robot setup. The robot is simulated with a updated
     version of enki for QT5 (\texttt{https://github.com/glasgowneuro/enki})
     where the line follower is using just the ground sensors of the
@@ -316,6 +311,33 @@ activity $v_j$ and Hebbian for the error $e_j$.
     it is also turned around.
     \label{linefollower_robot_playground}}
 \end{figure}
+
+\begin{figure*}[!ht]
+  \centering
+  \includegraphics[width=\linewidth]{line_results}
+  \caption{Results of the line following task. A) shows the robot at
+    the very start of the simulation run from time step 0 to 1000. B)
+    the difference between the robot wheel speeds just for the learned
+    actions (i.e. the output of the DFL network): $v_l-v_r$.  C) the
+    error signal.  D) simulation run just before the final 1000 time
+    steps where the absolute value of the error has been below 0.001
+    for 1000 time steps. E-G) show the weights of the different
+    layers. The input neurons are on the x-axis and the output neurons
+    are on the y-axis.  E) the weights of the 1st layer, F) the
+    weights of the 2nd layer and G) the weights of the output layer.
+    H) shows the euclidean distance of the weights for each layer from
+    their random work initialisation. Parameters: 30 inputs from two
+    predictive rows of sensors (15 each). Every input was fed into a
+    filterbank of 10 filters with T=2 \ldots 30. There were 2 hidden
+    layers with 9 and 6 neurons; 6 output neurons. The learning rate $\gamma$
+    was 0.0001 and the momentum $\mu$ was set to 0.9. Learning was disabled
+    when the robot turned to avoid large error spikes caused by the learning
+    and the error was also set to zero during turning.
+    \label{line_results}}
+\end{figure*}
+
+
+
 
 
 
@@ -369,32 +391,6 @@ because realistically, driving will never be 100\% perfect, and we
 allow $\mathrm{error}$ to stabilise at small values.
 
 
-\begin{figure*}[!ht]
-  \centering
-  \includegraphics[width=\linewidth]{line_results}
-  \caption{Results of the line following task. A) shows the robot at
-    the very start of the simulation run from time step 0 to 1000. B)
-    the difference between the robot wheel speeds just for the learned
-    actions (i.e. the output of the DFL network): $v_l-v_r$.  C) the
-    error signal.  D) simulation run just before the final 1000 time
-    steps where the absolute value of the error has been below 0.001
-    for 1000 time steps. E-G) show the weights of the different
-    layers. The input neurons are on the x-axis and the output neurons
-    are on the y-axis.  E) the weights of the 1st layer, F) the
-    weights of the 2nd layer and G) the weights of the output layer.
-    H) shows the euclidean distance of the weights for each layer from
-    their random work initialisation. Parameters: 30 inputs from two
-    predictive rows of sensors (15 each). Every input was fed into a
-    filterbank of 10 filters with T=2 \ldots 30. There were 2 hidden
-    layers with 9 and 6 neurons; 6 output neurons. The learning rate $\gamma$
-    was 0.0001 and the momentum $\mu$ was set to 0.9. Learning was disabled
-    when the robot turned to avoid large error spikes caused by the learning
-    and the error was also set to zero during turning.
-    \label{line_results}}
-\end{figure*}
-
-
-
 \subsection{Results}
 Fig.~\ref{line_results} shows the results of a simulation run. In the
 panels A) and D) we see the trajectory of the agent over the course of
@@ -442,7 +438,6 @@ cross and autocorrelation, but even removing the autocorrelation
 term in Eq.~\ref{deepError} does not change the development, which implies
 that the environmental feedback is responsible for this development.
 
-
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.9\columnwidth]{line_stats}
@@ -456,6 +451,7 @@ that the environmental feedback is responsible for this development.
     B) shows the final absolute error for different learning rates.
     \label{line_stats}}
 \end{figure}
+
 
 We have run statistics of the line follower where we varied the
 learning rate over three orders of magnitudes, and evaluated how long
@@ -471,13 +467,33 @@ and at higher learning rates the final error, which is in agreement with other n
 network architectures that initialisation matters.
 
 
+\begin{figure*}[!ht]
+	\centering \includegraphics[width=0.9\textwidth]{FPSFig4}
+	\caption{A) KD at end of trial. B) Time to success vs learning
+          rate - success is if the smoothed KD ratio reaches a
+          threshold of 0.15. C) $\Delta \theta$, the rate of change in
+          bot's orientation against simulation step number, purely
+          from the DFL output, in arbitrary units. D) KD learning
+          curves - the time series of kills/deaths is filtered with a
+          2nd order lowpass filter to get a moving average, plotted
+          against kill event number. E) Example input frame. F) Example input weights. G) Euclidean distance of weights
+          for each layer from their initial point, against learning
+          step. 
+          Parameters: 19200 inputs from grayscale image; 2
+          hidden layers of 5 units each; no filterbank. Inputs were
+          normalised to zero-mean, unit variance. Learning rate in D
+          and E was 0.0001.
+		\label{shooter_results}}
+\end{figure*}
+
+
 
 
 \section{Shooter game}
 In this scenario, we try to learn to play a first-person shooter
 purely from visual inputs. We use the Vizdoom
 (http://vizdoom.cs.put.edu.pl/) environment for this purpose, and
-train a controller to play against a single pretrained bot from Intel
+train a controller to play against a single pre-trained bot from Intel
 that ran in the Vizdoom 2016 competition. The setup was as follows:
 
 The images returned from Vizdoom are RGB 160x120. We rendered the
@@ -503,25 +519,6 @@ where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$
 is the change in orientation.
 
 
-\begin{figure*}[!ht]
-	\centering \includegraphics[width=\textwidth]{FPSFig4}
-	\caption{A) KD at end of trial. B) Time to success vs learning
-          rate - success is if the smoothed KD ratio reaches a
-          threshold of 0.15. C) $\Delta \theta$, the rate of change in
-          bot's orientation against simulation step number, purely
-          from the DFL output, in arbitrary units. D) KD learning
-          curves - the time series of kills/deaths is filtered with a
-          2nd order lowpass filter to get a moving average, plotted
-          against kill event number. E) Example input frame. F) Example input weights. G) Euclidean distance of weights
-          for each layer from their initial point, against learning
-          step. 
-          Parameters: 19200 inputs from grayscale image; 2
-          hidden layers of 5 units each; no filterbank. Inputs were
-          normalised to zero-mean, unit variance. Learning rate in D
-          and E was 0.0001.
-		\label{shooter_results}}
-\end{figure*}
-
 \subsection{Results}
 As before, we see that the controller outputs steadily increase over
 time (Fig.~\ref{shooter_results}C). With a high value of $g_{net}$,
@@ -535,28 +532,31 @@ their progression is less smooth, due to the more discontinuous nature
 of the error signal (Fig.~\ref{shooter_results}E). The different
 scales are likely due to the inputs having more dimensions.
 
-Unlike the Line Follower, it is not possible here to drive the error
-to zero, as there are discontinuities when either bot respawns, and so
-the enemy will often appear unpredictably somewhere in the image but
-the error averages out and, thus, the weights stabilise. One
-performance measure is simply how often our bot is killed vs how often
-it kills the enemy. In gaming, this is called the kill/death ratio,
-and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
-do statistics, we measure the time taken to reach a threshold KD of 0.15 -
-Fig.~\ref{shooter_results}B shows this as a function of learning
+Unlike the Line Follower the error signal has high transients as there
+are discontinuities when the bot respawns and the enemy will often
+appear unpredictably somewhere in the image. Instead of averaging over
+long periods of time to test if the error signal is converging we
+simply measure how often our bot is killed vs how often it kills the
+enemy. In gaming, this is called the kill/death ratio, and we plot
+some smoothed KD curves in Fig.~\ref{shooter_results}D. To do
+statistics, we measure the time taken to reach a threshold KD of 0.15
+- Fig.~\ref{shooter_results}B shows this as a function of learning
 rate. As before, there is a stable region in the middle where learning
 is consistently successful. We also plot the smoothed KD for the final
-step of each trial(Fig.~\ref{shooter_results}A); although a noisy performance
-measure, the same pattern emerges. Over time, the input weights blur
-the background, leaving dark and light blobs to detect the enemy and
-generate an aiming response (Fig.~\ref{shooter_results}F).
+step of each trial(Fig.~\ref{shooter_results}A); although a noisy
+performance measure, the same pattern emerges. Over time, the input
+weights blur the background, leaving dark and light blobs to detect
+the enemy and generate an aiming response
+(Fig.~\ref{shooter_results}F).
 
-Note that this is only one skill of a functioning FPS bot, as a real bot would
-require additional skills such as seeking rewards (e.g. finding health packs) and
-navigating the environment (e.g. avoiding collisions). Future research
-will investigate whether the DFL approach can be used to acquire such
-skills by not just using errors from reflexes but, for example, from TD
-learning.
+Note that this is only one skill of a functioning FPS bot, as a real
+bot would require additional skills such as seeking rewards
+(e.g. finding health packs) and navigating the environment
+(e.g. avoiding collisions). Future research will investigate whether
+the DFL approach can be used to acquire such skills by applying it to
+not only reflex based learning but also to other error driven
+approaches. For example, one could use the reward prediction
+error from TD learning and feed it into the DFL network.
 
 
 \section{Discussion}
