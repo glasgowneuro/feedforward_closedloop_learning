@@ -9,7 +9,7 @@
 % to avoid loading the natbib package, add option nonatbib:
 % \usepackage[nonatbib]{nips_2016}
 
-\usepackage{nips_2016}
+\usepackage{nips_2018}
 
 % to compile a camera-ready version, add the [final] option, e.g.:
 % \usepackage[final]{nips_2016}
@@ -169,8 +169,8 @@ summation nodes: the actual activity and an error signal. These
 are processed in two parallel streams.
 
 Let us first focus on the network activity. We define a multi-layered
-network, where every neuron is a standard computational unit that
-calculates a weighted sum $x_k$ of its inputs $v_j$ and then applies
+network, where every neuron in any layer is a standard computational unit that
+calculates a weighted sum $v_k$ of its inputs $v_j$ and then applies
 an activation function $\Theta(x) = \tanh(x)$:
 \begin{equation}
   v_k = \Theta\left( \sum_j w_{jk} v_{j} \right) \label{act_sum}
@@ -178,7 +178,9 @@ an activation function $\Theta(x) = \tanh(x)$:
 The activity flows from neurons in layer $v_j$ to neurons in
 layer $v_k$ multiplied by the weights $w_{jk}$, and this
 is then repeated in the next layer. For a network with
-$N$ layers we have then $N-1$ sets of weights $w_{jk}$.
+$N$ layers we have then $N-1$ sets of weights $w_{jk}$. Note that these
+indices are just examples and we start with $i$ for the 1st layer and then
+$j$ and so on.
 
 The weight changes are then updated in a semi-Hebbian fashion:
 \begin{equation}
