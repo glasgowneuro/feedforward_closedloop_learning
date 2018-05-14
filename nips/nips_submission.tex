@@ -322,7 +322,7 @@ also inherently noisy, as other events in the game are also rendered
 blue (e.g. the ‘flashes’ that happen at respawns). The reflex also
 fails at times when the enemy is too distant or too close to the
 camera. For learning, we only supply the network with the greyscale
-image (Fig.~\ref{shooter_results}G) flattened into a vector of $19200$
+image (Fig.~\ref{shooter_results}D) flattened into a vector of $19200$
 inputs, so it is forced to discover purely spatial cues. The reflex is
 computed relative to the image centre, so a negative value implies the
 enemy is on the left. Shooting behaviour is entirely hardwired: if an
@@ -342,38 +342,38 @@ is the change in orientation.
 	\centering \includegraphics[width=\textwidth]{FPSFig7}
 	\caption{A) KD at end of trial. B) Time to success vs learning
           rate - success is if the smoothed KD ratio reaches a
-          threshold of 0.15. C) $\Delta \theta$, the rate of change in
+          threshold of 0.15. C) Example input frame. D) Example input weights.
+          E) $\Delta \theta$, the rate of change in
           bot's orientation against simulation step number, purely
-          from the DFL output, in arbitrary units. D) KD learning
+          from the learned DFL output, in arbitrary units. F) KD learning
           curves - the time series of kills/deaths is filtered with a
           2nd order lowpass filter to get a moving average, plotted
-          against kill event number. E) Euclidean distance of weights
+          against kill event number. G) Euclidean distance of weights
           for each layer from their initial point, against learning
-          step. F) Example input weights. G) Example input frame.
+          step.
           Parameters: 19200 inputs from grayscale image; 2
           hidden layers of 5 units each. Inputs were
-          normalised to zero-mean, unit variance. Learning rate in C, D
-          and E was 0.0001.
+          normalised to zero-mean, unit variance. Learning rate in E, F
+          and G was 0.0001.
 		\label{shooter_results}}
 \end{figure*}
 
 \subsection{Results}
 As before, we see that the controller outputs steadily increase over
-time (Fig.~\ref{shooter_results}C). With a high value of $g_{net}$,
+time (Fig.~\ref{shooter_results}E). With a high value of $g_{net}$,
 the bot can make very rapid aiming movements. This has the advantage
 that the error can in principle be reduced very quickly; it also
 causes the bot to sometimes make large rotations even when the enemy
 is out of the field of view, which helps with exploration. On the
 other hand, it can cause the aiming to overshoot and oscillate around
 the target. The weight growth is intermittent due to the discontinuous
-nature of the error signal (Fig.~\ref{shooter_results}E) but stablises
-during learning because the long term average error converges to
-zero. The different scales are likely due to the inputs having more
-dimensions.
+nature of the error signal (Fig.~\ref{shooter_results}G) but stablises
+because the long term average error converges to zero. The different
+scales are likely due to the inputs having more dimensions.
 
 A popular performance measure in gaming is how often the bot is killed
 vs how often it kills the enemy. This is called the kill/death ratio,
-and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
+and we plot some smoothed KD curves in Fig.~\ref{shooter_results}F. To
 do statistics, we measure the time taken to reach a threshold KD of
 0.15 - Fig.~\ref{shooter_results}B shows this as a function of
 learning rate. There is a stable region in the middle where
@@ -381,7 +381,7 @@ learning is consistently successful. We also plot the smoothed KD for
 the final step of each trial(Fig.~\ref{shooter_results}A); although a
 noisy measure, the same pattern emerges. Over time, the input weights
 blur the background, leaving dark and light blobs to detect the enemy
-and generate an aiming response (Fig.~\ref{shooter_results}F).
+and generate an aiming response (Fig.~\ref{shooter_results}D).
 
 Note that this is only one skill of a functioning FPS bot, as a real
 bot would require additional skills such as seeking rewards
