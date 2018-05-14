@@ -54,95 +54,101 @@
 \maketitle
 
 \begin{abstract}
-  Recent advances in neurophysiology suggest that a neural network can transmit two separate signals with distinct functions, via cross-frequency
-  coupling. We propose that one signal carries
+  Recent advances in neurophysiology suggest that a neural network can
+  transmit two separate signals with distinct functions, via
+  cross-frequency coupling. We propose that one signal carries
   behaviourally relevant activity and the other an error signal
-  controlling plasticity, and this allows error-based learning in such a
-  deep network. We have embedded this network in a closed loop
-  scenario, where an error signal is propagated \textsl{forwards} from its input via its
-  deeper layers to its output, with the goal of minimising the error
-  signal. We demonstrate its performance with a 1st person shooter
-  game.
+  controlling plasticity, and this allows error-based learning in such
+  a deep network. We have embedded this network in a closed loop
+  scenario, where an error signal is propagated \textsl{forwards} from
+  its input via its deeper layers to its output, with the goal of
+  minimising the error signal. We demonstrate its performance with a
+  1st person shooter game.
 \end{abstract}
 
 \section{Introduction}
 There is strong neurophysiological evidence that different brain
 oscillations enable the brain to carry separate information via the
 same synapses and neurons in a forward fashion
-\cite{Canolty2010}. These streams, represented by different
-frequency bands, control plasticity in specific ways, with the higher
-frequency components affecting plasticity \cite{Bliss73},
-and the lower ones being relevant for behaviour \cite{Luescher2012} while keeping plasticity constant. This means that error signals are
-propagated in a forward fashion from the inputs of the network to its
-outputs, altering plasticity while progressing through the network.
+\cite{Canolty2010}. These streams, represented by different frequency
+bands, control plasticity in specific ways, with the higher frequency
+components affecting plasticity \cite{Bliss73}, and the lower ones
+being relevant for behaviour \cite{Luescher2012} while keeping
+plasticity constant. This means that error signals are propagated in a
+forward fashion from the inputs of the network to its outputs,
+altering plasticity while progressing through the network.
 
-On a system level, brain decision networks receive an error signal in
-the striatum in the form of dopaminergic innervation \cite{Schultz97}, but
-their cortical targets receive very little dopamine
-\cite{Groenewegen1993}. This poses a problem of how higher level
-decision-making receives errors whilst also showing more flexibility than rigidly aiming for a reward. A single
-reward prediction error cannot account for the large behavioural
-flexibility that higher animals and humans show.
+On a system level, brain decision networks such as the striatum
+are strongly modulated by an error signal in the form of dopaminergic
+innervation \cite{Schultz97}, but their cortical targets receive very
+little dopamine \cite{Groenewegen1993}. This poses a problem of how
+higher level decision-making receives errors whilst also showing more
+flexibility than rigidly aiming for a reward. A single reward
+prediction error cannot account for the large behavioural flexibility
+that higher animals and humans show.
 
 Propagating errors from the input to the output is the realm of
-reinforcement learning, in which actions feed back from the environment
-and then are evaluated with the help of sensor
-inputs\cite{Verschure91,Dayan1992,Sutton88,Sutton98,PorrNecoInvco2003,Woergoetter2005}. In
-the simplest case an error signal can be achieved by a reflex
+reinforcement learning, in which actions feed back from the
+environment and then are evaluated with the help of sensor
+inputs\cite{Verschure91,Dayan1992,Sutton88,Sutton98,Abbott01,Woergoetter2005}.
+In the simplest case an error signal can be achieved by a reflex
 \cite{Verschure91,PorrNecoInvco2003}, where the agent reacts to
 unexpected changes in their environment. In the language of control
 \cite{Phillips2000} this means that a desired state should be
 maintained as closely as possible. The difference between the desired
-state and the actual state is the error signal of the control loop, and
-can be used not only to trigger a behavioural action but also fed
-into a neural network. We demonstrate this in our novel
-architecture.
+state and the actual state is the error signal of the control loop,
+and can be used not only to trigger a behavioural action but also fed
+into a neural network. We demonstrate this in our novel architecture.
 
 In this paper we present a novel deep network algorithm for closed
-loop systems called ``Deep Feedback Learning'' (DFL) -- this propagates an error signal in a forward fashion through its network. The input is directly driven by the error signal, but the deeper
-layers receive weighted sums of the error from the previous layers.
-We demonstrate this in a 1st-person shooter game using Vizdoom.
+loop systems called ``Deep Feedback Learning'' (DFL) -- this
+propagates an error signal in a forward fashion through its
+network. The input is directly driven by the error signal, but the
+deeper layers receive weighted sums of the error from the previous
+layers.  We demonstrate this in a 1st-person shooter game using
+Vizdoom.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.75\columnwidth]{closed_loop}
-  \caption{A closed loop system with a setpoint $SP$, transfer function $H_0$ and the
-    environment $P_0$ which needs to work against unpredictable disturbances $D$.
-    The error signal tunes a deep neuronal network, which has inputs
-    $V_i$ that predict the disturbances. The network tries to pre-empt these
-    disturbances and generate an appropriate action $V_k$. The transfer
-    functions here are indicated with capital letters and are in the
-    sampled z-domain.
+  \caption{A closed loop system with a setpoint $SP$, transfer
+    function $H_0$ and the environment $P_0$ which needs to work
+    against unpredictable disturbances $D$.  The error signal tunes a
+    deep neuronal network, which has inputs $V_i$ that predict the
+    disturbances. The network tries to pre-empt these disturbances and
+    generate an appropriate action $V_k$. The transfer functions here
+    are indicated with capital letters and are in the sampled
+    z-domain.
     \label{closed_loop}}
 \end{figure}
 
 \section{Closed loop learning}
-Before we describe the algorithm, we need to place it in a closed loop
-context. Fig.~\ref{closed_loop} shows the entire closed loop system,
-with the deep feedback learning as a black box for now. The idea is
-that we have a fixed closed loop which is able to fend off
-disturbances, such as an unexpected bend on a road or the sudden
-appearance of an enemy. This fixed loop then takes appropriate action
-to solve this disturbance, e.g. correcting a car's steering, targeting
-food or aiming towards and shooting an enemy. In formal terms we have
-a setpoint $SP$ which compares the input of organism to a desired
-input. If the input deviates from the setpoint an action is generated
-with the transfer function $H_0$. This action then eliminates the
-disturbance $D$ and arrives via the environmental transfer function
-$P_0$ at the input again; thus, the loop is closed. However, we are
-not so much interested in the design of the closed loop but rather
-that it generates an \textsl{error signal}. The error signal is
-non-zero if a disturbance has happened, and this can be used to tune our
-deep feedback learning network.
+Before we describe the algorithm, we need to place it in a simple and
+instructional closed loop context. Fig.~\ref{closed_loop} shows the
+entire closed loop system, with the deep feedback learning as a black
+box for now. The idea is that we have a fixed closed loop which is
+able to fend off disturbances, such as an unexpected bend on a road or
+the sudden appearance of an enemy. This fixed loop then takes
+appropriate action to solve this disturbance, e.g. correcting a car's
+steering, targeting food or aiming towards and shooting an enemy. In
+formal terms we have a setpoint $SP$ which compares the input of
+organism to a desired input. If the input deviates from the setpoint
+an action is generated with the transfer function $H_0$. This action
+then eliminates the disturbance $D$ and arrives via the environmental
+transfer function $P_0$ at the input again; thus, the loop is
+closed. The reason why we have chosen a feedback loop because it
+generates an \textsl{error signal}. The error signal is
+non-zero if a disturbance has happened, and this can be used to tune
+our deep feedback learning network.
 
-Our network receives additional inputs which are able to predict the
-disturbance, and thus prevent the trigger of the feedback loop. These
-additional inputs are provided via $V_i$ where we have shown one
-pathway and possible additional inputs as a dashed line in
-Fig~.\ref{closed_loop}).
-For example a video camera or eyes can provide images of the way ahead,
-or of an enemy prior to attacking. Our algorithm has the task of using the error
-signal to tune its network and to minimise this error, as described next.
+In order to tune our network it receives additional inputs which are
+able to predict the disturbance, and thus prevent the trigger of the
+feedback loop. These additional inputs are provided via $V_i$ where we
+have shown one pathway and possible additional inputs as a dashed line
+in Fig~.\ref{closed_loop}). For example a video camera or eyes can
+provide images of the way ahead, or of an enemy prior to
+attacking. Our algorithm has the task of using the error signal to
+tune its network and to minimise this error, as described next.
 
 \begin{figure}[!ht]
   \centering
@@ -234,23 +240,26 @@ plasticity is able to eliminate an error signal
 \cite{Porr2006ICO}. Because of the exploding complexity of closed loop
 learning we focus here how an error signal $X_0$ should be propagated
 to deeper layers from its input by using the approach in
-\cite{Mehta1986}, taking partial derivatives in the z-space and assuming
-that weight development in time is slow in comparison to the closed loop
-dynamics.  Let us assume two layers $j$ and $k$ where the input signals
-to the deep network are signals with index i so that we have $V_i,
-V_j$ and $V_k$. The error signal, $X_0$ (see Fig.~\ref{closed_loop}), can be expressed as
+\cite{Mehta1986}, taking partial derivatives in the z-space and
+assuming that weight development in time is slow in comparison to the
+closed loop dynamics.  Let us assume two layers $j$ and $k$ where the
+input signals to the deep network are signals with index i so that we
+have $V_i, V_j$ and $V_k$. The error signal, $X_0$ (see
+Fig.~\ref{closed_loop}), can be expressed as
 \begin{equation}
   X_0 = \frac{P_0 \left[ V_k V_J + D z^{-1} \right]}{1-P_0 \rho H_0}
 \end{equation}
-We know that a weight change $\Delta w$ calculated by correlating $X_0$ with an input
-$V_i$ leads to convergence in a closed loop system. This can be expressed
-as:
+where $V_k$ and $V_j$ are transfer functions of the layers $k$ and $j$
+respectively. We know that a weight change $\Delta w$ calculated by
+correlating $X_0$ with an input $V_i$ leads to convergence in a closed
+loop system \cite{Porr2006ICO}. This can be expressed as:
 \begin{equation}
   \Delta w_{ij} = X_0(z) V_i(-z)
 \end{equation}
 We now need to show that if we have deeper weights such as $w_{jk}$
 that these will change in the same way as those of the input layer. In
-order to establish this, we look at small weight changes in $w_{jk}$ and relate them to the input weights $w_{ij}$.
+order to establish this, we look at small weight changes in $w_{jk}$
+and relate them to the input weights $w_{ij}$.
 \begin{equation}
     \frac{\partial X_0}{\partial w_{jk}} =
     \frac{\partial X_0}{\partial V_j}
@@ -284,17 +293,20 @@ then this yields:
     \frac{\partial V_j}{\partial V_k}
     \underbrace{\left( \sum_{i^\prime} w_{i^\prime j} V_{i^\prime} \right)}_\textrm{\tiny deep layer error signal} V_i^-
 \end{equation}
-This means that if we introduce a small change in the deeper weights $w_{jk}$
-they will depend on the weighted covariance at the input where this correlation
-at the input propagates, weighted by the input weights $w_{ij}$, to the deeper layer
-$w_{jk}$. This shows that the error signal is propagated in a weighted
-fashion to deeper layers. Note that this is not a stability proof but rather
-the derivation of the network structure, using a similar trick to deep learning
-but in closed loop and forward fashion. For a stability analysis one needs
-to take into account for the non-linear activation functions and unroll the
-partial derivative $\frac{\partial V_j}{\partial V_k}$, whose derviative depends
-again on the entire closed loop. However, this is not of practical relevance
-because the environmental transfer function is rarely known.
+This means that if we introduce a small change in the deeper weights
+$w_{jk}$ they will depend on the weighted covariance at the input
+where this correlation at the input propagates, weighted by the input
+weights $w_{ij}$, to the deeper layer $w_{jk}$. This shows that the
+error signal is propagated in a weighted fashion to deeper
+layers. Note that this is not a stability proof but rather the
+derivation of the network structure, using a similar trick to deep
+learning but in closed loop and forward fashion. For a stability
+analysis one needs to take into account for the non-linear activation
+functions and unroll the partial derivative $\frac{\partial
+  V_j}{\partial V_k}$, whose derviative depends again on the entire
+closed loop. However, this is not of practical relevance because the
+environmental transfer function is rarely known which leads us to
+the shooter game.
     
 \section{Shooter game}
 In this scenario, we try to learn to play a first-person shooter
@@ -316,9 +328,9 @@ computed relative to the image centre, so a negative value implies the
 enemy is on the left. Shooting behaviour is entirely hardwired: if an
 enemy is detected within a threshold of the image centre, the bot
 fires. Note that the bot's only actions are to rotate in the plane,
-and shoot -- it does not translate (but the enemy does). Instead of
-separate outputs for left and right, we have a single value produced
-by 3 neurons acting at different sensitivities:
+and shoot -- it does not translate (but the enemy does). To generate
+the rotation we have a single value produced by 3 neurons acting at
+different sensitivities:
 \begin{equation}
 \Delta \theta = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
@@ -339,8 +351,8 @@ is the change in orientation.
           for each layer from their initial point, against learning
           step. F) Example input weights. G) Example input frame.
           Parameters: 19200 inputs from grayscale image; 2
-          hidden layers of 5 units each; no filterbank. Inputs were
-          normalised to zero-mean, unit variance. Learning rate in D
+          hidden layers of 5 units each. Inputs were
+          normalised to zero-mean, unit variance. Learning rate in C, D
           and E was 0.0001.
 		\label{shooter_results}}
 \end{figure*}
@@ -353,32 +365,30 @@ that the error can in principle be reduced very quickly; it also
 causes the bot to sometimes make large rotations even when the enemy
 is out of the field of view, which helps with exploration. On the
 other hand, it can cause the aiming to overshoot and oscillate around
-the target.  The weights grow in a similar pattern to before, although
-their progression is less smooth, due to the more discontinuous nature
-of the error signal (Fig.~\ref{shooter_results}E). The different
-scales are likely due to the inputs having more dimensions.
+the target. The weight growth is intermittent due to the discontinuous
+nature of the error signal (Fig.~\ref{shooter_results}E) but stablises
+during learning because the long term average error converges to
+zero. The different scales are likely due to the inputs having more
+dimensions.
 
-Unlike the Line Follower, it is not possible here to drive the error
-to zero, as there are discontinuities when either bot respawns, and so
-the enemy will often abruptly appear somewhere in the image. One
-performance measure is simply how often our bot is killed vs how often
-it kills the enemy. In gaming, this is called the kill/death ratio,
+A popular performance measure in gaming is how often the bot is killed
+vs how often it kills the enemy. This is called the kill/death ratio,
 and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
-do statistics, we measure the time taken to reach a threshold KD of 0.15 -
-Fig.~\ref{shooter_results}B shows this as a function of learning
-rate. As before, there is a stable region in the middle where learning
-is consistently successful. We also plot the smoothed KD for the final
-step of each trial(Fig.~\ref{shooter_results}A); although a noisy
-measure, the same pattern emerges. Over time, the input weights blur
-the background, leaving dark and light blobs to detect the enemy and
-generate an aiming response (Fig.~\ref{shooter_results}F).
+do statistics, we measure the time taken to reach a threshold KD of
+0.15 - Fig.~\ref{shooter_results}B shows this as a function of
+learning rate. There is a stable region in the middle where
+learning is consistently successful. We also plot the smoothed KD for
+the final step of each trial(Fig.~\ref{shooter_results}A); although a
+noisy measure, the same pattern emerges. Over time, the input weights
+blur the background, leaving dark and light blobs to detect the enemy
+and generate an aiming response (Fig.~\ref{shooter_results}F).
 
-Note that this is only one skill of a functioning FPS bot, as a real bot would
-require additional skills such as seeking rewards (e.g. finding health packs) and
-navigating the environment (e.g. avoiding collisions). Future research
-will investigate whether the DFL approach can be used to acquire such
-skills, using the same fundamental approach of learning to anticipate
-a prewired behaviour.
+Note that this is only one skill of a functioning FPS bot, as a real
+bot would require additional skills such as seeking rewards
+(e.g. finding health packs) and navigating the environment
+(e.g. avoiding collisions). Future research will investigate whether
+the DFL approach can be used to acquire such skills, for example,
+by utilising the reward prediction error generated by TD learning.
 
 
 \section{Discussion}
@@ -390,71 +400,75 @@ shooter game.
 Plasticity has always been hotly debated in neurophysiology -- the
 general understanding is that a large postsynaptic Calcium
 concentration causes LTP \cite{Malenka99,Bennett2000} and a low one
-causes LTD \cite{Mulkey1992}. This requires a strong presynaptic
-drive to achieve a strong postsynaptic activity, and with that Ca
+causes LTD \cite{Mulkey1992}. This requires a strong presynaptic drive
+to achieve a strong postsynaptic activity, and with that Calcium
 influx \cite{Meunier2017}. In mathematical terms this would just lead
 to self-amplification of the synaptic weight, where strong presynaptic
-activity would causes greater postsynaptic activity and in turn stronger
-weights, and so on. However, suppose the learning signal and the
-actual activity were transmitted via the same synapse but were
+activity would cause greater postsynaptic activity and in turn
+stronger weights, and so on. However, suppose the learning signal and
+the actual activity were transmitted via the same synapse but were
 fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
-plasticity changes while low frequency potentials propagate
-behaviourally-relevant activity \cite{Canolty2010}. DFL can provide
-here a mechanism that allows stable behaviourally-relevant learning
-driven by heterosynaptic plasticity and Hebbian learning for the error
-signal, with the stability arising from the fact that it is constantly
-corrected by the error signal.
+plasticity changes via high frequency potentiation (HFP) while low
+frequency potentials propagate behaviourally-relevant activity
+\cite{Canolty2010}. DFL can provide here a mechanism that allows
+stable behaviourally-relevant learning driven by heterosynaptic
+plasticity and Hebbian learning for the error signal, with the
+stability arising from the fact that it is constantly corrected by the
+error signal.
 
 Looking at a system-wide perspective, one can see DFL as a flexible
 actor which has a high degree of freedom in generating actions, as long as they
 minimise the error. For example in the basal ganglia the striatum is
-seen as an actor receiving an error signal via dopamine, the famous
+seen as an actor receiving an error signal via dopamine, the well known
 reward prediction error \cite{Schultz97} which is understood as being
-closely related to the error of temporal difference learning
+closely related to the error of temporal difference (TD) learning
 \cite{gurney98:_basal_gangl_action_selec_devic}. It is curious that
 the striatum receives the error signal but both downstream neurons in
-the basal ganglia and upstream in the cortex receive little
+the basal ganglia and upstream in the cortex receive much less
 dopaminergic modulation \cite{Beckstead1979}. However, plasticity is
 not just limited to the striatum, but happens in all brain areas, so
-it makes sense to propagate this error signal further back into the cortex
+it makes sense to propagate this error signal further into the cortex
 \cite{Groenewegen1993} where high level decision-making takes place.
 In the language of TD learning \cite{Sutton87} this means that we
-have a distributed actor where the first layer is modulated by
+have a distributed actor where the first layer is modulated by the
 reward prediction error, and then the following stages, that project
 back to the cortex, use instead cross frequency coupling
 as described above \cite{Lipski2017}.
 
-Given that the error is propagated from the input to the
-output, the novel aspect here is that the more layers DFL has, the more remote it
-is from the immediate error feedback. This allows for
-increased flexibility which is then a function of the number of layers, and
+Given that the error is propagated from the input to the output, the
+novel aspect here is that the more layers DFL has, the more remote it
+is from the immediate error feedback. This allows for increased
+flexibility which is then a function of the number of layers, and
 creates an actor which is far less rigid than a standard Q-learner
-\cite{Dayan1992}. The actions can be substantially varied as
-long as the error signal can eventually be minimised, and the variability will be
-more pronounced with more hidden layers. In other words, the more
+\cite{Dayan1992}. The actions can be substantially varied as long as
+the error signal can eventually be minimised, and the variability will
+be more pronounced with more hidden layers. In other words, the more
 hidden layers we have, the more behavioural flexibility the agent will
 show. In a biological context this means that as cortical processing
 takes over in the deeper stages, it also can develop more flexibility
-while still receiving \textsl{distributed} error signals rather than 
-a global one.
+while still receiving \textsl{distributed} error signals rather than a
+global one.
 
 A different stance about synaptic plasticity (and ultimately how
 autonomous agents learn) has been taken by the deep learning
 community, which has recently claimed that error backpropagation is
 biologically realistic \cite{Lillicrap2016,Roelfsema2018}. This has
-been demonstrated in a network with one hidden layer by introducing a
-separate feedback pathway from the output of the network to this
-hidden layer, but this does not take account the cortico-striatal network mentioned above. While this shows promising results for
-abstract models of biologically inspired decision making, the underlying
-backprop operates in an open loop fashion (i.e. output control), and thus
-contradicts the requirement for an agent to control its inputs.
+been demonstrated in an abstact network with one hidden layer by
+introducing a separate feedback pathway from the output of the network
+to this hidden layer, but this does not take account the
+cortico-striatal network mentioned above \cite{haber95}. While this
+shows promising results for abstract models of biologically inspired
+decision making, the implied brain connectively is not faithful to
+neurophysiological findings (see \cite{berthoud04} for an extensive
+review).
 
-\cite{Guo2014} takes a different direction, and present an
-approach that uses backprop to solve closed loop problems. To turn the
-open loop backprop into a closed loop algorithm, they embedd it into
-Q-learning which is itself closed loop. However, even given its major
-performance advances, the main drawback is the
+While we have turned error propagation upside down to use it in a
+closed loop context, \cite{Guo2014} takes a different direction, and
+present an approach that still uses backprop to solve closed loop
+problems. To turn the open loop backprop into a closed loop algorithm,
+they embedd it into Q-learning which is itself closed loop. However,
+even given its major performance advances, the main drawback is the
 discrete state space, which makes it hard to solve analogue problems,
 and Q-learning is not biologically realistic when compared to the
 biological evidence outlined above.
