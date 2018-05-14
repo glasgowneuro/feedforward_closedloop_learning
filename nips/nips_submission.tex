@@ -303,7 +303,7 @@ derivation of the network structure, using a similar trick to deep
 learning but in closed loop and forward fashion. For a stability
 analysis one needs to take into account for the non-linear activation
 functions and unroll the partial derivative $\frac{\partial
-  V_j}{\partial V_k}$, whose derviative depends again on the entire
+  V_j}{\partial V_k}$, whose derivative depends again on the entire
 closed loop. However, this is not of practical relevance because the
 environmental transfer function is rarely known which leads us to
 the shooter game.
@@ -367,7 +367,7 @@ causes the bot to sometimes make large rotations even when the enemy
 is out of the field of view, which helps with exploration. On the
 other hand, it can cause the aiming to overshoot and oscillate around
 the target. The weight growth is intermittent due to the discontinuous
-nature of the error signal (Fig.~\ref{shooter_results}G) but stablises
+nature of the error signal (Fig.~\ref{shooter_results}G) but stabilises
 because the long term average error converges to zero. The different
 scales are likely due to the inputs having more dimensions.
 
@@ -454,12 +454,12 @@ A different stance about synaptic plasticity (and ultimately how
 autonomous agents learn) has been taken by the deep learning
 community, which has recently claimed that error backpropagation is
 biologically realistic \cite{Lillicrap2016,Roelfsema2018}. This has
-been demonstrated in an abstact network with one hidden layer by
+been demonstrated in an abstract network with one hidden layer by
 introducing a separate feedback pathway from the output of the network
 to this hidden layer, but this does not take account the
 cortico-striatal network mentioned above \cite{haber95}. While this
 shows promising results for abstract models of biologically inspired
-decision making, the implied brain connectively is not faithful to
+decision making, the implied brain connectivity is not faithful to
 neurophysiological findings (see \cite{berthoud04} for an extensive
 review).
 
@@ -467,7 +467,7 @@ While we have turned error propagation upside down to use it in a
 closed loop context, \cite{Guo2014} takes a different direction, and
 present an approach that still uses backprop to solve closed loop
 problems. To turn the open loop backprop into a closed loop algorithm,
-they embedd it into Q-learning which is itself closed loop. However,
+they embed it into Q-learning which is itself closed loop. However,
 even given its major performance advances, the main drawback is the
 discrete state space, which makes it hard to solve analogue problems,
 and Q-learning is not biologically realistic when compared to the
