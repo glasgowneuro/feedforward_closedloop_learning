@@ -103,8 +103,8 @@ into a neural network. We demonstrate this in our novel architecture.
 In this paper we present a novel deep network algorithm for closed
 loop systems called ``Deep Feedback Learning'' (DFL) -- this
 propagates an error signal in a forward fashion through its
-network. The input is directly driven by the error signal, but the
-deeper layers receive weighted sums of the error from the previous
+network. The input layers is directly driven by the error signal, but the
+deeper layers receive weighted sums of the errors from the previous
 layers.  We demonstrate this in a 1st-person shooter game using
 Vizdoom.
 
@@ -167,8 +167,8 @@ tune its network and to minimise this error, as described next.
 
 
 \section{Deep feedback learning}
-We define a network with an input layer, hidden units and an output
-layer which can all have different numbers of neurons (see
+We define a network with an input layer, hidden layers and an output
+layer, which can all have different numbers of neurons (see
 Fig~\ref{netw_together}A). In contrast to traditional
 networks, every layer (except for the input layer) consists of two
 summation nodes: the actual activity and an error signal. These
@@ -238,7 +238,7 @@ activity $v_j$ and \textsl{Hebbian} for the error $e_j$.
 We start from the assumption that a single neuron using heterosynaptic
 plasticity is able to eliminate an error signal
 \cite{Porr2006ICO}. Because of the exploding complexity of closed loop
-learning we focus here how an error signal $X_0$ should be propagated
+learning we focus here on how an error signal $X_0$ should be propagated
 to deeper layers from its input by using the approach in
 \cite{Mehta1986}, taking partial derivatives in the z-space and
 assuming that weight development in time is slow in comparison to the
@@ -305,7 +305,7 @@ analysis one needs to take into account for the non-linear activation
 functions and unroll the partial derivative $\frac{\partial
   V_j}{\partial V_k}$, whose derivative depends again on the entire
 closed loop. However, this is not of practical relevance because the
-environmental transfer function is rarely known which leads us to
+environmental transfer function is rarely known; this leads us to
 the shooter game.
     
 \section{Shooter game}
@@ -359,7 +359,7 @@ is the change in orientation.
 \end{figure*}
 
 \subsection{Results}
-As before, we see that the controller outputs steadily increase over
+It can be clearly seen that the controller outputs steadily increase over
 time (Fig.~\ref{shooter_results}E). With a high value of $g_{net}$,
 the bot can make very rapid aiming movements. This has the advantage
 that the error can in principle be reduced very quickly; it also
