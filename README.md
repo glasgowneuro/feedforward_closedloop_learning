@@ -15,5 +15,5 @@ These are in tests_c and tests_py.
 
 ## Vizdoom
 
-Go to dfldoom and type:
+Check out the README in the vizdoom directory
 
