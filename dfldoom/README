@@ -1,0 +1,14 @@
+This folder contains code that will allow you run run a Vizdoom agent against pretrained bots from Facebook and Intel. 
+
+For setting up Vizdoom, see: http://vizdoom.cs.put.edu.pl/
+
+To run against other bots, see: https://github.com/mihahauke/vizdoom_cig2017 , where the folders F1 and Intelact contains the Facebook and Intel bots from the Vizdoom 2017 competition.
+There is also a folder there called 'host': to run a deathmatch, you first start up the host ('./build.sh host', './run.sh host'), and then start up the other bots ('./build.sh intelact', './run.sh' intelact). 
+You will need to install Docker for these scripts to work; if you also install nvidia-docker, the Tensorflow code in the bots will be able to use GPU acceleration. 
+The easiest way to run against these bots is to copy this folder - dfldoom - into the vizdoom_cig2017 folder. You may need to edit host/host.py to set the number of players to match the number of bots you're going to have. 
+
+There are a number of *.cfg files here - if you want to run deathmatch in the way described above, copy _vizdoomNetwork.cfg to _vizdoom.cfg. Assuming the host is already running, running run_agentDFL.py will then attempt to connect and start a match. It's crucial that all bots, and the host, are using the same Doom map. This is specified in their own .cfg files.  
+
+
+
+
