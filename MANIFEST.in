@@ -1,0 +1,6 @@
+include *.py
+include deep_feedback_learning.h
+include deep_feedback_learning.cpp
+include *.i
+include README
+recursive-include dfl *
