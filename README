@@ -23,8 +23,9 @@ How to compile / install?
 How to create a Python distribution?
 ====================================
 
-      ./setup.py sdist bdist
-
+      ./setup.py sdist
+      ./setup.py bdist_egg
+      ./setup.py bdist_wheel
 
 Tests / demos
 =============
