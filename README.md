@@ -4,10 +4,13 @@
 
 Ubuntu xenial with swig and vizdoom installed.
 
-## How to compile?
+## How to compile / install?
 
-Just type "make" and both the C libraries and the Python
-wrappers are generated.
+cmake .
+make
+sudo make install
+./setup build
+sudo ./setup install
 
 ## Tests / demos
 

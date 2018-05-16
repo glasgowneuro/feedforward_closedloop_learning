@@ -9,12 +9,14 @@
  * (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-#include "globals.h"
-#include "layer.h"
-#include "neuron.h"
+#include "dfl/globals.h"
+#include "dfl/layer.h"
+#include "dfl/neuron.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
+#include <assert.h>
 
 
 //#define DEBUG_DFL

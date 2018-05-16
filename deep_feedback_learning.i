@@ -2,8 +2,8 @@
 %{
 	#define SWIG_FILE_WITH_INIT
 	#include "deep_feedback_learning.h"
-	#include "layer.h"
-	#include "neuron.h"
+	#include "dfl/layer.h"
+	#include "dfl/neuron.h"
 %}
 
 %include "numpy.i"
@@ -16,5 +16,5 @@
 %apply (int* IN_ARRAY1, int DIM1) {(int* num_of_hidden_neurons_per_layer_array, int _num_hid_layers)};
 
 %include "deep_feedback_learning.h"
-%include "layer.h"
-%include "neuron.h"
+%include "dfl/layer.h"
+%include "dfl/neuron.h"
