@@ -1,0 +1,50 @@
+=========
+DFL tests
+=========
+
+
+
+test_deep_feedback_learning.cpp
+===============================
+
+0: sets up a network without learning where every layer
+   has bandpass filters at its inputs. An impulse at the
+   input generates different timed respones at the outputs:
+   test_deep_fbl_cpp_forward.dat
+
+1: Network with one hidden layer and two neurons.
+   The stimulus is repeated every 1,000 time steps.
+   The input to the network is set to 1 between
+   100 and 1000th step and the error between 500 and 600
+   and then it repeats:
+   test_deep_fbl_cpp_learning.dat
+   and can be plotted with:
+   plot_learning.py
+
+2: same as 1 but with filters. The impulse reponse is very
+   short so the output looks identical to 1.
+
+
+
+test_bandpass.cpp
+=================
+
+Generates an impulse response and writes it to impulse.dat
+
+
+
+test_neuron.cpp
+===============
+
+Sets up a neuron with two inputs and sends in a "1" between
+timestep 100 and 110.
+
+
+
+test_layer.cpp
+==============
+
+Tests multi threaded processing in a layer. The output
+should be identical with and without threads.
+
+
