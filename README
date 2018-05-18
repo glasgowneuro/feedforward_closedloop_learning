@@ -16,14 +16,16 @@ How to compile / install?
       cmake .
       make
       sudo make install
-      ./setup build
-      sudo ./setup install
+      ./setup.py build
+      sudo ./setup.py install
 
 
 How to create a Python distribution?
 ====================================
 
-      ./setup.py sdist bdist
+      ./setup.py sdist
+      ./setup.py bdist_egg
+      ./setup.py bdist_wheel
 
 
 Tests / demos

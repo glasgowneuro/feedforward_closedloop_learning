@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-project(deep_feedback_learning VERSION 1.0.0 LANGUAGES CXX)
+project(deep_feedback_learning VERSION 1.0.2 LANGUAGES CXX)
 include(GNUInstallDirs)
 
 add_subdirectory(tests_c)

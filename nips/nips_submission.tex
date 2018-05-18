@@ -101,9 +101,9 @@ and can be used not only to trigger a behavioural action but also fed
 into a neural network. We demonstrate this in our novel architecture.
 
 In this paper we present a novel deep network algorithm for closed
-loop systems called ``Deep Feedback Learning'' (DFL) -- this
+loop systems which we call ``Deep Feedback Learning'' (DFL) -- this
 propagates an error signal in a forward fashion through its
-network. The input layers is directly driven by the error signal, but the
+network. The input layer is directly driven by the error signal, but the
 deeper layers receive weighted sums of the errors from the previous
 layers.  We demonstrate this in a 1st-person shooter game using
 Vizdoom.
@@ -131,15 +131,15 @@ able to fend off disturbances, such as an unexpected bend on a road or
 the sudden appearance of an enemy. This fixed loop then takes
 appropriate action to solve this disturbance, e.g. correcting a car's
 steering, targeting food or aiming towards and shooting an enemy. In
-formal terms we have a setpoint $SP$ which compares the input of
-organism to a desired input. If the input deviates from the setpoint
-an action is generated with the transfer function $H_0$. This action
-then eliminates the disturbance $D$ and arrives via the environmental
+formal terms we have a setpoint $SP$ which compares the input of an
+agent to a desired input. If the input deviates from the setpoint an
+action is generated with the transfer function $H_0$. This action then
+eliminates the disturbance $D$ and arrives via the environmental
 transfer function $P_0$ at the input again; thus, the loop is
 closed. The reason why we have chosen a feedback loop because it
-generates an \textsl{error signal}. The error signal is
-non-zero if a disturbance has happened, and this can be used to tune
-our deep feedback learning network.
+generates a simple but instructive \textsl{error signal}. The error
+signal is non-zero if a disturbance has happened, and this can be used
+to tune our deep feedback learning network.
 
 In order to tune our network it receives additional inputs which are
 able to predict the disturbance, and thus prevent the trigger of the
@@ -236,7 +236,7 @@ activity $v_j$ and \textsl{Hebbian} for the error $e_j$.
 
 \section{Derivation of the learning rule}
 We start from the assumption that a single neuron using heterosynaptic
-plasticity is able to eliminate an error signal
+plasticity is able to eliminate a closed loop error signal
 \cite{Porr2006ICO}. Because of the exploding complexity of closed loop
 learning we focus here on how an error signal $X_0$ should be propagated
 to deeper layers from its input by using the approach in
