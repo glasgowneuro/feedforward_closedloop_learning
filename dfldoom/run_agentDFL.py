@@ -5,13 +5,15 @@ import tensorflow as tf
 import sys
 import os
 sys.path.append('./agent')
-sys.path.append('./..')
+sys.path.append("./deep_feedback_learning/")
 from agent.doom_simulator import DoomSimulator
 from agent.agent import Agent
 import deep_feedback_learning
 from deep_feedback_learning import DeepFeedbackLearning
 import threading
 from matplotlib import pyplot as plt
+from datetime import datetime
+import random
 
 
 width = 160
@@ -20,32 +22,34 @@ height = 120
 heightIn = 120
 nFiltersInput = 0
 nFiltersHidden = 0
-nHidden = [5,5]
-nOut = 3
-learningRate = 1e-4
+nHidden = [5]
+nOut = 6
 # nFiltersHidden = 0 means that the layer is linear without filters
 minT = 5
 maxT = 10
 
+outFile = open("/home/paul/Dev/GameAI/vizdoom_cig2017/DFLOutput.txt", "w")
+wtdistFile = open("/home/paul/Dev/GameAI/vizdoom_cig2017/wtDist.txt", "w")
+
 deepBP = DeepFeedbackLearning(width * height, nHidden, nOut, nFiltersInput, nFiltersHidden, minT, maxT)
 # init the weights
 # deepBP.getLayer(0).setConvolution(width, height)
-deepBP.initWeights(1., deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM)
+deepBP.initWeights(1., deep_feedback_learning.Neuron.MAX_OUTPUT_POSITIVE)
 print ("Initialised weights")
 for i in range(len(nHidden)):
-    print ("hidden ", i, ": ", nHidden[i])
+    print ("hidden ", i, ": ", nHidden[i], file=outFile)
+#print("learning rate: ", learningRate, file=outFile)
 
 deepBP.setBias(1)
-deepBP.setAlgorithm(DeepFeedbackLearning.ico)
-deepBP.setLearningRate(learningRate)
-#deepBP.setLearningRate(0.)
 deepBP.setMomentum(0.5)
-deepBP.seedRandom(89)
+random.seed(datetime.now())
+deepBP.seedRandom(np.random.randint(low=0, high=999999))
 deepBP.setUseDerivative(0)
-deepBP.setActivationFunction(deep_feedback_learning.Neuron.TANH)
+
+
+#deepBP.setActivationFunction(deep_feedback_learning.Neuron.TANH)
 #deepBP.getLayer(0).setNormaliseWeights(deep_feedback_learning.Layer.WEIGHT_NORM_NEURON)
 #deepBP.getLayer(1).setNormaliseWeights(deep_feedback_learning.Layer.WEIGHT_NORM_LAYER)
-
 
 
 preprocess_input_images = lambda x: x / 255. - 0.5
@@ -144,7 +148,9 @@ def getColourImbalance(img, colour):
     print("avgLeft: ", avgLeft, " avgRight: ", avgRight, "avgTop", avgTop, "avgBottom", avgBottom)
     return 1.
 
-def getMaxColourPos(img, colour):
+def getMaxColourPos(img, colour, step):
+    cv2.imwrite("/home/paul/tmp/Images/Positive/col-" + str(step) + ".jpg", img)
+
     img = np.array(img, dtype='float64')
     width = int(img.shape[1])
     height = int(img.shape[0])
@@ -156,7 +162,6 @@ def getMaxColourPos(img, colour):
     diff = np.absolute(np.add(diff, (-1*img)))
     cv2.imwrite("/home/paul/tmp/Images/Positive/diff-" + ".jpg", diff)
     diff = np.sum(diff, axis=2)
-    cv2.imwrite("/home/paul/tmp/Images/Positive/diffGrey-" + ".jpg", diff)
 
     indx = np.argmin(diff)
     indx0 = int(indx / width)
@@ -181,12 +186,23 @@ def savePosImage(curr_step, centre, x1, y1, x2, y2, _img, myFile, width, height)
     outImage = Image.fromarray(img)
     outImage.save("/home/paul/tmp/Images/Positive/" + str(curr_step) + ".jpg")
 
+
+def saveImage(curr_step, _img):
+    cv2.imwrite("/home/paul/tmp/Images/Positive/DFL-" + str(curr_step) + ".jpg", _img)
+
+
 def saveNegImage(curr_step, img2, myFile, width, height):
     myFile.write("/home/paul/tmp/Images/" + str(curr_step) + ".jpg\n")
     img = Image.fromarray(img2)
     img.save("/home/paul/tmp/Images/Negative/" + str(curr_step) + ".jpg")
 
-def main():
+
+def main(learning_rate_):
+    learningRate = float(learning_rate_)
+    deepBP.setLearningRate(learningRate)
+
+    print("learning rate ", learningRate, file=outFile)
+
     ## Simulator
     simulator_args = {}
     simulator_args['config'] = 'config/config.cfg'
@@ -275,20 +291,20 @@ def main():
     print ("state_meas_shape: ", meas_buffer.shape, " == ", agent_args['state_meas_shape'])
     print ("act_buffer_shape: ", act_buffer.shape)
 
-    try:
-        checkpointFile = open("Models/checkpoint")
-        try:
-            modelName = checkpointFile.read().splitlines()
-            if (deepBP.loadModel(modelName[0])):
-                print("loaded from Model file: ", modelName[0])
-            else:
-                print("FAILED loading from Model file: ", modelName[0])
-        except:
-            print("Checkpoint file contains no valid model")
-        finally:
-            checkpointFile.close
-    except Exception:
-        print("No checkpoint found...")
+#    try:
+#        checkpointFile = open("Models/checkpoint")
+#        try:
+#            modelName = checkpointFile.read().splitlines()
+#            if (deepBP.loadModel(modelName[0])):
+#                print("loaded from Model file: ", modelName[0])
+#            else:
+#                print("FAILED loading from Model file: ", modelName[0])
+#        except:
+#            print("Checkpoint file contains no valid model")
+#        finally:
+ #           checkpointFile.close
+ #   except Exception:
+ #       print("No checkpoint found...")
 
 
     diff_z = 0
@@ -301,10 +317,10 @@ def main():
     rotationGain = 50.
     errorThresh = 10.
     updatePtsFreq = 50
-    reflexGain = 1E-2
+    reflexGain = 1E-3
     flowGain = 0.
     netGain = 20.
-    reflexReduceGain = -0.01
+    reflexReduceGain = -0.05
 
     # create masks for left and right visual fields - note that these only cover the upper half of the image
     # this is to help prevent the tracking getting confused by the floor pattern
@@ -330,11 +346,12 @@ def main():
     netErr = np.zeros(nHidden[0])
     delta = 0.
     shoot = 0
+    wtDist = np.zeros(deepBP.getNumLayers())
 
     reflexOn = False
     iter = 0
     killed = False
-    deepBP.saveModel("Models/hack.txt")
+#    deepBP.saveModel("Models/hack.txt")
 
     while not term:
         if curr_step < historyLen:
@@ -357,56 +374,20 @@ def main():
 
             stateImg = state.screen_buffer
 
-            if(curr_step % updatePtsFreq == 0):
-                p0Left = cv2.goodFeaturesToTrack(img[:,:,0], mask=maskLeft, **feature_params)
-                p0Right = cv2.goodFeaturesToTrack(img[:,:,0], mask=maskRight, **feature_params)
-
-            p1Left, st, err = cv2.calcOpticalFlowPyrLK(img1[:,:,0], img2[:,:,0], p0Left, None, **lk_params)
-            p1Right, st, err = cv2.calcOpticalFlowPyrLK(img1[:,:,0], img2[:,:,0], p0Right, None, **lk_params)
-            flowLeft = (p1Left - p0Left)[:,0,:]
-            flowRight = (p1Right - p0Right)[:,0,:]
-            radialFlowTmpLeft = 0
-            radialFlowTmpRight = 0
-
-            for i in range(0, len(p0Left)):
-                radialFlowTmpLeft += ((p0Left[i,0,:] - imgCentre)).dot(flowLeft[i,:]) / float(len(p0Left))
-            for i in range(0, len(p0Right)):
-                radialFlowTmpRight += ((p0Right[i,0,:] - imgCentre)).dot(flowRight[i,:]) / float(len(p0Right))
-
-            rotation = act_buffer[(curr_step - 1) % historyLen][6]
-            forward = act_buffer[(curr_step - 1) % historyLen][3]
-            # keep separate radial errors for left and right fields
-            radialFlowLeft = radialFlowLeft + radialFlowInertia * (radialFlowTmpLeft - radialFlowLeft)
-            radialFlowRight = radialFlowRight + radialFlowInertia * (radialFlowTmpRight - radialFlowRight)
-            expectFlowLeft = radialGain * forward + (rotationGain * rotation if rotation < 0. else 0.)
-            expectFlowRight = radialGain * forward - (rotationGain * rotation if rotation > 0. else 0.)
-
-            flowErrorLeft = forward * (expectFlowLeft - radialFlowLeft) / (1. + rotationGain * np.abs(rotation))
-            flowErrorRight = forward * (expectFlowRight - radialFlowRight) / (1. + rotationGain * np.abs(rotation))
-            flowErrorLeft = flowErrorLeft if flowErrorLeft > 0. else 0.
-            flowErrorRight = flowErrorRight if flowErrorRight > 0. else 0.
             icoSteer = 0.
 
             if curr_step > 100:
                 health = meas[1]
-#                if curr_step == 2000:
-#                    g = open("/home/paul/Dev/GameAI/vizdoom_cig2017/KD.txt", "a")
-#                    g.write("-1\n")
-#                    g.close()
-
-#                if curr_step < 2000:
-#                    learningRate = 0.
-#                else:
-#                    learningRate = 1e-3
 
                 if (health<0.1):
                     reflexOn = False
                     iter = 0
 
-
                 if (simulator._game.is_player_dead()) and killed == False:
                     g = open("/home/paul/Dev/GameAI/vizdoom_cig2017/KD.txt", "a")
-                    g.write("0\n")
+                    s = "0 " + str(curr_step) + " " + str(datetime.now().timestamp()) + "\n"
+
+                    g.write(s)
                     g.close()
                     killed = True
                     print("KILLED")
@@ -416,10 +397,10 @@ def main():
                 # Don't run any networks when the player is dead!
                 if (health < 101. and health > 0.):
 
-                    icoInSteer = flowGain * ((flowErrorRight - errorThresh) if (flowErrorRight - errorThresh) > 0. else 0. -
-                    flowGain * (flowErrorLeft - errorThresh) if (flowErrorLeft - errorThresh) > 0. else 0. )
+                    icoInSteer = 0.
 
-                    centre, bottomLeft, topRight, colourStrength = getMaxColourPos(stateImg, [255, 0, 0])
+                    saveImage(curr_step, stateImg)
+                    centre, bottomLeft, topRight, colourStrength = getMaxColourPos(stateImg, [255, 0, 0], curr_step)
                     colourSteer = imgCentre[0]
 
                     if(len(bottomLeft)>0 and len(topRight)>0 and ((topRight[0] - bottomLeft[0]) < width/3) and ((topRight[1] - bottomLeft[1]) < height/2)):
@@ -452,20 +433,26 @@ def main():
                     target_buff[...] = delta + netOut
                     meas_buff[0,:] = meas
 
-                    if(deepBP.getAlgorithm() == DeepFeedbackLearning.backprop):
-                        netErr = netErr[0:1]
 
                     deepBP.setLearningRate(0.)
-                    deepBP.doStep(np.ndarray.flatten(input_buff), netErr)
+                    deepBP.doStep(input_buff, netErr)
                     netOut = deepBP.getOutput(0) + 0.3*deepBP.getOutput(1) + 0.1*deepBP.getOutput(2)
-                    netErr += reflexReduceGain * netGain * netOut
+                    netOut1 = deepBP.getOutput(3) + 0.3*deepBP.getOutput(4) + 0.1*deepBP.getOutput(5)
+
+                    netErr += reflexReduceGain * netGain * (netOut - netOut1)
 
                     deepBP.setLearningRate(learningRate)
-                    deepBP.doStep(np.ndarray.flatten(input_buff), netErr)
+                    deepBP.doStep(input_buff, netErr)
                     netOut = deepBP.getOutput(0) + 0.3*deepBP.getOutput(1) + 0.1*deepBP.getOutput(2)
+                    netOut1 = deepBP.getOutput(3) + 0.3*deepBP.getOutput(4) + 0.1*deepBP.getOutput(5)
 
 #                    print("%s" % (" SHOOT " if shoot == 1 else "       "), deltaDiff, delta, netOut)
-                    print (curr_step, delta, netGain*netOut)
+
+                    for i in range(deepBP.getNumLayers()):
+                        wtDist[i] = deepBP.getLayer(i).getWeightDistanceFromInitialWeights()
+
+                    print(curr_step, delta, netErr[0], netOut-netOut1, health, file=outFile)
+                    print(' '.join(map(str, wtDist)), file=wtdistFile)
 
                     diff_theta = 0.6 * max(min((icoInSteer), 5.), -5.)
 
@@ -480,7 +467,7 @@ def main():
                     curr_act[3] = curr_act[3] + diff_z
                     curr_act[4] = 0
                     curr_act[5] = 0.
-                    curr_act[6] = diff_theta + netGain*netOut
+                    curr_act[6] = diff_theta + netGain*(netOut - netOut1)
 
                     iter += 1
 
@@ -488,7 +475,7 @@ def main():
 
                 if not os.path.exists("Models"):
                     os.makedirs("Models")
-                deepBP.saveModel("Models/BP-" + str(curr_step) + ".txt")
+#                deepBP.saveModel("Models/BP-" + str(curr_step) + ".txt")
 
                 file = open("Models/checkpoint", 'w')
                 file.write("Models/BP-" + str(curr_step) + ".txt")
@@ -506,6 +493,12 @@ def main():
 
 
     simulator.close_game()
+    outFile.close()
+    wtdistFile.close()
 
 if __name__ == '__main__':
-    main()
+    if(len(sys.argv) == 2):
+        print("learning rate: ", str(sys.argv[1]))
+        main(sys.argv[1])
+    else:
+        print("usage: run_agentDFL learning_rate")
