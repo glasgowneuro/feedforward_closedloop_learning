@@ -58,7 +58,9 @@ add_library(deep_feedback_learning_static
   ${LIBSRC}
   )
 
-target_link_libraries(deep_feedback_learning_static pthread)
+find_package(Threads)
+
+target_link_libraries(deep_feedback_learning_static ${CMAKE_THREAD_LIBS_INIT})
 
 target_include_directories(deep_feedback_learning_static PRIVATE dfl)
 
