@@ -21,7 +21,7 @@ dfl_module = Extension('_deep_feedback_learning',
 
 						   
 setup (name = 'deep_feedback_learning',
-       version = '1.0.2',
+       version = '1.0.3',
        author      = "Bernd Porr",
        author_email = "bernd@glasgowneuro.tech",
        url = "https://github.com/glasgowneuro/deep_feedback_learning",
