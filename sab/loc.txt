@@ -28,8 +28,14 @@ Comment:
 Nevertheless, whereas I can see inspiration from backprop learning algorithm, I do not really see where the deep approach is important here. In both case you have only two hidden and relatively small layers.
 
 Reply:
-We agree that the network is not very deep at the moment but it works with many more layers. The point is that the deeper the network the more flexibility the network can generate. This refers back to the 1st comment. One can tune how rigid it is by adding more or less layers. See the added paragraph from the previous comment which mentions this explicitly.
+We agree that the network is not very deep at the moment but it works with many more layers. The point is that the deeper the network the more flexibility the network can generate. This refers back to the 1st comment. One can tune how rigid it is by adding more or less layers. See the added paragraph from the previous comment which mentions this explicitly and we've also made this clear at the very start of the section "Deep feedback learning":
 
+---------------------------------
+\section{Deep feedback learning}
+We define a network with an input layer, arbitrary hidden layers and an output
+layer which can all have different numbers of neurons (see
+Fig~\ref{netw_together}A). In contrast to traditional
+--------------------------------
 
 
 Reviewer 2
@@ -56,23 +62,28 @@ Very good point and also moved the network setup from the caption to the main te
 
 -------------------------------------------------------
 In order to demonstrate DFL we need a simple closed loop scenario
-which can be improved with the help of an adaptive network.
+which can be improved with the help of DFL.
 Fig.~\ref{linefollower_robot_playground} shows a simple line following
-robot Fig.~\ref{linefollower_robot_playground}A which has two wheels
-whose speed is controlled by the feedback control and DFL. The robot
-has the task of following the line depicted in
+robot (Fig.~\ref{linefollower_robot_playground}A) which has two wheels
+whose speed is controlled by the fixed feedback control and DFL. The
+robot has the task of following the line depicted in
 Fig.~\ref{linefollower_robot_playground}B to the end, where it
 reverses and drives back, and so on. The robot is simulated with an
-updated version of ENKI for QT5 (https://github.com/berndporr/enki)
-where the line follower is using just the ground sensors of the robot
-to create the error signal ($g_l$, $g_r$) and the predictive signals
-($p_m$) for DFL. Each of the 30 predictive signals $p_m$ from the two
-rows of ground sensors is split into 10 2nd-order lowpass filters with
-impulse responses lasting from $2$ timesteps to $30$ timesteps, and
-then all feed into the DFL network as predictive inputs $v_j$, giving
-300 inputs in total. There were 2 hidden layers with 9 and 6 neurons;
-6 output neurons. All layers were fully connected. The learning rate
-was 0.0001. 
+updated version of ENKI for QT5 (https://github.com/berndporr/enki).
+The line follower is using just the ground sensors of the robot to
+create the error signal:
+\begin{equation}
+\mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2}) \label{line_error}
+\end{equation}
+which directly creates a steering reaction from the fixed
+feedback loop by controlling the speed of the wheels.
+Each of the 30 predictive signals $p_m$ from the two rows of ground
+sensors is split into ten 2nd-order lowpass filters with impulse
+responses lasting from two timesteps to $30$ timesteps, and then all
+feed into the DFL network as predictive inputs $v_j$, giving 300
+inputs in total. There were 2 hidden layers with nine and six neurons;
+six output neurons. All layers were fully connected. The learning rate
+was 0.0001.
 -------------------------------------------------------
 
 
