@@ -58,7 +58,9 @@ Very good point and also moved the network setup from the caption to the main te
 In order to demonstrate DFL we need a simple closed loop scenario
 which can be improved with the help of an adaptive network.
 Fig.~\ref{linefollower_robot_playground} shows a simple line following
-robot which has the task of following the line depicted in
+robot Fig.~\ref{linefollower_robot_playground}A which has two wheels
+whose speed is controlled by the feedback control and DFL. The robot
+has the task of following the line depicted in
 Fig.~\ref{linefollower_robot_playground}B to the end, where it
 reverses and drives back, and so on. The robot is simulated with an
 updated version of ENKI for QT5 (https://github.com/berndporr/enki)
@@ -68,8 +70,9 @@ to create the error signal ($g_l$, $g_r$) and the predictive signals
 rows of ground sensors is split into 10 2nd-order lowpass filters with
 impulse responses lasting from $2$ timesteps to $30$ timesteps, and
 then all feed into the DFL network as predictive inputs $v_j$, giving
-300 inputs in total.  The network consists of an input layer, two
-hidden layers and an output layer which are all fully connected.
+300 inputs in total. There were 2 hidden layers with 9 and 6 neurons;
+6 output neurons. All layers were fully connected. The learning rate
+was 0.0001. 
 -------------------------------------------------------
 
 
@@ -139,12 +142,24 @@ Comment:
 In general, I would say that the figure captions are all too long, and contain details that belong in the body text, rather than in the captions, e.g. parameters for the configuration of the networks in each experiment and the smoothing operation on KD curves.  I would prefer to see the figure captions kept concise.
 
 Reply:
-ppppppppppppp Paul
+We have moved the parameters to the main text.
 
 
+Comment:
 All sub-figures in figure 4 are missing axis labels, and some in fig 6.  The order in which the figures are presented (e.g. 6F&G) and discussed are also inconsistent.
+
+Reply:
+We have added axis labels and fixed the order of the sub-figures. pppppp Paul.
+
+
 
 Grammar:  This paper is generally very well written, with just a couple of minor issues that can be resolved with a final proof read.  A couple of specific example that I noted:
 Section 2, paragraph 1: "input of organism" should probably be "input of the organism"
 Figure 5A caption, quote mark wrong way around.
 Just below Fig 6, "do statistics" should be "perform statistical analysis"
+
+Comment: Thanks! We have fixed these issues.
+
+
+To both reviewers:
+Thanks for the very detailed and constructive feedback.
