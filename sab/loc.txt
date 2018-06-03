@@ -139,7 +139,7 @@ The network has been initialised with random weights. Otherwise it cannot learn.
 
 --------
 As before, we see that the controller outputs steadily increase over
-time (Fig.~\ref{shooter_results}B). We initialise weights in a uniform distribution $[-wt_{max}, wt_{max}]$, and the network produces significant outputs even at the beginning of each learning trial. 
+time (Fig.~\ref{shooter_results}B). We initialise weights in a uniform distribution, and find that the network produces significant outputs even at the beginning of each learning trial. 
 --------
 
 Comment:
