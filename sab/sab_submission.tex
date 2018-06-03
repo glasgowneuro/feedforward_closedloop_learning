@@ -98,7 +98,7 @@ one. We demonstrate this with two scenarios: a driving task and a 1st-person sho
   \centering
   \includegraphics[width=0.75\columnwidth]{closed_loop}
   \caption{A closed loop system with a setpoint $SP$, transfer function $H$ and the
-    environment $P_0$ which needs to work against unpredictable disturbances $D$.
+    environment $P_0$ and $P_1$ which needs to work against unpredictable disturbances $D$.
     \label{closed_loop}}
 \end{figure}
 
@@ -243,15 +243,15 @@ create the error signal:
 \begin{equation}
 \mathrm{error} = (g_{l_1}+2 g_{l_2})-(g_{r_1}+2 g_{r_2}) \label{line_error}
 \end{equation}
-which directly creates a steering reaction from the fixed
-feedback loop by controlling the speed of the wheels.
-Each of the 30 predictive signals $p_m$ from the two rows of ground
-sensors is split into ten 2nd-order lowpass filters with impulse
-responses lasting from two timesteps to $30$ timesteps, and then all
-feed into the DFL network as predictive inputs $v_j$, giving 300
-inputs in total. There were 2 hidden layers with nine and six neurons;
-six output neurons. All layers were fully connected. The learning rate
-was 0.0001.
+which directly creates a steering reaction from the fixed feedback
+loop by controlling the speed of the wheels.  Each of the 30
+predictive signals $p_m$ from the two rows of ground sensors is split
+into ten 2nd-order lowpass filters with impulse responses lasting from
+two timesteps to $30$ timesteps, and then all feed into the DFL
+network as predictive inputs $v_j$, giving 300 inputs in total. There
+were two hidden layers with nine and six neurons; six output
+neurons. All layers were fully connected. Learning was always on and
+the learning rate was 0.0001.
 
 The output layer of our deep feedback learner consists of six neurons
 with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
@@ -315,8 +315,7 @@ leaving only small components remaining. E) is the final weight matrix
 of the 1st layer after learning, which correlates the error with the
 two rows of predictive ground sensors $v_j$. F) is the weight matrix
 of the hidden layer and G) of the output layer. H) shows the Euclidean
-distance of the different layers from their starting point. Learning
-is always on and the learning rate is 0.0001 for this run.
+distance of the different layers from their starting point.
 
 Overall, Fig~\ref{line_results} shows that the network learns to use
 the predictive signals from the sensors in front of the robot to
@@ -340,7 +339,7 @@ helping the robot predict bends better. These feed then into the
 hidden layer Fig.~\ref{line_results}F
 and from there into the output layer Fig.~\ref{line_results}G.
 
-The overall weight development per layer over the time is shown in
+The overall weight development per layer over time is shown in
 Fig.~\ref{line_results}H. The weights grow at a slower and slower
 pace but still continue because the robot is not able to completely
 avoid its reflex, and also probably because the system is non-linear.

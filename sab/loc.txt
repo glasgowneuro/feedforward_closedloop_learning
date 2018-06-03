@@ -20,7 +20,8 @@ the \textsl{input} after it has traversed through the environment
 which impacts in two ways: learning does not rely on a close
 relationship between inverse and direct model while at the same time
 it will develop far less rigid or autonomous solutions which are
-more compatible with a flexible agent than an engineering system. In other words the more hidden layers we have the
+more compatible with a flexible agent than an engineering system.
+In other words the more hidden layers we have the
 more behavioural flexibility the agent will show.
 ---------------
 
@@ -81,7 +82,7 @@ Each of the 30 predictive signals $p_m$ from the two rows of ground
 sensors is split into ten 2nd-order lowpass filters with impulse
 responses lasting from two timesteps to $30$ timesteps, and then all
 feed into the DFL network as predictive inputs $v_j$, giving 300
-inputs in total. There were 2 hidden layers with nine and six neurons;
+inputs in total. There were two hidden layers with nine and six neurons;
 six output neurons. All layers were fully connected. The learning rate
 was 0.0001.
 -------------------------------------------------------
@@ -113,10 +114,10 @@ Reply:
 there is an advantage of using more units because the network is non-linear so that the network can "decide" to learn to have decision units. This is quite similar to deep learning where often weights become very high and only limited by the v^2 term in the learning rule. We haven't delved into this more deeply because of space constraints. However we write:
 
 ----------------
-The output layer of our deep feedback learner consists of 6 neurons
+The output layer of our deep feedback learner consists of six neurons
 with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
-decision-making units where 3 of them determine the change of speed of
-the right wheel, and 3 the left wheel.
+decision-making units where three of them determine the change of speed of
+the right wheel, and three the left wheel.
 ----------------
 
 Comment:
@@ -150,8 +151,7 @@ Reply:
 This are simply plots of KD ratio over time, for 4 example runs. We clarify:
 
 -------------------
-Example KD learning curves for 4 different runs - the time series of kills/deaths is filtered with a
-2nd order lowpass filter to get a moving average, plotted over time.
+Example KD learning curves for 4 different runs - the time series of kills/deaths is filtered with a 2nd order lowpass filter to get a moving average, plotted over time.
 -------------------
 
 It is true that the best performance is still considerably below that of the bots from Intel or Facebook - this is expected though, as our bot cannot translate, and only rotates like a fixed turret. This leads to a relatively high number of steps where the bot fails to face the enemy at all, whereas a bot that moves around the environment will naturally make more turns so as to avoid collisions. We write:
