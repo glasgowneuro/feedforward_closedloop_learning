@@ -138,15 +138,27 @@ Reply:
 The network has been initialised with random weights. Otherwise it cannot learn. We now write:
 
 --------
-pppppppppppp Paul
+As before, we see that the controller outputs steadily increase over
+time (Fig.~\ref{shooter_results}B). We initialise weights in a uniform distribution $[-wt_{max}, wt_{max}]$, and the network produces significant outputs even at the beginning of each learning trial. 
 --------
 
 Comment:
 Fig 6D, what are the different lines here? This is not really explained anywhere, nor are the lines very easy to distinguish.  Also if I understand this figure correctly, at best the system is being killed 2.5 times more than it is killing the enemy, which seems rather low performance.
 
 Reply:
-ppppppppppppp Paul
 
+This are simply plots of KD ratio over time, for 4 example runs. We clarify:
+
+-------------------
+Example KD learning curves for 4 different runs - the time series of kills/deaths is filtered with a
+2nd order lowpass filter to get a moving average, plotted over time.
+-------------------
+
+It is true that the best performance is still considerably below that of the bots from Intel or Facebook - this is expected though, as our bot cannot translate, and only rotates like a fixed turret. This leads to a relatively high number of steps where the bot fails to face the enemy at all, whereas a bot that moves around the environment will naturally make more turns so as to avoid collisions. We write:
+
+---------------------------
+The bot's restricted abilities lead to a relatively low KD ratio of 0.4, mainly caused by a high number of steps where it does not see the enemy. 
+---------------------------
 
 
 Comment:
@@ -160,7 +172,7 @@ Comment:
 All sub-figures in figure 4 are missing axis labels, and some in fig 6.  The order in which the figures are presented (e.g. 6F&G) and discussed are also inconsistent.
 
 Reply:
-We have added axis labels and fixed the order of the sub-figures. pppppp Paul.
+We have added axis labels and fixed the order of the sub-figures. 
 
 
 

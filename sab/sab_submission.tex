@@ -327,8 +327,7 @@ The squared average error in Fig.~\ref{line_results}C slowly decays
 leaving only small spikes remaining. These spikes are mainly caused by 
 the robot failing to learn one of the steeper bends (see
 coordinate 120x50 in D); this causes a spike in the error and
-then the robot overcompensates, causing learning in the
-other direction and so on.
+overcompensation, causing learning in the other direction and so on.
 
 The weights of the various layers are shown in
 Fig.~\ref{line_results}E-G.  The weights in the input layer
@@ -361,7 +360,7 @@ required.
     \label{line_stats}}
 \end{figure}
 
-We have run statistics of the line follower where we varied the
+We have gathered statistics of the line follower where we varied the
 learning rate over 4 orders of magnitudes, and evaluated how long it
 takes to stay below a certain error threshold for a specified time.
 For every learning rate two runs have been conducted with different
@@ -409,7 +408,7 @@ blue (e.g. the ‘flashes’ that happen at respawns). The reflex also
 fails at times when the enemy is too distant or too close to the
 camera. For learning, we only supply the network with the greyscale
 image (Fig.~\ref{shooter_results}G) flattened into a vector of $19200$
-inputs, so it is forced to discover purely spatial cues. The reflex is
+inputs, so it is forced to discover purely spatial cues. The network has 2 fully-connected hidden layers of 5 units. The reflex is
 computed relative to the image centre, so a negative value implies the
 enemy is on the left. Shooting behaviour is entirely hardwired: if an
 enemy is detected within a threshold of the image centre, the bot
@@ -421,49 +420,41 @@ by 3 neurons acting at different sensitivities:
 \Delta \theta = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
 where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$
-is the change in orientation.
+is the change in orientation. $g_{err}$ is $0.01 g_{net}$, meaning that the maximum reflex ouput can only correct the error at a rate of $1\%$ of the maximum network output: the reflex is slow. 
 
 
 \begin{figure}[!ht]
 	\centering \includegraphics[width=\columnwidth]{FPSFig7}
-	\caption{A) KD at end of trial. B) Time to success vs learning
-          rate - success is if the smoothed KD ratio reaches a
-          threshold of 0.15. C) $\Delta \theta$, the rate of change in
+	\caption{A) KD at end of trial. B) $\Delta \theta$, the rate of change in
           bot's orientation against simulation step number, purely
-          from the DFL output, in arbitrary units. D) KD learning
-          curves - the time series of kills/deaths is filtered with a
-          2nd order lowpass filter to get a moving average, plotted
-          against kill event number. E) Euclidean distance of weights
+          from the DFL output, in arbitrary units. C) Example KD learning
+          curves for 4 different runs - the time series of kills/deaths is filtered with a
+          2nd order lowpass filter to get a moving average, plotted over time. D) Euclidean distance of weights
           for each layer from their initial point, against learning
-          step. F) Example input weights. G) Example input frame.
-          Parameters: 19200 inputs from grayscale image; 2
-          hidden layers of 5 units each; no filterbank. Inputs were
-          normalised to zero-mean, unit variance. Learning rate in D
-          and E was 0.0001.
+          step. E) Time to success vs learning
+          rate - success is if the smoothed KD ratio reaches a
+          threshold of 0.15. F) Example input frame. G) Example input weights. 
 		\label{shooter_results}}
 \end{figure}
 
 \subsection{Results}
 As before, we see that the controller outputs steadily increase over
-time (Fig.~\ref{shooter_results}C). With a high value of $g_{net}$,
+time (Fig.~\ref{shooter_results}B). We initialise weights in a uniform distribution, and find that network produces significant outputs even at the beginning of each learning trial. With a high value of $g_{net}$,
 the bot can make very rapid aiming movements. This has the advantage
 that the error can in principle be reduced very quickly; it also
 causes the bot to sometimes make large rotations even when the enemy
 is out of the field of view, which helps with exploration. On the
 other hand, it can cause the aiming to overshoot and oscillate around
-the target.  The weights grow in a similar pattern to before, although
-their progression is less smooth, due to the more discontinuous nature
-of the error signal (Fig.~\ref{shooter_results}E). The different
-scales are likely due to the inputs having more dimensions.
+the target. The pattern of weights growth is less smooth than the Line Follower, due to the discontinuous nature
+of the error signal (Fig.~\ref{shooter_results}D). The different
+scales are likely due to the large input size.
 
 Unlike the Line Follower, it is not possible here to drive the error
-to zero, as there are discontinuities when either bot respawns, and so
-the enemy will often abruptly appear somewhere in the image. One
-performance measure is simply how often our bot is killed vs how often
+to zero, as the enemy will often abruptly appear somewhere in the image, causing an unpreventable error. One performance measure is simply how often our bot is killed vs how often
 it kills the enemy. In gaming, this is called the kill/death ratio,
-and we plot some smoothed KD curves in Fig.~\ref{shooter_results}D. To
+and we plot smoothed KD learning curves for 4 different runs in Fig.~\ref{shooter_results}C. To
 perform statistical analysis, we measure the time taken to reach a
-threshold KD of 0.15 - Fig.~\ref{shooter_results}B shows this as a
+threshold KD of 0.15 - Fig.~\ref{shooter_results}E shows this as a
 function of learning rate. As before, there is a stable region in the
 middle where learning is consistently successful. For high learning
 rates learning is virtually instantaneous and approaches one shot
@@ -471,11 +462,12 @@ learning.  We also plot the smoothed KD for the final step of each
 trial(Fig.~\ref{shooter_results}A); although a noisy measure, the same
 pattern emerges. Over time, the input weights blur the background,
 leaving dark and light blobs to detect the enemy and generate an
-aiming response (Fig.~\ref{shooter_results}F).
+aiming response (Fig.~\ref{shooter_results}G). The learning rate in D, E was 0.0001.
 
 Note that this is only one skill of a functioning FPS bot, as a real bot would
 require additional skills such as seeking rewards (e.g. finding health packs) and
-navigating the environment (e.g. avoiding collisions). Future research
+navigating the environment (e.g. avoiding collisions). The bot's restricted abilities lead to a relatively low KD ratio of 0.4, mainly caused by a high number of steps where it does not see the enemy. 
+Future research
 will investigate whether the DFL approach can be used to acquire such
 skills, using the same fundamental approach of learning to anticipate
 a prewired behaviour.
