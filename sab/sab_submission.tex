@@ -440,10 +440,7 @@ is the change in orientation. $g_{err}$ is $0.01 g_{net}$, meaning that the maxi
 \subsection{Results}
 As before, we see that the controller outputs steadily increase over
 time (Fig.~\ref{shooter_results}B). We initialise weights in a uniform distribution, and find that network produces significant outputs even at the beginning of each learning trial. With a high value of $g_{net}$,
-the bot can make very rapid aiming movements. This has the advantage
-that the error can in principle be reduced very quickly; it also
-causes the bot to sometimes make large rotations even when the enemy
-is out of the field of view, which helps with exploration. On the
+the bot can make very rapid aiming movements, reducing the error quickly and also generating exploratory movements even when the enemy is visually absent. On the
 other hand, it can cause the aiming to overshoot and oscillate around
 the target. The pattern of weights growth is less smooth than the Line Follower, due to the discontinuous nature
 of the error signal (Fig.~\ref{shooter_results}D). The different
