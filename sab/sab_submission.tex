@@ -17,7 +17,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \title{Feedforward Closed Loop Learning}
 
-\author{Bernd Porr\affilnum{1} and Paul Miller\affilnum{2}}
+\author{Bernd Porr\affilnum{1} and Paul Miller\affilnum{1}}
 
 \affiliation{\affilnum{1}Glasgow Neuro LTD, UK}
 
@@ -158,13 +158,17 @@ appropriate action to solve this disturbance, e.g. correcting a car's
 steering, targeting food or aiming towards and shooting an enemy. In
 formal terms we have a setpoint $SP$ which compares the input of an
 agent to a desired input. If the input deviates from the setpoint an
-action is generated with the transfer function $H_0$. This action then
-eliminates the disturbance $D$ and arrives via the environmental
-transfer function $P_0$ at the input again; thus, the loop is
-closed. The reason why we have chosen a feedback loop because it
-generates a simple but instructive \textsl{error signal}. The error
-signal is non-zero if a disturbance has happened, and this can be used
-to tune our deep feedback learning network.
+action is generated with the transfer function $H_0$ which essentially
+turns the sensor input into an action. This action then eliminates the
+disturbance $D$ and arrives via the environmental transfer function
+$P_0$ at the input again; thus, the loop is closed. Such a system is
+called a reactive system or ``reflex'' since it reacts after a
+disturbance has occurred. Such a reaction is rigid and designed in a
+way that it can deal with the disturbances encountered.  The reason
+why we have chosen a feedback loop because it generates a simple but
+instructive \textsl{error signal}. The error signal is non-zero if a
+disturbance has happened, and this can be used to tune our deep
+feedback learning network.
 
 In order to tune our network it receives additional inputs which are
 able to predict the disturbance, and thus prevent the trigger of the
@@ -241,15 +245,19 @@ approaches saturation, as in backprop. The norm guarantees that
 the error propagates through all layers and does not vanish from
 layer to layer due to small weights.
 
-A simplified data flow diagram of the learning performed in each layer
-is shown in Fig~\ref{netw_together}B, where we see the two processing
+In order to have an intuition about this novel learning approach we
+have drawn one of the learning units establishing a layer which is
+shown in Fig~\ref{netw_together}B, where we see the two processing
 streams: both the activity $v_j$ and error signal $e_j$ are weighted
-by $w_{jk}$, and summed separately in the next layer. Remember that
-for the 1st hidden layer, the error is just the error signal
-directly injected from the feedback loop. The diagram omits the error
-normalisation, scaling and activation derivative in order to focus on
-the main point that learning happens between the error signal and the
-presynaptic activity.
+by $w_{jk}$, and summed separately in the next layer with index $k$.
+Remember that for the 1st hidden layer, the error is just the error
+signal directly injected from the feedback loop which then equates to
+$e_j$. Then the next layer receives the weighted errors $e_k$ and
+activations $v_k$. The diagram omits the error normalisation, scaling
+and activation derivative in order to focus on the main point that
+learning happens between the error signal and the presynaptic activity
+and that both error signal and activation are transmitted in a
+weighted fashion.
 
 Learning is therefore performed in three steps: first the activity is
 propagated through the network, then the error signal is propagated
@@ -272,7 +280,7 @@ input signals to the deep network are signals with index i so that we
 have $V_i, V_j$ and $V_k$. The error signal, $X_0$ (see
 Fig.~\ref{closed_loop}), can be expressed as
 \begin{equation}
-  X_0 = \frac{P_0 \left[ V_k V_J + D z^{-1} \right]}{1-P_0 \rho H_0}
+  X_0 = \frac{P_0 \left[ V_k V_J + D z^{-1} \right]}{1-P_0 H_0}
 \end{equation}
 where $V_k$ and $V_j$ are transfer functions of the layers $k$ and $j$
 respectively. We know that a weight change $\Delta w$ calculated by
@@ -281,6 +289,9 @@ loop system \cite{Porr2006ICO}. This can be expressed as:
 \begin{equation}
   \Delta w_{ij} = X_0(z) V_i(-z)
 \end{equation}
+which is the correlation between the error signal $X_0$ and the
+signal $V_i$ in the sampled z-space.
+
 We now need to show that if we have deeper weights such as $w_{jk}$
 that these will change in the same way as those of the input layer. In
 order to establish this, we look at small weight changes in $w_{jk}$
@@ -293,7 +304,7 @@ and relate them to the input weights $w_{ij}$.
 \end{equation}    
 where
 \begin{equation}
-\frac{\partial X_0}{\partial V_j} = \frac{P_0 V_k}{1-P_0 \rho H_0}
+\frac{\partial X_0}{\partial V_j} = \frac{P_0 V_k}{1-P_0 H_0}
 \end{equation}
 If we assume for now that the layers consist only of linear neurons:
 \begin{eqnarray}
@@ -303,18 +314,18 @@ If we assume for now that the layers consist only of linear neurons:
 then this yields:
 \begin{eqnarray}
     \frac{\partial X_0}{\partial w_{jk}} &=&
-    \frac{P_0 V_k}{1-P_0 \rho H_0}
+    \frac{P_0 V_k}{1-P_0 H_0}
     \frac{\partial V_j}{\partial V_k}
     V_j \\
                                         &=&
-    \frac{P_0 V_k}{1-P_0 \rho H_0}
+    \frac{P_0 V_k}{1-P_0 H_0}
     \frac{\partial V_j}{\partial V_k}
     \sum_i w_{ij} V_i
 \end{eqnarray}    
   We can now multiply this equation with $V_i(-z)=V_j^-$ to indicate a correlation, yielding:
 \begin{equation}
     \frac{\partial X_0}{\partial w_{jk}} V_i^- =   
-    \frac{P_0 V_k}{1-P_0 \rho H_0}
+    \frac{P_0 V_k}{1-P_0 H_0}
     \frac{\partial V_j}{\partial V_k}
     \underbrace{\left( \sum_{i^\prime} w_{i^\prime j} V_{i^\prime} \right)}_\textrm{\tiny deep layer error signal} V_i^-
 \end{equation}
@@ -537,8 +548,13 @@ different sensitivities:
 \Delta \theta = g_{err}\, \mathrm{error} + g_{net} \left( 10 v_0 + 3 v_1 + v_2 \right)
 \end{equation}
 where $v_0, \ldots, v_2$ are the network outputs, and $\Delta \theta$
-is the change in orientation.
-
+is the change in orientation. The three output neurons have $tanh$ activation; a
+negative output means ‘rotate left’, a positive ‘rotate right’. The 3
+neurons operate with different gains, to give finer control. The terms
+$g_{net}$ and $g_{err}$ are the gains for the reflex, and the learned
+control signal. Momentum was 0.5; weights were initialised in a zero-mean
+uniform distribution, scaled by the number of weights outputting each
+neuron.
 
 \begin{figure*}[!ht]
 	\centering \includegraphics[width=\textwidth]{FPSFig7}
