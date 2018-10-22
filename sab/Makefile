@@ -1,6 +1,5 @@
 all:
-	latex sab_submission
-	bibtex sab_submission
-	latex sab_submission
-	latex sab_submission
-	dvipdf sab_submission
+	latex nips_submission
+	bibtex nips_submission
+	latex nips_submission
+	dvipdf nips_submission
