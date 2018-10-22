@@ -29,63 +29,109 @@ G51~1AJ, UK.}
 \email{bernd@glasgowneuro.co.uk}
 
 \begin{abstract}
-  Recent advances in neurophysiology suggest that a neural network can
-  transmit two separate signals with distinct functions, via
-  cross-frequency coupling. We propose that one signal carries
-  behaviourally relevant activity and the other an error signal
-  controlling plasticity, and this allows error-based learning in such
-  a deep network. We have embedded this network in a closed loop
-  scenario, where an error signal is propagated \textsl{forwards} from
-  its input via its deeper layers to its output, with the goal of
-  minimising the error signal. We demonstrate its performance with a
-  1st person shooter game.
+  The most popular approach of training a neural network is
+  error backpropagation where an error is propagated from the
+  output layer back to its input layer commonly known as ``backprop''.
+  However, autonomous agents define their errors at the
+  \textsl{inputs} by reference to a desired or expected state. This is
+  because they act as a closed loop system and not open loop. This
+  calls for a network where the error is propagated from its input to
+  its output and where the feedback from the environment propagates it
+  back to its input. In this paper we present a novel learning
+  algorithm which performs ``forward-prop'' of the error in parallel
+  to the activation. This approach is in line with both neuroscience,
+  and the philosophy behind closed loop systems. We demonstrate its
+  performance, first in a simple line follower, and then in a first
+  person shooter game.
 \end{abstract}
 
-\keywords{Closed loop, neural network, reinforcement learning}
+\keywords{Closed loop, neural network, error propagation, reinforcement learning}
 
 \maketitle
 
 \section{Introduction}
-There is strong neurophysiological evidence that different brain
-oscillations enable the brain to carry separate information via the
-same synapses and neurons in a forward fashion
-\cite{Canolty2010}. These streams, represented by different frequency
-bands, control plasticity in specific ways, with the higher frequency
-components affecting plasticity \cite{Bliss73}, and the lower ones
-being relevant for behaviour \cite{Luescher2012} while keeping
-plasticity constant. This means that error signals are propagated in a
-forward fashion from the inputs of the network to its outputs,
-altering plasticity while progressing through the network.
+When an agent acts in its environment, its actions in turn will change
+its sensor inputs which in turn will cause new actions -- in short,
+the agent acts in a closed-loop system. In the simplest case this is a
+reactive system where the agent encounters threats or rewards and acts
+accordingly. Both threats and rewards are unpredictable events where
+the agent must respond as quickly as possible. These are often called
+``disturbances'' \cite{Phillips2000} or ``perturbations''
+\cite{Maturana80} because they force the agent to act at an
+unpredictable moment in time. Importantly, these occur at the
+\textsl{input} of the agent and, thus, a closed loop system performs
+``input control'' \cite{Ashby72,Phillips2000} -- in contrast to a
+pattern recognition system which performs ``output control''
+\cite{Phillips2000,Porr2005kyb}.
 
-On a system level, brain decision networks such as the striatum
-are strongly modulated by an error signal in the form of dopaminergic
-innervation \cite{Schultz97}, but their cortical targets receive very
-little dopamine \cite{Groenewegen1993}. This poses a problem of how
-higher level decision-making receives errors whilst also showing more
-flexibility than rigidly aiming for a reward. A single reward
-prediction error cannot account for the large behavioural flexibility
-that higher animals and humans show.
+The above scenario has a major drawback in that the reactions are
+always too late. It would be safer for an agent to learn to predict
+these disturbances from other cues and pre-empt them, thereby
+introducing the concept of adaptive behaviour. At the moment of the
+disturbance it's already too late - the tiger has already attacked, or
+the food has been found by pure coincidence. However, one can then
+look back in time and determine which input signals could have
+predicted this unexpected threat or reward
+\cite{Sutton87,Sutton98,Abbott01,PorrNecoInvco2003}.
 
-Propagating errors from the input to the output is the realm of
-reinforcement learning, in which actions feed back from the
-environment and then are evaluated with the help of sensor
-inputs\cite{Verschure91,Dayan1992,Sutton88,Sutton98,Abbott01,Woergoetter2005}.
-In the simplest case an error signal can be achieved by a reflex
-\cite{Verschure91,PorrNecoInvco2003}, where the agent reacts to
-unexpected changes in their environment. In the language of control
-\cite{Phillips2000} this means that a desired state should be
-maintained as closely as possible. The difference between the desired
-state and the actual state is the error signal of the control loop,
-and can be used not only to trigger a behavioural action but also fed
-into a neural network. We demonstrate this in our novel architecture.
+Adaptive controllers for this kind of learning are either
+correlation-based \cite{Klopf86,PorrNecoISO2003,Verschure91} or state
+space-based \cite{Dayan1992,Sutton98}. The state space-based ones can
+become very powerful by utilising a deep learning network
+\cite{Guo2014}. However, the deep learning architecture requires backprop which
+is an open loop algorithm, and can only be used by embedding the
+network into traditional Q/RL learning
+paradigms \cite{Dayan1992,Guo2014}. On the other hand correlation
+based-methods can be very fast \cite{Porr2006ICO}, but so far it has
+been difficult to use them directly on deep networks. These
+correlation based methods use ``input control'', which means that the
+error signal is fed into the network at its inputs.
 
-In this paper we present a novel deep network algorithm for closed
-loop systems which we call ``Deep Feedback Learning'' (DFL) -- this
-propagates an error signal in a forward fashion through its
-network. The input layer is directly driven by the error signal, but the
-deeper layers receive weighted sums of the errors from the previous
-layers.  We demonstrate this in a 1st-person shooter game using
-Vizdoom.
+For nearly a century Neurophysiology has also supported a forward
+propagation mechanism which has first been proposed theoretically by
+Hebb \cite{Hebb49}, and then confirmed many times: for long term
+potentiation (LTD) to happen, both pre- and post-synaptic neurons need
+to be active \cite{Luescher2012}. There has been a long tradition of
+work showing that unsupervised learning is possible in these networks
+\cite{Linsker88}, in particular in the visual cortex \cite{Miller00}
+in an open loop fashion. However, here we are in the realm of
+reinforcement learning, which is closed loop. One solution is to
+introduce direct feedback to mimic backprop \cite{Lillicrap2016}, but
+this will fail in deeper architectures, and requires additional
+assumptions which are not biologically realistic. However, there is
+emerging evidence that different brain oscillations can carry separate
+information via the same neurons, which allows for transmission of separate
+streams through the same networks in a forward fashion
+\cite{Mizuhara2007,Canolty2010}. Disruption has been linked to
+various mental illnesses \cite{Kim2016,Won2017}. These different
+streams of activity are not just carrying different kind of
+information, but also have different impacts on plasticity, with the
+higher frequency components most likely altering plasticity as shown
+in high frequency stimulations (HFS) \cite{Bliss73}, and the lower
+ones relevant for behaviour or mental processes while keeping
+plasticity constant \cite{Mizuhara2007}.
+
+How could an error be propagated through a multi layered network in a forward
+fashion? Here we take inspiration from how errors are transmitted in
+backprop. In essence the hidden layers receive a \textsl{weighted sum}
+of the errors from the previous layers, which makes intuitive sense:
+the strongest weights contribute the most to the error. Imagine we
+take a similar approach using forward propagation: the error,
+introduced at the input, will have its strongest impact via the
+largest weights. Therefore we propagate the error in a forward fashion
+in the same way as in backprop. Eventually the agent will make an
+action and this will feed back to the input of the agent, which then
+in turn corrects the weights in all layers.
+
+In this paper we present a novel network algorithm for closed
+loop systems which we call ``Feedforward closed loop Learning'' (FCLL). This
+algorithm marries the ideas for correlation based closed loop learning
+with those from deep learning, by turning deep learning from a
+backprop-based algorithm to a forward-prop one. We demonstrate this
+with two scenarios: a driving task and a 1st-person shooter.
+
+
+
 
 \begin{figure}[!ht]
   \centering
@@ -296,12 +342,12 @@ the shooter game.
     version of enki for QT5 (\texttt{https://github.com/glasgowneuro/enki})
     where the line follower is using just the ground sensors of the
     robot to create the error signal ($g_l$, $g_r$) and the predictive signals ($p_m$)
-    for DFL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
+    for FCCL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
     is split into 10 2nd-order lowpass filters with impulse responses
-    lasting from $2$ to $30$ timesteps, and then these all feed into the DFL
+    lasting from $2$ to $30$ timesteps, and then these all feed into the FCCL
     network as predictive inputs $v_j$, giving 300 inputs in total.
     The robot has two wheels whose speed is controlled
-    by the feedback control and DFL.
+    by the feedback control and FCCL.
     B) The line following scenario used for the simulations. The robot
     attempts to drive along the line and is reversed at the end of the
     line and then drives back. If it hits the boundaries of the playground
@@ -315,7 +361,7 @@ the shooter game.
   \caption{Results of the line following task. A) shows the robot at
     the very start of the simulation run from time step 0 to 1000. B)
     the difference between the robot wheel speeds just for the learned
-    actions (i.e. the output of the DFL network): $v_l-v_r$.  C) the
+    actions (i.e. the output of the FCCL network): $v_l-v_r$.  C) the
     error signal.  D) simulation run just before the final 1000 time
     steps where the absolute value of the error has been below 0.001
     for 1000 time steps. E-G) show the weights of the different
@@ -341,7 +387,7 @@ the shooter game.
 
 
 \section{Line follower}
-In order to demonstrate and benchmark DFL we need a simple closed loop scenario
+In order to demonstrate and benchmark FCCL we need a simple closed loop scenario
 which can be improved with the help of an adaptive network.
 Fig.~\ref{linefollower_robot_playground} shows a simple line following
 robot which has the task of following the line depicted in
@@ -355,7 +401,7 @@ of the robot create an error signal:
 this error directly creates a steering reaction from the fixed
 feedback loop by controlling the speed of the wheels.
 
-The DFL learning circuit uses the predictive ground sensors - these
+The FCCL learning circuit uses the predictive ground sensors - these
 are first filtered by a filterbank, which smears them in time and
 creates a temporal overlap with the error signal. These filtered
 signals are then presented to the $v_j$ of the input layer (see
@@ -372,7 +418,7 @@ final formulas for the motor outputs:
   \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
   \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r}
 \end{eqnarray}
-where $v_0, \ldots, v_5$ are the 6 outputs from the DFL network. Note
+where $v_0, \ldots, v_5$ are the 6 outputs from the FCCL network. Note
 that neither inputs nor outputs are organised in a topographically
 meaningful way. The network must discover from the error signals
 which sensor inputs $v_k$ will eventually lead to appropriate steering
@@ -501,7 +547,7 @@ is the change in orientation.
           threshold of 0.15. C) Example input frame. D) Example input weights.
           E) $\Delta \theta$, the rate of change in
           bot's orientation against simulation step number, purely
-          from the learned DFL output, in arbitrary units. F) KD learning
+          from the learned FCCL output, in arbitrary units. F) KD learning
           curves - the time series of kills/deaths is filtered with a
           2nd order lowpass filter to get a moving average, plotted
           against kill event number. G) Euclidean distance of weights
@@ -543,7 +589,7 @@ Note that this is only one skill of a functioning FPS bot, as a real
 bot would require additional skills such as seeking rewards
 (e.g. finding health packs) and navigating the environment
 (e.g. avoiding collisions). Future research will investigate whether
-the DFL approach can be used to acquire such skills, for example,
+the FCCL approach can be used to acquire such skills, for example,
 by utilising the reward prediction error generated by TD learning.
 
 
@@ -567,13 +613,13 @@ fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
 plasticity changes via high frequency potentiation (HFP) while low
 frequency potentials propagate behaviourally-relevant activity
-\cite{Canolty2010}. DFL can provide here a mechanism that allows
+\cite{Canolty2010}. FCCL can provide here a mechanism that allows
 stable behaviourally-relevant learning driven by heterosynaptic
 plasticity and Hebbian learning for the error signal, with the
 stability arising from the fact that it is constantly corrected by the
 error signal.
 
-Looking at a system-wide perspective, one can see DFL as a flexible
+Looking at a system-wide perspective, one can see FCCL as a flexible
 actor which has a high degree of freedom in generating actions, as long as they
 minimise the error. For example in the basal ganglia the striatum is
 seen as an actor receiving an error signal via dopamine, the well known
@@ -593,7 +639,7 @@ back to the cortex, use instead cross frequency coupling
 as described above \cite{Lipski2017}.
 
 Given that the error is propagated from the input to the output, the
-novel aspect here is that the more layers DFL has, the more remote it
+novel aspect here is that the more layers FCCL has, the more remote it
 is from the immediate error feedback. This allows for increased
 flexibility which is then a function of the number of layers, and
 creates an actor which is far less rigid than a standard Q-learner
@@ -631,6 +677,6 @@ biological evidence outlined above.
 
 \bibliographystyle{SageH}
 
-\bibliography{hebb,ours,embodiment,laplace,limbic}
+\bibliography{hebb,ours,embodiment,laplace,limbic,selbstorg}
 
 \end{document}
