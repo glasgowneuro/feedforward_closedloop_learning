@@ -15,7 +15,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \runninghead{Porr and Miller}
 
-\title{Feedforward Closed Loop Learning}
+\title{Forward Propagation Closed Loop Learning}
 
 \author{Bernd Porr\affilnum{1} and Paul Miller\affilnum{1}}
 
@@ -123,12 +123,12 @@ in the same way as in backprop. Eventually the agent will make an
 action and this will feed back to the input of the agent, which then
 in turn corrects the weights in all layers.
 
-In this paper we present a novel network algorithm for closed
-loop systems which we call ``Feedforward closed loop Learning'' (FCLL). This
-algorithm marries the ideas for correlation based closed loop learning
-with those from deep learning, by turning deep learning from a
-backprop-based algorithm to a forward-prop one. We demonstrate this
-with two scenarios: a driving task and a 1st-person shooter.
+In this paper we present a novel network algorithm for closed loop
+systems which we call ``Forward propagation Closed loop Learning''
+(FCL). This algorithm marries the ideas for correlation based closed
+loop learning with those from deep learning, by turning deep learning
+from a backprop-based algorithm to a forward-prop one. We demonstrate
+this with two scenarios: a driving task and a 1st-person shooter.
 
 
 
@@ -353,12 +353,12 @@ the shooter game.
     version of enki for QT5 (\texttt{https://github.com/glasgowneuro/enki})
     where the line follower is using just the ground sensors of the
     robot to create the error signal ($g_l$, $g_r$) and the predictive signals ($p_m$)
-    for FCCL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
+    for FCL. Each of the 30 predictive signals $p_m$ from the two rows of ground sensors
     is split into 10 2nd-order lowpass filters with impulse responses
-    lasting from $2$ to $30$ timesteps, and then these all feed into the FCCL
+    lasting from $2$ to $30$ timesteps, and then these all feed into the FCL
     network as predictive inputs $v_j$, giving 300 inputs in total.
     The robot has two wheels whose speed is controlled
-    by the feedback control and FCCL.
+    by the feedback control and FCL.
     B) The line following scenario used for the simulations. The robot
     attempts to drive along the line and is reversed at the end of the
     line and then drives back. If it hits the boundaries of the playground
@@ -372,7 +372,7 @@ the shooter game.
   \caption{Results of the line following task. A) shows the robot at
     the very start of the simulation run from time step 0 to 1000. B)
     the difference between the robot wheel speeds just for the learned
-    actions (i.e. the output of the FCCL network): $v_l-v_r$.  C) the
+    actions (i.e. the output of the FCL network): $v_l-v_r$.  C) the
     error signal.  D) simulation run just before the final 1000 time
     steps where the absolute value of the error has been below 0.001
     for 1000 time steps. E-G) show the weights of the different
@@ -398,7 +398,7 @@ the shooter game.
 
 
 \section{Line follower}
-In order to demonstrate and benchmark FCCL we need a simple closed loop scenario
+In order to demonstrate and benchmark FCL we need a simple closed loop scenario
 which can be improved with the help of an adaptive network.
 Fig.~\ref{linefollower_robot_playground} shows a simple line following
 robot which has the task of following the line depicted in
@@ -412,7 +412,7 @@ of the robot create an error signal:
 this error directly creates a steering reaction from the fixed
 feedback loop by controlling the speed of the wheels.
 
-The FCCL learning circuit uses the predictive ground sensors - these
+The FCL learning circuit uses the predictive ground sensors - these
 are first filtered by a filterbank, which smears them in time and
 creates a temporal overlap with the error signal. These filtered
 signals are then presented to the $v_j$ of the input layer (see
@@ -429,7 +429,7 @@ final formulas for the motor outputs:
   \mathrm{leftSpeed} &=& s_0 + \underbrace{g\, \mathrm{error} + \left( 50 v_0 + 10 v_1 + 2 v_2 \right)}_{v_l} \\
   \mathrm{rightSpeed} &=& s_0 - \underbrace{g\, \mathrm{error} + \left( 50 v_3 + 10 v_4 + 2 v_5 \right)}_{v_r}
 \end{eqnarray}
-where $v_0, \ldots, v_5$ are the 6 outputs from the FCCL network. Note
+where $v_0, \ldots, v_5$ are the 6 outputs from the FCL network. Note
 that neither inputs nor outputs are organised in a topographically
 meaningful way. The network must discover from the error signals
 which sensor inputs $v_k$ will eventually lead to appropriate steering
@@ -563,7 +563,7 @@ neuron.
           threshold of 0.15. C) Example input frame. D) Example input weights.
           E) $\Delta \theta$, the rate of change in
           bot's orientation against simulation step number, purely
-          from the learned FCCL output, in arbitrary units. F) KD learning
+          from the learned FCL output, in arbitrary units. F) KD learning
           curves - the time series of kills/deaths is filtered with a
           2nd order lowpass filter to get a moving average, plotted
           against kill event number. G) Euclidean distance of weights
@@ -605,7 +605,7 @@ Note that this is only one skill of a functioning FPS bot, as a real
 bot would require additional skills such as seeking rewards
 (e.g. finding health packs) and navigating the environment
 (e.g. avoiding collisions). Future research will investigate whether
-the FCCL approach can be used to acquire such skills, for example,
+the FCL approach can be used to acquire such skills, for example,
 by utilising the reward prediction error generated by TD learning.
 
 
@@ -629,13 +629,13 @@ fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
 plasticity changes via high frequency potentiation (HFP) while low
 frequency potentials propagate behaviourally-relevant activity
-\cite{Canolty2010}. FCCL can provide here a mechanism that allows
+\cite{Canolty2010}. FCL can provide here a mechanism that allows
 stable behaviourally-relevant learning driven by heterosynaptic
 plasticity and Hebbian learning for the error signal, with the
 stability arising from the fact that it is constantly corrected by the
 error signal.
 
-Looking at a system-wide perspective, one can see FCCL as a flexible
+Looking at a system-wide perspective, one can see FCL as a flexible
 actor which has a high degree of freedom in generating actions, as long as they
 minimise the error. For example in the basal ganglia the striatum is
 seen as an actor receiving an error signal via dopamine, the well known
@@ -655,7 +655,7 @@ back to the cortex, use instead cross frequency coupling
 as described above \cite{Lipski2017}.
 
 Given that the error is propagated from the input to the output, the
-novel aspect here is that the more layers FCCL has, the more remote it
+novel aspect here is that the more layers FCL has, the more remote it
 is from the immediate error feedback. This allows for increased
 flexibility which is then a function of the number of layers, and
 creates an actor which is far less rigid than a standard Q-learner
