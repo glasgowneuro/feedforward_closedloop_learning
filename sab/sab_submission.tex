@@ -29,20 +29,18 @@ G51~1AJ, UK.}
 \email{bernd@glasgowneuro.co.uk}
 
 \begin{abstract}
-  The most popular approach of training a neural network is
-  error backpropagation where an error is propagated from the
-  output layer back to its input layer commonly known as ``backprop''.
-  However, autonomous agents define their errors at the
-  \textsl{inputs} by reference to a desired or expected state. This is
-  because they act as a closed loop system and not open loop. This
-  calls for a network where the error is propagated from its input to
-  its output and where the feedback from the environment propagates it
-  back to its input. In this paper we present a novel learning
-  algorithm which performs ``forward-prop'' of the error in parallel
-  to the activation. This approach is in line with both neuroscience,
-  and the philosophy behind closed loop systems. We demonstrate its
-  performance, first in a simple line follower, and then in a first
-  person shooter game.
+  The most popular approach of training a neural network is error
+  backpropagation where an error is propagated from the output layer
+  back to its input layer commonly known as ``backprop''.  However,
+  autonomous agents define their errors at the \textsl{inputs} by
+  reference to a desired or expected state. This is because they act
+  as a closed loop system and not open loop. This calls for a network
+  where the error is propagated from its input to its output and where
+  the feedback from the environment propagates it back to its
+  input. In this paper we present a novel learning algorithm which
+  performs ``forward-prop'' of the error in parallel to the
+  activation. We demonstrate its performance, first in a simple line
+  follower, and then in a first person shooter game.
 \end{abstract}
 
 \keywords{Closed loop, neural network, error propagation, reinforcement learning}
@@ -54,14 +52,14 @@ When an agent acts in its environment, its actions in turn will change
 its sensor inputs which in turn will cause new actions -- in short,
 the agent acts in a closed-loop system. In the simplest case this is a
 reactive system where the agent encounters threats or rewards and acts
-accordingly. Both threats and rewards are unpredictable events where
-the agent must respond as quickly as possible. These are often called
-``disturbances'' \cite{Phillips2000} or ``perturbations''
-\cite{Maturana80} because they force the agent to act at an
-unpredictable moment in time. Importantly, these occur at the
-\textsl{input} of the agent and, thus, a closed loop system performs
-``input control'' \cite{Ashby72,Phillips2000} -- in contrast to a
-pattern recognition system which performs ``output control''
+accordingly \citep{Lettvin59}. Both threats and rewards are
+unpredictable events where the agent must respond as quickly as
+possible. These are often called ``disturbances'' \cite{Phillips2000}
+or ``perturbations'' \cite{Maturana80} because they force the agent to
+act at an unpredictable moment in time. Importantly, these occur at
+the \textsl{input} of the agent and, thus, a closed loop system
+performs ``input control'' \cite{Ashby72,Phillips2000} -- in contrast
+to a pattern recognition system which performs ``output control''
 \cite{Phillips2000,Porr2005kyb}.
 
 The above scenario has a major drawback in that the reactions are
@@ -75,7 +73,7 @@ predicted this unexpected threat or reward
 \cite{Sutton87,Sutton98,Abbott01,PorrNecoInvco2003}.
 
 Adaptive controllers for this kind of learning are either
-correlation-based \cite{Klopf86,PorrNecoISO2003,Verschure91} or state
+correlation-based \cite{Klopf86,Verschure91,PorrNecoISO2003} or state
 space-based \cite{Dayan1992,Sutton98}. The state space-based ones can
 become very powerful by utilising a deep learning network
 \cite{Guo2014}. However, the deep learning architecture requires backprop which
@@ -85,7 +83,7 @@ paradigms \cite{Dayan1992,Guo2014}. On the other hand correlation
 based-methods can be very fast \cite{Porr2006ICO}, but so far it has
 been difficult to use them directly on deep networks. These
 correlation based methods use ``input control'', which means that the
-error signal is fed into the network at its inputs.
+error signal is fed into the network at its inputs \citep{Porr2005kyb}.
 
 For nearly a century Neurophysiology has also supported a forward
 propagation mechanism which has first been proposed theoretically by
@@ -124,13 +122,9 @@ action and this will feed back to the input of the agent, which then
 in turn corrects the weights in all layers.
 
 In this paper we present a novel network algorithm for closed loop
-systems which we call ``Forward propagation Closed loop Learning''
-(FCL). This algorithm marries the ideas for correlation based closed
-loop learning with those from deep learning, by turning deep learning
-from a backprop-based algorithm to a forward-prop one. We demonstrate
-this with two scenarios: a driving task and a 1st-person shooter.
-
-
+systems which we call ``Forward propagation closed loop learning''
+(FCL). We demonstrate this with two scenarios: a driving task and a
+1st-person shooter game.
 
 
 \begin{figure}[!ht]
@@ -155,29 +149,35 @@ box for now. The idea is that we have a fixed closed loop which is
 able to fend off disturbances, such as an unexpected bend on a road or
 the sudden appearance of an enemy. This fixed loop then takes
 appropriate action to solve this disturbance, e.g. correcting a car's
-steering, targeting food or aiming towards and shooting an enemy. In
-formal terms we have a setpoint $SP$ which compares the input of an
+steering, targeting food or aiming towards and shooting an enemy.
+
+In formal terms we have a setpoint $SP$ which compares the input of an
 agent to a desired input. If the input deviates from the setpoint an
-action is generated with the transfer function $H_0$ which essentially
-turns the sensor input into an action. This action then eliminates the
-disturbance $D$ and arrives via the environmental transfer function
-$P_0$ at the input again; thus, the loop is closed. Such a system is
-called a reactive system or ``reflex'' since it reacts after a
-disturbance has occurred. Such a reaction is rigid and designed in a
-way that it can deal with the disturbances encountered.  The reason
-why we have chosen a feedback loop because it generates a simple but
-instructive \textsl{error signal}. The error signal is non-zero if a
-disturbance has happened, and this can be used to tune our deep
-feedback learning network.
+action is generated with the transfer function $H_0$ which turns the
+sensor input into an appropriate action. This action then eliminates
+the disturbance $D$ and arrives via the environmental transfer
+function $P_0$ back at the input again; thus, the loop is closed. Such
+a system is called a reactive system or ``reflex'' since it reacts
+after a disturbance has occurred. Such a reaction is rigid and
+designed in a way that it can deal with the disturbances
+encountered. In biology this is often called ``reflex'' as it reacts
+in a stereotypical way but guarantees that the closed loop
+operates. For example when we trip over a fast reflex generates a
+quick reaction to restore a normal walking gait as quickly as
+possible. The reason why we have chosen a feedback loop because it
+generates a simple but instructive \textsl{error signal}. The error
+signal is non-zero if a disturbance has happened, and this can be used
+to tune our deep feedback learning network.
 
 In order to tune our network it receives additional inputs which are
 able to predict the disturbance, and thus prevent the trigger of the
-feedback loop. These additional inputs are provided via $V_i$ where we
-have shown one pathway and possible additional inputs as a dashed line
-in Fig~.\ref{closed_loop}). For example a video camera or eyes can
-provide images of the way ahead, or of an enemy prior to
-attacking. Our algorithm has the task of using the error signal to
-tune its network and to minimise this error, as described next.
+feedback loop via $H_0$ and $P_0$. These additional inputs are
+provided via $V_i$ where we have shown one pathway and possible
+additional inputs as a dashed line in Fig~.\ref{closed_loop}). For
+example a video camera or eyes can provide images of the way ahead, or
+of an enemy prior to attacking. Our algorithm has the task of using
+the error signal to tune its network and to minimise this error, as
+described next.
 
 \begin{figure}[!ht]
   \centering
@@ -194,8 +194,7 @@ tune its network and to minimise this error, as described next.
     having only activities $v$, but no errors. \label{netw_together}}
 \end{figure}
 
-
-\section{Feedforward Closed Loop Learning}
+\section{Forward Propagation Closed Loop Learning}
 We define a network with an input layer, hidden layers and an output
 layer, which can all have different numbers of neurons (see
 Fig~\ref{netw_together}A). In contrast to traditional
@@ -420,7 +419,7 @@ Eq.~\ref{act_sum}). We have two rows of sensors, one directly in front
 of the robot and one which looks further ahead. There are 30 ground
 sensors each filtered by 10 filters, giving 300 inputs in total.
 
-The output layer of our deep feedback learner consists of 6 neurons
+The output layer of our feedback learner consists of 6 neurons
 with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
 decision-making units where 3 of them determine the change of speed of
 the right wheel, and 3 the left wheel. This leads to the
@@ -610,10 +609,10 @@ by utilising the reward prediction error generated by TD learning.
 
 
 \section{Discussion}
-We have shown that a deep network which propagates its errors in a
+We have shown that a network which propagates its errors in a
 forward fashion from its inputs to its outputs is able to solve closed
 loop learning tasks. We have demonstrated this in a first person
-shooter game.
+shooter game and with a simple line follower.
 
 Plasticity has always been hotly debated in neurophysiology -- the
 general understanding is that a large postsynaptic Calcium
