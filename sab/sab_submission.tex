@@ -131,20 +131,19 @@ systems which we call ``Forward propagation closed loop learning''
   \centering
   \includegraphics[width=0.75\columnwidth]{closed_loop}
   \caption{A closed loop system with a setpoint $SP$, transfer
-    function $H_0$ and the environment $P_0$ which needs to work
-    against unpredictable disturbances $D$.  The error signal tunes a
-    deep neuronal network, which has inputs $V_i$ that predict the
-    disturbances. The network tries to pre-empt these disturbances and
-    generate an appropriate action $V_k$. The transfer functions here
-    are indicated with capital letters and are in the sampled
-    z-domain.
+    function $H_0$ and the environment $P_0$ \& $P_1$ which needs to
+    work against unpredictable disturbances $D$. The error signal
+    tunes a neuronal network, which has inputs $V_i$ that predict the
+    disturbances which is achieved by delaying the disturbance $D$ by
+    $T$ time steps ($z^{-T}$). The transfer functions here are
+    indicated with capital letters and are in the sampled z-domain.
     \label{closed_loop}}
 \end{figure}
 
 \section{Closed loop learning}
 Before we describe the algorithm, we need to place it in a simple and
 instructional closed loop context. Fig.~\ref{closed_loop} shows the
-entire closed loop system, with the deep feedback learning as a black
+entire closed loop system, with the feedback learning algorithm as a black
 box for now. The idea is that we have a fixed closed loop which is
 able to fend off disturbances, such as an unexpected bend on a road or
 the sudden appearance of an enemy. This fixed loop then takes
@@ -171,13 +170,14 @@ to tune our deep feedback learning network.
 
 In order to tune our network it receives additional inputs which are
 able to predict the disturbance, and thus prevent the trigger of the
-feedback loop via $H_0$ and $P_0$. These additional inputs are
-provided via $V_i$ where we have shown one pathway and possible
-additional inputs as a dashed line in Fig~.\ref{closed_loop}). For
-example a video camera or eyes can provide images of the way ahead, or
-of an enemy prior to attacking. Our algorithm has the task of using
-the error signal to tune its network and to minimise this error, as
-described next.
+feedback loop via $H_0$ and $P_0$. These additional inputs originate
+from the undelayed disturbance $D$ via the environmental transfer
+function $P_1$ and appear as additional inputs $V_i$ -- where we have
+shown one pathway and possible additional inputs as a dashed line in
+Fig~.\ref{closed_loop}). For example a video camera or eyes can
+provide images of the way ahead, or of an enemy prior to
+attacking. Our algorithm has the task of using the error signal to
+tune its network and to minimise this error, as described next.
 
 \begin{figure}[!ht]
   \centering
@@ -187,7 +187,7 @@ described next.
     term $e$. These are propagated through the network in a weighted
     fashion in parallel.  B) Computation in a single composite cell.
     The presynaptic activities $v_j$ and error signals $e_j$ are used
-    to perform correlation based learning and change the weight
+    to perform correlation ($\times$) based learning and change the weight
     $w_{jk}$ which weights for both activity and error propagation into the next
     layer. The contents of the dotted box only exist for the deeper
     layers as also illustrated on the left with the input layer
@@ -260,11 +260,18 @@ weighted fashion.
 
 Learning is therefore performed in three steps: first the activity is
 propagated through the network, then the error signal is propagated
-via the \textsl{same} weights, and finally the weights are adjusted. Thus,
-both the error signal and the activity are propagated in a forward
-fashion. Learning itself can be interpreted as \textsl{heterosynaptic} for the
-activity $v_j$ and \textsl{Hebbian} for the error $e_j$.
-
+via the \textsl{same} weights, and finally the weights are
+adjusted. Thus, both the error signal and the activity are propagated
+in a forward fashion. Learning itself can be interpreted as
+\textsl{heterosynaptic} for the activation $v_j$ and \textsl{Hebbian}
+for the error $e_j$. This can be seen in Fig~\ref{netw_together}B when
+comparing the upper signal flow of the activation from $v_j \to v_k$
+which correlates the (weighted) \textsl{input}-signals $v_j$ and $e_j$
+with each other to change the weight $w_{jk}$. This is called
+heterosynaptic learning. On the other hand the weight change from the
+perspective of the error signal is \textsl{Hebbian} because it coorrelates a
+\textsl{pre-synaptic} signal ($v_j$) with a \textsl{post-synaptic}
+signal ($e_k$). 
 
 \section{Derivation of the learning rule}
 We start from the assumption that a single neuron using heterosynaptic
@@ -616,11 +623,12 @@ shooter game and with a simple line follower.
 
 Plasticity has always been hotly debated in neurophysiology -- the
 general understanding is that a large postsynaptic Calcium
-concentration causes LTP \cite{Malenka99,Bennett2000} and a low one
-causes LTD \cite{Mulkey1992}. This requires a strong presynaptic drive
-to achieve a strong postsynaptic activity, and with that Calcium
-influx \cite{Meunier2017}. In mathematical terms this would just lead
-to self-amplification of the synaptic weight, where strong presynaptic
+concentration causes long term potentiation (LTP)
+\cite{Malenka99,Bennett2000} and a low one causes long term depression
+(LTD) \cite{Mulkey1992}. This requires a strong presynaptic drive to
+achieve a strong postsynaptic activity, and with that Calcium influx
+\cite{Meunier2017}. In mathematical terms this would just lead to
+self-amplification of the synaptic weight, where strong presynaptic
 activity would cause greater postsynaptic activity and in turn
 stronger weights, and so on. However, suppose the learning signal and
 the actual activity were transmitted via the same synapse but were
@@ -634,38 +642,25 @@ plasticity and Hebbian learning for the error signal, with the
 stability arising from the fact that it is constantly corrected by the
 error signal.
 
-Looking at a system-wide perspective, one can see FCL as a flexible
-actor which has a high degree of freedom in generating actions, as long as they
-minimise the error. For example in the basal ganglia the striatum is
-seen as an actor receiving an error signal via dopamine, the well known
-reward prediction error \cite{Schultz97} which is understood as being
-closely related to the error of temporal difference (TD) learning
-\cite{gurney98:_basal_gangl_action_selec_devic}. It is curious that
-the striatum receives the error signal but both downstream neurons in
-the basal ganglia and upstream in the cortex receive much less
-dopaminergic modulation \cite{Beckstead1979}. However, plasticity is
-not just limited to the striatum, but happens in all brain areas, so
-it makes sense to propagate this error signal further into the cortex
+Looking at a system-wide perspective FCL offers an answer how errors
+can propagated further beyond its immeditate targets which has been a mystery
+in the neuroscience of decision making. In particular the striatum is
+seen as an actor receiving an error signal via dopamine, the well
+known reward prediction error \cite{Schultz97} which is understood as
+being closely related to the error of temporal difference (TD)
+learning \cite{gurney98:_basal_gangl_action_selec_devic}. It is
+curious that the striatum receives the error signal but both
+downstream neurons in the basal ganglia and upstream in the cortex
+receive much less dopaminergic modulation
+\cite{Beckstead1979}. However, plasticity is not just limited to the
+striatum, but happens in all brain areas which requires a mechanism
+which is able to propagate this error signal further into the cortex
 \cite{Groenewegen1993} where high level decision-making takes place.
-In the language of TD learning \cite{Sutton87} this means that we
-have a distributed actor where the first layer is modulated by the
-reward prediction error, and then the following stages, that project
-back to the cortex, use instead cross frequency coupling
-as described above \cite{Lipski2017}.
-
-Given that the error is propagated from the input to the output, the
-novel aspect here is that the more layers FCL has, the more remote it
-is from the immediate error feedback. This allows for increased
-flexibility which is then a function of the number of layers, and
-creates an actor which is far less rigid than a standard Q-learner
-\cite{Dayan1992}. The actions can be substantially varied as long as
-the error signal can eventually be minimised, and the variability will
-be more pronounced with more hidden layers. In other words, the more
-hidden layers we have, the more behavioural flexibility the agent will
-show. In a biological context this means that as cortical processing
-takes over in the deeper stages, it also can develop more flexibility
-while still receiving \textsl{distributed} error signals rather than a
-global one.
+In the language of TD learning \cite{Sutton87} this means that we have
+a distributed actor where the first layer is modulated by the reward
+prediction error, and then the following stages, that project back to
+the cortex, use instead cross frequency coupling as described above
+\cite{Lipski2017}.
 
 A different stance about synaptic plasticity (and ultimately how
 autonomous agents learn) has been taken by the deep learning
