@@ -30,13 +30,13 @@ G51~1AJ, UK.}
 
 \begin{abstract}
   The most popular approach of training a neural network is error
-  backpropagation where an error is propagated from the output layer
-  back to its input layer commonly known as ``backprop''.  However,
+  backpropagation (commonly known as ``backprop''), where an error is propagated from the output layer
+  back to its input layer .  However,
   autonomous agents define their errors at the \textsl{inputs} by
   reference to a desired or expected state. This is because they act
   as a closed loop system and not open loop. This calls for a network
   where the error is propagated from its input to its output and where
-  the feedback from the environment propagates it back to its
+  the feedback from the environment propagates it back to the
   input. In this paper we present a novel learning algorithm which
   performs ``forward-prop'' of the error in parallel to the
   activation. We demonstrate its performance, first in a simple line
@@ -48,10 +48,10 @@ G51~1AJ, UK.}
 \maketitle
 
 \section{Introduction}
-When an agent acts in its environment, its actions in turn will change
-its sensor inputs which in turn will cause new actions -- in short,
-the agent acts in a closed-loop system. In the simplest case this is a
-reactive system where the agent encounters threats or rewards and acts
+When an agent acts in its environment, its actions will in turn change
+its sensor inputs which then in turn cause new actions -- in short,
+the agent acts in a closed-loop system. In the simplest case this is a purely
+reactive system, where the agent encounters threats or rewards and acts
 accordingly \citep{Lettvin59}. Both threats and rewards are
 unpredictable events where the agent must respond as quickly as
 possible. These are often called ``disturbances'' \cite{Phillips2000}
@@ -86,9 +86,9 @@ correlation based methods use ``input control'', which means that the
 error signal is fed into the network at its inputs \citep{Porr2005kyb}.
 
 For nearly a century Neurophysiology has also supported a forward
-propagation mechanism which has first been proposed theoretically by
+propagation mechanism. first proposed theoretically by
 Hebb \cite{Hebb49}, and then confirmed many times: for long term
-potentiation (LTD) to happen, both pre- and post-synaptic neurons need
+potentiation (LTP) to happen, both pre- and post-synaptic neurons need
 to be active \cite{Luescher2012}. There has been a long tradition of
 work showing that unsupervised learning is possible in these networks
 \cite{Linsker88}, in particular in the visual cortex \cite{Miller00}
@@ -117,7 +117,7 @@ the strongest weights contribute the most to the error. Imagine we
 take a similar approach using forward propagation: the error,
 introduced at the input, will have its strongest impact via the
 largest weights. Therefore we propagate the error in a forward fashion
-in the same way as in backprop. Eventually the agent will make an
+in the same way as backprop. Eventually the agent will make an
 action and this will feed back to the input of the agent, which then
 in turn corrects the weights in all layers.
 
@@ -152,18 +152,17 @@ steering, targeting food or aiming towards and shooting an enemy.
 
 In formal terms we have a setpoint $SP$ which compares the input of an
 agent to a desired input. If the input deviates from the setpoint an
-action is generated with the transfer function $H_0$ which turns the
+action is generated with the transfer function $H_0$, which transforms the
 sensor input into an appropriate action. This action then eliminates
 the disturbance $D$ and arrives via the environmental transfer
 function $P_0$ back at the input again; thus, the loop is closed. Such
 a system is called a reactive system or ``reflex'' since it reacts
 after a disturbance has occurred. Such a reaction is rigid and
 designed in a way that it can deal with the disturbances
-encountered. In biology this is often called ``reflex'' as it reacts
-in a stereotypical way but guarantees that the closed loop
-operates. For example when we trip over a fast reflex generates a
+encountered. In biology the term ``reflex'' means that the behaviour is stereotypical but guarantees that the closed loop
+operates. For example, when we trip over a fast reflex generates a
 quick reaction to restore a normal walking gait as quickly as
-possible. The reason why we have chosen a feedback loop because it
+possible. The reason we have chosen a feedback loop because it
 generates a simple but instructive \textsl{error signal}. The error
 signal is non-zero if a disturbance has happened, and this can be used
 to tune our deep feedback learning network.
@@ -172,7 +171,7 @@ In order to tune our network it receives additional inputs which are
 able to predict the disturbance, and thus prevent the trigger of the
 feedback loop via $H_0$ and $P_0$. These additional inputs originate
 from the undelayed disturbance $D$ via the environmental transfer
-function $P_1$ and appear as additional inputs $V_i$ -- where we have
+function $P_1$ and appear as additional inputs $V_i$ -- we have
 shown one pathway and possible additional inputs as a dashed line in
 Fig~.\ref{closed_loop}). For example a video camera or eyes can
 provide images of the way ahead, or of an enemy prior to
@@ -244,9 +243,8 @@ approaches saturation, as in backprop. The norm guarantees that
 the error propagates through all layers and does not vanish from
 layer to layer due to small weights.
 
-In order to have an intuition about this novel learning approach we
-have drawn one of the learning units establishing a layer which is
-shown in Fig~\ref{netw_together}B, where we see the two processing
+In order to have an intuition about this novel learning approach, we
+have drawn one of the learning units in Fig~\ref{netw_together}B, where we see the two processing
 streams: both the activity $v_j$ and error signal $e_j$ are weighted
 by $w_{jk}$, and summed separately in the next layer with index $k$.
 Remember that for the 1st hidden layer, the error is just the error
@@ -254,7 +252,7 @@ signal directly injected from the feedback loop which then equates to
 $e_j$. Then the next layer receives the weighted errors $e_k$ and
 activations $v_k$. The diagram omits the error normalisation, scaling
 and activation derivative in order to focus on the main point that
-learning happens between the error signal and the presynaptic activity
+learning happens between the error signal and the presynaptic activity,
 and that both error signal and activation are transmitted in a
 weighted fashion.
 
@@ -269,14 +267,14 @@ comparing the upper signal flow of the activation from $v_j \to v_k$
 which correlates the (weighted) \textsl{input}-signals $v_j$ and $e_j$
 with each other to change the weight $w_{jk}$. This is called
 heterosynaptic learning. On the other hand the weight change from the
-perspective of the error signal is \textsl{Hebbian} because it coorrelates a
+perspective of the error signal is \textsl{Hebbian} because it correlates a
 \textsl{pre-synaptic} signal ($v_j$) with a \textsl{post-synaptic}
 signal ($e_k$). 
 
 \section{Derivation of the learning rule}
 We start from the assumption that a single neuron using heterosynaptic
 plasticity is able to eliminate a closed loop error signal
-\cite{Porr2006ICO}. Because of the exploding complexity of closed loop
+\cite{Porr2006ICO}. Because of the exploding complexity of analysing closed loop
 learning we focus here on how an error signal $X_0$ should be propagated
 to deeper layers from its input by using the approach in
 \cite{Mehta1986}, taking partial derivatives in the z-space and
@@ -342,13 +340,12 @@ weights $w_{ij}$, to the deeper layer $w_{jk}$. This shows that the
 error signal is propagated in a weighted fashion to deeper
 layers. Note that this is not a stability proof but rather the
 derivation of the network structure, using a similar trick to deep
-learning but in closed loop and forward fashion. For a stability
+learning but in closed loop and forward fashion. Unlike deep learning, the algorithm uses correlations only, and does not calculate derivatives. For a stability
 analysis one needs to take into account for the non-linear activation
 functions and unroll the partial derivative $\frac{\partial
   V_j}{\partial V_k}$, whose derivative depends again on the entire
 closed loop. However, this is not of practical relevance because the
-environmental transfer function is rarely known; this leads us to
-the shooter game.
+environmental transfer function is rarely known; this leads us to the application scenarios. 
 
 
 
@@ -386,7 +383,7 @@ the shooter game.
     are on the y-axis.  E) the weights of the 1st layer, F) the
     weights of the 2nd layer and G) the weights of the output layer.
     H) shows the euclidean distance of the weights for each layer from
-    their random work initialisation. Parameters: 30 inputs from two
+    their random initialisation. Parameters: 30 inputs from two
     predictive rows of sensors (15 each). Every input was fed into a
     filterbank of 10 filters with T=2 \ldots 30. There were 2 hidden
     layers with 9 and 6 neurons; 6 output neurons. The learning rate $\gamma$
@@ -428,7 +425,7 @@ sensors each filtered by 10 filters, giving 300 inputs in total.
 
 The output layer of our feedback learner consists of 6 neurons
 with activations $v_k$ ($k=0 \ldots 5$) - these can be seen as soft
-decision-making units where 3 of them determine the change of speed of
+decision-making units, with 3 of them determining the change of speed of
 the right wheel, and 3 the left wheel. This leads to the
 final formulas for the motor outputs:
 \begin{eqnarray}
@@ -441,13 +438,13 @@ meaningful way. The network must discover from the error signals
 which sensor inputs $v_k$ will eventually lead to appropriate steering
 actions. At the start the network is initialised with random values.
 
-As performance criterion we use the absolute value of the error from
+As a performance criterion we use the absolute value of the error from
 Eq.~\ref{line_error}:
 \begin{equation}
   \mathrm{error}_\mathrm{abs} =  |\mathrm{error}| \label{line_abserr}
 \end{equation}
-which needs to be below a threshold of $0.001$ for 1000 time steps
-because realistically, driving will never be 100\% perfect, and we
+we define success as having $\mathrm{error}$ below a threshold of $0.001$ for 1000 time steps
+-- realistically, driving will never be 100\% perfect, and we
 allow $\mathrm{error}$ to stabilise at small values.
 
 
@@ -536,8 +533,7 @@ that ran in the Vizdoom 2016 competition. The setup was as follows:
 
 The images returned from Vizdoom are RGB 160x120. We rendered the
 enemy in blue, and formed a reflex signal by finding the bounding box
-of the pixels closest to that colour. Note that the reflex is slow and
-also inherently noisy, as other events in the game are also rendered
+of the pixels closest to that colour. We make the gain of the reflex deliberately low so that it is slow to respond; it is also inherently noisy, as other events in the game are also rendered
 blue (e.g. the ‘flashes’ that happen at respawns). The reflex also
 fails at times when the enemy is too distant or too close to the
 camera. For learning, we only supply the network with the greyscale
@@ -608,7 +604,7 @@ blur the background, leaving dark and light blobs to detect the enemy
 and generate an aiming response (Fig.~\ref{shooter_results}D).
 
 Note that this is only one skill of a functioning FPS bot, as a real
-bot would require additional skills such as seeking rewards
+bot would require abilities such as seeking rewards
 (e.g. finding health packs) and navigating the environment
 (e.g. avoiding collisions). Future research will investigate whether
 the FCL approach can be used to acquire such skills, for example,
@@ -636,30 +632,30 @@ fundamentally separated \cite{Lindsay2017}, for example by using
 different frequencies: high frequency potentials could cause
 plasticity changes via high frequency potentiation (HFP) while low
 frequency potentials propagate behaviourally-relevant activity
-\cite{Canolty2010}. FCL can provide here a mechanism that allows
+\cite{Canolty2010}. FCL can therefore provide a mechanism that allows
 stable behaviourally-relevant learning driven by heterosynaptic
 plasticity and Hebbian learning for the error signal, with the
 stability arising from the fact that it is constantly corrected by the
 error signal.
 
-Looking at a system-wide perspective FCL offers an answer how errors
-can propagated further beyond its immeditate targets which has been a mystery
+Looking at a system-wide perspective FCL, offers an answer to how errors
+can propagated further beyond its immediate targets, which has been a mystery
 in the neuroscience of decision making. In particular the striatum is
 seen as an actor receiving an error signal via dopamine, the well
-known reward prediction error \cite{Schultz97} which is understood as
+known reward prediction error \cite{Schultz97}, which is understood as
 being closely related to the error of temporal difference (TD)
 learning \cite{gurney98:_basal_gangl_action_selec_devic}. It is
 curious that the striatum receives the error signal but both
 downstream neurons in the basal ganglia and upstream in the cortex
 receive much less dopaminergic modulation
 \cite{Beckstead1979}. However, plasticity is not just limited to the
-striatum, but happens in all brain areas which requires a mechanism
-which is able to propagate this error signal further into the cortex
+striatum, but happens in all brain areas, which requires a mechanism
+that is able to propagate this error signal further into the cortex
 \cite{Groenewegen1993} where high level decision-making takes place.
 In the language of TD learning \cite{Sutton87} this means that we have
 a distributed actor where the first layer is modulated by the reward
-prediction error, and then the following stages, that project back to
-the cortex, use instead cross frequency coupling as described above
+prediction error, and then the following stages, which that project back to
+the cortex, instead use cross frequency coupling as described above
 \cite{Lipski2017}.
 
 A different stance about synaptic plasticity (and ultimately how
@@ -675,7 +671,7 @@ decision making, the implied brain connectivity is not faithful to
 neurophysiological findings (see \cite{berthoud04} for an extensive
 review).
 
-While we have turned error propagation upside down to use it in a
+Where we have turned error propagation upside down to use it in a
 closed loop context, \cite{Guo2014} takes a different direction, and
 present an approach that still uses backprop to solve closed loop
 problems. To turn the open loop backprop into a closed loop algorithm,
