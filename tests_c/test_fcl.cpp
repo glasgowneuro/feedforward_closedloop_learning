@@ -1,4 +1,4 @@
-#include "deep_feedback_learning.h"
+#include "fcl.h"
 #include<stdio.h>
 #include <signal.h>
 #include <stdio.h>
@@ -14,13 +14,13 @@ void test_forward() {
 	int nFiltersHidden = 10;
 	int nNeuronsHidden[] = {10,10};
 
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
-	deep_fbl->seedRandom(1);
-	FILE* f=fopen("test_deep_fbl_cpp_forward.dat","wt");
+	FeedbackClosedloopLearning* fcl = new FeedbackClosedloopLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
+	fcl->seedRandom(1);
+	FILE* f=fopen("test_fcl_cpp_forward.dat","wt");
 	// no learning
-	deep_fbl->setLearningRate(0.0);
+	fcl->setLearningRate(0.0);
 	// random init
-	deep_fbl->initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
+	fcl->initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
 
 	double input[2];
 	double error[2];
@@ -35,11 +35,11 @@ void test_forward() {
 		}
 		fprintf(f,"%f ",input[0]);
 
-		deep_fbl->doStep(input,error);
-		for(int i=0; i<deep_fbl->getNumHidLayers(); i++) {
-			fprintf(f,"%e ",deep_fbl->getLayer(i)->getNeuron(0)->getSum());
+		fcl->doStep(input,error);
+		for(int i=0; i<fcl->getNumHidLayers(); i++) {
+			fprintf(f,"%e ",fcl->getLayer(i)->getNeuron(0)->getSum());
 		}
-		fprintf(f,"%e ",deep_fbl->getOutputLayer()->getNeuron(0)->getOutput());
+		fprintf(f,"%e ",fcl->getOutputLayer()->getNeuron(0)->getOutput());
 		
 		fprintf(f,"\n");
 		
@@ -50,18 +50,18 @@ void test_forward() {
 
 
 
-void test_learning_dfl() {
+void test_learning_fcl() {
 	int nHidden[] = {2};
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
-	deep_fbl->seedRandom(1);
-	deep_fbl->setLearningRate(0.001);
-	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-	deep_fbl->setLearningRateDiscountFactor(1);
-	deep_fbl->setBias(0);
-	deep_fbl->setUseDerivative(0);
+	FeedbackClosedloopLearning* fcl = new FeedbackClosedloopLearning(2,nHidden,1,1);
+	fcl->seedRandom(1);
+	fcl->setLearningRate(0.001);
+	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl->setLearningRateDiscountFactor(1);
+	fcl->setBias(0);
+	fcl->setUseDerivative(0);
 
 	
-	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
+	FILE* f=fopen("test_fcl_cpp_learning.dat","wt");
 
 	double input[2] = { 0,0 };
 	double error[2] = { 0,0 };
@@ -83,13 +83,13 @@ void test_learning_dfl() {
 		error[0] = err;
 		error[1] = err;
 
-		deep_fbl->doStep(input,error);
+		fcl->doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
+				for(int k=0; k<fcl->getNumHidLayers(); k++) {
 					fprintf(f, "%e ",
-							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
+							fcl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
 				}
 			}
 		}
@@ -97,13 +97,13 @@ void test_learning_dfl() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
+					fcl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
 				"%e ",
-				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
+				fcl->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
 		
@@ -113,18 +113,18 @@ void test_learning_dfl() {
 }
 
 
-void test_learning_dfl_filters() {
+void test_learning_fcl_filters() {
 	int nHidden[] = {2};
-	DeepFeedbackLearning* deep_fbl = new DeepFeedbackLearning(2,nHidden,1,1);
-	deep_fbl->seedRandom(1);
-	deep_fbl->setLearningRate(0.001);
-	deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-	deep_fbl->setLearningRateDiscountFactor(1);
-	deep_fbl->setBias(0);
-	deep_fbl->setUseDerivative(0);
+	FeedbackClosedloopLearning* fcl = new FeedbackClosedloopLearning(2,nHidden,1,1);
+	fcl->seedRandom(1);
+	fcl->setLearningRate(0.001);
+	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl->setLearningRateDiscountFactor(1);
+	fcl->setBias(0);
+	fcl->setUseDerivative(0);
 
 	
-	FILE* f=fopen("test_deep_fbl_cpp_learning.dat","wt");
+	FILE* f=fopen("test_fcl_cpp_learning.dat","wt");
 
 	double input[2] = { 0,0 };
 	double error[2] = { 0,0 };
@@ -146,13 +146,13 @@ void test_learning_dfl_filters() {
 		error[0] = err;
 		error[1] = err;
 
-		deep_fbl->doStep(input,error);
+		fcl->doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				for(int k=0; k<deep_fbl->getNumHidLayers(); k++) {
+				for(int k=0; k<fcl->getNumHidLayers(); k++) {
 					fprintf(f, "%e ",
-							deep_fbl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
+							fcl->getLayer(k)->getNeuron(i)->getAvgWeight(j));
 				}
 			}
 		}
@@ -160,13 +160,13 @@ void test_learning_dfl_filters() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					deep_fbl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
+					fcl->getOutputLayer()->getNeuron(i)->getAvgWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
 				"%e ",
-				deep_fbl->getOutputLayer()->getNeuron(i)->getOutput());
+				fcl->getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
 		
@@ -180,8 +180,8 @@ int main(int n,char** args) {
 	if (n<2) {
 		fprintf(stderr,"%s <number>:\n",args[0]);
 		fprintf(stderr,"0=network test / no learning\n");
-		fprintf(stderr,"1=dfl learning w/o filters\n");
-		fprintf(stderr,"2=dfl learning with filters\n");
+		fprintf(stderr,"1=fcl learning w/o filters\n");
+		fprintf(stderr,"2=fcl learning with filters\n");
 		exit(0);
 	}
 	switch (atoi(args[1])) {
@@ -189,10 +189,10 @@ int main(int n,char** args) {
 		test_forward();
 		break;
 	case 1:
-		test_learning_dfl();
+		test_learning_fcl();
 		break;
 	case 2:
-		test_learning_dfl_filters();
+		test_learning_fcl_filters();
 		break;
 	}
 }

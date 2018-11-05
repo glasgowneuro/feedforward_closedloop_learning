@@ -1,4 +1,4 @@
-#include "deep_feedback_learning.h"
+#include "fcl.h"
 #include <math.h>
 
 /**
@@ -9,7 +9,7 @@
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-DeepFeedbackLearning::DeepFeedbackLearning(
+FeedbackClosedloopLearning::FeedbackClosedloopLearning(
 	int num_of_inputs,
 	int* num_of_hidden_neurons_per_layer_array,
 	int _num_hid_layers,
@@ -72,7 +72,7 @@ DeepFeedbackLearning::DeepFeedbackLearning(
 	setDebugInfo();
 }
 
-DeepFeedbackLearning::DeepFeedbackLearning(int num_input,
+FeedbackClosedloopLearning::FeedbackClosedloopLearning(int num_input,
 					   int* num_hidden_array,
 					   int _num_hid_layers,
 					   int num_output) {
@@ -120,7 +120,7 @@ DeepFeedbackLearning::DeepFeedbackLearning(int num_input,
 	setLearningRate(0);
 }
 
-DeepFeedbackLearning::~DeepFeedbackLearning() {
+FeedbackClosedloopLearning::~FeedbackClosedloopLearning() {
 	for (int i=0; i<num_hid_layers+1; i++) {
 		delete layers[i];
 	}
@@ -129,74 +129,52 @@ DeepFeedbackLearning::~DeepFeedbackLearning() {
 }
 
 
-void DeepFeedbackLearning::doStep(double* input, int n1, double* error, int n2) {
+void FeedbackClosedloopLearning::doStep(double* input, int n1, double* error, int n2) {
 #ifdef DEBUG_DFL
-		fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
+	fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
 #endif
-		if (n1 != ni) {
-			fprintf(stderr,"Input array dim mismatch: got: %d, want: %d\n",n1,ni);
-			return;
-		}
-		switch (algorithm) {
-		case DFL:
-			if (n2 != layers[0]->getNneurons()) {
-				fprintf(stderr,
-					"Error array dim mismatch: got: %d, want: %d "
-					"which is the number of neurons in the 1st hidden layer!\n",
-					n2,layers[0]->getNneurons());
-				return;
-			}
-			doStepDFL(input,error);
-			break;
-		default:
-			fprintf(stderr,"BUG: unknown learning algorithm\n");
-			exit(EXIT_FAILURE);
-		}
+	if (n1 != ni) {
+		fprintf(stderr,"Input array dim mismatch: got: %d, want: %d\n",n1,ni);
+		return;
+	}
+	if (n2 != layers[0]->getNneurons()) {
+		fprintf(stderr,
+			"Error array dim mismatch: got: %d, want: %d "
+			"which is the number of neurons in the 1st hidden layer!\n",
+			n2,layers[0]->getNneurons());
+		return;
+	}
+	doStep(input,error);
 }
 
 
-void DeepFeedbackLearning::doStep(double* input, double* error) {
-#ifdef DEBUG_DFL
-		fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
-#endif
-		switch (algorithm) {
-		case DFL:
-			doStepDFL(input,error);
-			break;
-		default:
-			fprintf(stderr,"BUG: unknown learning algorithm\n");
-			exit(EXIT_FAILURE);
-		}
-	}
-
-
-void DeepFeedbackLearning::setStep() {
+void FeedbackClosedloopLearning::setStep() {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->setStep(step);
 	}
 }
 
-void DeepFeedbackLearning::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
+void FeedbackClosedloopLearning::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->setActivationFunction(_activationFunction);
 	}	
 }
 
-void DeepFeedbackLearning::doLearning() {
+void FeedbackClosedloopLearning::doLearning() {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->doLearning();
 	}
 }
 
 
-void DeepFeedbackLearning::setDecay(double decay) {
+void FeedbackClosedloopLearning::setDecay(double decay) {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->setDecay(decay);
 	}
 }
 
 
-void DeepFeedbackLearning::doStepDFL(double* input, double* error) {
+void FeedbackClosedloopLearning::doStep(double* input, double* error) {
 	// we set the input to the input layer
 	layers[0]->setInputs(input);
 	// ..and calc its output
@@ -241,7 +219,7 @@ void DeepFeedbackLearning::doStepDFL(double* input, double* error) {
 				}
 #ifdef RANGE_CHECKS
 				if (isnan(err) || (fabs(err)>10000) || (fabs(emitterLayer->getNeuron(j)->getError())>10000)) {
-					printf("RANGE! DeepFeedbackLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
+					printf("RANGE! FeedbackClosedloopLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
 					       "err=%e, emitterLayer->getNeuron(j)->getError()=%e\n",
 					       __func__,step,j,i,k,err,emitterLayer->getNeuron(j)->getError());
 				}
@@ -259,7 +237,7 @@ void DeepFeedbackLearning::doStepDFL(double* input, double* error) {
 	step++;
 }
 
-void DeepFeedbackLearning::setLearningRate(double rate) {
+void FeedbackClosedloopLearning::setLearningRate(double rate) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 #ifdef DEBUG_DFL
 		fprintf(stderr,"setLearningRate in layer %d\n",i);
@@ -268,7 +246,7 @@ void DeepFeedbackLearning::setLearningRate(double rate) {
 	}
 }
 
-void DeepFeedbackLearning::setMomentum(double momentum) {
+void FeedbackClosedloopLearning::setMomentum(double momentum) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 #ifdef DEBUG_DFL
 		fprintf(stderr,"setMomentum in layer %d\n",i);
@@ -279,33 +257,33 @@ void DeepFeedbackLearning::setMomentum(double momentum) {
 
 
 
-void DeepFeedbackLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
+void FeedbackClosedloopLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->initWeights(max,initBias,weightInitMethod);
 	}
 }
 
 
-void DeepFeedbackLearning::setUseDerivative(int useIt) {
+void FeedbackClosedloopLearning::setUseDerivative(int useIt) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setUseDerivative(useIt);
 	}
 }
 
-void DeepFeedbackLearning::setBias(double _bias) {
+void FeedbackClosedloopLearning::setBias(double _bias) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setBias(_bias);
 	}
 }
 
-void DeepFeedbackLearning::setDebugInfo() {
+void FeedbackClosedloopLearning::setDebugInfo() {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setDebugInfo(i);
 	}
 }
 
 // need to add bias weight
-bool DeepFeedbackLearning::saveModel(const char* name) {
+bool FeedbackClosedloopLearning::saveModel(const char* name) {
 	Layer *layer;
 	Neuron *neuron;
 
@@ -338,11 +316,11 @@ bool DeepFeedbackLearning::saveModel(const char* name) {
 	return true;
 }
 
-bool DeepFeedbackLearning::loadModel(const char* name) {
+bool FeedbackClosedloopLearning::loadModel(const char* name) {
 	Layer *layer;
 	Neuron *neuron;
 	double weight;
-	int result;
+	int r;
 
 	FILE *f=fopen(name, "r");
 
@@ -354,18 +332,23 @@ bool DeepFeedbackLearning::loadModel(const char* name) {
 				for (int k=0; k<neuron->getNinputs(); k++) {
 					if(neuron->getMask(k)) {
 						for (int l=0; l<neuron->getNfilters(); l++) {
-							result=fscanf(f, "%lf ", &weight);
+							r = fscanf(f, "%lf ", &weight);
+							if (r < 0) return false;
 							neuron->setWeight(k, weight, l);
 						}
 					}
 				}
-				result=fscanf(f, "%lf", &weight);
+				r = fscanf(f, "%lf", &weight);
+				if (r < 0) return false;
 				neuron->setBiasWeight(weight);
-				result=fscanf(f, "%*c");
+				r = fscanf(f, "%*c");
+				if (r < 0) return false;
 			}
-			result=fscanf(f, "%*c");
+			r = fscanf(f, "%*c");
+			if (r < 0) return false;
 		}
-		result=fscanf(f, "%*c");
+		r = fscanf(f, "%*c");
+		if (r < 0) return false;
 	}
 	else {
 		return false;

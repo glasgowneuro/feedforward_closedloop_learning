@@ -473,7 +473,6 @@ void Neuron::doMaxDet() {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
 	int maxInp = 0;
-	int maxFilter = 0;
 	double max = 0;
 	maxDet = 1;
 	for(int i=0;i<nInputs;i++) {
@@ -511,6 +510,8 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 		break;
 	case MAX_OUTPUT_CONST:
 		max = _max / (nInputs*nFilters+nBias);
+		break;
+	case CONST_WEIGHTS:
 		break;
 	}
 	for(int i=0;i<nInputs;i++) {
@@ -555,7 +556,6 @@ void Neuron::saveInitialWeights() {
 
 
 double Neuron::getMaxWeightValue() {
-	int n=0;
 	double max=-HUGE_VAL;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {
@@ -572,7 +572,6 @@ double Neuron::getMaxWeightValue() {
 
 
 double Neuron::getMinWeightValue() {
-	int n=0;
 	double min=HUGE_VAL;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {
@@ -589,7 +588,6 @@ double Neuron::getMinWeightValue() {
 
 
 double Neuron::getWeightDistanceFromInitialWeights() {
-	int n=0;
 	double distance = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {

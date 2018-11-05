@@ -1,5 +1,5 @@
-#ifndef __Deep_FEEDBACK_LEARNING_H_
-#define __Deep_FEEDBACK_LEARNING_H_
+#ifndef __FEEDBACK_CLOSED_LOOP_LEARNING_H_
+#define __FEEDBACK_CLOSED_LOOP_LEARNING_H_
 
 /**
  * GNU GENERAL PUBLIC LICENSE
@@ -9,9 +9,9 @@
  * (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-#include "dfl/globals.h"
-#include "dfl/layer.h"
-#include "dfl/neuron.h"
+#include "fcl/globals.h"
+#include "fcl/layer.h"
+#include "fcl/neuron.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,11 +21,11 @@
 
 //#define DEBUG_DFL
 
-class DeepFeedbackLearning {
+class FeedbackClosedloopLearning {
 
 public:
 	// deep fbl without any filters
-	DeepFeedbackLearning(
+	FeedbackClosedloopLearning(
 			int num_of_inputs,
 			int* num_of_hidden_neurons_per_layer_array,
 			int _num_hid_layers,
@@ -37,7 +37,7 @@ public:
 	// filter parameters: are in time steps. For ex, minT = 10 means
 	// a response of 10 time steps for the first filter and that goes
 	// up to maxT time steps, for example maxT = 100 or so.
-	DeepFeedbackLearning(
+	FeedbackClosedloopLearning(
 			int num_of_inputs,
 			int* num_of_hidden_neurons_per_layer_array,
 			int _num_hid_layers,
@@ -48,10 +48,7 @@ public:
 			double _maxT);
 
 	// destructor
-	~DeepFeedbackLearning();
-
-	// Algorithm just now only DFL!
-	enum Algorithm { DFL = 0 };
+	~FeedbackClosedloopLearning();
 
 	// here is where all the magic is happening
 	void doStep(double* input, double* error);
@@ -74,11 +71,6 @@ public:
 
 	// global momentum for all layers
 	void setMomentum(double momentum);
-
-	// sets the learning algorithm
-	void setAlgorithm(Algorithm _algorithm) { algorithm = _algorithm; }
-
-	Algorithm getAlgorithm() { return algorithm; }
 
 	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
 
@@ -124,12 +116,8 @@ private:
 
 	Layer** layers;
 
-	Algorithm algorithm = DFL;
-
 	// should be called to relay layer index to the layer
 	void setDebugInfo();
-
-	void doStepDFL(double* input, double* error);
 
 	void doLearning();
 	void setStep();

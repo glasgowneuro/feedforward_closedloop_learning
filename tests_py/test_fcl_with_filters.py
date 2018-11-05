@@ -3,12 +3,12 @@
 import sys
 sys.path.append('./..')
 
-import deep_feedback_learning
+import feedback_closedloop_learning as fcl
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-print("testDFLWithFilters")
+print("testFCLWithFilters")
 
 with open('test_dfl_filt_py.csv', 'wb') as csvfile:
     csvfile.close()
@@ -21,9 +21,9 @@ with open('test_dfl_filt_py.csv', 'ab') as csvfile:
     # nFiltersHidden = 0 means that the layer is linear without filters
     minT = 3
     maxT = 15
-    net = deep_feedback_learning.DeepFeedbackLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+    net = fcl.FeedbackClosedloopLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
-    net.initWeights(0.001,0,deep_feedback_learning.Neuron.MAX_OUTPUT_CONST)
+    net.initWeights(0.001,0,fcl.Neuron.MAX_OUTPUT_CONST)
     net.setBias(0)
     net.setLearningRate(0.0001)
     net.setUseDerivative(0)

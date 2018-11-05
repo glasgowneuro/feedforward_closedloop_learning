@@ -6,71 +6,71 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-project(deep_feedback_learning VERSION 1.0.3 LANGUAGES CXX)
+project(fcl VERSION 1.0.3 LANGUAGES CXX)
 include(GNUInstallDirs)
 
 add_subdirectory(tests_c)
 
 set(LIBSRC
-  dfl/neuron.cpp
-  dfl/bandpass.cpp
-  dfl/layer.cpp
-  deep_feedback_learning.cpp)
+  fcl/neuron.cpp
+  fcl/bandpass.cpp
+  fcl/layer.cpp
+  fcl.cpp)
 
 set(PUBLICHEADERS
-  deep_feedback_learning.h
+  fcl.h
   )
 
 set(PRIVATEHEADERS
-  dfl/neuron.h
-  dfl/bandpass.h
-  dfl/layer.h
-  dfl/globals.h
+  fcl/neuron.h
+  fcl/bandpass.h
+  fcl/layer.h
+  fcl/globals.h
   )
   
 
 if(UNIX)
   
-  add_library(deep_feedback_learning
+  add_library(fcl
     SHARED
     ${LIBSRC}
     )
   
-  target_include_directories(deep_feedback_learning PRIVATE dfl)
+  target_include_directories(fcl PRIVATE fcl)
   
-  set_target_properties(deep_feedback_learning PROPERTIES
+  set_target_properties(fcl PROPERTIES
     SOVERSION 1
     VERSION ${PROJECT_VERSION}
     PUBLIC_HEADER "${PUBLICHEADERS}"
     PRIVATE_HEADER "${PRIVATEHEADERS}")
   
-  install(TARGETS deep_feedback_learning
+  install(TARGETS fcl
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dfl)
+    PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fcl)
   
 endif(UNIX)
 
   
-add_library(deep_feedback_learning_static
+add_library(fcl_static
   STATIC
   ${LIBSRC}
   )
 
 find_package(Threads)
 
-target_link_libraries(deep_feedback_learning_static ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(fcl_static ${CMAKE_THREAD_LIBS_INIT})
 
-target_include_directories(deep_feedback_learning_static PRIVATE dfl)
+target_include_directories(fcl_static PRIVATE fcl)
 
-set_target_properties(deep_feedback_learning_static PROPERTIES
+set_target_properties(fcl_static PROPERTIES
   VERSION ${PROJECT_VERSION}
   PUBLIC_HEADER "${PUBLICHEADERS}"
   PRIVATE_HEADER "${PRIVATEHEADERS}")
 
-install(TARGETS deep_feedback_learning_static
+install(TARGETS fcl_static
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-  PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dfl)
+  PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fcl)

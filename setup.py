@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-setup.py file for deep_feedback_learning
+setup.py file for feedback_closedloop_learning
 """
 
 from setuptools import setup
@@ -12,23 +12,22 @@ from sys import platform
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-dfl_module = Extension('_deep_feedback_learning',
-		       sources=['deep_feedback_learning.i'],
-		       extra_compile_args=['-std=c++11'],
-                       extra_link_args=['libdeep_feedback_learning_static.a'],
+fcl_module = Extension('_feedback_closedloop_learning',
+		       sources=['fcl.i','fcl.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
+		       extra_compile_args=['-std=c++11','-O3'],
                        swig_opts=['-c++','-py3']
 )
 
 						   
-setup (name = 'deep_feedback_learning',
-       version = '1.0.3',
-       author      = "Bernd Porr",
+setup (name = 'feedback_closedloop_learning',
+       version = '1.0.0',
+       author      = "Bernd Porr, Paul Miller",
        author_email = "bernd@glasgowneuro.tech",
-       url = "https://github.com/glasgowneuro/deep_feedback_learning",
-       description = 'Deep feedback learning',
+       url = "https://github.com/glasgowneuro/feedback_closedloop_learning",
+       description = 'Feedback closed loop learning',
        long_description=read('README'),
-       ext_modules = [dfl_module],
-       py_modules = ["deep_feedback_learning"],
+       ext_modules = [fcl_module],
+       py_modules = ["feedback_closedloop_learning"],
        license='GPL 3.0',
        classifiers=[
           'Intended Audience :: Developers',

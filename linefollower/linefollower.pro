@@ -13,5 +13,5 @@ CONFIG          += qt warn_on debug
 QMAKE_CXXFLAGS += -std=c++0x -march=native -Og
 
 LIBS	+= /usr/local/lib/libenki.a
-LIBS	+= ../deep_feedback_learning.a
+LIBS	+= ../libfcl_static.a
 LIBS	+= -liir

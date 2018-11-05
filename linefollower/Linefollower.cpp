@@ -2,7 +2,7 @@
 #include "Racer.h"
 #include <QApplication>
 #include <QtGui>
-#include "deep_feedback_learning.h"
+#include "fcl.h"
 #include <Iir.h>
 
 #define IIRORDER 2
@@ -49,7 +49,7 @@ protected:
 
 	double learningRate = 0.0001;
 	
-	DeepFeedbackLearning* deep_fbl = NULL;
+	FeedbackClosedloopLearning* fcl = NULL;
 
 	double* pred = NULL;
 	double* err = NULL;
@@ -97,7 +97,7 @@ public:
 		err = new double[nNeuronsInHiddenLayers[0]];
 
 		// setting up deep feedback learning
-		deep_fbl = new DeepFeedbackLearning(
+		fcl = new FeedbackClosedloopLearning(
 			nInputs,
 			nNeuronsInHiddenLayers,
 			nHiddenLayers,
@@ -107,13 +107,13 @@ public:
 			minT,
 			maxT);
 
-		deep_fbl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-		deep_fbl->setLearningRate(learningRate);
-		deep_fbl->setLearningRateDiscountFactor(1);
-		deep_fbl->setBias(1);
-		deep_fbl->setUseDerivative(0);
-		deep_fbl->setActivationFunction(Neuron::TANH);
-		deep_fbl->setMomentum(0.9);
+		fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+		fcl->setLearningRate(learningRate);
+		fcl->setLearningRateDiscountFactor(1);
+		fcl->setBias(1);
+		fcl->setUseDerivative(0);
+		fcl->setActivationFunction(Neuron::TANH);
+		fcl->setMomentum(0.9);
 		
 	}
 
@@ -121,7 +121,7 @@ public:
 		fclose(flog);
 		fclose(llog);
 		fclose(fcoord);
-		delete deep_fbl;
+		delete fcl;
 		delete[] pred;
 		delete[] err;
 	}
@@ -129,7 +129,7 @@ public:
 	void setLearningRate(double _learningRate) {
 		if (_learningRate < 0) return;
 		learningRate = _learningRate;
-		deep_fbl->setLearningRate(learningRate);	
+		fcl->setLearningRate(learningRate);	
 	}
 
 	inline long getStep() {return step;}
@@ -170,10 +170,10 @@ public:
 		}
 		fprintf(stderr,"%d ",learningOff);
 		if (learningOff>0) {
-			deep_fbl->setLearningRate(0);
+			fcl->setLearningRate(0);
 			learningOff--;
 		} else {
-			deep_fbl->setLearningRate(learningRate);
+			fcl->setLearningRate(learningRate);
 		}
 
 		fprintf(stderr,"%e %e %e %e ",leftGround,rightGround,leftGround2,rightGround2);
@@ -188,13 +188,13 @@ public:
 			err[i] = error;
                 }
 		// !!!!
-		deep_fbl->doStep(pred,err);
-		float vL = (deep_fbl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
-			(deep_fbl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
-			(deep_fbl->getOutputLayer()->getNeuron(2)->getOutput())*2;
-		float vR = (deep_fbl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
-			(deep_fbl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
-			(deep_fbl->getOutputLayer()->getNeuron(5)->getOutput())*2;
+		fcl->doStep(pred,err);
+		float vL = (fcl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
+			(fcl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
+			(fcl->getOutputLayer()->getNeuron(2)->getOutput())*2;
+		float vR = (fcl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
+			(fcl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
+			(fcl->getOutputLayer()->getNeuron(5)->getOutput())*2;
 		
 		double erroramp = error * fbgain;
 		fprintf(stderr,"%e ",erroramp);
@@ -223,24 +223,24 @@ public:
 		}
 		
 		fprintf(flog,"%e %e %e ",erroramp,vL,vR);
-		for(int i=0;i<deep_fbl->getNumLayers();i++) {
-			fprintf(flog,"%e ",deep_fbl->getLayer(i)->getWeightDistanceFromInitialWeights());
+		for(int i=0;i<fcl->getNumLayers();i++) {
+			fprintf(flog,"%e ",fcl->getLayer(i)->getWeightDistanceFromInitialWeights());
 		}
 		fprintf(flog,"\n");
 		int n = 0;
 		fprintf(llog,"%e ",error);
 		fprintf(llog,"%e ",avgError);
 		fprintf(llog,"%e ",absError);
-		for(int i=0;i<deep_fbl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
-			fprintf(llog,"%e ",deep_fbl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
-			fprintf(llog,"%e ",deep_fbl->getLayer(0)->getNeuron(0)->getWeight(n,i));
+		for(int i=0;i<fcl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
+			fprintf(llog,"%e ",fcl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
+			fprintf(llog,"%e ",fcl->getLayer(0)->getNeuron(0)->getWeight(n,i));
 		}
-		fprintf(llog,"%e\n",deep_fbl->getLayer(0)->getNeuron(0)->getOutput());
+		fprintf(llog,"%e\n",fcl->getLayer(0)->getNeuron(0)->getOutput());
 		if ((step%100)==0) {
-			for(int i=0;i<deep_fbl->getNumLayers();i++) {
+			for(int i=0;i<fcl->getNumLayers();i++) {
 				char tmp[256];
 				sprintf(tmp,"layer%d.dat",i);
-				deep_fbl->getLayer(i)->saveWeightMatrix(tmp);
+				fcl->getLayer(i)->saveWeightMatrix(tmp);
 			}
 		}
 

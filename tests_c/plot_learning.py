@@ -1,7 +1,9 @@
+#!/usr/bin/python3
+
 import numpy as np
 import pylab as pl
 #
-data = np.loadtxt('test_deep_fbl_cpp_learning.dat')
+data = np.loadtxt('test_fcl_cpp_learning.dat')
 #
 pl.title('Full run')
 # compound

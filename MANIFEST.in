@@ -1,6 +1,6 @@
 include *.py
-include deep_feedback_learning.h
-include deep_feedback_learning.cpp
+include fcl.h
+include fcl.cpp
 include *.i
 include README
-recursive-include dfl *
+recursive-include fcl *
