@@ -16,8 +16,7 @@ How to compile / install?
       cmake .
       make
       sudo make install
-      ./setup.py build
-      sudo ./setup.py install
+      sudo ./setup.py install (or ./setup.py --user for local install)
 
 
 How to create a Python distribution?
