@@ -15,6 +15,7 @@ def read(fname):
 fcl_module = Extension('_feedback_closedloop_learning',
 		       sources=['fcl.i','fcl.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
 		       extra_compile_args=['-std=c++11','-O3'],
+                       include_dirs=[numpy.get_include()],
                        swig_opts=['-c++','-py3']
 )
 
@@ -29,6 +30,9 @@ setup (name = 'feedback_closedloop_learning',
        ext_modules = [fcl_module],
        py_modules = ["feedback_closedloop_learning"],
        license='GPL 3.0',
+       install_requires=[
+          'numpy',
+       ],
        classifiers=[
           'Intended Audience :: Developers',
           'Operating System :: POSIX',

@@ -13,8 +13,7 @@ sys.path.append('./..')
 
 import numpy as np
 import cv2
-import deep_feedback_learning
-from deep_feedback_learning import DeepFeedbackLearning
+import feedback_closedloop_learning as fcl
 
 game = DoomGame()
 
@@ -94,17 +93,15 @@ learningRate = 1e-3
 minT = 5
 maxT = 10
 
-net = DeepFeedbackLearning(widthNet*heightNet, nHidden, nOut, nFiltersInput, nFiltersHidden, minT,maxT)
-#net.getLayer(0).setConvolution(widthNet,heightNet)
-#net.getLayer(1).setConvolution(nHidden0,nHidden0)
-net.initWeights(1., deep_feedback_learning.Neuron.MAX_OUTPUT_RANDOM)
+net = fcl.FeedbackClosedloopLearning(widthNet*heightNet, nHidden, nOut, nFiltersInput, nFiltersHidden, minT,maxT)
+net.initWeights(1., fcl.Neuron.MAX_OUTPUT_RANDOM)
 net.setLearningRate(learningRate)
 net.setUseDerivative(0)
 net.setMomentum(0.5)
 net.setBias(0)
 #net.setLearningRateDiscountFactor(1)
-net.getLayer(0).setActivationFunction(deep_feedback_learning.Neuron.TANH)
-net.getLayer(1).setActivationFunction(deep_feedback_learning.Neuron.TANH)
+net.getLayer(0).setActivationFunction(fcl.Neuron.TANH)
+net.getLayer(1).setActivationFunction(fcl.Neuron.TANH)
 epoch = 200
 
 # Initialize the game. Further configuration won't take any effect from now on.
