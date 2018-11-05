@@ -6,7 +6,7 @@ Deep feedback learning library
 Prerequisites
 =============
 
-Ubuntu xenial with swig and vizdoom installed.
+Ubuntu xenial or bionic LTS with swig, vizdoom and opencv installed.
 
 
 
