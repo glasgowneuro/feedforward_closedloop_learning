@@ -20,7 +20,7 @@ fcl_module = Extension('_feedback_closedloop_learning',
                        swig_opts=['-c++','-py3']
 )
 
-						   
+
 setup (name = 'feedback_closedloop_learning',
        version = '1.0.0',
        author      = "Bernd Porr, Paul Miller",
