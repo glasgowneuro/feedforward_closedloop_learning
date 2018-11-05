@@ -8,6 +8,7 @@ from setuptools import setup
 from setuptools import Extension
 import os
 from sys import platform
+import numpy
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
