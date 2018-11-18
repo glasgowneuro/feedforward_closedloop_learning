@@ -1,6 +1,4 @@
-test_dfl_learning_with_filters.py
-=================================
-
+# test_dfl_learning_with_filters.py
 
 Stress test for the Python API.
 
@@ -11,4 +9,4 @@ layer.
 The stimulus is sent in between timestep 100..105 and
 the error from time steps 105..110.
 
-This is repeated then every 200 time steps and plotted.
+This is repeated then every 200 time steps and then plotted.

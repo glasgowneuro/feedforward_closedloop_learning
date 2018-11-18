@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import sys
-sys.path.append('./..')
 
 import feedback_closedloop_learning as fcl
 import numpy as np

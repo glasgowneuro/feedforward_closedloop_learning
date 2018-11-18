@@ -12,6 +12,8 @@
     import_array();
 %}
 
+%feature("autodoc", "3");
+
 %apply (double* IN_ARRAY1, int DIM1) {(double* input, int n1), (double* error, int n2)};
 %apply (int* IN_ARRAY1, int DIM1) {(int* num_of_hidden_neurons_per_layer_array, int _num_hid_layers)};
 
