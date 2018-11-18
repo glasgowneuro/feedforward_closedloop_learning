@@ -1,4 +1,4 @@
-%module feedback_closedloop_learning
+%module(docstring="Feedback Closed Loop Learning") feedback_closedloop_learning
 %{
 	#define SWIG_FILE_WITH_INIT
 	#include "fcl.h"
