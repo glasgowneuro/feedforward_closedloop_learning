@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Ubuntu xenial or bionic LTS with swig, vizdoom and opencv installed.
+Ubuntu xenial or bionic LTS with swig installed.
 
 
 ## How to compile / install?
