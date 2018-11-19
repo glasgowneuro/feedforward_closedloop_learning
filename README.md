@@ -17,3 +17,6 @@ Ubuntu xenial or bionic LTS with swig installed.
 
 These are in tests_c and tests_py to demonstrate the C API and the python
 API.
+
+A classic line follower demo and our vizdoom demo can be found here:
+https://github.com/glasgowneuro/fcl_demos

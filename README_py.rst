@@ -10,7 +10,7 @@ The documentation of all functions can be obtained with::
   >>> import feedback_closedloop_learning as fcl
   >>> help(fcl)
 
-The best way to get started is to download the script
+The best way to get started is to look at the script
 in `tests_py` from:
 https://github.com/glasgowneuro/feedback_closed_loop_learning
 
@@ -34,6 +34,8 @@ Constructors::
 			_num_hid_layers,
 			num_outputs)
 
+
+
   filter number >0 means: filterbank
   filter number = 0 means layer without filters
   num_of_inputs: number of inputs in the input layer
@@ -44,6 +46,7 @@ Constructors::
   num_filtersHidden: number of filters in the hiddel layers (usually zero)
   minT: minimum/first temporal duration of the 1st filter
   maxT: maximum/last temporal duration of the last filter
+  
   FeedbackClosedloopLearning(
 			num_of_inputs,
 			num_of_hidden_neurons_per_layer_array,
@@ -70,7 +73,8 @@ Gets the output from one of the output neurons::
   
 Sets globally the learning rate::
 
-  learningRate for all layers and neurons.
+  learningRate: for all layers and neurons
+  
   setLearningRate(learningRate)
 
   
@@ -84,6 +88,7 @@ Sets how the learnign rate increases or decreases from layer to layer::
 Sets a typical weight decay scaled with the learning rate::
 
   decay: >0, the larger the faster the decay
+  
   setDecay(double decay)
 
   
@@ -95,6 +100,7 @@ Sets the global momentum for all layers::
 Sets the activation function of the Neuron::
 
   activationFunction: see Neuron.ActivationFunction for the different options
+  
   setActivationFunction(activationFunction);
 
   
@@ -152,4 +158,3 @@ Saves the whole network::
 Loads the network::
 
   bool loadModel(const char* name);
-
