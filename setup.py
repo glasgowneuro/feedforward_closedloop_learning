@@ -22,7 +22,7 @@ fcl_module = Extension('_feedback_closedloop_learning',
 
 
 setup (name = 'feedback_closedloop_learning',
-       version = '1.0.4.0',
+       version = '1.0.4.1',
        author      = "Bernd Porr, Paul Miller",
        author_email = "bernd@glasgowneuro.tech",
        url = "https://github.com/glasgowneuro/feedback_closedloop_learning",

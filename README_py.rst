@@ -2,10 +2,6 @@
 Feedback closed loop learning library/API
 =========================================
 
-The API is identical to the C++ API: `fcl.h`,
-`neuron.h` and `layer.h` contain docstrings for
-all important calls.
-
 The documentation of all functions can be obtained with::
   >>> import feedback_closedloop_learning as fcl
   >>> help(fcl)
@@ -20,6 +16,10 @@ agent: https://github.com/glasgowneuro/fcl_demos
 
 API
 ===
+
+The API is identical to the C++ API: `fcl.h`,
+`neuron.h` and `layer.h` contain docstrings for
+all important calls.
 
 Constructors::
 
