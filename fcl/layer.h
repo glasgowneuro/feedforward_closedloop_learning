@@ -156,8 +156,13 @@ class MaxDetThread : public LayerThread {
 
 
 
-
-
+/** Layer which contains the neurons of one layer.
+ * It performs all computations possible in a
+ * layer. In particular it calls all neurons in 
+ * separate threads and triggers the compuations
+ * there. These functions are all called from the
+ * parent class.
+ **/
 class Layer {
 	
 public:
@@ -197,80 +202,142 @@ public:
          **/
 	void doLearning();
 
-	// sets the global error for all neurons
+	/** Sets the global error for all neurons
+         * \param _error Sets the error in the whole layer
+         **/
 	void setError( double _error);
 
-	// sets the error individually
+	/** sets the error individually
+         * \param i Index of the neuron
+         * \param _error The error to be set
+         **/
 	void setError( int i,  double _error);
 
-	// sets all errors from an input array
+	/** Sets all errors from an input array
+         * \param _errors is an array of errors
+         **/
 	void setErrors( double *_errors);
 
-	// retrieves the error
+	/** Retrieves the error
+         * \param i Index of the neuron
+         **/
 	double getError( int i);
 
-	// sets the global error for all neurons
+	/** Sets the global bias for all neurons
+         * \param _bias The bias for all neurons
+         **/
 	void setBias( double _bias);
 
-	// sets if we use the derivative
+	/** Sets if we use the derivative
+         * \param useIt If set to one the derivative of the error it taken
+         **/
 	void setUseDerivative( int useIt);
 
-	// this is used to copy the output from the previous
-	// layer into this input layer or to the sensor inputs
+        /** Set the input value of one input
+         * \param inputIndex The index number of the input.
+         * \param input The value of the input
+         **/
 	void setInput( int inputIndex,  double input);
 
-	// sets all inputs from an input array
+	/** Sets all inputs from an input array
+         * \param _inputs array of all inputs
+         **/
 	void setInputs( double * _inputs);
 
-	// sets the learning rate of all neurons
+	/** Sets the learning rate of all neurons
+         * \param _learningRate The learning rate
+         **/
 	void setLearningRate( double _learningRate);
 
-	// chooses the activation function
+	/** Set the activation function
+         * \param _activationFunction The activation function. See: Neuron::ActivationFunction
+         **/
 	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
 
-	// set the momentum of all neurons in this layer
+	/** Set the momentum of all neurons in this layer
+         * \param _momentum The momentum for all neurons in this layer.
+         **/
 	void setMomentum( double _momentum);
 
-	// sets the weight decay scaled by the learning rate and abs(error)
+	/** Sets the weight decay scaled by the learning rate
+         * \param _decay The decay rate of the weights
+         **/
 	void setDecay( double _decay);
 
-	// inits weights with a random value between -_max and max
+	/** Inits the weights
+         * \param _max Maximum value if using random init.
+         * \param initBiasWeight if one also the bias weight is initialised.
+         * \param weightInitMethod The methid employed to init the weights.
+         **/
 	void initWeights( double _max = 1,
 			  int initBiasWeight = 1,
 			  Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
 	
-	// gets the outpuut of one neuron
+	/** Gets the outpuut of one neuron
+         * \param index The index number of the neuron.
+         * \return Retuns the double valye of the output.
+         **/
 	inline double getOutput( int index) {
 		return neurons[index]->getOutput();
 	}
 
-	// gets a pointer to one neuron
+	/** Gets a pointer to one neuron
+         * \param index The index number of the neuron.
+         * \return A pointer to a Layer class.
+         **/
 	inline Neuron* getNeuron( int index) {
 		assert(index < nNeurons);
 		return neurons[index];
 	}
 
-	// number of neurons
+	/** Gets the number of neurons
+         * \return The number of neurons.
+         **/
 	inline int getNneurons() { return nNeurons;}
 
-	// number of inputs
+	/** Number of inputs
+	 * \return The number of inputs
+         **/
 	inline int getNinputs() { return nInputs;}
 
+	/** Defines a 2D geometry for the input layer of widthxheight
+         * \param width The width of the convolutional window.
+         * \param height The height of the convolution window.
+         **/
 	void setConvolution( int width,  int height);
 
+	/** Maxium detection layer. Experimental.
+         * This hasn't been implemented.
+         **/
 	void setMaxDetLayer(int _m) { maxDetLayer = _m; };
 
+	/** Normalise the weights
+         * \param _normaliseWeights Metod of normalisation.
+         **/
 	void setNormaliseWeights(WeightNormalisation _normaliseWeights);
 
+	/** Sets the layer index within the whole network.
+         * \param layerIndex The layer index in the whole network.
+         **/
 	void setDebugInfo(int layerIndex);
 
+	/** Sets the simulation step in the layer for debug purposes.
+         * \param step Step number.
+         **/
 	void setStep(long int step);
 
+	/** Get weight distance from the start of the simulation
+         * \return The distance from the initial (random) weight setup.
+         **/
 	double getWeightDistanceFromInitialWeights();
 
+	/** Performs the weight normalisation
+         **/
 	void doNormaliseWeights();
 
-	// 0 = no Threads, 1 = Threads
+	/** Sets if threads should be used
+         * \param _useThreads 0 = no Threads, 1 = Threads
+         **/
 	void setUseThreads(int _useThreads) {
 		useThreads = _useThreads;
 		if (!useThreads) {
@@ -278,7 +345,11 @@ public:
 		}
 	};
 
+	/** Save weight matrix for documentation and debugging
+         * \param filename The filename it should be saved to.
+         **/
 	int saveWeightMatrix(char *filename);
+
 	
 private:
 
