@@ -20,3 +20,8 @@ API.
 
 A classic line follower demo and our vizdoom demo can be found here:
 https://github.com/glasgowneuro/fcl_demos
+
+## Class reference
+
+Run `doxygen` to generate the reference documentation for all classes.
+This will be written to the `doc` subdirectory in both HTML and LaTeX.

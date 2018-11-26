@@ -161,9 +161,24 @@ class MaxDetThread : public LayerThread {
 class Layer {
 	
 public:
+	/** Constructor
+         * \param _nNeurons Number of neurons in the layer.
+         * \param _nInputs Number of inputs to the Layer.
+         * \param _nFilters Number of lowpass filters at each input.
+         * \param _minT Minimum time of the lowpass filter.
+         * \param _maxT Maximum time of the lowpass filter.
+         **/
 	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
+
+	/** Destructor
+         * Frees all memory
+         **/
 	~Layer();
 
+	/** Weight normalisation constants
+         * Defines if weights are normalised layer-wide or
+         * for every neuron separately.
+         **/
 	enum WeightNormalisation {
 		WEIGHT_NORM_NONE = 0,
 		WEIGHT_NORM_LAYER_EUCLEDIAN = 1,
@@ -174,7 +189,12 @@ public:
 		WEIGHT_NORM_NEURON_INFINITY = 6
 	};
 
+	/** Calculates the output values in all neurons
+         **/
 	void calcOutputs();
+
+	/** Adjusts the weights
+         **/
 	void doLearning();
 
 	// sets the global error for all neurons
