@@ -25,3 +25,14 @@ https://github.com/glasgowneuro/fcl_demos
 
 Run `doxygen` to generate the reference documentation for all classes.
 This will be written to the `doc` subdirectory in both HTML and LaTeX.
+
+## License
+
+GNU GENERAL PUBLIC LICENSE
+
+Version 3, 29 June 2007
+
+```
+(C) 2017,2018, Bernd Porr <bernd@glasgowneuro.tech>
+(C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
+```

@@ -25,6 +25,7 @@
 
 #define NUM_THREADS 12
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 // abstract thread which contains the inner workings of the thread model
 class LayerThread {
@@ -154,6 +155,8 @@ class MaxDetThread : public LayerThread {
 	}
 };
 
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 
 /** Layer which contains the neurons of one layer.
