@@ -42,6 +42,9 @@ public:
 	 **/
 	void impulse(char* name);
 
+	/**
+         * Normalises the output with f
+         **/
 	void calcNorm(double f);
 
 	/**

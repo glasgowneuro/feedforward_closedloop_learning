@@ -438,13 +438,6 @@ void Neuron::normaliseWeights(double norm) {
 	double** weightsp1 = weights;
 	unsigned char * maskp = mask;
 	
-	//note to myself: Manhattan Norm Doesn't work!!!!
-	//double norm = getManhattanNormOfWeightVector();
-
-	//very lazy norm...
-	//double norm = getInfinityNormOfWeightVector();
-
-	//fprintf(stderr,"norm=%e\n",norm);
 	if (fabs(norm) > 0) {
 		weightsp1 = weights;
 		maskp = mask;

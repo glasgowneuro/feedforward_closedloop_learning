@@ -1,14 +1,6 @@
 #ifndef __FEEDBACK_CLOSED_LOOP_LEARNING_H_
 #define __FEEDBACK_CLOSED_LOOP_LEARNING_H_
 
-/**
- * GNU GENERAL PUBLIC LICENSE
- * Version 3, 29 June 2007
- *
- * (C) 2017,2018, Bernd Porr <bernd@glasgowneuro.tech>
- * (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
- **/
-
 #include "fcl/globals.h"
 #include "fcl/layer.h"
 #include "fcl/neuron.h"
@@ -19,9 +11,7 @@
 #include <assert.h>
 
 
-//#define DEBUG_DFL
-
-/** Main class of Feedback Closed Loop Learning
+/** Main class of Feedback Closed Loop Learning.
  * Create an instance of this class to do the
  * learning. It will create the whole network
  * with an input layer, hidden layers and an
