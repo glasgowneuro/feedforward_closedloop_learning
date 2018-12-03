@@ -6,12 +6,18 @@ Ubuntu xenial or bionic LTS with swig installed.
 
 
 ## How to compile / install?
+
+### From source (C++ and Python)
 ```
       cmake .
       make
       sudo make install
       sudo ./setup.py install
 ```
+
+### From PyPi (Python only)
+
+https://pypi.org/project/feedback_closedloop_learning/
 
 ## Tests / demos
 
