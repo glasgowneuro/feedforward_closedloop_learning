@@ -2,5 +2,5 @@ include *.py
 include fcl.h
 include fcl.cpp
 include *.i
-include README
+include README*
 recursive-include fcl *
