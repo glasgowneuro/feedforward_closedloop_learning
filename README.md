@@ -17,7 +17,7 @@ Ubuntu xenial or bionic LTS with swig installed.
 
 ### From PyPi (Python only)
 
-https://pypi.org/project/feedback_closedloop_learning/
+https://pypi.org/project/feedforward_closedloop_learning/
 
 ## Tests / demos
 
