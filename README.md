@@ -29,8 +29,11 @@ https://github.com/glasgowneuro/fcl_demos
 
 ## Class reference
 
-Run `doxygen` to generate the reference documentation for all classes.
-This will be written to the `doc` subdirectory in both HTML and LaTeX.
+Run `doxygen` to generate the reference documentation for all classes:
+```
+make docs
+```
+This will be written to the `docs` subdirectory in HTML, RTF and LaTeX.
 
 ## License
 

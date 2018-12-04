@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 
 
-import feedback_closedloop_learning as fcl
+import feedforward_closedloop_learning as fcl
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 print("testFCLWithFilters")
 
-with open('test_dfl_filt_py.csv', 'wb') as csvfile:
+with open('test_fcl_filt_py.csv', 'wb') as csvfile:
     csvfile.close()
     
-with open('test_dfl_filt_py.csv', 'ab') as csvfile:
+with open('test_fcl_filt_py.csv', 'ab') as csvfile:
     # two input neurons, two hidden ones and one output neuron
     # two filters and min temp filter is 10 pixels and max 100 pixels
     nFiltersInput = 5
@@ -19,7 +19,7 @@ with open('test_dfl_filt_py.csv', 'ab') as csvfile:
     # nFiltersHidden = 0 means that the layer is linear without filters
     minT = 3
     maxT = 15
-    net = fcl.FeedbackClosedloopLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
+    net = fcl.FeedforwardClosedloopLearning(2, [2], 1, nFiltersInput, nFiltersHidden, minT,maxT)
     # init the weights
     net.initWeights(0.001,0,fcl.Neuron.MAX_OUTPUT_CONST)
     net.setBias(0)

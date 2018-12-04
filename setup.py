@@ -22,10 +22,10 @@ fcl_module = Extension('_feedforward_closedloop_learning',
 
 
 setup (name = 'feedforward_closedloop_learning',
-       version = '1.2.0',
+       version = '1.2.1',
        author      = "Bernd Porr, Paul Miller",
        author_email = "bernd@glasgowneuro.tech",
-       url = "https://github.com/glasgowneuro/feedback_closedloop_learning",
+       url = "https://github.com/glasgowneuro/feedforward_closedloop_learning",
        description = 'Feedforward Closedloop Learning (FCL)',
        long_description=read('README_py.rst'),
        ext_modules = [fcl_module],
