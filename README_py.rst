@@ -1,5 +1,5 @@
 =========================================
-Feedback closed loop learning library/API
+Feedforward closed loop learning library/API
 =========================================
 
 The documentation of all functions can be obtained with::
@@ -30,7 +30,7 @@ Constructors::
   num_hid_layers: number of hidden layer (needs to match with array above)
   num_outputs: number of output in the output layer
 
-  FeedbackClosedloopLearning(
+  FeedforwardClosedloopLearning(
 			num_of_inputs,
 			num_of_hidden_neurons_per_layer_array,
 			_num_hid_layers,
@@ -49,7 +49,7 @@ Constructors::
   minT: minimum/first temporal duration of the 1st filter
   maxT: maximum/last temporal duration of the last filter
   
-  FeedbackClosedloopLearning(
+  FeedforwardClosedloopLearning(
 			num_of_inputs,
 			num_of_hidden_neurons_per_layer_array,
 			num_hid_layers,

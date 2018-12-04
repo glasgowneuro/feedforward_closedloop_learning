@@ -79,7 +79,7 @@ install(TARGETS fcl_static
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
-    add_custom_target(doc ALL
+    add_custom_target(docs
                       COMMAND ${DOXYGEN_EXECUTABLE}
                       COMMENT "Generating API documentation with Doxygen"
                       VERBATIM)
