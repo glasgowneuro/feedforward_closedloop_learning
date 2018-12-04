@@ -9,7 +9,7 @@
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-FeedbackClosedloopLearning::FeedbackClosedloopLearning(
+FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(
 	int num_of_inputs,
 	int* num_of_hidden_neurons_per_layer_array,
 	int _num_hid_layers,
@@ -72,7 +72,7 @@ FeedbackClosedloopLearning::FeedbackClosedloopLearning(
 	setDebugInfo();
 }
 
-FeedbackClosedloopLearning::FeedbackClosedloopLearning(int num_input,
+FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
 					   int* num_hidden_array,
 					   int _num_hid_layers,
 					   int num_output) {
@@ -120,7 +120,7 @@ FeedbackClosedloopLearning::FeedbackClosedloopLearning(int num_input,
 	setLearningRate(0);
 }
 
-FeedbackClosedloopLearning::~FeedbackClosedloopLearning() {
+FeedforwardClosedloopLearning::~FeedforwardClosedloopLearning() {
 	for (int i=0; i<num_hid_layers+1; i++) {
 		delete layers[i];
 	}
@@ -129,7 +129,7 @@ FeedbackClosedloopLearning::~FeedbackClosedloopLearning() {
 }
 
 
-void FeedbackClosedloopLearning::doStep(double* input, int n1, double* error, int n2) {
+void FeedforwardClosedloopLearning::doStep(double* input, int n1, double* error, int n2) {
 #ifdef DEBUG_DFL
 	fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
 #endif
@@ -148,33 +148,33 @@ void FeedbackClosedloopLearning::doStep(double* input, int n1, double* error, in
 }
 
 
-void FeedbackClosedloopLearning::setStep() {
+void FeedforwardClosedloopLearning::setStep() {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->setStep(step);
 	}
 }
 
-void FeedbackClosedloopLearning::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
+void FeedforwardClosedloopLearning::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->setActivationFunction(_activationFunction);
 	}	
 }
 
-void FeedbackClosedloopLearning::doLearning() {
+void FeedforwardClosedloopLearning::doLearning() {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->doLearning();
 	}
 }
 
 
-void FeedbackClosedloopLearning::setDecay(double decay) {
+void FeedforwardClosedloopLearning::setDecay(double decay) {
 	for (int k=0; k<=num_hid_layers; k++) {
 		layers[k]->setDecay(decay);
 	}
 }
 
 
-void FeedbackClosedloopLearning::doStep(double* input, double* error) {
+void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 	// we set the input to the input layer
 	layers[0]->setInputs(input);
 	// ..and calc its output
@@ -217,7 +217,7 @@ void FeedbackClosedloopLearning::doStep(double* input, double* error) {
 					emitterLayer->getNeuron(j)->getError();
 #ifdef RANGE_CHECKS
 				if (isnan(err) || (fabs(err)>10000) || (fabs(emitterLayer->getNeuron(j)->getError())>10000)) {
-					printf("RANGE! FeedbackClosedloopLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
+					printf("RANGE! FeedforwardClosedloopLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
 					       "err=%e, emitterLayer->getNeuron(j)->getError()=%e\n",
 					       __func__,step,j,i,k,err,emitterLayer->getNeuron(j)->getError());
 				}
@@ -235,7 +235,7 @@ void FeedbackClosedloopLearning::doStep(double* input, double* error) {
 	step++;
 }
 
-void FeedbackClosedloopLearning::setLearningRate(double rate) {
+void FeedforwardClosedloopLearning::setLearningRate(double rate) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 #ifdef DEBUG_DFL
 		fprintf(stderr,"setLearningRate in layer %d\n",i);
@@ -244,7 +244,7 @@ void FeedbackClosedloopLearning::setLearningRate(double rate) {
 	}
 }
 
-void FeedbackClosedloopLearning::setMomentum(double momentum) {
+void FeedforwardClosedloopLearning::setMomentum(double momentum) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 #ifdef DEBUG_DFL
 		fprintf(stderr,"setMomentum in layer %d\n",i);
@@ -255,33 +255,33 @@ void FeedbackClosedloopLearning::setMomentum(double momentum) {
 
 
 
-void FeedbackClosedloopLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
+void FeedforwardClosedloopLearning::initWeights(double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->initWeights(max,initBias,weightInitMethod);
 	}
 }
 
 
-void FeedbackClosedloopLearning::setUseDerivative(int useIt) {
+void FeedforwardClosedloopLearning::setUseDerivative(int useIt) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setUseDerivative(useIt);
 	}
 }
 
-void FeedbackClosedloopLearning::setBias(double _bias) {
+void FeedforwardClosedloopLearning::setBias(double _bias) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setBias(_bias);
 	}
 }
 
-void FeedbackClosedloopLearning::setDebugInfo() {
+void FeedforwardClosedloopLearning::setDebugInfo() {
 	for (int i=0; i<(num_hid_layers+1); i++) {
 		layers[i]->setDebugInfo(i);
 	}
 }
 
 // need to add bias weight
-bool FeedbackClosedloopLearning::saveModel(const char* name) {
+bool FeedforwardClosedloopLearning::saveModel(const char* name) {
 	Layer *layer;
 	Neuron *neuron;
 
@@ -314,7 +314,7 @@ bool FeedbackClosedloopLearning::saveModel(const char* name) {
 	return true;
 }
 
-bool FeedbackClosedloopLearning::loadModel(const char* name) {
+bool FeedforwardClosedloopLearning::loadModel(const char* name) {
 	Layer *layer;
 	Neuron *neuron;
 	double weight;

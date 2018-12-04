@@ -1,4 +1,4 @@
-# Feedback closed loop learning library
+# Feedforward Closedloop Learning library
 
 ## Prerequisites
 

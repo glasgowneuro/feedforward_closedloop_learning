@@ -1,5 +1,5 @@
-#ifndef __FEEDBACK_CLOSED_LOOP_LEARNING_H_
-#define __FEEDBACK_CLOSED_LOOP_LEARNING_H_
+#ifndef __FEEDFORWARD_CLOSEDLOOP_LEARNING_H_
+#define __FEEDFORWARD_CLOSEDLOOP_LEARNING_H_
 
 #include "fcl/globals.h"
 #include "fcl/layer.h"
@@ -19,7 +19,7 @@
  * by first setting the input values and errors
  * and then calling doStep().
  **/
-class FeedbackClosedloopLearning {
+class FeedforwardClosedloopLearning {
 
 public:
 	
@@ -29,7 +29,7 @@ public:
 	 * \param _num_hid_layers Number of hidden layer (needs to match with array above)
 	 * \param num_outputs Number of output in the output layer
 	 **/
-	FeedbackClosedloopLearning(
+	FeedforwardClosedloopLearning(
 			int num_of_inputs,
 			int* num_of_hidden_neurons_per_layer_array,
 			int _num_hid_layers,
@@ -45,7 +45,7 @@ public:
          * \param _minT Minimum/first temporal duration of the 1st filter
          * \param _maxT Maximum/last temporal duration of the last filter
          **/
-	FeedbackClosedloopLearning(
+	FeedforwardClosedloopLearning(
 			int num_of_inputs,
 			int* num_of_hidden_neurons_per_layer_array,
 			int _num_hid_layers,
@@ -58,7 +58,7 @@ public:
 	/** Destructor
          * De-allocated any memory
          **/
-	~FeedbackClosedloopLearning();
+	~FeedforwardClosedloopLearning();
 
 	/** Performs the simulation step
          * \param input Array with the input values

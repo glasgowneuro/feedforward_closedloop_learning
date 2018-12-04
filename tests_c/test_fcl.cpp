@@ -14,7 +14,7 @@ void test_forward() {
 	int nFiltersHidden = 10;
 	int nNeuronsHidden[] = {10,10};
 
-	FeedbackClosedloopLearning* fcl = new FeedbackClosedloopLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
+	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nNeuronsHidden,2,1,nFiltersInput,nFiltersHidden,100,200);
 	fcl->seedRandom(1);
 	FILE* f=fopen("test_fcl_cpp_forward.dat","wt");
 	// no learning
@@ -52,7 +52,7 @@ void test_forward() {
 
 void test_learning_fcl() {
 	int nHidden[] = {2};
-	FeedbackClosedloopLearning* fcl = new FeedbackClosedloopLearning(2,nHidden,1,1);
+	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nHidden,1,1);
 	fcl->seedRandom(1);
 	fcl->setLearningRate(0.001);
 	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
@@ -115,7 +115,7 @@ void test_learning_fcl() {
 
 void test_learning_fcl_filters() {
 	int nHidden[] = {2};
-	FeedbackClosedloopLearning* fcl = new FeedbackClosedloopLearning(2,nHidden,1,1);
+	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nHidden,1,1);
 	fcl->seedRandom(1);
 	fcl->setLearningRate(0.001);
 	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
