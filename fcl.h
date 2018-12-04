@@ -11,13 +11,20 @@
 #include <assert.h>
 
 
-/** Main class of Feedback Closed Loop Learning.
+/** Main class of Feedforward Closed Loop Learning.
  * Create an instance of this class to do the
  * learning. It will create the whole network
  * with an input layer, hidden layers and an
  * output layer. Learning is done iterative
  * by first setting the input values and errors
  * and then calling doStep().
+ *
+ * (C) 2017,2018, Bernd Porr <bernd@glasgowneuro.tech>
+ * (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
+ *
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ *
  **/
 class FeedforwardClosedloopLearning {
 

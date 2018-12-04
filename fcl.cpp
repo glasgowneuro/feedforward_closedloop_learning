@@ -33,38 +33,38 @@ FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(
 	layers = new Layer*[num_hid_layers+1];
 
 	// creating input layer
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"Creating input layer: ");
 #endif
 	layers[0] = new Layer(num_of_hidden_neurons_per_layer_array[0], ni,nfInput,minT,maxT);
 	n_hidden[0] = num_of_hidden_neurons_per_layer_array[0];
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"created! n_hidden[0]=%d\n",n_hidden[0]);
 #endif
 
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"Creating hidden layers: ");
 #endif
 	// additional hidden layers
 	// note that these are _additional_ layers
 	for(int i=1; i<num_hid_layers; i++) {
 		n_hidden[i] = num_of_hidden_neurons_per_layer_array[i];
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 		fprintf(stderr,"Creating layers %d: ",i);
 #endif
 		layers[i] = new Layer(n_hidden[i], layers[i-1]->getNneurons(),nfHidden,minT,maxT);
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 		fprintf(stderr,"created with %d neurons.",layers[i]->getNneurons());
 #endif
 
 	}
 
 	// output layer
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"Creating output layer: ");
 #endif
 	layers[num_hid_layers] = new Layer(no, layers[num_hid_layers-1]->getNneurons(),nfHidden,minT,maxT);
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"created! n_hidden[0]=%d\n",layers[i]->getNneurons());
 #endif
 
@@ -89,31 +89,31 @@ FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
 	layers = new Layer*[num_hid_layers+1];
 
 	// creating input layer
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"Creating input layer: ");
 #endif
 	layers[0] = new Layer(num_hidden_array[0], ni);
 	n_hidden[0] = num_hidden_array[0];
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"created! n_hidden[0]=%d\n",n_hidden[0]);
 #endif
 	
 	for(int i=1; i<num_hid_layers; i++) {
 		n_hidden[i] = num_hidden_array[i];
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 		fprintf(stderr,"Creating layers %d: ",i);
 #endif
 		layers[i] = new Layer(n_hidden[i], layers[i-1]->getNneurons());
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 		fprintf(stderr,"created with %d neurons.",layers[i]->getNneurons());
 #endif
 	}
 	// output layer
-	#ifdef DEBUG_DFL
+	#ifdef DEBUG_FCL
 		fprintf(stderr,"Creating output layer: ");
 	#endif
 	layers[num_hid_layers] = new Layer(no, layers[num_hid_layers-1]->getNneurons());
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"created! n_hidden[0]=%d\n",layers[i]->getNneurons());
 #endif
 
@@ -130,7 +130,7 @@ FeedforwardClosedloopLearning::~FeedforwardClosedloopLearning() {
 
 
 void FeedforwardClosedloopLearning::doStep(double* input, int n1, double* error, int n2) {
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 	fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
 #endif
 	if (n1 != ni) {
@@ -237,7 +237,7 @@ void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 
 void FeedforwardClosedloopLearning::setLearningRate(double rate) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 		fprintf(stderr,"setLearningRate in layer %d\n",i);
 #endif
 		layers[i]->setLearningRate(rate);
@@ -246,7 +246,7 @@ void FeedforwardClosedloopLearning::setLearningRate(double rate) {
 
 void FeedforwardClosedloopLearning::setMomentum(double momentum) {
 	for (int i=0; i<(num_hid_layers+1); i++) {
-#ifdef DEBUG_DFL
+#ifdef DEBUG_FCL
 		fprintf(stderr,"setMomentum in layer %d\n",i);
 #endif
 		layers[i]->setMomentum(momentum);

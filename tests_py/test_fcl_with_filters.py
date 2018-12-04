@@ -45,7 +45,6 @@ with open('test_fcl_filt_py.csv', 'ab') as csvfile:
             err= 1
         else :
             err= 0
-        # does both forward propagation and backpropagation
         # print(inp,err)
         net.doStep([inp,0],[err,err])
         # gets the output of the output neuron
