@@ -21,7 +21,7 @@ https://pypi.org/project/feedforward_closedloop_learning/
 
 ## Tests / demos
 
-These are in tests_c and tests_py to demonstrate the C API and the python
+These are in tests_c and tests_py to demonstrate the C++ API and the python
 API.
 
 A classic line follower demo and our vizdoom demo can be found here:
