@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-project(fcl VERSION 1.2.2 LANGUAGES CXX)
+project(fcl VERSION 1.2.3 LANGUAGES CXX)
 include(GNUInstallDirs)
 
 add_subdirectory(tests_c)
