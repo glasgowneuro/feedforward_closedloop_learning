@@ -50,3 +50,6 @@ Version 3, 29 June 2007
 (C) 2017,2018, Bernd Porr <bernd@glasgowneuro.tech>
 (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
 ```
+## Citation
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1944837.svg)](https://doi.org/10.5281/zenodo.1944837)
