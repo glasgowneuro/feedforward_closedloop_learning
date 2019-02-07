@@ -13,12 +13,22 @@ import numpy
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-fcl_module = Extension('_feedforward_closedloop_learning',
+
+if platform == "linux" or platform == "linux2" or platform == "darwin":
+    fcl_module = Extension('_feedforward_closedloop_learning',
 		       sources=['fcl.i','fcl.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
 		       extra_compile_args=['-std=c++11','-O3'],
                        include_dirs=[numpy.get_include()],
                        swig_opts=['-c++','-py3']
-)
+                       )
+elif platform == "win32":
+    fcl_module = Extension('_feedforward_closedloop_learning',
+		       sources=['fcl.i','fcl.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
+		       extra_compile_args=['-D_CRT_SECURE_NO_WARNINGS'],
+                       include_dirs=[numpy.get_include()],
+                       swig_opts=['-c++','-py3']
+                       )
+
 
 
 setup (name = 'feedforward_closedloop_learning',
@@ -36,7 +46,6 @@ setup (name = 'feedforward_closedloop_learning',
        ],
        classifiers=[
           'Intended Audience :: Developers',
-          'Operating System :: POSIX',
           'Programming Language :: Python'
           ]
       )

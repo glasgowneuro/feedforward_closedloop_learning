@@ -9,6 +9,8 @@ endif()
 project(fcl VERSION 1.2.4 LANGUAGES CXX)
 include(GNUInstallDirs)
 
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
 add_subdirectory(tests_c)
 
 set(LIBSRC
