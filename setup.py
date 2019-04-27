@@ -32,7 +32,7 @@ elif platform == "win32":
 
 
 setup (name = 'feedforward_closedloop_learning',
-       version = '1.2.4',
+       version = '1.2.5',
        author      = "Bernd Porr, Paul Miller",
        author_email = "bernd@glasgowneuro.tech",
        url = "https://github.com/glasgowneuro/feedforward_closedloop_learning",
