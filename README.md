@@ -1,7 +1,7 @@
 # Feedforward Closedloop Learning
 
-![alt tag](1.png)
 ![alt tag](2.png)
+![alt tag](1.png)
 
 [Forward propagation closed loop learning
 Bernd Porr, Paul Miller. Adaptive Behaviour 2019.](https://journals.sagepub.com/doi/10.1177/1059712319851070)
