@@ -10,19 +10,19 @@ of sensors in front of the robot.
 
 ## Pre-requisites
 
-Ubuntu Linux: xenial or bionic LTS.
+Ubuntu Linux LTS
 
 QT5 development libraries with openGL
 
-QT5 version of ENKI:
-https://github.com/glasgowneuro/enki
+ENKI:
+https://github.com/enki-community/
 
 The Feedforward Closed Loop Learning Library:
 https://github.com/glasgowneuro/feedforward_closed_loop_learning
 
 ## Compilation
 
-`qmake` and `make` to compile it.
+`cmake .` and `make` to compile it.
 
 ## Running the line follower
 
@@ -57,4 +57,3 @@ the line follower is running.
 
 Run the script `plotweights.py` which plots the weights while
 the line follower is running.
-
