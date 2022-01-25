@@ -1,17 +1,21 @@
-cmake_minimum_required(VERSION 3.5)
-set (CMAKE_CXX_STANDARD 11)
+cmake_minimum_required(VERSION 3.7.0)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+cmake_policy(SET CMP0048 NEW) # set VERSION in project()
+cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH by default
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-	set(CMAKE_BUILD_TYPE "Release")
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
 
-project(fcl VERSION 1.2.5 LANGUAGES CXX)
+project(fcl VERSION 1.3.0 LANGUAGES CXX)
 include(GNUInstallDirs)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 add_subdirectory(tests_c)
+
+add_subdirectory(linefollower)
 
 set(LIBSRC
   fcl/neuron.cpp
