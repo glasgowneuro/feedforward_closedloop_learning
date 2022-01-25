@@ -10,7 +10,7 @@ http://www.glasgowneuro.tech/fcl/
 
 ## Prerequisites
 
-Ubuntu xenial or bionic LTS with swig installed.
+Ubuntu LTS with swig installed.
 
 
 ## How to compile / install?
@@ -33,12 +33,9 @@ These are in `tests_c` and `tests_py` to demonstrate both the C++ API and the py
 API.
 
 ## Demos
-The following demos are in a separate repository:
 
-   * A classic line follower demo and
-   * our vizdoom demo where our FCL agent fights against another automated agent
-   
-https://github.com/glasgowneuro/fcl_demos
+   * A classic line follower demo in `linefollower/` and
+   * our vizdoom demo where our FCL agent fights against another automated agent: https://github.com/glasgowneuro/fcl_doom
 
 ## Class reference
 
