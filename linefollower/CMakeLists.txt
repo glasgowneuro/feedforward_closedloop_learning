@@ -17,6 +17,11 @@ find_package(Threads)
 
 # required libraries
 find_library(iir REQUIRED)
+find_package(GLUT REQUIRED)
+find_package(OpenGL REQUIRED)
+
+include_directories(${GLUT_INCLUDE_DIR})
+include_directories(${OpenGL_INCLUDE_DIRS})
 
 set(PROJECT_LIBS
   Threads
@@ -33,7 +38,7 @@ target_include_directories(fcl-linefollower PUBLIC ${PROJECT_SOURCE_DIR})
 target_link_libraries(fcl-linefollower
   enkiviewer
   enki
-  GL GLU glut
+  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY}
   Qt5::OpenGL
   Qt5::Widgets
   iir
