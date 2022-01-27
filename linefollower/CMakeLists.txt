@@ -28,14 +28,14 @@ set(PROJECT_LIBS
   comedi
   iir)
 
-add_executable(fcl-linefollower
+add_executable(linefollower
   Linefollower.cpp
   Racer.cpp
   )
 
-target_include_directories(fcl-linefollower PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories(linefollower PUBLIC ${PROJECT_SOURCE_DIR})
 
-target_link_libraries(fcl-linefollower
+target_link_libraries(linefollower
   enkiviewer
   enki
   ${OPENGL_LIBRARIES} ${GLUT_LIBRARY}
