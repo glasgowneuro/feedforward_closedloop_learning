@@ -33,7 +33,7 @@ add_executable(linefollower
   Racer.cpp
   )
 
-target_include_directories(linefollower PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories(linefollower PUBLIC ${PROJECT_SOURCE_DIR} ..)
 
 target_link_libraries(linefollower
   enkiviewer
