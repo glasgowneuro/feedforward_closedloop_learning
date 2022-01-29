@@ -198,8 +198,7 @@ void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 	}
 	// the error is injected into the 1st _hidden_ layer!
 	for(int i=0;i<(layers[0]->getNneurons());i++) {
-		double err = error[i] * layers[0]->getNeuron(i)->dActivation();
-		layers[0]->getNeuron(i)->setError(err);
+		layers[0]->getNeuron(i)->setError(error[i]);
 	}
 	for (int k=0; k<num_hid_layers; k++) {
 		Layer* emitterLayer = layers[k];
