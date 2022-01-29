@@ -8,7 +8,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
 
-project(fcl VERSION 1.3.0 LANGUAGES CXX)
+project(fcl VERSION 2.0.0 LANGUAGES CXX)
 include(GNUInstallDirs)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
