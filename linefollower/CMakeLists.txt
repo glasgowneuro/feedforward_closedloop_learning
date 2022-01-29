@@ -11,6 +11,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+set(OpenGL_GL_PREFERENCE GLVND)
+
 # required packages
 find_package(Qt5 COMPONENTS Widgets Core OpenGL REQUIRED)
 find_package(Threads)
