@@ -177,7 +177,9 @@ private:
 
 class FeedforwardClosedloopLearningWithFilterbank : public FeedforwardClosedloopLearning {
 public:
-	/** Constructor: FCL with filters for both the input and  layers
+	/** Constructor: FCL with a filter bank at the input
+	 * Every input feeds internally into a has a filter bank of num_filtersInput 
+	 * filters. This allows for a temporal distribution of the inputs.
 	 * \param num_of_inputs Number of inputs in the input layer
          * \param num_of_neurons_per_layer_array Number of neurons in each layer
 	 * \param _num_layers Number of  layer (needs to match with array above)
@@ -230,6 +232,17 @@ public:
 				bandpass[i][j]->reset();
 			}
 		}
+	}
+
+	~FeedforwardClosedloopLearningWithFilterbank() {
+		delete[] filterbankOutputs;
+		for(int i=0;i<nInputs;i++) {
+			for(int j=0;j<nFiltersPerInput;j++) {
+				delete bandpass[i][j];
+			}
+			delete[] bandpass[i];
+		}
+		delete[] bandpass;
 	}
 
 
