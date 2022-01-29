@@ -44,7 +44,7 @@ protected:
 
 	double learningRate = 0.0001;
 	
-	FeedforwardClosedloopLearning* fcl = NULL;
+	FeedforwardClosedloopLearningWithFilterbank* fcl = NULL;
 
 	double* pred = NULL;
 	double* err = NULL;
@@ -92,7 +92,7 @@ public:
 		err = new double[nNeuronsInLayers[0]];
 
 		// setting up deep feedforward learning
-		fcl = new FeedforwardClosedloopLearning(
+		fcl = new FeedforwardClosedloopLearningWithFilterbank(
 			nInputs,
 			nNeuronsInLayers,
 			nLayers,
@@ -225,10 +225,10 @@ public:
 		fprintf(llog,"%e\t",error);
 		fprintf(llog,"%e\t",avgError);
 		fprintf(llog,"%e\t",absError);
-		for(int i=0;i<fcl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
-			fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
-			fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getWeight(n,i));
-		}
+//		for(int i=0;i<fcl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
+//			fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
+//			fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getWeight(n,i));
+//		}
 		fprintf(llog,"%e\n",fcl->getLayer(0)->getNeuron(0)->getOutput());
 		fflush(llog);
 		if ((step%100)==0) {

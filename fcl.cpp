@@ -9,64 +9,12 @@
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(
-	int num_of_inputs,
-	int* num_of_neurons_per_layer_array,
-	int _num_layers,
-	int num_filtersInput,
-	double _minT,
-	double _maxT) {
-	
-	assert(_num_layers>0);
-
-	ni = num_of_inputs;
-	nfInput = num_filtersInput;
-	minT = _minT;
-	maxT = _maxT;
-
-	num_layers = _num_layers;
-	n = new int[num_layers];
-	layers = new Layer*[num_layers];
-
-	// creating input layer
-#ifdef DEBUG_FCL
-	fprintf(stderr,"Creating input layer: ");
-#endif
-	layers[0] = new Layer(num_of_neurons_per_layer_array[0], ni,nfInput,minT,maxT);
-	n[0] = num_of_neurons_per_layer_array[0];
-#ifdef DEBUG_FCL
-	fprintf(stderr,"created! n_hidden[0]=%d\n",n_hidden[0]);
-#endif
-
-#ifdef DEBUG_FCL
-	fprintf(stderr,"Creating hidden layers: ");
-#endif
-	// additional hidden layers
-	// note that these are _additional_ layers
-	for(int i=1; i<num_layers; i++) {
-		n[i] = num_of_neurons_per_layer_array[i];
-#ifdef DEBUG_FCL
-		fprintf(stderr,"Creating layers %d: ",i);
-#endif
-		layers[i] = new Layer(n[i], layers[i-1]->getNneurons());
-#ifdef DEBUG_FCL
-		fprintf(stderr,"created with %d neurons.",layers[i]->getNneurons());
-#endif
-
-	}
-	setLearningRate(0);
-	setDebugInfo();
-}
-
 FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
 							     int* num_array,
 							     int _num_layers
 	) {
 
 	ni = num_input;
-	nfInput = 0;
-	minT = 0;
-	maxT = 0;
 	
 	num_layers = _num_layers;
 	n = new int[num_layers];

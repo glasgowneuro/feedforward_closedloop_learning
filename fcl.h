@@ -4,6 +4,7 @@
 #include "fcl/globals.h"
 #include "fcl/layer.h"
 #include "fcl/neuron.h"
+#include "fcl/bandpass.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +20,7 @@
  * by first setting the input values and errors
  * and then calling doStep().
  *
- * (C) 2017,2018, Bernd Porr <bernd@glasgowneuro.tech>
+ * (C) 2017,2018-2022, Bernd Porr <bernd@glasgowneuro.tech>
  * (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
  *
  * GNU GENERAL PUBLIC LICENSE
@@ -41,23 +42,6 @@ public:
 			int _num_layers
 			);
 
-	/** Constructor: FCL with filters for both the input and  layers
-	 * \param num_of_inputs Number of inputs in the input layer
-         * \param num_of_neurons_per_layer_array Number of neurons in each layer
-	 * \param _num_layers Number of  layer (needs to match with array above)
-         * \param num_filtersInput Number of filters at the input layer, 0 = no filterbank
-         * \param num_filters Number of filters in the hiddel layers (usually zero)
-         * \param _minT Minimum/first temporal duration of the 1st filter
-         * \param _maxT Maximum/last temporal duration of the last filter
-         **/
-	FeedforwardClosedloopLearning(
-			int num_of_inputs,
-			int* num_of_neurons_per_layer_array,
-			int _num_layers,
-			int num_filtersInput,
-			double _minT,
-			double _maxT);
-
 	/** Destructor
          * De-allocated any memory
          **/
@@ -67,7 +51,7 @@ public:
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	void doStep(double* input, double* error);
+	virtual void doStep(double* input, double* error);
 
 	/** Python wrapper function. Not public.
          **/
@@ -171,15 +155,9 @@ public:
 	
 
 private:
-
 	int ni;
-	int nh;
 	int* n;
 	int num_layers;
-
-	int nfInput;
-	int nf;
-	double minT,maxT;
 
 	double learningRateDiscountFactor = 1;
 
@@ -193,6 +171,83 @@ private:
 	void doLearning();
 	void setStep();
 
+};
+
+
+
+class FeedforwardClosedloopLearningWithFilterbank : public FeedforwardClosedloopLearning {
+public:
+	/** Constructor: FCL with filters for both the input and  layers
+	 * \param num_of_inputs Number of inputs in the input layer
+         * \param num_of_neurons_per_layer_array Number of neurons in each layer
+	 * \param _num_layers Number of  layer (needs to match with array above)
+         * \param num_filtersInput Number of filters at the input layer, 0 = no filterbank
+         * \param num_filters Number of filters in the hiddel layers (usually zero)
+         * \param _minT Minimum/first temporal duration of the 1st filter
+         * \param _maxT Maximum/last temporal duration of the last filter
+         **/
+	FeedforwardClosedloopLearningWithFilterbank(
+			int num_of_inputs,
+			int* num_of_neurons_per_layer_array,
+			int num_layers,
+			int num_filtersInput,
+			double minT,
+			double maxT) : FeedforwardClosedloopLearning(
+				num_of_inputs * num_filtersInput,
+				num_of_neurons_per_layer_array,
+				num_layers) {
+		nFiltersPerInput = num_filtersInput;
+		nInputs = num_of_inputs;
+		bandpass = new Bandpass**[num_of_inputs];
+		filterbankOutputs = new double[num_of_inputs * num_filtersInput];
+		for(int i=0;i<num_of_inputs;i++) {
+			bandpass[i] = new Bandpass*[num_filtersInput];
+			double fs = 1;
+			double fmin = fs/maxT;
+			double fmax = fs/minT;
+			double df = (fmax-fmin)/((double)(num_filtersInput-1));
+			double f = fmin;
+#ifdef DEBUG_BP
+			fprintf(stderr,"bandpass: fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
+#endif
+			for(int j=0;j<num_filtersInput;j++) {
+				bandpass[i][j] = new Bandpass();
+#ifdef DEBUG_BP
+				fprintf(stderr,"bandpass[%d][%d]->setParameters(%f,%f)\n",
+					i,j,fs,f);
+#endif
+				bandpass[i][j]->setParameters(f,dampingCoeff);
+				f = f + df;
+				for(int k=0;k<maxT;k++) {
+					double a = 0;
+					if (k==minT) {
+						a = 1;
+					}
+					double b = bandpass[i][j]->filter(a);
+					assert(b != NAN);
+					assert(b != INFINITY);
+				}
+				bandpass[i][j]->reset();
+			}
+		}
+	}
+
+
+	virtual void doStep(double* input, double* error) {
+		for(int i=0;i<nInputs;i++) {
+			for(int j=0;j<nFiltersPerInput;j++) {
+				filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);	
+			}
+		}
+		FeedforwardClosedloopLearning::doStep(filterbankOutputs,error);
+	}
+	
+private:
+	const double dampingCoeff = 0.51;
+	Bandpass ***bandpass = 0;
+	double* filterbankOutputs = 0;
+	int nFiltersPerInput = 0;
+	int nInputs = 0;
 };
 
 #endif
