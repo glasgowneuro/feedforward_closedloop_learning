@@ -162,13 +162,6 @@ public:
          **/
 	void setUseDerivative(int useIt = 1);
 
-	/** If set to one then the autocorrelation term in the learnig rule is
-         * ignored (= crosscorrelation only). 
-         * If set to one also the autocorrelation is taken into account (= Hebb).
-         * \param doOnlyCrosscorrelation: If set then the autocorrelation terms is ignored.
-         **/
-	void setNoAutocorrelation(int doOnlyCrosscorrelation = 1) {noAutocorrelation = doOnlyCrosscorrelation;}
-
 	/** Saves the whole network
          * \param name: filename
          **/
@@ -194,8 +187,6 @@ private:
 	double minT,maxT;
 
 	double learningRateDiscountFactor = 1;
-
-	int noAutocorrelation = 0;
 
 	long int step = 0;
 
