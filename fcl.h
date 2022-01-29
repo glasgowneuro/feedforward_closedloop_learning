@@ -14,7 +14,7 @@
 /** Main class of Feedforward Closed Loop Learning.
  * Create an instance of this class to do the
  * learning. It will create the whole network
- * with an input layer, hidden layers and an
+ * with an input layer,  layers and an
  * output layer. Learning is done iterative
  * by first setting the input values and errors
  * and then calling doStep().
@@ -32,33 +32,29 @@ public:
 	
 	/** Constructor: FCL without any filters
 	 * \param num_of_inputs Number of inputs in the input layer
-	 * \param num_of_hidden_neurons_per_layer_array Number of neurons in each layer
-	 * \param _num_hid_layers Number of hidden layer (needs to match with array above)
-	 * \param num_outputs Number of output in the output layer
+	 * \param num_of_neurons_per_layer_array Number of neurons in each layer
+	 * \param _num_layers Number of  layer (needs to match with array above)
 	 **/
 	FeedforwardClosedloopLearning(
 			int num_of_inputs,
-			int* num_of_hidden_neurons_per_layer_array,
-			int _num_hid_layers,
-			int num_outputs);
+			int* num_of_neurons_per_layer_array,
+			int _num_layers
+			);
 
-	/** Constructor: FCL with filters for both the input and hidden layers
+	/** Constructor: FCL with filters for both the input and  layers
 	 * \param num_of_inputs Number of inputs in the input layer
-         * \param num_of_hidden_neurons_per_layer_array Number of neurons in each layer
-	 * \param _num_hid_layers Number of hidden layer (needs to match with array above)
-	 * \param num_outputs Bumber of output in the output layer
+         * \param num_of_neurons_per_layer_array Number of neurons in each layer
+	 * \param _num_layers Number of  layer (needs to match with array above)
          * \param num_filtersInput Number of filters at the input layer, 0 = no filterbank
-         * \param num_filtersHidden Number of filters in the hiddel layers (usually zero)
+         * \param num_filters Number of filters in the hiddel layers (usually zero)
          * \param _minT Minimum/first temporal duration of the 1st filter
          * \param _maxT Maximum/last temporal duration of the last filter
          **/
 	FeedforwardClosedloopLearning(
 			int num_of_inputs,
-			int* num_of_hidden_neurons_per_layer_array,
-			int _num_hid_layers,
-			int num_outputs,
+			int* num_of_neurons_per_layer_array,
+			int _num_layers,
 			int num_filtersInput,
-			int num_filtersHidden,
 			double _minT,
 			double _maxT);
 
@@ -82,7 +78,7 @@ public:
          * \return The output value of the output neuron.
          **/
 	double getOutput(int index) {
-		return layers[num_hid_layers]->getOutput(index);
+		return layers[num_layers-1]->getOutput(index);
 	}
 
 	/** Sets globally the learning rate
@@ -131,26 +127,26 @@ public:
          **/
 	void setBias(double _bias);
 
-	/** Returns the number of hidden layers
-         * \return Integer value of how many hidden layers exist (total number is +1).
+	/** Returns the number of  layers
+         * \return Integer value of how many layers exist
          **/
-	int getNumHidLayers() {return num_hid_layers;};
+	int getNumHidLayers() {return num_layers;};
 
 	/** Gets the total number of layers
          * \return The total number of all layers.
          **/
-	int getNumLayers() {return num_hid_layers+1;};
+	int getNumLayers() {return num_layers;};
 
 	/** Gets a pointer to a layer
          * \param i Index of the layer.
          * \return A pointer to a layer class.
          **/
-	Layer* getLayer(int i) {assert (i<=num_hid_layers); return layers[i];};
+	Layer* getLayer(int i) {assert (i<=num_layers); return layers[i];};
 
 	/** Gets the output layer
          * \return A pointer to the output layer which is also a Layer class.
          **/
-	Layer* getOutputLayer() {return layers[num_hid_layers];};
+	Layer* getOutputLayer() {return layers[num_layers-1];};
 
 	/** Returns all Layers
          * \return Returns a two dimensional array of all layers.
@@ -178,12 +174,11 @@ private:
 
 	int ni;
 	int nh;
-	int no;
-	int* n_hidden;
-	int num_hid_layers;
+	int* n;
+	int num_layers;
 
 	int nfInput;
-	int nfHidden;
+	int nf;
 	double minT,maxT;
 
 	double learningRateDiscountFactor = 1;

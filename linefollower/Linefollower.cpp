@@ -30,16 +30,14 @@ protected:
 	const double fbgain = 300;
 
 	int nInputs = 30;
-	// We have one output neuron
-	int nOutputs = 6;
-	// We have two hidden layers
-	int nHiddenLayers = 2;
-	// We set two neurons in the first hidden layer
-	int nNeuronsInHiddenLayers[6] = {9,6,6,6,6,6};
+	// Number of layers of neurons in total
+	int nLayers = 3;
+	// The number of neurons in every layer
+	int nNeuronsInLayers[6] = {9,6,6,6,6,6};
 	// We set nFilters in the input
 	int nFiltersInput = 10;
-	// We set nFilters in the hidden unit
-	int nFiltersHidden = 0;
+	// We set nFilters in the unit
+	int nFilters = 0;
 	// Filterbank
 	double minT = 2;
 	double maxT = 30;
@@ -91,16 +89,14 @@ public:
 		world->addObject(racer);
 
 		pred = new double[nInputs];
-		err = new double[nNeuronsInHiddenLayers[0]];
+		err = new double[nNeuronsInLayers[0]];
 
 		// setting up deep feedforward learning
 		fcl = new FeedforwardClosedloopLearning(
 			nInputs,
-			nNeuronsInHiddenLayers,
-			nHiddenLayers,
-			nOutputs,
+			nNeuronsInLayers,
+			nLayers,
 			nFiltersInput,
-			nFiltersHidden,
 			minT,
 			maxT);
 
@@ -181,7 +177,7 @@ public:
 			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%e ",pred[i]);
 		}
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
-		for(int i=0;i<nNeuronsInHiddenLayers[0];i++) {
+		for(int i=0;i<nNeuronsInLayers[0];i++) {
 			err[i] = error;
                 }
 		// !!!!
