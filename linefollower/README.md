@@ -15,7 +15,7 @@ Ubuntu Linux LTS
 QT5 development libraries with openGL
 
 ENKI:
-https://github.com/enki-community/
+https://github.com/glasgowneuro/enki
 
 The Feedforward Closed Loop Learning Library:
 https://github.com/glasgowneuro/feedforward_closed_loop_learning
