@@ -10,15 +10,15 @@
 // inits the network with random weights with quite a few hidden units so that
 // a nice response is generated
 void test_forward() {
-	int nNeuronsHidden[] = {10,10};
+	int nNeuronsHidden[] = {10,10,1};
 
-	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nNeuronsHidden,2);
-	fcl->seedRandom(1);
+	FeedforwardClosedloopLearning fcl(2,nNeuronsHidden,3);
+	fcl.seedRandom(1);
 	FILE* f=fopen("test_fcl_cpp_forward.dat","wt");
 	// no learning
-	fcl->setLearningRate(0.0);
+	fcl.setLearningRate(0.0);
 	// random init
-	fcl->initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
+	fcl.initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
 
 	double input[2];
 	double error[2];
@@ -33,14 +33,12 @@ void test_forward() {
 		}
 		fprintf(f,"%f ",input[0]);
 
-		fcl->doStep(input,error);
-		for(int i=0; i<fcl->getNumLayers(); i++) {
-			fprintf(f,"%e ",fcl->getLayer(i)->getNeuron(0)->getSum());
+		fcl.doStep(input,error);
+		for(int i=0; i<fcl.getNumLayers(); i++) {
+			fprintf(f,"%e ",fcl.getLayer(i)->getNeuron(0)->getSum());
 		}
-		fprintf(f,"%e ",fcl->getOutputLayer()->getNeuron(0)->getOutput());
-		
+		fprintf(f,"%e ",fcl.getOutputLayer()->getNeuron(0)->getOutput());
 		fprintf(f,"\n");
-		
 	}
 
 	fclose(f);
@@ -49,14 +47,13 @@ void test_forward() {
 
 
 void test_learning_fcl() {
-	int nHidden[] = {2};
-	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nHidden,1);
-	fcl->seedRandom(1);
-	fcl->setLearningRate(0.001);
-	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-	fcl->setLearningRateDiscountFactor(1);
-	fcl->setBias(0);
-
+	int nNeur[] = {2,2};
+	FeedforwardClosedloopLearning fcl(2,nNeur,2);
+	fcl.seedRandom(1);
+	fcl.setLearningRate(0.001);
+	fcl.initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl.setLearningRateDiscountFactor(1);
+	fcl.setBias(0);
 	
 	FILE* f=fopen("test_fcl_cpp_learning.dat","wt");
 
@@ -80,13 +77,13 @@ void test_learning_fcl() {
 		error[0] = err;
 		error[1] = err;
 
-		fcl->doStep(input,error);
+		fcl.doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				for(int k=0; k<fcl->getNumLayers(); k++) {
+				for(int k=0; k<fcl.getNumLayers(); k++) {
 					fprintf(f, "%e ",
-						fcl->getLayer(k)->getNeuron(i)->getWeight(j));
+						fcl.getLayer(k)->getNeuron(i)->getWeight(j));
 				}
 			}
 		}
@@ -94,16 +91,15 @@ void test_learning_fcl() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					fcl->getOutputLayer()->getNeuron(i)->getWeight(j));
+					fcl.getOutputLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
 				"%e ",
-				fcl->getOutputLayer()->getNeuron(i)->getOutput());
+				fcl.getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
-		
 	}
 
 	fclose(f);
@@ -111,14 +107,13 @@ void test_learning_fcl() {
 
 
 void test_learning_fcl_filters() {
-	int nHidden[] = {2};
-	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nHidden,1);
-	fcl->seedRandom(1);
-	fcl->setLearningRate(0.001);
-	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-	fcl->setLearningRateDiscountFactor(1);
-	fcl->setBias(0);
-
+	int nNeur[] = {2,2};
+	FeedforwardClosedloopLearning fcl(2,nNeur,2);
+	fcl.seedRandom(1);
+	fcl.setLearningRate(0.001);
+	fcl.initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl.setLearningRateDiscountFactor(1);
+	fcl.setBias(0);
 	
 	FILE* f=fopen("test_fcl_cpp_learning.dat","wt");
 
@@ -142,13 +137,13 @@ void test_learning_fcl_filters() {
 		error[0] = err;
 		error[1] = err;
 
-		fcl->doStep(input,error);
+		fcl.doStep(input,error);
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				for(int k=0; k<fcl->getNumLayers(); k++) {
+				for(int k=0; k<fcl.getNumLayers(); k++) {
 					fprintf(f, "%e ",
-							fcl->getLayer(k)->getNeuron(i)->getWeight(j));
+						fcl.getLayer(k)->getNeuron(i)->getWeight(j));
 				}
 			}
 		}
@@ -156,18 +151,16 @@ void test_learning_fcl_filters() {
 			for(int j=0;j<2;j++) {
 				fprintf(f,
 					"%e ",
-					fcl->getOutputLayer()->getNeuron(i)->getWeight(j));
+					fcl.getOutputLayer()->getNeuron(i)->getWeight(j));
 			}
 		}
 		for(int i=0;i<1;i++) {
 			fprintf(f,
 				"%e ",
-				fcl->getOutputLayer()->getNeuron(i)->getOutput());
+				fcl.getOutputLayer()->getNeuron(i)->getOutput());
 		}
 		fprintf(f,"\n");
-		
 	}
-
 	fclose(f);
 }
 
