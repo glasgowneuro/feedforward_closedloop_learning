@@ -1,6 +1,7 @@
 #include "neuron.h"
 #include<stdio.h>
-#include <stdlib.h>
+#include<stdlib.h>
+#include"bandpass.h"
 
 int main(int n,char**args) {
         if (n<2) {

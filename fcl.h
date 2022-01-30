@@ -194,66 +194,18 @@ public:
 			int num_layers,
 			int num_filtersInput,
 			double minT,
-			double maxT) : FeedforwardClosedloopLearning(
-				num_of_inputs * num_filtersInput,
-				num_of_neurons_per_layer_array,
-				num_layers) {
-		nFiltersPerInput = num_filtersInput;
-		nInputs = num_of_inputs;
-		bandpass = new Bandpass**[num_of_inputs];
-		filterbankOutputs = new double[num_of_inputs * num_filtersInput];
-		for(int i=0;i<num_of_inputs;i++) {
-			bandpass[i] = new Bandpass*[num_filtersInput];
-			double fs = 1;
-			double fmin = fs/maxT;
-			double fmax = fs/minT;
-			double df = (fmax-fmin)/((double)(num_filtersInput-1));
-			double f = fmin;
-#ifdef DEBUG_BP
-			fprintf(stderr,"bandpass: fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
-#endif
-			for(int j=0;j<num_filtersInput;j++) {
-				bandpass[i][j] = new Bandpass();
-#ifdef DEBUG_BP
-				fprintf(stderr,"bandpass[%d][%d]->setParameters(%f,%f)\n",
-					i,j,fs,f);
-#endif
-				bandpass[i][j]->setParameters(f,dampingCoeff);
-				f = f + df;
-				for(int k=0;k<maxT;k++) {
-					double a = 0;
-					if (k==minT) {
-						a = 1;
-					}
-					double b = bandpass[i][j]->filter(a);
-					assert(b != NAN);
-					assert(b != INFINITY);
-				}
-				bandpass[i][j]->reset();
-			}
-		}
-	}
+			double maxT);
 
-	~FeedforwardClosedloopLearningWithFilterbank() {
-		delete[] filterbankOutputs;
-		for(int i=0;i<nInputs;i++) {
-			for(int j=0;j<nFiltersPerInput;j++) {
-				delete bandpass[i][j];
-			}
-			delete[] bandpass[i];
-		}
-		delete[] bandpass;
-	}
+	/**
+	 * Destructor
+	 **/
+	~FeedforwardClosedloopLearningWithFilterbank();
 
-
-	virtual void doStep(double* input, double* error) {
-		for(int i=0;i<nInputs;i++) {
-			for(int j=0;j<nFiltersPerInput;j++) {
-				filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);	
-			}
-		}
-		FeedforwardClosedloopLearning::doStep(filterbankOutputs,error);
-	}
+	/** Performs the simulation step
+         * \param input Array with the input values
+         * \param error Array of the error signals
+         **/
+	virtual void doStep(double* input, double* error);
 	
 private:
 	const double dampingCoeff = 0.51;

@@ -3,6 +3,7 @@
 
 #include<math.h>
 #include<stdio.h>
+#include<assert.h>
 
 // bypasses the sigmoid function
 // #define LINEAR_OUTPUT
@@ -10,15 +11,10 @@
 // enables denbug output to sdt out
 // #define DEBUG_NEURON
 
-// enables bandpass debug
-// #define DEBUG_BP
-
 #include "globals.h"
-#include "bandpass.h"
 
-/** Neuron which calculates the output and performs learning
- * Every input has also an optional filterbank which allows
- * creating memory traces.
+/** 
+ * Neuron which calculates the output and performs learning
  **/
 class Neuron {
 
@@ -26,11 +22,8 @@ public:
 
 	/** Constructor
          * \param _nInputs Number of inputs to the Neuron
-         * \param _nFilters Number of lowpass filters per input (filterbank) 0=no filters
-         * \param _minT Minimum duration in time steps of the filter
-         * \param _maxT Maximum duration of the filter
          **/
-	Neuron(int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
+	Neuron(int _nInputs);
 
         /** Destructor
 	 * Tidies up any memory allocations
@@ -129,45 +122,22 @@ public:
          **/
 	inline double getSum() { return sum; };
 
-	/** Gets the output of one filter at the input
-         * \param _index The input index
-         * \param _filter The index of a filter within a filterbank (zero if no used)
-         * \return The output value of one filter
-         **/
-	inline double getFilterOutput(int _index, int _filter = 0) {
-#ifdef RANGE_CHECKS
-		if (!((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters))) {
-			fprintf(stderr,"BUG! in Neuron::%s, layer=%d, _index=%d, _filter=%d\n",__FUNCTION__,layerIndex,_index,_filter);
-			assert(0==1);
-		}
-#endif
-		return bandpass[_index][_filter]->getOutput();
-	}
-
 	/** Gets one weight
          * \param _index The input index
-         * \param _filter The index of a filter within a filterbank (zero if no used)
          * \return The weight value at one input and one filter
          **/
-	inline double getWeight( int _index,  int _filter = 0) {
-#ifdef RANGE_CHECKS
-		if (!((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters))) {
-			fprintf(stderr,"BUG! in Neuron::%s, layer=%d, _index=%d, _filter=%d\n",__FUNCTION__,layerIndex,_index,_filter);
-			assert(0==1);
-		}
-#endif
-		
-		return mask[_index] ? weights[_index][_filter] : 0;
+	inline double getWeight( int _index) {
+		assert((_index>=0)&&(_index<nInputs));
+		return mask[_index] ? weights[_index] : 0;
 	};
 
 	/** Sets one weight
          * \param _index The input index
          * \param _weight The weight value
-         * \param _filter The index of a filter within a filterbank (zero if no used)
          **/
-	inline void setWeight( int _index,  double _weight,  int _filter = 0) {
-		assert((_index>=0)&&(_index<nInputs)&&(_filter>=0)&&(_filter<nFilters));
-		weights[_index][_filter]=_weight;
+	inline void setWeight( int _index,  double _weight) {
+		assert((_index>=0)&&(_index<nInputs));
+		weights[_index]=_weight;
 	};
 
 	/** Sets the error in the neuron
@@ -248,27 +218,6 @@ public:
          * \return The numer of inputs
          **/
 	inline int getNinputs() { return nInputs; };
-
-	/** Get the number of filters per input
-         * \return The number of filters attached to each input.
-         **/
-	inline int getNfilters() { return nFilters; };
-
-	/** Get the average weight at one input
-         * \return The average weight over all filter weights if applicable.
-         **/
-	double getAvgWeight(int _input);
-
-	/** Gets the weight change at one input.
-         * \param _input The input index.
-         * \return The weight change.
-         **/
-	double getAvgWeightChange(int _input);
-
-	/** Gets the overall weight change
-         * \return The weight change
-         **/
-	double getAvgWeightChange();
 
 	/** Tells the layer that it's been a 2D array originally to be a convolutional layer.
          * _width * _height == nInputs. Otherwise an exception is triggered.
@@ -364,24 +313,15 @@ public:
 	}
 
 private:
-	void calcFilterbankOutput();
-	void calcOutputWithoutFilterbank();
-
-	void doLearningWithFilterbank();
-	void doLearningWithoutFilterbank();
-	
-private:
 	int nInputs;
 	unsigned char* mask = 0;
-	int nFilters;
-	double** weights = 0;
-	double** initialWeights = 0;
-	double** weightChange = 0;
+	double* weights = 0;
+	double* initialWeights = 0;
+	double* weightChange = 0;
 	double decay = 0;
 	double biasweight = 0;
 	double biasweightChange = 0;
 	double bias = 0;
-	Bandpass ***bandpass = 0;
 	double* inputs = 0;
 	double output = 0;
 	double sum = 0;
@@ -390,8 +330,7 @@ private:
 	double learningRate = 0;
 	double learningRateFactor = 1;
 	double momentum = 0;
-	double minT,maxT;
-	double dampingCoeff = 0.51;
+	const double dampingCoeff = 0.51;
 	int useDerivative = 0;
 	double oldError = 0;
 	int width = 0;

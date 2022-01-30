@@ -13,7 +13,9 @@ FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
 							     int* num_array,
 							     int _num_layers
 	) {
-
+#ifdef DEBUG
+	fprintf(stderr,"Creating instance of FeedforwardClosedloopLearning.\n");
+#endif	
 	ni = num_input;
 	
 	num_layers = _num_layers;
@@ -21,23 +23,23 @@ FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
 	layers = new Layer*[num_layers];
 
 	// creating input layer
-#ifdef DEBUG_FCL
+#ifdef DEBUG
 	fprintf(stderr,"Creating input layer: ");
 #endif
 	layers[0] = new Layer(num_array[0], ni);
 	n[0] = num_array[0];
-#ifdef DEBUG_FCL
-	fprintf(stderr,"created! n_hidden[0]=%d\n",n_hidden[0]);
+#ifdef DEBUG
+	fprintf(stderr,"n[0]=%d\n",n[0]);
 #endif
 	
 	for(int i=1; i<num_layers; i++) {
 		n[i] = num_array[i];
-#ifdef DEBUG_FCL
-		fprintf(stderr,"Creating layers %d: ",i);
+#ifdef DEBUG
+		fprintf(stderr,"Creating layer %d: ",i);
 #endif
 		layers[i] = new Layer(n[i], layers[i-1]->getNneurons());
-#ifdef DEBUG_FCL
-		fprintf(stderr,"created with %d neurons.",layers[i]->getNneurons());
+#ifdef DEBUG
+		fprintf(stderr,"created with %d neurons.\n",layers[i]->getNneurons());
 #endif
 	}
 	setLearningRate(0);
@@ -130,12 +132,12 @@ void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 		for(int i=0;i<receiverLayer->getNneurons();i++) {
 			double norm = 0;
 			double a = receiverLayer->getNeuron(i)->getManhattanNormOfWeightVector();
-			a = a / (receiverLayer->getNeuron(i)->getNfilters() * receiverLayer->getNeuron(i)->getNinputs());
+			a = a / receiverLayer->getNeuron(i)->getNinputs();
 			norm += a;
 			if (norm < 1E-30) norm = 1;
 			double err = 0;
 			for(int j=0;j<emitterLayer->getNneurons();j++) {
-				err = err + receiverLayer->getNeuron(i)->getAvgWeight(j) *
+				err = err + receiverLayer->getNeuron(i)->getWeight(j) *
 					emitterLayer->getNeuron(j)->getError();
 #ifdef RANGE_CHECKS
 				if (isnan(err) || (fabs(err)>10000) || (fabs(emitterLayer->getNeuron(j)->getError())>10000)) {
@@ -216,9 +218,7 @@ bool FeedforwardClosedloopLearning::saveModel(const char* name) {
 				neuron = layer->getNeuron(j);
 				for (int k=0; k<neuron->getNinputs(); k++) {
 					if(neuron->getMask(k)) {
-						for (int l=0; l<neuron->getNfilters(); l++) {
-							fprintf(f, "%.16lf ", neuron->getWeight(k,l));
-						}
+						fprintf(f, "%.16lf ", neuron->getWeight(k));
 					}
 				}
 				fprintf(f, "%.16lf ", neuron->getBiasWeight());
@@ -251,11 +251,9 @@ bool FeedforwardClosedloopLearning::loadModel(const char* name) {
 				neuron = layer->getNeuron(j);
 				for (int k=0; k<neuron->getNinputs(); k++) {
 					if(neuron->getMask(k)) {
-						for (int l=0; l<neuron->getNfilters(); l++) {
-							r = fscanf(f, "%lf ", &weight);
-							if (r < 0) return false;
-							neuron->setWeight(k, weight, l);
-						}
+						r = fscanf(f, "%lf ", &weight);
+						if (r < 0) return false;
+						neuron->setWeight(k, weight);						
 					}
 				}
 				r = fscanf(f, "%lf", &weight);
@@ -276,4 +274,81 @@ bool FeedforwardClosedloopLearning::loadModel(const char* name) {
 
 	fclose(f);
 	return true;
+}
+
+
+
+
+/////////////////////
+
+
+
+FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFilterbank(
+			int num_of_inputs,
+			int* num_of_neurons_per_layer_array,
+			int num_layers,
+			int num_filtersInput,
+			double minT,
+			double maxT) : FeedforwardClosedloopLearning(
+				num_of_inputs * num_filtersInput,
+				num_of_neurons_per_layer_array,
+				num_layers) {
+#ifdef DEBUG
+	fprintf(stderr,"Creating instance of FeedforwardClosedloopLearningWithFilterbank.\n");
+#endif	
+	nFiltersPerInput = num_filtersInput;
+	nInputs = num_of_inputs;
+	bandpass = new Bandpass**[num_of_inputs];
+	filterbankOutputs = new double[num_of_inputs * num_filtersInput];
+	for(int i=0;i<num_of_inputs;i++) {
+		bandpass[i] = new Bandpass*[num_filtersInput];
+		double fs = 1;
+		double fmin = fs/maxT;
+		double fmax = fs/minT;
+		double df = (fmax-fmin)/((double)(num_filtersInput-1));
+		double f = fmin;
+#ifdef DEBUG
+		fprintf(stderr,"bandpass: fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
+#endif
+		for(int j=0;j<num_filtersInput;j++) {
+			bandpass[i][j] = new Bandpass();
+#ifdef DEBUG
+			fprintf(stderr,"bandpass[%d][%d]->setParameters(%f,%f)\n",
+				i,j,fs,f);
+#endif
+			bandpass[i][j]->setParameters(f,dampingCoeff);
+			f = f + df;
+			for(int k=0;k<maxT;k++) {
+				double a = 0;
+				if (k==minT) {
+					a = 1;
+				}
+				double b = bandpass[i][j]->filter(a);
+				assert(b != NAN);
+				assert(b != INFINITY);
+			}
+			bandpass[i][j]->reset();
+		}
+	}
+}
+
+FeedforwardClosedloopLearningWithFilterbank::~FeedforwardClosedloopLearningWithFilterbank() {
+	delete[] filterbankOutputs;
+	for(int i=0;i<nInputs;i++) {
+		for(int j=0;j<nFiltersPerInput;j++) {
+			delete bandpass[i][j];
+		}
+		delete[] bandpass[i];
+	}
+	delete[] bandpass;
+}
+
+
+void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, double* error) {
+	for(int i=0;i<nInputs;i++) {
+		for(int j=0;j<nFiltersPerInput;j++) {
+			filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);	
+		}
+	}
+	FeedforwardClosedloopLearning::doStep(filterbankOutputs,error);
 }

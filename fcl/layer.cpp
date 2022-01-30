@@ -13,13 +13,10 @@
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _maxT) {
+Layer::Layer(int _nNeurons, int _nInputs) {
 
 	nNeurons = _nNeurons;
 	nInputs = _nInputs;
-	nFilters = _nFilters;
-	minT = _minT;
-	maxT = _maxT;
 	normaliseWeights = WEIGHT_NORM_NONE;
 
 	neurons = new Neuron*[nNeurons];
@@ -36,7 +33,7 @@ Layer::Layer(int _nNeurons, int _nInputs, int _nFilters, double _minT, double _m
 	}
 
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i] = new Neuron(nInputs,nFilters,minT,maxT);
+		neurons[i] = new Neuron(nInputs);
 		calcOutputThread[i%NUM_THREADS]->addNeuron(neurons[i]);
 		learningThread[i%NUM_THREADS]->addNeuron(neurons[i]);
 		maxDetThread[i%NUM_THREADS]->addNeuron(neurons[i]);
@@ -327,7 +324,7 @@ int Layer::saveWeightMatrix(char *filename) {
 	if (!f) return errno;
 	for(int i=0;i<nNeurons;i++) {
 		for(int j=0;j<neurons[i]->getNinputs();j++) {
-			fprintf(f,"%f\t",neurons[i]->getAvgWeight(j));
+			fprintf(f,"%f\t",neurons[i]->getWeight(j));
 		}
 		fprintf(f,"\n");
 	}

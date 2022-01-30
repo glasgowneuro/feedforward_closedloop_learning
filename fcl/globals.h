@@ -7,7 +7,9 @@
 // no derivative of the activation function
 // #define NO_DERIV_ACTIVATION
 
-
+#ifndef NDEBUG
+#define DEBUG
+#endif
 
 #ifdef _WIN32
 // that includes the standard M_PI etc stuff

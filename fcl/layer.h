@@ -176,7 +176,7 @@ public:
          * \param _minT Minimum time of the lowpass filter.
          * \param _maxT Maximum time of the lowpass filter.
          **/
-	Layer(int _nNeurons, int _nInputs, int _nFilters = 0, double _minT = 0, double _maxT = 0);
+	Layer(int _nNeurons, int _nInputs);
 
 	/** Destructor
          * Frees all memory
@@ -358,10 +358,7 @@ private:
 
 	int nNeurons;
 	int nInputs;
-	int nFilters;
 	Neuron** neurons = 0;
-	double minT;
-	double maxT;
 	int maxDetLayer = 0;
 	WeightNormalisation normaliseWeights = WEIGHT_NORM_NONE;
 	int debugOutput = 0;

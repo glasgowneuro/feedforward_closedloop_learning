@@ -4,11 +4,9 @@
 int main(int,char**) {
 	int nFilters = 10;
 	
-	Neuron* neuron = new Neuron(2,nFilters,10,200);
+	Neuron* neuron = new Neuron(2);
 
-	for(int i=0;i<nFilters;i++) {
-		neuron->setWeight(0,1,i);
-	}
+	neuron->setWeight(0,1);
 
 	neuron->setInput(0,0);
 	neuron->setInput(1,0);
