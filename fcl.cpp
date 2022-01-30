@@ -312,6 +312,7 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 #endif
 			bandpass[i][j]->setParameters(f,dampingCoeff);
 			f = f + df;
+#ifdef DEBUG
 			for(int k=0;k<maxT;k++) {
 				double a = 0;
 				if (k==minT) {
@@ -321,6 +322,7 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 				assert(b != NAN);
 				assert(b != INFINITY);
 			}
+#endif
 			bandpass[i][j]->reset();
 		}
 	}

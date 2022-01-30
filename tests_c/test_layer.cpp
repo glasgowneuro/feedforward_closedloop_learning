@@ -30,7 +30,7 @@ void runTest(int _useThreads) {
 }
 
 
-int main(int n,char** args) {
+int main(int,char**) {
 	fprintf(stderr,"Running Layer test with Threads turned off:\n");
 	runTest(0);
 	fprintf(stderr,"Running Layer test with Threads turned on:\n");

@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.7.0)
+
+project(fcl VERSION 2.0.0 LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 cmake_policy(SET CMP0048 NEW) # set VERSION in project()
@@ -8,7 +11,12 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
 
-project(fcl VERSION 2.0.0 LANGUAGES CXX)
+if (MSVC)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wconversion -Wextra -pedantic)
+endif()
+
 include(GNUInstallDirs)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)

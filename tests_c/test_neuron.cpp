@@ -2,8 +2,6 @@
 #include<stdio.h>
 
 int main(int,char**) {
-	int nFilters = 10;
-	
 	Neuron* neuron = new Neuron(2);
 
 	neuron->setWeight(0,1);

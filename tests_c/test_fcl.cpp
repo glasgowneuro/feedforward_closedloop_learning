@@ -10,8 +10,6 @@
 // inits the network with random weights with quite a few hidden units so that
 // a nice response is generated
 void test_forward() {
-	int nFiltersInput = 10;
-	int nFiltersHidden = 10;
 	int nNeuronsHidden[] = {10,10};
 
 	FeedforwardClosedloopLearning* fcl = new FeedforwardClosedloopLearning(2,nNeuronsHidden,2);
