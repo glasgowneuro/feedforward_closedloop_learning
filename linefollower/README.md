@@ -10,15 +10,12 @@ of sensors in front of the robot.
 
 ## Pre-requisites
 
-Ubuntu Linux LTS
+  - Ubuntu Linux LTS
 
-QT5 development libraries with openGL
+  - QT5 development libraries with openGL and GLU
 
-ENKI:
-https://github.com/glasgowneuro/enki
-
-The Feedforward Closed Loop Learning Library:
-https://github.com/glasgowneuro/feedforward_closed_loop_learning
+  - ENKI: https://github.com/glasgowneuro/enki
+    Install with `cmake .` -- `make` -- `sudo make install`.
 
 ## Compilation
 

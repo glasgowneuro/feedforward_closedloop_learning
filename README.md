@@ -22,7 +22,7 @@ Ubuntu LTS with swig installed.
       cmake .
       make
       sudo make install
-      sudo ./setup.py install
+      ./setup.py install --user
 ```
 
 ### From PyPi (Python only)
