@@ -45,7 +45,7 @@ if(UNIX)
   target_include_directories(fcl PRIVATE fcl)
   
   set_target_properties(fcl PROPERTIES
-    SOVERSION 1
+    SOVERSION 2
     VERSION ${PROJECT_VERSION}
     PUBLIC_HEADER "${PUBLICHEADERS}"
     PRIVATE_HEADER "${PRIVATEHEADERS}")
