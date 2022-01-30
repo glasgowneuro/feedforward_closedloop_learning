@@ -63,9 +63,9 @@ void Neuron::calcOutput() {
 			assert(inputs[i] == (*inputp));
 			sum = sum + (*weightsp) * (*inputp);
 #ifdef DEBUG
-			if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
-				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d, %d\n",
-					__func__,step,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
+			if (isnan(sum) || isnan(weights[i]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
+				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d\n",
+					__func__,step,layerIndex,neuronIndex,sum,weights[i],inputs[i],i);
 			}
 #endif
 		}
@@ -164,9 +164,9 @@ void Neuron::doLearning() {
 				(*weightsp) * decay * learningRate * fabs(error);
 			*weightsp = *weightsp + *weightschp;
 #ifdef DEBUG
-			if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
-				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d, %d\n",
-					__func__,step,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
+			if (isnan(sum) || isnan(weights[i]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
+				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d\n",
+					__func__,step,layerIndex,neuronIndex,sum,weights[i],inputs[i],i);
 			}
 #endif
 		}
