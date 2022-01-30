@@ -34,12 +34,12 @@ namespace Enki
 
 		groundSensorArray = new GroundSensor*[nSensors];
 		
-		double d1 = sensorArrayWidth1*2 / ((nSensors/2)-1);
-		double d2 = sensorArrayWidth2*2 / ((nSensors/2)-1);
+		float d1 = (float)(sensorArrayWidth1*2 / ((nSensors/2)-1));
+		float d2 = (float)(sensorArrayWidth2*2 / ((nSensors/2)-1));
 		
 		for(int i=0;i<(nSensors/2);i++) {
-			float y1 = -sensorArrayWidth1+d1*i;
-			float y2 = -sensorArrayWidth2+d2*i;
+			float y1 = (float)(-sensorArrayWidth1+d1*(float)i);
+			float y2 = (float)(-sensorArrayWidth2+d2*(float)i);
 			fprintf(stderr,"sensor %d pos = %f,%f\n",i,y1,y2);
 			groundSensorArray[i] = new GroundSensor(this, Vector(sensorArrayPos1,y1), 0, 1, 1, -0.731059);
 			groundSensorArray[i+nSensors/2] = new GroundSensor(this, Vector(sensorArrayPos2,y2), 0, 1, 1, -0.731059,2);

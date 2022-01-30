@@ -45,7 +45,7 @@ public:
 	/** Destructor
          * De-allocated any memory
          **/
-	~FeedforwardClosedloopLearning();
+	virtual ~FeedforwardClosedloopLearning();
 
 	/** Performs the simulation step
          * \param input Array with the input values
@@ -55,7 +55,7 @@ public:
 
 	/** Python wrapper function. Not public.
          **/
-	void doStep(double* input, int n1, double* error, int n2);
+	virtual void doStep(double* input, int n1, double* error, int n2);
 
 	/** Gets the output from one of the output neurons
          * \param index: The index number of the output neuron.
@@ -111,11 +111,6 @@ public:
          **/
 	void setBias(double _bias);
 
-	/** Returns the number of  layers
-         * \return Integer value of how many layers exist
-         **/
-	int getNumHidLayers() {return num_layers;};
-
 	/** Gets the total number of layers
          * \return The total number of all layers.
          **/
@@ -131,6 +126,11 @@ public:
          * \return A pointer to the output layer which is also a Layer class.
          **/
 	Layer* getOutputLayer() {return layers[num_layers-1];};
+
+	/** Gets the number of inputs
+	 * \return The number of inputs
+	 **/
+	int getNumInputs() {return ni;}
 
 	/** Returns all Layers
          * \return Returns a two dimensional array of all layers.
@@ -194,14 +194,18 @@ public:
 	/**
 	 * Destructor
 	 **/
-	~FeedforwardClosedloopLearningWithFilterbank();
+	virtual ~FeedforwardClosedloopLearningWithFilterbank();
 
 	/** Performs the simulation step
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
 	virtual void doStep(double* input, double* error);
-	
+
+	/** Python wrapper function. Not public.
+         **/
+	virtual void doStep(double* input, int n1, double* error, int n2);
+
 private:
 	const double dampingCoeff = 0.51;
 	Bandpass ***bandpass = 0;

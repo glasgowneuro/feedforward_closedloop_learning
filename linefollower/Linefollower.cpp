@@ -180,12 +180,12 @@ public:
                 }
 		// !!!!
 		fcl->doStep(pred,err);
-		float vL = (fcl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
-			(fcl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
-			(fcl->getOutputLayer()->getNeuron(2)->getOutput())*2;
-		float vR = (fcl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
-			(fcl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
-			(fcl->getOutputLayer()->getNeuron(5)->getOutput())*2;
+		float vL = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
+				   (fcl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
+				   (fcl->getOutputLayer()->getNeuron(2)->getOutput())*2);
+		float vR = (float)((fcl->getOutputLayer()->getNeuron(3)->getOutput())*50 +
+				   (fcl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
+				   (fcl->getOutputLayer()->getNeuron(5)->getOutput())*2);
 		
 		double erroramp = error * fbgain;
 		fprintf(stderr,"%e ",erroramp);
@@ -219,14 +219,10 @@ public:
 		}
 		fprintf(flog,"\n");
 		fflush(flog);
-		int n = 0;
 		fprintf(llog,"%e\t",error);
 		fprintf(llog,"%e\t",avgError);
 		fprintf(llog,"%e\t",absError);
-//		for(int i=0;i<fcl->getLayer(0)->getNeuron(0)->getNfilters();i++) {
-//			fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getFilterOutput(n,i));
-//			fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getWeight(n,i));
-//		}
+		fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getWeight(0));
 		fprintf(llog,"%e\n",fcl->getLayer(0)->getNeuron(0)->getOutput());
 		fflush(llog);
 		if ((step%100)==0) {
@@ -275,7 +271,7 @@ void singleRun(int argc,
 void statsRun(int argc,
 	      char *argv[]) {
 	FILE* f = fopen("stats.dat","wt");
-	for(double learningRate = 0.00001; learningRate < 0.1; learningRate = learningRate * 1.25) {
+	for(float learningRate = 0.00001f; learningRate < 0.1; learningRate = learningRate * 1.25f) {
 		srandom(1);
 		singleRun(argc,argv,learningRate,f);
 		fflush(f);
@@ -298,7 +294,7 @@ int main(int argc, char *argv[]) {
 	}
 	switch (n) {
 	case 0:
-		singleRun(argc,argv,0.0005);
+		singleRun(argc,argv,0.0005f);
 		break;
 	case 1:
 		statsRun(argc,argv);

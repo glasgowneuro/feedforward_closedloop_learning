@@ -34,7 +34,7 @@ void test_forward() {
 		fprintf(f,"%f ",input[0]);
 
 		fcl->doStep(input,error);
-		for(int i=0; i<fcl->getNumHidLayers(); i++) {
+		for(int i=0; i<fcl->getNumLayers(); i++) {
 			fprintf(f,"%e ",fcl->getLayer(i)->getNeuron(0)->getSum());
 		}
 		fprintf(f,"%e ",fcl->getOutputLayer()->getNeuron(0)->getOutput());
@@ -84,9 +84,9 @@ void test_learning_fcl() {
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				for(int k=0; k<fcl->getNumHidLayers(); k++) {
+				for(int k=0; k<fcl->getNumLayers(); k++) {
 					fprintf(f, "%e ",
-							fcl->getLayer(k)->getNeuron(i)->getWeight(j));
+						fcl->getLayer(k)->getNeuron(i)->getWeight(j));
 				}
 			}
 		}
@@ -146,7 +146,7 @@ void test_learning_fcl_filters() {
 
 		for(int i=0;i<2;i++) {
 			for(int j=0;j<2;j++) {
-				for(int k=0; k<fcl->getNumHidLayers(); k++) {
+				for(int k=0; k<fcl->getNumLayers(); k++) {
 					fprintf(f, "%e ",
 							fcl->getLayer(k)->getNeuron(i)->getWeight(j));
 				}
