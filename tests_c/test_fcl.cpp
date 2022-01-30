@@ -58,7 +58,6 @@ void test_learning_fcl() {
 	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
 	fcl->setLearningRateDiscountFactor(1);
 	fcl->setBias(0);
-	fcl->setUseDerivative(0);
 
 	
 	FILE* f=fopen("test_fcl_cpp_learning.dat","wt");
@@ -121,7 +120,6 @@ void test_learning_fcl_filters() {
 	fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
 	fcl->setLearningRateDiscountFactor(1);
 	fcl->setBias(0);
-	fcl->setUseDerivative(0);
 
 	
 	FILE* f=fopen("test_fcl_cpp_learning.dat","wt");

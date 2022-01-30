@@ -104,10 +104,8 @@ public:
 		fcl->setLearningRate(learningRate);
 		fcl->setLearningRateDiscountFactor(1);
 		fcl->setBias(1);
-		fcl->setUseDerivative(0);
 		fcl->setActivationFunction(Neuron::TANH);
-		fcl->setMomentum(0.9);
-		
+		fcl->setMomentum(0.9);		
 	}
 
 	~LineFollower() {

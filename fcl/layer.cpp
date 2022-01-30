@@ -215,12 +215,6 @@ void Layer::setActivationFunction(Neuron::ActivationFunction _activationFunction
 	}
 }
 
-void Layer::setUseDerivative( int _useIt) {
-	for(int i=0;i<nNeurons;i++) {
-		neurons[i]->setUseDerivative(_useIt);
-	}
-}
-
 void Layer::setDecay( double _decay) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setDecay(_decay);
@@ -234,12 +228,7 @@ void Layer::initWeights( double max, int initBias, Neuron::WeightInitMethod weig
 }
 
 void Layer::setError( int i,  double _error) {
-#ifdef RANGE_CHECKS
-	if(i >= nNeurons) {
-		fprintf(stderr,"%s, i=%d\n",__FUNCTION__,i);
-		assert(0);
-	}
-#endif
+	assert(i < nNeurons);
 	neurons[i]->setError(_error);
 }
 

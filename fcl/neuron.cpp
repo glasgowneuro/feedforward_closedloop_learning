@@ -25,7 +25,6 @@ Neuron::Neuron(int _nInputs) {
 	sum = 0;
 	output = 0;
 	error = 0;
-	internal_error = 0;
 	learningRate = 0;
 	for(int i=0;i<nInputs;i++) {
 		weights[i] = 0;
@@ -63,7 +62,7 @@ void Neuron::calcOutput() {
 			assert(weights[i] == (*weightsp));
 			assert(inputs[i] == (*inputp));
 			sum = sum + (*weightsp) * (*inputp);
-#ifdef RANGE_CHECKS
+#ifdef DEBUG
 			if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
 				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d, %d\n",
 					__func__,step,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
@@ -76,7 +75,7 @@ void Neuron::calcOutput() {
 	}
 	sum = sum + biasweight * bias;
 
-#ifdef RANGE_CHECKS
+#ifdef DEBUG
 	if (fabs(sum) > SUM_ERR_THRES) fprintf(stderr,"Neuron::%s, Sum (%e) is very high in layer %d, neuron %d, step %ld.\n",__func__,sum,layerIndex,neuronIndex,step);
 #endif
 	
@@ -161,10 +160,10 @@ void Neuron::doLearning() {
 		assert((weightChange+i) == weightschp);
 		if (*maskp) {
 			*weightschp = momentum * (*weightschp) +
-				(*inputsp) * internal_error * learningRate * learningRateFactor -
-				(*weightsp) * decay * learningRate * fabs(internal_error);
+				(*inputsp) * error * learningRate * learningRateFactor -
+				(*weightsp) * decay * learningRate * fabs(error);
 			*weightsp = *weightsp + *weightschp;
-#ifdef RANGE_CHECKS
+#ifdef DEBUG
 			if (isnan(sum) || isnan(weights[i][j]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
 				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d, %d\n",
 					__func__,step,layerIndex,neuronIndex,sum,weights[i][j],inputs[i],i,j);
@@ -176,7 +175,7 @@ void Neuron::doLearning() {
 		weightsp++;
 		weightschp++;
 	}
-	biasweight = biasweight + bias * internal_error * learningRate - biasweight * decay * learningRate;
+	biasweight = biasweight + bias * error * learningRate - biasweight * decay * learningRate;
 }
 
 
@@ -257,16 +256,13 @@ double Neuron::getAverageOfWeightVector() {
 void Neuron::normaliseWeights(double norm) {
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
-	
+
+	// check for a div by zero
 	if (!(fabs(norm) > 0)) return;
 
 	for(int i=0;i<nInputs;i++) {
 		if (*maskp) {
 			*weightsp = *weightsp / norm;
-#ifdef RANGE_CHECKS
-			if (fabs(*weightsp2) > 1000)
-				fprintf(stderr,"Neuron::%s, step=%ld, L=%d, N=%d, %d,%d,weight=%e,norm=%e\n",__func__,step,layerIndex,neuronIndex,i,j,*weightsp2,norm);
-#endif
 		}
 		maskp++;
 		weightsp++;
@@ -283,10 +279,10 @@ void Neuron::doMaxDet() {
 	double max = 0;
 	maxDet = 1;
 	for(int i=0;i<nInputs;i++) {
-		double input = fabs(*inputsp);
+		const double input = fabs(*inputsp);
 		if (*maskp) {
 			if (input>max) {
-				max = fabs(input);
+				max = input;
 				maxInp = i;
 			}
 		}
@@ -322,7 +318,6 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 		case MAX_WEIGHT_RANDOM:
 		case MAX_OUTPUT_RANDOM:
 			weights[i] = (((double)rand()*2)/((double)RAND_MAX)*max)-max;
-			//fprintf(stderr,"Init Weights: weight(%d,%d)=%f\n",i,j,weights[i][j]);
 			break;
 		case CONST_WEIGHTS:
 		case MAX_OUTPUT_CONST:
@@ -397,18 +392,7 @@ double Neuron::getWeightDistanceFromInitialWeights() {
 
 void Neuron::setError(double _error) {
 	error = _error;
-#ifdef DEBUG_NEURON
-	if (isnan(_error)) {
-			printf(" Neuron::setError: error=%f\n",_error);
-			exit(1);
-	}
-#endif
-	if (useDerivative) {
-		internal_error = _error - oldError;
-		oldError = _error;
-	} else {
-		internal_error = _error;
-	}
+	assert(!isnan(_error));
 }
 
 

@@ -137,11 +137,6 @@ public:
          **/
 	Layer** getLayers() {return layers;};
 
-	/** Sets if the learning should be the derivative of the error in each neuron
-         * \param useIt: If one the derivative of the error signal is used for learning.
-         **/
-	void setUseDerivative(int useIt = 1);
-
 	/** Saves the whole network
          * \param name: filename
          **/

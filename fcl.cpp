@@ -186,12 +186,6 @@ void FeedforwardClosedloopLearning::initWeights(double max, int initBias, Neuron
 }
 
 
-void FeedforwardClosedloopLearning::setUseDerivative(int useIt) {
-	for (int i=0; i<num_layers; i++) {
-		layers[i]->setUseDerivative(useIt);
-	}
-}
-
 void FeedforwardClosedloopLearning::setBias(double _bias) {
 	for (int i=0; i<num_layers; i++) {
 		layers[i]->setBias(_bias);

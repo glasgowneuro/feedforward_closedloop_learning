@@ -209,11 +209,6 @@ public:
 		return decay;
 	}
 
-	/** Switches on/off if the derivative of the error is used for learning.
-         * \param _useDerivative If one the derivative of the error is used for learning (ICO learning).
-         **/
-	inline void setUseDerivative( int _useDerivative) { useDerivative = _useDerivative; };
-
 	/** Get the number of inputs to the neuron
          * \return The numer of inputs
          **/
@@ -326,13 +321,9 @@ private:
 	double output = 0;
 	double sum = 0;
 	double error = 0;
-	double internal_error = 0;
 	double learningRate = 0;
 	double learningRateFactor = 1;
 	double momentum = 0;
-	const double dampingCoeff = 0.51;
-	int useDerivative = 0;
-	double oldError = 0;
 	int width = 0;
 	int height = 0;
 	int maxDet = 0;

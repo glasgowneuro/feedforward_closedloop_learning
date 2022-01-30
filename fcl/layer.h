@@ -231,11 +231,6 @@ public:
          **/
 	void setBias( double _bias);
 
-	/** Sets if we use the derivative
-         * \param useIt If set to one the derivative of the error it taken
-         **/
-	void setUseDerivative( int useIt);
-
         /** Set the input value of one input
          * \param inputIndex The index number of the input.
          * \param input The value of the input
