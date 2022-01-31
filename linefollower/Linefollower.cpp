@@ -42,7 +42,7 @@ protected:
 	double minT = 2;
 	double maxT = 30;
 
-	double learningRate = 0.0001;
+	double learningRate = 0.00001;
 	
 	FeedforwardClosedloopLearningWithFilterbank* fcl = NULL;
 

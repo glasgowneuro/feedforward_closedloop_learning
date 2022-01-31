@@ -130,26 +130,20 @@ void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 		Layer* receiverLayer = layers[k];
 		// Calculate the errors for the hidden layer
 		for(int i=0;i<receiverLayer->getNneurons();i++) {
-			double norm = 0;
-			double a = receiverLayer->getNeuron(i)->getManhattanNormOfWeightVector();
-			a = a / receiverLayer->getNeuron(i)->getNinputs();
-			norm += a;
-			if (norm < 1E-30) norm = 1;
 			double err = 0;
 			for(int j=0;j<emitterLayer->getNneurons();j++) {
 				err = err + receiverLayer->getNeuron(i)->getWeight(j) *
 					emitterLayer->getNeuron(j)->getError();
-#ifdef RANGE_CHECKS
+#ifdef DEBUG
 				if (isnan(err) || (fabs(err)>10000) || (fabs(emitterLayer->getNeuron(j)->getError())>10000)) {
 					printf("RANGE! FeedforwardClosedloopLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
 					       "err=%e, emitterLayer->getNeuron(j)->getError()=%e\n",
 					       __func__,step,j,i,k,err,emitterLayer->getNeuron(j)->getError());
 				}
 #endif
-//				        if (fabs(err)>0) fprintf(stderr,"k=%d,i=%d,j=%d:err=%e\n",k,i,j,err);
 			}
 			err = err * learningRateDiscountFactor;
-			err = err / norm;
+			err = err * receiverLayer->getNeuron(i)->getNinputs();
 			err = err * receiverLayer->getNeuron(i)->dActivation();
 			receiverLayer->getNeuron(i)->setError(err);
 		}
