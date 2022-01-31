@@ -53,12 +53,15 @@ with open('test_fcl_filt_py.csv', 'ab') as csvfile:
         csvfile.write(crlf.encode())
 
 plt.figure(1)
+plt.title("output")
 plt.plot(outp)
 
 plt.figure(2)
+plt.title("Layer 0 weight")
 plt.plot(a)
 
 plt.figure(3)
+plt.title("Layer 1 weight")
 plt.plot(b)
 
 plt.show()

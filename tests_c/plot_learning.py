@@ -2,8 +2,13 @@
 
 import numpy as np
 import pylab as pl
+import sys
 #
-data = np.loadtxt('test_fcl_cpp_learning.dat')
+if len(sys.argv) < 2:
+    print("Need the .dat filename")
+    exit(1)
+    
+data = np.loadtxt(sys.argv[1])
 #
 pl.title('Full run')
 # compound

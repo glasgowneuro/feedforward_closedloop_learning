@@ -349,6 +349,7 @@ void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, double* 
 	FeedforwardClosedloopLearning::doStep(filterbankOutputs,error);
 }
 
+
 void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, int n1, double* error, int n2) {
 #ifdef DEBUG
 	fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
