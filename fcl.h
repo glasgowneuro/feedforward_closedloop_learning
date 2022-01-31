@@ -206,6 +206,16 @@ public:
          **/
 	virtual void doStep(double* input, int n1, double* error, int n2);
 
+	double getFilterOutput(int inputIdx, int filterIdx) {
+		const int idx = inputIdx * nFiltersPerInput + filterIdx;
+		assert((idx >= 0) || (idx < (nFiltersPerInput * nInputs)));
+		return filterbankOutputs[idx];
+	}
+
+	int getNFiltersPerInput() {
+		return nFiltersPerInput;
+	}
+
 private:
 	const double dampingCoeff = 0.51;
 	Bandpass ***bandpass = 0;

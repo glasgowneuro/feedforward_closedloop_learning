@@ -105,8 +105,8 @@ void test_learning_fcl_filters() {
 	printf("test_learning_fcl_filters\n");
 	int nNeur[] = {2,2};
 	int nFiltersInput = 10;
-	double minT = 10;
-	double maxT = 100;
+	double minT = 2;
+	double maxT = 10;
 	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,2,nFiltersInput,minT,maxT);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
@@ -150,6 +150,11 @@ void test_learning_fcl_filters() {
 		fprintf(f,
 			"%e ",
 			fcl.getOutputLayer()->getNeuron(0)->getOutput());
+		
+		for(int j=0;j<fcl.getNFiltersPerInput();j++) {
+			fprintf(f, "%e ",
+				fcl.getFilterOutput(0,j));
+		}
 		
 		fprintf(f,"\n");
 	}
