@@ -101,69 +101,7 @@ void test_learning_fcl() {
 }
 
 
-void test_learning_fcl_filters() {
-	printf("test_learning_fcl_filters\n");
-	int nNeur[] = {2,2};
-	int nFiltersInput = 10;
-	double minT = 2;
-	double maxT = 10;
-	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,2,nFiltersInput,minT,maxT);
-	fcl.seedRandom(1);
-	fcl.setLearningRate(0.001);
-	fcl.initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
-	fcl.setLearningRateDiscountFactor(1);
-	fcl.setBias(0);
-	
-	FILE* f=fopen("test_learning_fcl_filters.dat","wt");
-
-	double input[2] = { 0,0 };
-	double error[2] = { 0,0 };
-
-	for(int n = 0; n < 10000;n++) {
-		
-		double stim = 0;
-		double err = 0;
-		int n2 = n% 1000;
-		if ((n2>100)&&(n2<1000)) {
-			stim = 1;
-			if ((n2>500)&&(n2<600)) {
-				err = 1;
-			}
-		}
-		fprintf(f,"%f %f ",stim,err);
-
-		input[0] = stim;
-		error[0] = err;
-		error[1] = err;
-
-		fcl.doStep(input,error);
-
-		for(int k=0; k<fcl.getNumLayers(); k++) {
-			for(int i=0;i<fcl.getLayer(k)->getNneurons();i++) {
-				for(int j=0;j<fcl.getLayer(k)->getNeuron(i)->getNinputs();j++) {
-					fprintf(f, "%e ",
-						fcl.getLayer(k)->getNeuron(i)->getWeight(j));
-				}
-			}
-		}
-
-		fprintf(f,
-			"%e ",
-			fcl.getOutputLayer()->getNeuron(0)->getOutput());
-		
-		for(int j=0;j<fcl.getNFiltersPerInput();j++) {
-			fprintf(f, "%e ",
-				fcl.getFilterOutput(0,j));
-		}
-		
-		fprintf(f,"\n");
-	}
-	fclose(f);
-}
-
-
 int main(int,char**) {
 	test_forward();
 	test_learning_fcl();
-	test_learning_fcl_filters();
 }

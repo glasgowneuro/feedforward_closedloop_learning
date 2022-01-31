@@ -45,17 +45,17 @@ public:
 	/** Destructor
          * De-allocated any memory
          **/
-	virtual ~FeedforwardClosedloopLearning();
+	~FeedforwardClosedloopLearning();
 
 	/** Performs the simulation step
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	virtual void doStep(double* input, double* error);
+	void doStep(double* input, double* error);
 
 	/** Python wrapper function. Not public.
          **/
-	virtual void doStep(double* input, int n1, double* error, int n2);
+	void doStep(double* input, int n1, double* error, int n2);
 
 	/** Gets the output from one of the output neurons
          * \param index: The index number of the output neuron.
@@ -194,17 +194,17 @@ public:
 	/**
 	 * Destructor
 	 **/
-	virtual ~FeedforwardClosedloopLearningWithFilterbank();
+	~FeedforwardClosedloopLearningWithFilterbank();
 
 	/** Performs the simulation step
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	virtual void doStep(double* input, double* error);
+	void doStep(double* input, double* error);
 
 	/** Python wrapper function. Not public.
          **/
-	virtual void doStep(double* input, int n1, double* error, int n2);
+	void doStep(double* input, int n1, double* error, int n2);
 
 	double getFilterOutput(int inputIdx, int filterIdx) {
 		const int idx = inputIdx * nFiltersPerInput + filterIdx;
