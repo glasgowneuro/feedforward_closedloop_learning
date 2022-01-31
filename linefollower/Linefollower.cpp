@@ -1,7 +1,7 @@
 #include "Racer.h"
 #include <QApplication>
 #include <QtGui>
-#include "fcl.h"
+#include "fcl_util.h"
 #include <viewer/Viewer.h>
 
 using namespace Enki;

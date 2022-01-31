@@ -16,14 +16,14 @@ def read(fname):
 
 if platform == "linux" or platform == "linux2" or platform == "darwin":
     fcl_module = Extension('_feedforward_closedloop_learning',
-		       sources=['fcl.i','fcl.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
+		       sources=['fcl.i','fcl.cpp','fcl_util.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
 		       extra_compile_args=['-std=c++11','-O3'],
                        include_dirs=[numpy.get_include()],
                        swig_opts=['-c++','-py3']
                        )
 elif platform == "win32":
     fcl_module = Extension('_feedforward_closedloop_learning',
-		       sources=['fcl.i','fcl.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
+		       sources=['fcl.i','fcl.cpp','fcl_util.cpp','fcl/bandpass.cpp','fcl/layer.cpp','fcl/neuron.cpp'],
 		       extra_compile_args=['-D_CRT_SECURE_NO_WARNINGS'],
                        include_dirs=[numpy.get_include()],
                        swig_opts=['-c++','-py3']

@@ -2,6 +2,7 @@
 %{
 	#define SWIG_FILE_WITH_INIT
 	#include "fcl.h"
+	#include "fcl_util.h"
 	#include "fcl/layer.h"
 	#include "fcl/neuron.h"
 %}
@@ -19,5 +20,6 @@
 %apply (int* IN_ARRAY1, int DIM1) {(int* num_of_neurons_per_layer_array, int num_layers)};
 
 %include "fcl.h"
+%include "fcl_util.h"
 %include "fcl/layer.h"
 %include "fcl/neuron.h"

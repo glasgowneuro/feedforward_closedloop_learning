@@ -29,10 +29,13 @@ set(LIBSRC
   fcl/neuron.cpp
   fcl/bandpass.cpp
   fcl/layer.cpp
-  fcl.cpp)
+  fcl.cpp
+  fcl_util.cpp
+  )
 
 set(PUBLICHEADERS
   fcl.h
+  fcl_util.h
   )
 
 set(PRIVATEHEADERS
