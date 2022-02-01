@@ -31,11 +31,6 @@ Ubuntu LTS with swig installed.
 
 https://pypi.org/project/feedforward_closedloop_learning/
 
-## Tests
-
-These are in `tests_c` and `tests_py` to demonstrate both the C++ API and the python
-API.
-
 ## Demos
 
    * A classic line follower demo in `linefollower/` and
@@ -45,11 +40,7 @@ API.
 
 The online documentation can be found here: https://glasgowneuro.github.io/feedforward_closedloop_learning/
 
-Run `doxygen` to generate the reference documentation for all classes:
-```
-make docs
-```
-This will be written to the `docs` subdirectory in HTML, RTF and LaTeX.
+The documentation is in the `docs` subdirectory in HTML, RTF and PDF.
 
 ## License
 
