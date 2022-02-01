@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.2)  1 FEB 2022 10:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.2)  1 FEB 2022 10:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -879,7 +879,19 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 22.39185pt on input line 174.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 6.29996pt on input line 174.
-(./md_doxy.tex) [1
+(./index.tex
+Overfull \hbox (27.7374pt too wide) in paragraph at lines 3--4
+[][][] \T1/pcr/m/n/10 https[]://github.[]com/glasgowneuro/feedforward[]_[]close
+dloop[]_[]learning/blob/master/2.[]
+ []
+
+
+Overfull \hbox (47.64537pt too wide) in paragraph at lines 3--4
+\T1/pcr/m/n/10 png[][] [][] https[]://github.[]com/glasgowneuro/feedforward[]_[
+]closedloop[]_[]learning/blob/master/1.[]
+ []
+
+) [1
 
 ] [2
 
@@ -923,7 +935,7 @@ pdfTeX warning: pdflatex (file ./classFeedforwardClosedloopLearning__inherit__g
 raph.pdf): PDF inclusion: multiple pdfs with page group included in a single pa
 ge
 >
-<classFeedforwardClosedloopLearning__inherit__graph.pdf, id=725, 253.94875pt x 
+<classFeedforwardClosedloopLearning__inherit__graph.pdf, id=731, 253.94875pt x 
 167.62625pt>
 File: classFeedforwardClosedloopLearning__inherit__graph.pdf Graphic file (type
  pdf)
@@ -982,7 +994,7 @@ pdfTeX warning: pdflatex (file ./classFeedforwardClosedloopLearningWithFilterba
 nk__inherit__graph.pdf): PDF inclusion: multiple pdfs with page group included 
 in a single page
 >
-<classFeedforwardClosedloopLearningWithFilterbank__inherit__graph.pdf, id=848, 
+<classFeedforwardClosedloopLearningWithFilterbank__inherit__graph.pdf, id=852, 
 253.94875pt x 167.62625pt>
 File: classFeedforwardClosedloopLearningWithFilterbank__inherit__graph.pdf Grap
 hic file (type pdf)
@@ -996,7 +1008,7 @@ pdfTeX warning: pdflatex (file ./classFeedforwardClosedloopLearningWithFilterba
 nk__coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in 
 a single page
 >
-<classFeedforwardClosedloopLearningWithFilterbank__coll__graph.pdf, id=863, 253
+<classFeedforwardClosedloopLearningWithFilterbank__coll__graph.pdf, id=867, 253
 .94875pt x 167.62625pt>
 File: classFeedforwardClosedloopLearningWithFilterbank__coll__graph.pdf Graphic
  file (type pdf)
@@ -1138,22 +1150,22 @@ Underfull \vbox (badness 2726) has occurred while \output is active []
 ] [44] [45
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 198.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 198.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 196.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 196.
  (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 198.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 198.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 196.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 196.
 Package rerunfilecheck Info: File `refman.out' has not changed.
 (rerunfilecheck)             Checksum: 7E302FCF59A6CE324D0C6ED5FEDD2D49;25381.
  ) 
 Here is how much of TeX's memory you used:
- 17152 strings out of 481239
- 257953 string characters out of 5920377
- 551470 words of memory out of 5000000
- 31726 multiletter control sequences out of 15000+600000
+ 17151 strings out of 481239
+ 257938 string characters out of 5920377
+ 552470 words of memory out of 5000000
+ 31725 multiletter control sequences out of 15000+600000
  595654 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,15n,96p,1000b,627s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,15n,96p,1032b,627s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/
@@ -1167,10 +1179,10 @@ ve/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helve
 tic/uhvro8a.pfb>
-Output written on refman.pdf (51 pages, 230989 bytes).
+Output written on refman.pdf (51 pages, 231383 bytes).
 PDF statistics:
- 1560 PDF objects out of 1728 (max. 8388607)
- 1458 compressed objects within 15 object streams
+ 1564 PDF objects out of 1728 (max. 8388607)
+ 1462 compressed objects within 15 object streams
  356 named destinations out of 1000 (max. 500000)
  1000 words of extra memory for PDF output out of 10000 (max. 10000000)
 
