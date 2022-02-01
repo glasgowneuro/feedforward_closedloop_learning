@@ -1,0 +1,409 @@
+\hypertarget{classfeedforward__closedloop__learning_1_1Layer}{}\doxysection{feedforward\+\_\+closedloop\+\_\+learning.\+Layer Class Reference}
+\label{classfeedforward__closedloop__learning_1_1Layer}\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+
+
+Inheritance diagram for feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classfeedforward__closedloop__learning_1_1Layer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classfeedforward__closedloop__learning_1_1Layer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a7d2391c86963066fc212b9e54d1cc504}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \char`\"{}int\char`\"{} \+\_\+n\+Neurons, \char`\"{}int\char`\"{} \+\_\+n\+Inputs)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ab898260e654a8d12c1496894f004adde}{calc\+Outputs}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ae4efbd5732cfe51f832f49e5b988c768}{do\+Learning}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a65cf6ca95edae0bb4f0dca2edc531299}{set\+Error}} (self, $\ast$args)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a59c2d5e4301ae8b0c263431702f7c037}{set\+Errors}} (self, \char`\"{}double $\ast$\char`\"{} \+\_\+errors)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a43decc95a16030d6b9d3654cd1d1a63c}{get\+Error}} (self, \char`\"{}int\char`\"{} i)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a19d5b08c8e12b237a8b6adc6907ab9cd}{set\+Bias}} (self, \char`\"{}double\char`\"{} \+\_\+bias)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a76af85cac8d385736ebca6656f3ef02d}{set\+Input}} (self, \char`\"{}int\char`\"{} input\+Index, \char`\"{}double\char`\"{} input)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_acd671f78878cc1ddabe881290f55fc72}{set\+Inputs}} (self, \char`\"{}double $\ast$\char`\"{} \+\_\+inputs)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a8cc62cf4e72a5172cb9b18754d2dedfa}{set\+Learning\+Rate}} (self, \char`\"{}double\char`\"{} \+\_\+learning\+Rate)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ae73c4ff9a800bdab790b28b66b42143f}{set\+Activation\+Function}} (self, \char`\"{}Neuron\+::\+Activation\+Function\char`\"{} \+\_\+activation\+Function)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a31e9988e5b780d07c7025e1e0bf687fe}{set\+Momentum}} (self, \char`\"{}double\char`\"{} \+\_\+momentum)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_abcaf1f0926e221e92222e48e7f3baf7d}{set\+Decay}} (self, \char`\"{}double\char`\"{} \+\_\+decay)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ace36115dafbe64fd919d2c662d676858}{init\+Weights}} (self, $\ast$args)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a585a9a948e11b797deef71ba9c5e9c35}{get\+Output}} (self, \char`\"{}int\char`\"{} index)
+\item 
+\char`\"{}Neuron $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ada217c65c7a6ef0a35e6b38f0aab93ad}{get\+Neuron}} (self, \char`\"{}int\char`\"{} index)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ab87e1b5a6d44160d86a1bdac519f9586}{get\+Nneurons}} (self)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ac713165c3b14a004e1910480a11ea174}{get\+Ninputs}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a815ff0842664c7daa628f7a3eefccfcf}{set\+Convolution}} (self, \char`\"{}int\char`\"{} width, \char`\"{}int\char`\"{} height)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a77f9d51c9b6d832fa6bd1bf483693428}{set\+Max\+Det\+Layer}} (self, \char`\"{}int\char`\"{} \+\_\+m)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a288e3727b81b5a50a24815f6c2f9691c}{set\+Normalise\+Weights}} (self, \char`\"{}Layer\+::\+Weight\+Normalisation\char`\"{} \+\_\+normalise\+Weights)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ae65ddf2b50f97737e6ac5dd665a8dd70}{set\+Debug\+Info}} (self, \char`\"{}int\char`\"{} layer\+Index)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a6bc769d78c252af715af8b3b01a55f1d}{set\+Step}} (self, \char`\"{}long\char`\"{} step)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ad60db523ac1a5c61d6985e531b45f43e}{get\+Weight\+Distance\+From\+Initial\+Weights}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_aef178a9ac8a86ac5137557e95772baa8}{do\+Normalise\+Weights}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_a7f4fdf31110a155114c8268364b071c9}{set\+Use\+Threads}} (self, \char`\"{}int\char`\"{} \+\_\+use\+Threads)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1Layer_ad32a8f1512760a769e6d89c9c11c07b1}{save\+Weight\+Matrix}} (self, \char`\"{}char $\ast$\char`\"{} filename)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_adf5636eab88650d0e4f76915e184044d}\label{classfeedforward__closedloop__learning_1_1Layer_adf5636eab88650d0e4f76915e184044d}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+O\+NE} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+O\+NE
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a02af8ee96382825ef268f945827a2359}\label{classfeedforward__closedloop__learning_1_1Layer_a02af8ee96382825ef268f945827a2359}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+E\+U\+C\+L\+E\+D\+I\+AN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+E\+U\+C\+L\+E\+D\+I\+AN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a3bf75862b6c62da59d73acd82c587677}\label{classfeedforward__closedloop__learning_1_1Layer_a3bf75862b6c62da59d73acd82c587677}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+E\+U\+C\+L\+E\+D\+I\+AN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+E\+U\+C\+L\+E\+D\+I\+AN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a75ae4d83f910f10834d86ab24e342796}\label{classfeedforward__closedloop__learning_1_1Layer_a75ae4d83f910f10834d86ab24e342796}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+M\+A\+N\+H\+A\+T\+T\+AN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+M\+A\+N\+H\+A\+T\+T\+AN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ab085f2a42022460411c4d656d84f05d1}\label{classfeedforward__closedloop__learning_1_1Layer_ab085f2a42022460411c4d656d84f05d1}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+M\+A\+N\+H\+A\+T\+T\+AN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+M\+A\+N\+H\+A\+T\+T\+AN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a9f5ed75b1f137eaf35ecd09e7f7ffd2f}\label{classfeedforward__closedloop__learning_1_1Layer_a9f5ed75b1f137eaf35ecd09e7f7ffd2f}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+I\+N\+F\+I\+N\+I\+TY} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+I\+N\+F\+I\+N\+I\+TY
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ad8ee2d183347c867c4886acc320e1508}\label{classfeedforward__closedloop__learning_1_1Layer_ad8ee2d183347c867c4886acc320e1508}} 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+Layer\+\_\+\+W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_aaff40bd6ec932b5549ef5da48638bf6f}\label{classfeedforward__closedloop__learning_1_1Layer_aaff40bd6ec932b5549ef5da48638bf6f}} 
+{\bfseries thisown} = property(lambda x\+: x.\+this.\+own(), lambda x, v\+: x.\+this.\+own(v), doc=\char`\"{}The membership flag\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Proxy of C++ Layer class.\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a7d2391c86963066fc212b9e54d1cc504}\label{classfeedforward__closedloop__learning_1_1Layer_a7d2391c86963066fc212b9e54d1cc504}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+n\+Neurons,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+n\+Inputs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}__init__(Layer self, int _nNeurons, int _nInputs) -> Layer
+
+Parameters
+----------
+_nNeurons: int
+_nInputs: int\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ab898260e654a8d12c1496894f004adde}\label{classfeedforward__closedloop__learning_1_1Layer_ab898260e654a8d12c1496894f004adde}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!calcOutputs@{calcOutputs}}
+\index{calcOutputs@{calcOutputs}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{calcOutputs()}{calcOutputs()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+calc\+Outputs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}calcOutputs(Layer self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ae4efbd5732cfe51f832f49e5b988c768}\label{classfeedforward__closedloop__learning_1_1Layer_ae4efbd5732cfe51f832f49e5b988c768}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!doLearning@{doLearning}}
+\index{doLearning@{doLearning}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{doLearning()}{doLearning()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+do\+Learning (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doLearning(Layer self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_aef178a9ac8a86ac5137557e95772baa8}\label{classfeedforward__closedloop__learning_1_1Layer_aef178a9ac8a86ac5137557e95772baa8}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!doNormaliseWeights@{doNormaliseWeights}}
+\index{doNormaliseWeights@{doNormaliseWeights}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{doNormaliseWeights()}{doNormaliseWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+do\+Normalise\+Weights (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doNormaliseWeights(Layer self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a43decc95a16030d6b9d3654cd1d1a63c}\label{classfeedforward__closedloop__learning_1_1Layer_a43decc95a16030d6b9d3654cd1d1a63c}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!getError@{getError}}
+\index{getError@{getError}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+get\+Error (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{i }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getError(Layer self, int i) -> double
+
+Parameters
+----------
+i: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ada217c65c7a6ef0a35e6b38f0aab93ad}\label{classfeedforward__closedloop__learning_1_1Layer_ada217c65c7a6ef0a35e6b38f0aab93ad}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!getNeuron@{getNeuron}}
+\index{getNeuron@{getNeuron}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{getNeuron()}{getNeuron()}}
+{\footnotesize\ttfamily  \char`\"{}Neuron $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+get\+Neuron (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNeuron(Layer self, int index) -> Neuron
+
+Parameters
+----------
+index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ac713165c3b14a004e1910480a11ea174}\label{classfeedforward__closedloop__learning_1_1Layer_ac713165c3b14a004e1910480a11ea174}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!getNinputs@{getNinputs}}
+\index{getNinputs@{getNinputs}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{getNinputs()}{getNinputs()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+get\+Ninputs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNinputs(Layer self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ab87e1b5a6d44160d86a1bdac519f9586}\label{classfeedforward__closedloop__learning_1_1Layer_ab87e1b5a6d44160d86a1bdac519f9586}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!getNneurons@{getNneurons}}
+\index{getNneurons@{getNneurons}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{getNneurons()}{getNneurons()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+get\+Nneurons (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNneurons(Layer self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a585a9a948e11b797deef71ba9c5e9c35}\label{classfeedforward__closedloop__learning_1_1Layer_a585a9a948e11b797deef71ba9c5e9c35}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+get\+Output (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getOutput(Layer self, int index) -> double
+
+Parameters
+----------
+index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ad60db523ac1a5c61d6985e531b45f43e}\label{classfeedforward__closedloop__learning_1_1Layer_ad60db523ac1a5c61d6985e531b45f43e}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}}
+\index{getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{getWeightDistanceFromInitialWeights()}{getWeightDistanceFromInitialWeights()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+get\+Weight\+Distance\+From\+Initial\+Weights (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getWeightDistanceFromInitialWeights(Layer self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ace36115dafbe64fd919d2c662d676858}\label{classfeedforward__closedloop__learning_1_1Layer_ace36115dafbe64fd919d2c662d676858}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+init\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}initWeights(Layer self, double _max=1, int initBiasWeight=1, Neuron::WeightInitMethod weightInitMethod=MAX_OUTPUT_RANDOM)
+
+Parameters
+----------
+_max: double
+initBiasWeight: int
+weightInitMethod: enum Neuron::WeightInitMethod\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ad32a8f1512760a769e6d89c9c11c07b1}\label{classfeedforward__closedloop__learning_1_1Layer_ad32a8f1512760a769e6d89c9c11c07b1}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!saveWeightMatrix@{saveWeightMatrix}}
+\index{saveWeightMatrix@{saveWeightMatrix}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{saveWeightMatrix()}{saveWeightMatrix()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+save\+Weight\+Matrix (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}char $\ast$\char`\"{}}]{filename }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}saveWeightMatrix(Layer self, char * filename) -> int
+
+Parameters
+----------
+filename: char *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ae73c4ff9a800bdab790b28b66b42143f}\label{classfeedforward__closedloop__learning_1_1Layer_ae73c4ff9a800bdab790b28b66b42143f}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Activation\+Function (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}Neuron\+::\+Activation\+Function\char`\"{}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setActivationFunction(Layer self, Neuron::ActivationFunction _activationFunction)
+
+Parameters
+----------
+_activationFunction: enum Neuron::ActivationFunction\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a19d5b08c8e12b237a8b6adc6907ab9cd}\label{classfeedforward__closedloop__learning_1_1Layer_a19d5b08c8e12b237a8b6adc6907ab9cd}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setBias@{setBias}}
+\index{setBias@{setBias}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Bias (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+bias }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setBias(Layer self, double _bias)
+
+Parameters
+----------
+_bias: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a815ff0842664c7daa628f7a3eefccfcf}\label{classfeedforward__closedloop__learning_1_1Layer_a815ff0842664c7daa628f7a3eefccfcf}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setConvolution@{setConvolution}}
+\index{setConvolution@{setConvolution}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setConvolution()}{setConvolution()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Convolution (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{width,  }\item[{\char`\"{}int\char`\"{}}]{height }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setConvolution(Layer self, int width, int height)
+
+Parameters
+----------
+width: int
+height: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_ae65ddf2b50f97737e6ac5dd665a8dd70}\label{classfeedforward__closedloop__learning_1_1Layer_ae65ddf2b50f97737e6ac5dd665a8dd70}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setDebugInfo@{setDebugInfo}}
+\index{setDebugInfo@{setDebugInfo}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setDebugInfo()}{setDebugInfo()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Debug\+Info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{layer\+Index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDebugInfo(Layer self, int layerIndex)
+
+Parameters
+----------
+layerIndex: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_abcaf1f0926e221e92222e48e7f3baf7d}\label{classfeedforward__closedloop__learning_1_1Layer_abcaf1f0926e221e92222e48e7f3baf7d}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Decay (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+decay }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDecay(Layer self, double _decay)
+
+Parameters
+----------
+_decay: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a65cf6ca95edae0bb4f0dca2edc531299}\label{classfeedforward__closedloop__learning_1_1Layer_a65cf6ca95edae0bb4f0dca2edc531299}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setError@{setError}}
+\index{setError@{setError}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Error (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setError(Layer self, double _error)
+
+Parameters
+----------
+_error: double
+
+setError(Layer self, int i, double _error)
+
+Parameters
+----------
+i: int
+_error: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a59c2d5e4301ae8b0c263431702f7c037}\label{classfeedforward__closedloop__learning_1_1Layer_a59c2d5e4301ae8b0c263431702f7c037}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setErrors@{setErrors}}
+\index{setErrors@{setErrors}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setErrors()}{setErrors()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Errors (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double $\ast$\char`\"{}}]{\+\_\+errors }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setErrors(Layer self, double * _errors)
+
+Parameters
+----------
+_errors: double *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a76af85cac8d385736ebca6656f3ef02d}\label{classfeedforward__closedloop__learning_1_1Layer_a76af85cac8d385736ebca6656f3ef02d}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setInput@{setInput}}
+\index{setInput@{setInput}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setInput()}{setInput()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{input\+Index,  }\item[{\char`\"{}double\char`\"{}}]{input }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setInput(Layer self, int inputIndex, double input)
+
+Parameters
+----------
+inputIndex: int
+input: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_acd671f78878cc1ddabe881290f55fc72}\label{classfeedforward__closedloop__learning_1_1Layer_acd671f78878cc1ddabe881290f55fc72}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setInputs@{setInputs}}
+\index{setInputs@{setInputs}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setInputs()}{setInputs()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Inputs (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double $\ast$\char`\"{}}]{\+\_\+inputs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setInputs(Layer self, double * _inputs)
+
+Parameters
+----------
+_inputs: double *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a8cc62cf4e72a5172cb9b18754d2dedfa}\label{classfeedforward__closedloop__learning_1_1Layer_a8cc62cf4e72a5172cb9b18754d2dedfa}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+learning\+Rate }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setLearningRate(Layer self, double _learningRate)
+
+Parameters
+----------
+_learningRate: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a77f9d51c9b6d832fa6bd1bf483693428}\label{classfeedforward__closedloop__learning_1_1Layer_a77f9d51c9b6d832fa6bd1bf483693428}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setMaxDetLayer@{setMaxDetLayer}}
+\index{setMaxDetLayer@{setMaxDetLayer}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setMaxDetLayer()}{setMaxDetLayer()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Max\+Det\+Layer (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+m }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMaxDetLayer(Layer self, int _m)
+
+Parameters
+----------
+_m: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a31e9988e5b780d07c7025e1e0bf687fe}\label{classfeedforward__closedloop__learning_1_1Layer_a31e9988e5b780d07c7025e1e0bf687fe}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Momentum (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+momentum }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMomentum(Layer self, double _momentum)
+
+Parameters
+----------
+_momentum: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a288e3727b81b5a50a24815f6c2f9691c}\label{classfeedforward__closedloop__learning_1_1Layer_a288e3727b81b5a50a24815f6c2f9691c}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setNormaliseWeights@{setNormaliseWeights}}
+\index{setNormaliseWeights@{setNormaliseWeights}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setNormaliseWeights()}{setNormaliseWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Normalise\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}Layer\+::\+Weight\+Normalisation\char`\"{}}]{\+\_\+normalise\+Weights }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setNormaliseWeights(Layer self, Layer::WeightNormalisation _normaliseWeights)
+
+Parameters
+----------
+_normaliseWeights: enum Layer::WeightNormalisation\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a6bc769d78c252af715af8b3b01a55f1d}\label{classfeedforward__closedloop__learning_1_1Layer_a6bc769d78c252af715af8b3b01a55f1d}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setStep@{setStep}}
+\index{setStep@{setStep}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setStep()}{setStep()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Step (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}long\char`\"{}}]{step }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setStep(Layer self, long step)
+
+Parameters
+----------
+step: long\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1Layer_a7f4fdf31110a155114c8268364b071c9}\label{classfeedforward__closedloop__learning_1_1Layer_a7f4fdf31110a155114c8268364b071c9}} 
+\index{feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}!setUseThreads@{setUseThreads}}
+\index{setUseThreads@{setUseThreads}!feedforward\_closedloop\_learning.Layer@{feedforward\_closedloop\_learning.Layer}}
+\doxysubsubsection{\texorpdfstring{setUseThreads()}{setUseThreads()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Layer.\+set\+Use\+Threads (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+use\+Threads }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setUseThreads(Layer self, int _useThreads)
+
+Parameters
+----------
+_useThreads: int\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+feedforward\+\_\+closedloop\+\_\+learning.\+py\end{DoxyCompactItemize}

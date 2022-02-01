@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classLayer.html" title="Layer which contains the neurons of one layer." alt="" coords="5,5,64,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,127,68,153"/>
+<area shape="rect" id="node2" href="$classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning.html" title=" " alt="" coords="116,5,355,61"/>
+<area shape="rect" id="node4" href="$classfeedforward__closedloop__learning_1_1Layer.html" title=" " alt="" coords="146,86,325,127"/>
+<area shape="rect" id="node5" href="$classfeedforward__closedloop__learning_1_1LayerThread.html" title=" " alt="" coords="146,151,325,193"/>
+<area shape="rect" id="node9" href="$classfeedforward__closedloop__learning_1_1Neuron.html" title=" " alt="" coords="146,217,325,258"/>
+<area shape="rect" id="node3" href="$classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank.html" title=" " alt="" coords="403,5,641,61"/>
+<area shape="rect" id="node6" href="$classfeedforward__closedloop__learning_1_1CalcOutputThread.html" title=" " alt="" coords="421,86,623,127"/>
+<area shape="rect" id="node7" href="$classfeedforward__closedloop__learning_1_1LearningThread.html" title=" " alt="" coords="429,151,615,193"/>
+<area shape="rect" id="node8" href="$classfeedforward__closedloop__learning_1_1MaxDetThread.html" title=" " alt="" coords="431,217,613,258"/>
 </map>

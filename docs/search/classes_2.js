@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['layer_84',['Layer',['../classLayer.html',1,'']]]
+  ['calcoutputthread_94',['CalcOutputThread',['../classfeedforward__closedloop__learning_1_1CalcOutputThread.html',1,'feedforward_closedloop_learning']]]
 ];

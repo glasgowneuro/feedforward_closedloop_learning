@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['impulse_126',['impulse',['../classBandpass.html#a02c513ff06d64b065b791a0cdcc39de6',1,'Bandpass']]],
-  ['initweights_127',['initWeights',['../classFeedforwardClosedloopLearning.html#a4dfe77d2b1e47db943d50dbd8b13a10d',1,'FeedforwardClosedloopLearning::initWeights()'],['../classLayer.html#a7b9c72e7dde6655f785776cb5d2a4a0e',1,'Layer::initWeights()'],['../classNeuron.html#a7ff5cd9aec999e2e15d93c1f77620575',1,'Neuron::initWeights()']]]
+  ['feedforwardclosedlooplearning_117',['FeedforwardClosedloopLearning',['../classFeedforwardClosedloopLearning.html#a2ac09cda5bc3db11f1be13163d30755c',1,'FeedforwardClosedloopLearning']]],
+  ['feedforwardclosedlooplearningwithfilterbank_118',['FeedforwardClosedloopLearningWithFilterbank',['../classFeedforwardClosedloopLearningWithFilterbank.html#afbee21493f4b2c1879bd455a7b16b49f',1,'FeedforwardClosedloopLearningWithFilterbank']]],
+  ['filter_119',['filter',['../classBandpass.html#a3d91e37746cd79713af85d3808067eee',1,'Bandpass']]]
 ];

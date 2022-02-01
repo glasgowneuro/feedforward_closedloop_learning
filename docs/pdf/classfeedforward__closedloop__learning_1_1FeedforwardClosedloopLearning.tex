@@ -1,0 +1,279 @@
+\hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning}{}\doxysection{feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning Class Reference}
+\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning}\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+
+
+Inheritance diagram for feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a3747dca942c914afe107a197ed435000}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \char`\"{}int\char`\"{} num\+\_\+of\+\_\+inputs, \char`\"{}int $\ast$\char`\"{} num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a353cc2963471b493cc73934d3621973e}{do\+Step}} (self, $\ast$args)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a96c6ccd8155496119eecdf96b11f4ae8}{get\+Output}} (self, \char`\"{}int\char`\"{} index)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a05e20c07087602b51b78d47c107351b4}{set\+Learning\+Rate}} (self, \char`\"{}double\char`\"{} learning\+Rate)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a0617fccca4f0eef5765466e923b4600b}{set\+Learning\+Rate\+Discount\+Factor}} (self, \char`\"{}double\char`\"{} \+\_\+learning\+Rate\+Discount\+Factor)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_acf505ac08bee03b90a316fd1cb591094}{set\+Decay}} (self, \char`\"{}double\char`\"{} decay)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ab9ade24c575930fd5b8a42f157a6441d}{set\+Momentum}} (self, \char`\"{}double\char`\"{} momentum)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ae22b4ceb4dbf20c88cf57f8acad9784c}{set\+Activation\+Function}} (self, \char`\"{}Neuron\+::\+Activation\+Function\char`\"{} \+\_\+activation\+Function)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a4fc0466b08d58b1e953b8f02ec505909}{init\+Weights}} (self, $\ast$args)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ad784c5074b2ba347820758495514833c}{seed\+Random}} (self, \char`\"{}int\char`\"{} s)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a055e86b1bd5b28b1e3f71de9dc4771a8}{set\+Bias}} (self, \char`\"{}double\char`\"{} \+\_\+bias)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a045a8094499e14f071ae52e623c716fb}{get\+Num\+Layers}} (self)
+\item 
+\char`\"{}Layer $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a407c2bc72bbb11d84facf1054ccc4b1d}{get\+Layer}} (self, \char`\"{}int\char`\"{} i)
+\item 
+\char`\"{}Layer $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_aca5be71ba05aaa3a7ebdf772b09e7114}{get\+Output\+Layer}} (self)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ac23fd95f8c40875bcc3376e55356aea9}{get\+Num\+Inputs}} (self)
+\item 
+\char`\"{}Layer $\ast$$\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_aa0212812db553d33736367c02fba4c50}{get\+Layers}} (self)
+\item 
+\char`\"{}bool\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a4c506ed0cc4635b6262fc4e7d10aded5}{save\+Model}} (self, \char`\"{}char const $\ast$\char`\"{} name)
+\item 
+\char`\"{}bool\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a493df72f0a30439a1b8868b8a7523d62}{load\+Model}} (self, \char`\"{}char const $\ast$\char`\"{} name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ab60edd03e747be49e1654a4a1b8de66e}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ab60edd03e747be49e1654a4a1b8de66e}} 
+{\bfseries thisown} = property(lambda x\+: x.\+this.\+own(), lambda x, v\+: x.\+this.\+own(v), doc=\char`\"{}The membership flag\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Proxy of C++ FeedforwardClosedloopLearning class.\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a3747dca942c914afe107a197ed435000}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a3747dca942c914afe107a197ed435000}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{num\+\_\+of\+\_\+inputs,  }\item[{\char`\"{}int $\ast$\char`\"{}}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}__init__(FeedforwardClosedloopLearning self, int num_of_inputs, int * num_of_neurons_per_layer_array) -> FeedforwardClosedloopLearning
+
+Parameters
+----------
+num_of_inputs: int
+num_of_neurons_per_layer_array: int *\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a353cc2963471b493cc73934d3621973e}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a353cc2963471b493cc73934d3621973e}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!doStep@{doStep}}
+\index{doStep@{doStep}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+do\+Step (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doStep(FeedforwardClosedloopLearning self, double * input, double * error)
+
+Parameters
+----------
+input: double *
+error: double *
+
+doStep(FeedforwardClosedloopLearning self, double * input, double * error)
+
+Parameters
+----------
+input: double *
+error: double *\end{DoxyVerb}
+ 
+
+Reimplemented in \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2d7bcad8172a48a8cf22926aa9c460c5}{feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank}}.
+
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a407c2bc72bbb11d84facf1054ccc4b1d}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a407c2bc72bbb11d84facf1054ccc4b1d}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!getLayer@{getLayer}}
+\index{getLayer@{getLayer}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{getLayer()}{getLayer()}}
+{\footnotesize\ttfamily  \char`\"{}Layer $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+get\+Layer (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{i }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getLayer(FeedforwardClosedloopLearning self, int i) -> Layer
+
+Parameters
+----------
+i: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_aa0212812db553d33736367c02fba4c50}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_aa0212812db553d33736367c02fba4c50}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!getLayers@{getLayers}}
+\index{getLayers@{getLayers}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{getLayers()}{getLayers()}}
+{\footnotesize\ttfamily  \char`\"{}Layer $\ast$$\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+get\+Layers (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getLayers(FeedforwardClosedloopLearning self) -> Layer **\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ac23fd95f8c40875bcc3376e55356aea9}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ac23fd95f8c40875bcc3376e55356aea9}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!getNumInputs@{getNumInputs}}
+\index{getNumInputs@{getNumInputs}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{getNumInputs()}{getNumInputs()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+get\+Num\+Inputs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNumInputs(FeedforwardClosedloopLearning self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a045a8094499e14f071ae52e623c716fb}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a045a8094499e14f071ae52e623c716fb}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!getNumLayers@{getNumLayers}}
+\index{getNumLayers@{getNumLayers}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{getNumLayers()}{getNumLayers()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+get\+Num\+Layers (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNumLayers(FeedforwardClosedloopLearning self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a96c6ccd8155496119eecdf96b11f4ae8}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a96c6ccd8155496119eecdf96b11f4ae8}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+get\+Output (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getOutput(FeedforwardClosedloopLearning self, int index) -> double
+
+Parameters
+----------
+index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_aca5be71ba05aaa3a7ebdf772b09e7114}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_aca5be71ba05aaa3a7ebdf772b09e7114}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!getOutputLayer@{getOutputLayer}}
+\index{getOutputLayer@{getOutputLayer}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{getOutputLayer()}{getOutputLayer()}}
+{\footnotesize\ttfamily  \char`\"{}Layer $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+get\+Output\+Layer (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getOutputLayer(FeedforwardClosedloopLearning self) -> Layer\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a4fc0466b08d58b1e953b8f02ec505909}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a4fc0466b08d58b1e953b8f02ec505909}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+init\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}initWeights(FeedforwardClosedloopLearning self, double max=0.001, int initBias=1, Neuron::WeightInitMethod weightInitMethod=MAX_OUTPUT_RANDOM)
+
+Parameters
+----------
+max: double
+initBias: int
+weightInitMethod: enum Neuron::WeightInitMethod\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a493df72f0a30439a1b8868b8a7523d62}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a493df72f0a30439a1b8868b8a7523d62}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!loadModel@{loadModel}}
+\index{loadModel@{loadModel}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{loadModel()}{loadModel()}}
+{\footnotesize\ttfamily  \char`\"{}bool\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+load\+Model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}char const $\ast$\char`\"{}}]{name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}loadModel(FeedforwardClosedloopLearning self, char const * name) -> bool
+
+Parameters
+----------
+name: char const *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a4c506ed0cc4635b6262fc4e7d10aded5}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a4c506ed0cc4635b6262fc4e7d10aded5}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!saveModel@{saveModel}}
+\index{saveModel@{saveModel}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{saveModel()}{saveModel()}}
+{\footnotesize\ttfamily  \char`\"{}bool\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+save\+Model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}char const $\ast$\char`\"{}}]{name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}saveModel(FeedforwardClosedloopLearning self, char const * name) -> bool
+
+Parameters
+----------
+name: char const *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ad784c5074b2ba347820758495514833c}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ad784c5074b2ba347820758495514833c}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!seedRandom@{seedRandom}}
+\index{seedRandom@{seedRandom}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{seedRandom()}{seedRandom()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+seed\+Random (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{s }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}seedRandom(FeedforwardClosedloopLearning self, int s)
+
+Parameters
+----------
+s: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ae22b4ceb4dbf20c88cf57f8acad9784c}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ae22b4ceb4dbf20c88cf57f8acad9784c}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+set\+Activation\+Function (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}Neuron\+::\+Activation\+Function\char`\"{}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setActivationFunction(FeedforwardClosedloopLearning self, Neuron::ActivationFunction _activationFunction)
+
+Parameters
+----------
+_activationFunction: enum Neuron::ActivationFunction\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a055e86b1bd5b28b1e3f71de9dc4771a8}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a055e86b1bd5b28b1e3f71de9dc4771a8}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!setBias@{setBias}}
+\index{setBias@{setBias}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+set\+Bias (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+bias }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setBias(FeedforwardClosedloopLearning self, double _bias)
+
+Parameters
+----------
+_bias: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_acf505ac08bee03b90a316fd1cb591094}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_acf505ac08bee03b90a316fd1cb591094}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+set\+Decay (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{decay }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDecay(FeedforwardClosedloopLearning self, double decay)
+
+Parameters
+----------
+decay: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a05e20c07087602b51b78d47c107351b4}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a05e20c07087602b51b78d47c107351b4}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{learning\+Rate }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setLearningRate(FeedforwardClosedloopLearning self, double learningRate)
+
+Parameters
+----------
+learningRate: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a0617fccca4f0eef5765466e923b4600b}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a0617fccca4f0eef5765466e923b4600b}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!setLearningRateDiscountFactor@{setLearningRateDiscountFactor}}
+\index{setLearningRateDiscountFactor@{setLearningRateDiscountFactor}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{setLearningRateDiscountFactor()}{setLearningRateDiscountFactor()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+set\+Learning\+Rate\+Discount\+Factor (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+learning\+Rate\+Discount\+Factor }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setLearningRateDiscountFactor(FeedforwardClosedloopLearning self, double _learningRateDiscountFactor)
+
+Parameters
+----------
+_learningRateDiscountFactor: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ab9ade24c575930fd5b8a42f157a6441d}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_ab9ade24c575930fd5b8a42f157a6441d}} 
+\index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearning@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearning}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning.\+set\+Momentum (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{momentum }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMomentum(FeedforwardClosedloopLearning self, double momentum)
+
+Parameters
+----------
+momentum: double\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+feedforward\+\_\+closedloop\+\_\+learning.\+py\end{DoxyCompactItemize}

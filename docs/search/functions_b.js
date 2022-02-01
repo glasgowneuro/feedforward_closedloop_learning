@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['_7efeedforwardclosedlooplearning_159',['~FeedforwardClosedloopLearning',['../classFeedforwardClosedloopLearning.html#afba7d6121341599d66e89ee11c25b676',1,'FeedforwardClosedloopLearning']]],
-  ['_7efeedforwardclosedlooplearningwithfilterbank_160',['~FeedforwardClosedloopLearningWithFilterbank',['../classFeedforwardClosedloopLearningWithFilterbank.html#af3db8782362dd911c95f5342cb6166f0',1,'FeedforwardClosedloopLearningWithFilterbank']]],
-  ['_7elayer_161',['~Layer',['../classLayer.html#a1b1ba4804451dfe6cc357194e42762ae',1,'Layer']]],
-  ['_7eneuron_162',['~Neuron',['../classNeuron.html#a94a250ce7e167760e593979b899745b1',1,'Neuron']]]
+  ['reset_153',['reset',['../classBandpass.html#ac1220b44f55e1ffe96fab14f5532b7fd',1,'Bandpass']]],
+  ['run_154',['run',['../classfeedforward__closedloop__learning_1_1LayerThread.html#a3dce40863889dccd66702a23c5af6046',1,'feedforward_closedloop_learning::LayerThread']]]
 ];

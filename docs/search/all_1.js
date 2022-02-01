@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['bandpass_1',['Bandpass',['../classBandpass.html',1,'Bandpass'],['../classBandpass.html#a69ea4cc45ebbaafc27a5f6f95eecee93',1,'Bandpass::Bandpass()']]]
+  ['activationfunction_2',['ActivationFunction',['../classNeuron.html#ac4d0e59b0cfc9ce786f31e85105d4891',1,'Neuron']]],
+  ['addneuron_3',['addNeuron',['../classfeedforward__closedloop__learning_1_1LayerThread.html#a158c7bc133a72e43683d28edee849f23',1,'feedforward_closedloop_learning::LayerThread']]]
 ];

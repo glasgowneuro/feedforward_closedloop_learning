@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['neuron_46',['Neuron',['../classNeuron.html',1,'Neuron'],['../classNeuron.html#a0308f930bfcf008c4a9f821c5c2671c7',1,'Neuron::Neuron()']]],
-  ['normaliseweights_47',['normaliseWeights',['../classNeuron.html#a8789a29418c9903fb05b6c48a706cc89',1,'Neuron']]]
+  ['join_49',['join',['../classfeedforward__closedloop__learning_1_1LayerThread.html#a65564d9e400a50cdd6bde1b0f953221f',1,'feedforward_closedloop_learning::LayerThread']]]
 ];

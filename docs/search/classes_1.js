@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['feedforwardclosedlooplearning_82',['FeedforwardClosedloopLearning',['../classFeedforwardClosedloopLearning.html',1,'']]],
-  ['feedforwardclosedlooplearningwithfilterbank_83',['FeedforwardClosedloopLearningWithFilterbank',['../classFeedforwardClosedloopLearningWithFilterbank.html',1,'']]]
+  ['bandpass_93',['Bandpass',['../classBandpass.html',1,'']]]
 ];
