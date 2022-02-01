@@ -41,6 +41,8 @@ API.
 
 ## Class reference
 
+The online documentation can be found here: https://glasgowneuro.github.io/feedforward_closedloop_learning/
+
 Run `doxygen` to generate the reference documentation for all classes:
 ```
 make docs
