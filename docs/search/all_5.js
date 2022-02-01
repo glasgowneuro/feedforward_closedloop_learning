@@ -18,7 +18,7 @@ var searchData=
   ['getnneurons_33',['getNneurons',['../classLayer.html#a1fb5839c20b7117850eff64af0a4ded8',1,'Layer']]],
   ['getnuminputs_34',['getNumInputs',['../classFeedforwardClosedloopLearning.html#ad7e9ee35938e8221a4c33c4ea3cf1481',1,'FeedforwardClosedloopLearning']]],
   ['getnumlayers_35',['getNumLayers',['../classFeedforwardClosedloopLearning.html#afbf944bcec8f02066819abefa4b58369',1,'FeedforwardClosedloopLearning']]],
-  ['getoutput_36',['getOutput',['../classFeedforwardClosedloopLearning.html#aac984999b42e68fa1e6fd686e00a4937',1,'FeedforwardClosedloopLearning::getOutput()'],['../classBandpass.html#a572f7f6689f4864cf510e34341292a67',1,'Bandpass::getOutput()'],['../classLayer.html#abcd86b5968b14a43f9a5ba849f48c6bc',1,'Layer::getOutput()'],['../classNeuron.html#aede55ffaebb746a3d1f285d139c199b3',1,'Neuron::getOutput()']]],
+  ['getoutput_36',['getOutput',['../classBandpass.html#a572f7f6689f4864cf510e34341292a67',1,'Bandpass::getOutput()'],['../classLayer.html#abcd86b5968b14a43f9a5ba849f48c6bc',1,'Layer::getOutput()'],['../classNeuron.html#aede55ffaebb746a3d1f285d139c199b3',1,'Neuron::getOutput()'],['../classFeedforwardClosedloopLearning.html#aac984999b42e68fa1e6fd686e00a4937',1,'FeedforwardClosedloopLearning::getOutput()']]],
   ['getoutputlayer_37',['getOutputLayer',['../classFeedforwardClosedloopLearning.html#abdf6a849d30c5f429a0dc61d9f0ec4dd',1,'FeedforwardClosedloopLearning']]],
   ['getsum_38',['getSum',['../classNeuron.html#a59a3afb47ee864596ab3947faa410f4a',1,'Neuron']]],
   ['getsumofsquaredweightvector_39',['getSumOfSquaredWeightVector',['../classNeuron.html#a2ae5bcc02b470882546f95df4f945096',1,'Neuron']]],

@@ -142,7 +142,7 @@ var NAVTREEINDEX0 =
 "hierarchy.html":[1,2],
 "index.html":[],
 "layer_8h_source.html":[2,0,4],
-"md_README.html":[0],
+"md_doxy.html":[0],
 "neuron_8h_source.html":[2,0,5],
 "pages.html":[]
 };

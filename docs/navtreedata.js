@@ -23,7 +23,7 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "Feedforward Closedloop Learning", "index.html", [
-    [ "Feedforward Closedloop Learning (FCL)", "md_README.html", null ],
+    [ "Feedforward Closedloop Learning (FCL)", "md_doxy.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

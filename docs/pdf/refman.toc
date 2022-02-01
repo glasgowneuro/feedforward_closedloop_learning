@@ -1,0 +1,124 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Feedforward Closedloop Learning (F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}CL)}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Hierarchical Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class Hierarchy}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class List}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Class Documentation}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Bandpass Class Reference}{7}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Detailed Description}{7}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Member Function Documentation}{8}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}getOutput()}{8}{subsubsection.4.1.2.1}%
+\contentsline {section}{\numberline {4.2}Feedforward\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Closedloop\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Learning Class Reference}{8}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{9}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Constructor \& Destructor Documentation}{10}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}FeedforwardClosedloopLearning()}{10}{subsubsection.4.2.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2.2}$\sim $FeedforwardClosedloopLearning()}{10}{subsubsection.4.2.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Member Function Documentation}{10}{subsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.3.1}doStep()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{10}{subsubsection.4.2.3.1}%
+\contentsline {subsubsection}{\numberline {4.2.3.2}doStep()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{11}{subsubsection.4.2.3.2}%
+\contentsline {subsubsection}{\numberline {4.2.3.3}getLayer()}{11}{subsubsection.4.2.3.3}%
+\contentsline {subsubsection}{\numberline {4.2.3.4}getLayers()}{11}{subsubsection.4.2.3.4}%
+\contentsline {subsubsection}{\numberline {4.2.3.5}getNumInputs()}{11}{subsubsection.4.2.3.5}%
+\contentsline {subsubsection}{\numberline {4.2.3.6}getNumLayers()}{12}{subsubsection.4.2.3.6}%
+\contentsline {subsubsection}{\numberline {4.2.3.7}getOutput()}{12}{subsubsection.4.2.3.7}%
+\contentsline {subsubsection}{\numberline {4.2.3.8}getOutputLayer()}{12}{subsubsection.4.2.3.8}%
+\contentsline {subsubsection}{\numberline {4.2.3.9}initWeights()}{12}{subsubsection.4.2.3.9}%
+\contentsline {subsubsection}{\numberline {4.2.3.10}loadModel()}{13}{subsubsection.4.2.3.10}%
+\contentsline {subsubsection}{\numberline {4.2.3.11}saveModel()}{13}{subsubsection.4.2.3.11}%
+\contentsline {subsubsection}{\numberline {4.2.3.12}seedRandom()}{13}{subsubsection.4.2.3.12}%
+\contentsline {subsubsection}{\numberline {4.2.3.13}setActivationFunction()}{14}{subsubsection.4.2.3.13}%
+\contentsline {subsubsection}{\numberline {4.2.3.14}setBias()}{14}{subsubsection.4.2.3.14}%
+\contentsline {subsubsection}{\numberline {4.2.3.15}setDecay()}{14}{subsubsection.4.2.3.15}%
+\contentsline {subsubsection}{\numberline {4.2.3.16}setLearningRate()}{14}{subsubsection.4.2.3.16}%
+\contentsline {subsubsection}{\numberline {4.2.3.17}setLearningRateDiscountFactor()}{15}{subsubsection.4.2.3.17}%
+\contentsline {subsubsection}{\numberline {4.2.3.18}setMomentum()}{15}{subsubsection.4.2.3.18}%
+\contentsline {section}{\numberline {4.3}Feedforward\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Closedloop\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Learning\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}With\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Filterbank Class Reference}{15}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Detailed Description}{16}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Constructor \& Destructor Documentation}{17}{subsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.1}FeedforwardClosedloopLearningWithFilterbank()}{17}{subsubsection.4.3.2.1}%
+\contentsline {subsection}{\numberline {4.3.3}Member Function Documentation}{17}{subsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.1}doStep()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{17}{subsubsection.4.3.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.3.2}doStep()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{18}{subsubsection.4.3.3.2}%
+\contentsline {section}{\numberline {4.4}Layer Class Reference}{18}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Detailed Description}{19}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Constructor \& Destructor Documentation}{20}{subsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.2.1}Layer()}{20}{subsubsection.4.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.4.2.2}$\sim $Layer()}{20}{subsubsection.4.4.2.2}%
+\contentsline {subsection}{\numberline {4.4.3}Member Function Documentation}{20}{subsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.3.1}calcOutputs()}{20}{subsubsection.4.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.4.3.2}doLearning()}{20}{subsubsection.4.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.4.3.3}doNormaliseWeights()}{21}{subsubsection.4.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.4.3.4}getError()}{21}{subsubsection.4.4.3.4}%
+\contentsline {subsubsection}{\numberline {4.4.3.5}getNeuron()}{21}{subsubsection.4.4.3.5}%
+\contentsline {subsubsection}{\numberline {4.4.3.6}getNinputs()}{21}{subsubsection.4.4.3.6}%
+\contentsline {subsubsection}{\numberline {4.4.3.7}getNneurons()}{22}{subsubsection.4.4.3.7}%
+\contentsline {subsubsection}{\numberline {4.4.3.8}getOutput()}{22}{subsubsection.4.4.3.8}%
+\contentsline {subsubsection}{\numberline {4.4.3.9}getWeightDistanceFromInitialWeights()}{22}{subsubsection.4.4.3.9}%
+\contentsline {subsubsection}{\numberline {4.4.3.10}initWeights()}{22}{subsubsection.4.4.3.10}%
+\contentsline {subsubsection}{\numberline {4.4.3.11}saveWeightMatrix()}{23}{subsubsection.4.4.3.11}%
+\contentsline {subsubsection}{\numberline {4.4.3.12}setActivationFunction()}{23}{subsubsection.4.4.3.12}%
+\contentsline {subsubsection}{\numberline {4.4.3.13}setBias()}{23}{subsubsection.4.4.3.13}%
+\contentsline {subsubsection}{\numberline {4.4.3.14}setConvolution()}{24}{subsubsection.4.4.3.14}%
+\contentsline {subsubsection}{\numberline {4.4.3.15}setDebugInfo()}{24}{subsubsection.4.4.3.15}%
+\contentsline {subsubsection}{\numberline {4.4.3.16}setDecay()}{24}{subsubsection.4.4.3.16}%
+\contentsline {subsubsection}{\numberline {4.4.3.17}setError()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{24}{subsubsection.4.4.3.17}%
+\contentsline {subsubsection}{\numberline {4.4.3.18}setError()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{25}{subsubsection.4.4.3.18}%
+\contentsline {subsubsection}{\numberline {4.4.3.19}setErrors()}{25}{subsubsection.4.4.3.19}%
+\contentsline {subsubsection}{\numberline {4.4.3.20}setInput()}{25}{subsubsection.4.4.3.20}%
+\contentsline {subsubsection}{\numberline {4.4.3.21}setInputs()}{26}{subsubsection.4.4.3.21}%
+\contentsline {subsubsection}{\numberline {4.4.3.22}setLearningRate()}{26}{subsubsection.4.4.3.22}%
+\contentsline {subsubsection}{\numberline {4.4.3.23}setMaxDetLayer()}{26}{subsubsection.4.4.3.23}%
+\contentsline {subsubsection}{\numberline {4.4.3.24}setMomentum()}{26}{subsubsection.4.4.3.24}%
+\contentsline {subsubsection}{\numberline {4.4.3.25}setNormaliseWeights()}{27}{subsubsection.4.4.3.25}%
+\contentsline {subsubsection}{\numberline {4.4.3.26}setStep()}{27}{subsubsection.4.4.3.26}%
+\contentsline {subsubsection}{\numberline {4.4.3.27}setUseThreads()}{27}{subsubsection.4.4.3.27}%
+\contentsline {section}{\numberline {4.5}Neuron Class Reference}{27}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Detailed Description}{30}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Member Enumeration Documentation}{30}{subsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.2.1}WeightInitMethod}{30}{subsubsection.4.5.2.1}%
+\contentsline {subsection}{\numberline {4.5.3}Constructor \& Destructor Documentation}{30}{subsection.4.5.3}%
+\contentsline {subsubsection}{\numberline {4.5.3.1}Neuron()}{30}{subsubsection.4.5.3.1}%
+\contentsline {subsubsection}{\numberline {4.5.3.2}$\sim $Neuron()}{30}{subsubsection.4.5.3.2}%
+\contentsline {subsection}{\numberline {4.5.4}Member Function Documentation}{31}{subsection.4.5.4}%
+\contentsline {subsubsection}{\numberline {4.5.4.1}calcOutputThread()}{31}{subsubsection.4.5.4.1}%
+\contentsline {subsubsection}{\numberline {4.5.4.2}dActivation()}{31}{subsubsection.4.5.4.2}%
+\contentsline {subsubsection}{\numberline {4.5.4.3}doLearning()}{31}{subsubsection.4.5.4.3}%
+\contentsline {subsubsection}{\numberline {4.5.4.4}doLearningThread()}{31}{subsubsection.4.5.4.4}%
+\contentsline {subsubsection}{\numberline {4.5.4.5}doMaxDet()}{31}{subsubsection.4.5.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.4.6}doMaxDetThread()}{32}{subsubsection.4.5.4.6}%
+\contentsline {subsubsection}{\numberline {4.5.4.7}getAverageOfWeightVector()}{32}{subsubsection.4.5.4.7}%
+\contentsline {subsubsection}{\numberline {4.5.4.8}getBiasWeight()}{32}{subsubsection.4.5.4.8}%
+\contentsline {subsubsection}{\numberline {4.5.4.9}getDecay()}{32}{subsubsection.4.5.4.9}%
+\contentsline {subsubsection}{\numberline {4.5.4.10}getError()}{33}{subsubsection.4.5.4.10}%
+\contentsline {subsubsection}{\numberline {4.5.4.11}getEuclideanNormOfWeightVector()}{33}{subsubsection.4.5.4.11}%
+\contentsline {subsubsection}{\numberline {4.5.4.12}getInfinityNormOfWeightVector()}{33}{subsubsection.4.5.4.12}%
+\contentsline {subsubsection}{\numberline {4.5.4.13}getInput()}{33}{subsubsection.4.5.4.13}%
+\contentsline {subsubsection}{\numberline {4.5.4.14}getMask()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{34}{subsubsection.4.5.4.14}%
+\contentsline {subsubsection}{\numberline {4.5.4.15}getMask()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{34}{subsubsection.4.5.4.15}%
+\contentsline {subsubsection}{\numberline {4.5.4.16}getMaxWeightValue()}{34}{subsubsection.4.5.4.16}%
+\contentsline {subsubsection}{\numberline {4.5.4.17}getMinWeightValue()}{35}{subsubsection.4.5.4.17}%
+\contentsline {subsubsection}{\numberline {4.5.4.18}getNinputs()}{35}{subsubsection.4.5.4.18}%
+\contentsline {subsubsection}{\numberline {4.5.4.19}getOutput()}{35}{subsubsection.4.5.4.19}%
+\contentsline {subsubsection}{\numberline {4.5.4.20}getSum()}{35}{subsubsection.4.5.4.20}%
+\contentsline {subsubsection}{\numberline {4.5.4.21}getSumOfSquaredWeightVector()}{36}{subsubsection.4.5.4.21}%
+\contentsline {subsubsection}{\numberline {4.5.4.22}getWeight()}{36}{subsubsection.4.5.4.22}%
+\contentsline {subsubsection}{\numberline {4.5.4.23}getWeightDistanceFromInitialWeights()}{36}{subsubsection.4.5.4.23}%
+\contentsline {subsubsection}{\numberline {4.5.4.24}initWeights()}{36}{subsubsection.4.5.4.24}%
+\contentsline {subsubsection}{\numberline {4.5.4.25}normaliseWeights()}{37}{subsubsection.4.5.4.25}%
+\contentsline {subsubsection}{\numberline {4.5.4.26}saveInitialWeights()}{37}{subsubsection.4.5.4.26}%
+\contentsline {subsubsection}{\numberline {4.5.4.27}setActivationFunction()}{37}{subsubsection.4.5.4.27}%
+\contentsline {subsubsection}{\numberline {4.5.4.28}setBias()}{37}{subsubsection.4.5.4.28}%
+\contentsline {subsubsection}{\numberline {4.5.4.29}setBiasWeight()}{38}{subsubsection.4.5.4.29}%
+\contentsline {subsubsection}{\numberline {4.5.4.30}setDebugInfo()}{38}{subsubsection.4.5.4.30}%
+\contentsline {subsubsection}{\numberline {4.5.4.31}setDecay()}{38}{subsubsection.4.5.4.31}%
+\contentsline {subsubsection}{\numberline {4.5.4.32}setError()}{39}{subsubsection.4.5.4.32}%
+\contentsline {subsubsection}{\numberline {4.5.4.33}setGeometry()}{39}{subsubsection.4.5.4.33}%
+\contentsline {subsubsection}{\numberline {4.5.4.34}setInput()}{39}{subsubsection.4.5.4.34}%
+\contentsline {subsubsection}{\numberline {4.5.4.35}setLearningRate()}{40}{subsubsection.4.5.4.35}%
+\contentsline {subsubsection}{\numberline {4.5.4.36}setMask()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{40}{subsubsection.4.5.4.36}%
+\contentsline {subsubsection}{\numberline {4.5.4.37}setMask()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{40}{subsubsection.4.5.4.37}%
+\contentsline {subsubsection}{\numberline {4.5.4.38}setMomentum()}{40}{subsubsection.4.5.4.38}%
+\contentsline {subsubsection}{\numberline {4.5.4.39}setStep()}{41}{subsubsection.4.5.4.39}%
+\contentsline {subsubsection}{\numberline {4.5.4.40}setWeight()}{41}{subsubsection.4.5.4.40}%
+\contentsline {chapter}{Index}{43}{section*.12}%
