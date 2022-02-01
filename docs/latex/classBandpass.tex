@@ -1,0 +1,64 @@
+\hypertarget{classBandpass}{}\doxysection{Bandpass Class Reference}
+\label{classBandpass}\index{Bandpass@{Bandpass}}
+
+
+Creates memory traces at specified length.  
+
+
+
+
+{\ttfamily \#include $<$bandpass.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classBandpass_a69ea4cc45ebbaafc27a5f6f95eecee93}\label{classBandpass_a69ea4cc45ebbaafc27a5f6f95eecee93}} 
+\mbox{\hyperlink{classBandpass_a69ea4cc45ebbaafc27a5f6f95eecee93}{Bandpass}} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_a3d91e37746cd79713af85d3808067eee}\label{classBandpass_a3d91e37746cd79713af85d3808067eee}} 
+double \mbox{\hyperlink{classBandpass_a3d91e37746cd79713af85d3808067eee}{filter}} (double v)
+\begin{DoxyCompactList}\small\item\em Filter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_a2ff53cc7cf4a1fa6c1a267f1092f0866}\label{classBandpass_a2ff53cc7cf4a1fa6c1a267f1092f0866}} 
+void \mbox{\hyperlink{classBandpass_a2ff53cc7cf4a1fa6c1a267f1092f0866}{calc\+Poles\+Zeros}} (double f, double r)
+\begin{DoxyCompactList}\small\item\em Calculates the coefficients The frequency is the normalized frequency in the range \mbox{[}0..0.\+5\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_ab690e4e4468f20dc8635d451a7cf5fd3}\label{classBandpass_ab690e4e4468f20dc8635d451a7cf5fd3}} 
+void \mbox{\hyperlink{classBandpass_ab690e4e4468f20dc8635d451a7cf5fd3}{set\+Parameters}} (double frequency, double Qfactor)
+\begin{DoxyCompactList}\small\item\em sets the filter parameters \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_a02c513ff06d64b065b791a0cdcc39de6}\label{classBandpass_a02c513ff06d64b065b791a0cdcc39de6}} 
+void \mbox{\hyperlink{classBandpass_a02c513ff06d64b065b791a0cdcc39de6}{impulse}} (char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Generates an acsii file with the impulse response of the filter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_abec4fc2a464d332cbbfa2c37e666f3fc}\label{classBandpass_abec4fc2a464d332cbbfa2c37e666f3fc}} 
+void \mbox{\hyperlink{classBandpass_abec4fc2a464d332cbbfa2c37e666f3fc}{calc\+Norm}} (double f)
+\begin{DoxyCompactList}\small\item\em Normalises the output with f. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_a0b0f78df3caa4b08c003a56c6046517f}\label{classBandpass_a0b0f78df3caa4b08c003a56c6046517f}} 
+void \mbox{\hyperlink{classBandpass_a0b0f78df3caa4b08c003a56c6046517f}{transfer}} (char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Generates an A\+S\+C\+II file with the transfer function. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classBandpass_a572f7f6689f4864cf510e34341292a67}{get\+Output}} ()
+\begin{DoxyCompactList}\small\item\em Gets the output of the filter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classBandpass_ac1220b44f55e1ffe96fab14f5532b7fd}\label{classBandpass_ac1220b44f55e1ffe96fab14f5532b7fd}} 
+void \mbox{\hyperlink{classBandpass_ac1220b44f55e1ffe96fab14f5532b7fd}{reset}} ()
+\begin{DoxyCompactList}\small\item\em Sets the output to zero again. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Creates memory traces at specified length. 
+
+It\textquotesingle{}s a 2nd order I\+IR filter. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classBandpass_a572f7f6689f4864cf510e34341292a67}\label{classBandpass_a572f7f6689f4864cf510e34341292a67}} 
+\index{Bandpass@{Bandpass}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!Bandpass@{Bandpass}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily double Bandpass\+::get\+Output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the output of the filter. 
+
+Same as the return value of the function \char`\"{}filter()\char`\"{}. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+bandpass.\+h\item 
+bandpass.\+cpp\end{DoxyCompactItemize}

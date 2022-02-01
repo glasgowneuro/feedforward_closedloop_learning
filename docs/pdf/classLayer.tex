@@ -1,0 +1,534 @@
+\hypertarget{classLayer}{}\doxysection{Layer Class Reference}
+\label{classLayer}\index{Layer@{Layer}}
+
+
+\mbox{\hyperlink{classLayer}{Layer}} which contains the neurons of one layer.  
+
+
+
+
+{\ttfamily \#include $<$layer.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLayer_ae0b2d1297e95d879ef17450b079937a8}\label{classLayer_ae0b2d1297e95d879ef17450b079937a8}} 
+enum \mbox{\hyperlink{classLayer_ae0b2d1297e95d879ef17450b079937a8}{Weight\+Normalisation}} \{ \newline
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+O\+NE} = 0, 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+E\+U\+C\+L\+E\+D\+I\+AN} = 1, 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+E\+U\+C\+L\+E\+D\+I\+AN} = 2, 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+M\+A\+N\+H\+A\+T\+T\+AN} = 3, 
+\newline
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+M\+A\+N\+H\+A\+T\+T\+AN} = 4, 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+L\+A\+Y\+E\+R\+\_\+\+I\+N\+F\+I\+N\+I\+TY} = 5, 
+{\bfseries W\+E\+I\+G\+H\+T\+\_\+\+N\+O\+R\+M\+\_\+\+N\+E\+U\+R\+O\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY} = 6
+ \}
+\begin{DoxyCompactList}\small\item\em Weight normalisation constants Defines if weights are normalised layer-\/wide or for every neuron separately. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLayer_aa0883dcb58cddb3243bc91eca4779b17}{Layer}} (int \+\_\+n\+Neurons, int \+\_\+n\+Inputs)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classLayer_a1b1ba4804451dfe6cc357194e42762ae}{$\sim$\+Layer}} ()
+\begin{DoxyCompactList}\small\item\em Destructor Frees all memory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a0b2f6b68f2c16cafb05727253bcfa1d9}{calc\+Outputs}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the output values in all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a3bed1aec63e06c14c486200673676121}{do\+Learning}} ()
+\begin{DoxyCompactList}\small\item\em Adjusts the weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_ac2368982b7b0736eff5c8d21b56e0c4c}{set\+Error}} (double \+\_\+error)
+\begin{DoxyCompactList}\small\item\em Sets the global error for all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_add4753fbf4ca7dc5479aaa883e5183dd}{set\+Error}} (int i, double \+\_\+error)
+\begin{DoxyCompactList}\small\item\em sets the error individually \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_aac8759f225d810a2d833385778562dc6}{set\+Errors}} (double $\ast$\+\_\+errors)
+\begin{DoxyCompactList}\small\item\em Sets all errors from an input array. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classLayer_adfde32a659a238c0cb7c66b4732b2b58}{get\+Error}} (int i)
+\begin{DoxyCompactList}\small\item\em Retrieves the error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a89ae15a1ea7ee0a576af4c5e845b1ddc}{set\+Bias}} (double \+\_\+bias)
+\begin{DoxyCompactList}\small\item\em Sets the global bias for all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_ade51670ff09c520dc87428ac6a51cf5d}{set\+Input}} (int input\+Index, double input)
+\begin{DoxyCompactList}\small\item\em Set the input value of one input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a07affaeeac7306412dc3f4043ae0ed05}{set\+Inputs}} (double $\ast$\+\_\+inputs)
+\begin{DoxyCompactList}\small\item\em Sets all inputs from an input array. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_ae1828c92f33d2a98a5246f9c0eed079a}{set\+Learning\+Rate}} (double \+\_\+learning\+Rate)
+\begin{DoxyCompactList}\small\item\em Sets the learning rate of all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_aafd91143149ec7bd625e1c2a833210f2}{set\+Activation\+Function}} (\mbox{\hyperlink{classNeuron_ac4d0e59b0cfc9ce786f31e85105d4891}{Neuron\+::\+Activation\+Function}} \+\_\+activation\+Function)
+\begin{DoxyCompactList}\small\item\em Set the activation function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_ad05cf472e0ccf9cd2009fcf912ab3497}{set\+Momentum}} (double \+\_\+momentum)
+\begin{DoxyCompactList}\small\item\em Set the momentum of all neurons in this layer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_ada96303e9769874d5e4caf6d62d709a9}{set\+Decay}} (double \+\_\+decay)
+\begin{DoxyCompactList}\small\item\em Sets the weight decay scaled by the learning rate. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a7b9c72e7dde6655f785776cb5d2a4a0e}{init\+Weights}} (double \+\_\+max=1, int init\+Bias\+Weight=1, \mbox{\hyperlink{classNeuron_a95f0f18913eab70fba879a90fe940392}{Neuron\+::\+Weight\+Init\+Method}} weight\+Init\+Method=Neuron\+::\+M\+A\+X\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+R\+A\+N\+D\+OM)
+\begin{DoxyCompactList}\small\item\em Inits the weights. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classLayer_abcd86b5968b14a43f9a5ba849f48c6bc}{get\+Output}} (int index)
+\begin{DoxyCompactList}\small\item\em Gets the outpuut of one neuron. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classNeuron}{Neuron}} $\ast$ \mbox{\hyperlink{classLayer_a486cf8dbd1ea467a2e0d40495e128148}{get\+Neuron}} (int index)
+\begin{DoxyCompactList}\small\item\em Gets a pointer to one neuron. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classLayer_a1fb5839c20b7117850eff64af0a4ded8}{get\+Nneurons}} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of neurons. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classLayer_a771f348f7722d7bc475dc5115810b667}{get\+Ninputs}} ()
+\begin{DoxyCompactList}\small\item\em Number of inputs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_acfba8371f1038c1a09ab3233ed2b722c}{set\+Convolution}} (int width, int height)
+\begin{DoxyCompactList}\small\item\em Defines a 2D geometry for the input layer of widthxheight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_aef0c669e00d5d7d55d9ae04dceeddd76}{set\+Max\+Det\+Layer}} (int \+\_\+m)
+\begin{DoxyCompactList}\small\item\em Maxium detection layer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_aaa76e886043e754738a72922825896ab}{set\+Normalise\+Weights}} (\mbox{\hyperlink{classLayer_ae0b2d1297e95d879ef17450b079937a8}{Weight\+Normalisation}} \+\_\+normalise\+Weights)
+\begin{DoxyCompactList}\small\item\em Normalise the weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a4507914c315d68f9fd7b15ac7c33acd7}{set\+Debug\+Info}} (int layer\+Index)
+\begin{DoxyCompactList}\small\item\em Sets the layer index within the whole network. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a58421806f70559e1320dc3a71b580a3b}{set\+Step}} (long int step)
+\begin{DoxyCompactList}\small\item\em Sets the simulation step in the layer for debug purposes. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classLayer_a78067558fd3d0d22420c94f6d7736160}{get\+Weight\+Distance\+From\+Initial\+Weights}} ()
+\begin{DoxyCompactList}\small\item\em Get weight distance from the start of the simulation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_a04fa45b2d218d2de3f17dead88e0a0f6}{do\+Normalise\+Weights}} ()
+\begin{DoxyCompactList}\small\item\em Performs the weight normalisation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayer_aa871088d863498b64664b1cacca2f0c6}{set\+Use\+Threads}} (int \+\_\+use\+Threads)
+\begin{DoxyCompactList}\small\item\em Sets if threads should be used. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classLayer_a45a02392fbe4032e20affe817693b3de}{save\+Weight\+Matrix}} (char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Save weight matrix for documentation and debugging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classLayer}{Layer}} which contains the neurons of one layer. 
+
+It performs all computations possible in a layer. In particular it calls all neurons in separate threads and triggers the compuations there. These functions are all called from the parent class. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLayer_aa0883dcb58cddb3243bc91eca4779b17}\label{classLayer_aa0883dcb58cddb3243bc91eca4779b17}} 
+\index{Layer@{Layer}!Layer@{Layer}}
+\index{Layer@{Layer}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{Layer()}{Layer()}}
+{\footnotesize\ttfamily Layer\+::\+Layer (\begin{DoxyParamCaption}\item[{int}]{\+\_\+n\+Neurons,  }\item[{int}]{\+\_\+n\+Inputs }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+G\+NU G\+E\+N\+E\+R\+AL P\+U\+B\+L\+IC L\+I\+C\+E\+N\+SE Version 3, 29 June 2007.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n\+Neurons} & Number of neurons in the layer. \\
+\hline
+{\em \+\_\+n\+Inputs} & Number of inputs to the \mbox{\hyperlink{classLayer}{Layer}}. \\
+\hline
+{\em \+\_\+n\+Filters} & Number of lowpass filters at each input. \\
+\hline
+{\em \+\_\+minT} & Minimum time of the lowpass filter. \\
+\hline
+{\em \+\_\+maxT} & Maximum time of the lowpass filter.\\
+\hline
+\end{DoxyParams}
+(C) 2017, Bernd Porr \href{mailto:bernd@glasgowneuro.tech}{\texttt{ bernd@glasgowneuro.\+tech}} (C) 2017, Paul Miller \href{mailto:paul@glasgowneuro.tech}{\texttt{ paul@glasgowneuro.\+tech}} \mbox{\Hypertarget{classLayer_a1b1ba4804451dfe6cc357194e42762ae}\label{classLayer_a1b1ba4804451dfe6cc357194e42762ae}} 
+\index{Layer@{Layer}!````~Layer@{$\sim$Layer}}
+\index{````~Layer@{$\sim$Layer}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{$\sim$Layer()}{~Layer()}}
+{\footnotesize\ttfamily Layer\+::$\sim$\+Layer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor Frees all memory. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLayer_a0b2f6b68f2c16cafb05727253bcfa1d9}\label{classLayer_a0b2f6b68f2c16cafb05727253bcfa1d9}} 
+\index{Layer@{Layer}!calcOutputs@{calcOutputs}}
+\index{calcOutputs@{calcOutputs}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{calcOutputs()}{calcOutputs()}}
+{\footnotesize\ttfamily void Layer\+::calc\+Outputs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculates the output values in all neurons. 
+
+\mbox{\Hypertarget{classLayer_a3bed1aec63e06c14c486200673676121}\label{classLayer_a3bed1aec63e06c14c486200673676121}} 
+\index{Layer@{Layer}!doLearning@{doLearning}}
+\index{doLearning@{doLearning}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{doLearning()}{doLearning()}}
+{\footnotesize\ttfamily void Layer\+::do\+Learning (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Adjusts the weights. 
+
+\mbox{\Hypertarget{classLayer_a04fa45b2d218d2de3f17dead88e0a0f6}\label{classLayer_a04fa45b2d218d2de3f17dead88e0a0f6}} 
+\index{Layer@{Layer}!doNormaliseWeights@{doNormaliseWeights}}
+\index{doNormaliseWeights@{doNormaliseWeights}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{doNormaliseWeights()}{doNormaliseWeights()}}
+{\footnotesize\ttfamily void Layer\+::do\+Normalise\+Weights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Performs the weight normalisation. 
+
+\mbox{\Hypertarget{classLayer_adfde32a659a238c0cb7c66b4732b2b58}\label{classLayer_adfde32a659a238c0cb7c66b4732b2b58}} 
+\index{Layer@{Layer}!getError@{getError}}
+\index{getError@{getError}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily double Layer\+::get\+Error (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+Retrieves the error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the neuron \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_a486cf8dbd1ea467a2e0d40495e128148}\label{classLayer_a486cf8dbd1ea467a2e0d40495e128148}} 
+\index{Layer@{Layer}!getNeuron@{getNeuron}}
+\index{getNeuron@{getNeuron}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{getNeuron()}{getNeuron()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classNeuron}{Neuron}}$\ast$ Layer\+::get\+Neuron (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets a pointer to one neuron. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index number of the neuron. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to a \mbox{\hyperlink{classLayer}{Layer}} class. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLayer_a771f348f7722d7bc475dc5115810b667}\label{classLayer_a771f348f7722d7bc475dc5115810b667}} 
+\index{Layer@{Layer}!getNinputs@{getNinputs}}
+\index{getNinputs@{getNinputs}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{getNinputs()}{getNinputs()}}
+{\footnotesize\ttfamily int Layer\+::get\+Ninputs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Number of inputs. 
+
+\begin{DoxyReturn}{Returns}
+The number of inputs 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLayer_a1fb5839c20b7117850eff64af0a4ded8}\label{classLayer_a1fb5839c20b7117850eff64af0a4ded8}} 
+\index{Layer@{Layer}!getNneurons@{getNneurons}}
+\index{getNneurons@{getNneurons}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{getNneurons()}{getNneurons()}}
+{\footnotesize\ttfamily int Layer\+::get\+Nneurons (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the number of neurons. 
+
+\begin{DoxyReturn}{Returns}
+The number of neurons. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLayer_abcd86b5968b14a43f9a5ba849f48c6bc}\label{classLayer_abcd86b5968b14a43f9a5ba849f48c6bc}} 
+\index{Layer@{Layer}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily double Layer\+::get\+Output (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the outpuut of one neuron. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index number of the neuron. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retuns the double valye of the output. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLayer_a78067558fd3d0d22420c94f6d7736160}\label{classLayer_a78067558fd3d0d22420c94f6d7736160}} 
+\index{Layer@{Layer}!getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}}
+\index{getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{getWeightDistanceFromInitialWeights()}{getWeightDistanceFromInitialWeights()}}
+{\footnotesize\ttfamily double Layer\+::get\+Weight\+Distance\+From\+Initial\+Weights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get weight distance from the start of the simulation. 
+
+\begin{DoxyReturn}{Returns}
+The distance from the initial (random) weight setup. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLayer_a7b9c72e7dde6655f785776cb5d2a4a0e}\label{classLayer_a7b9c72e7dde6655f785776cb5d2a4a0e}} 
+\index{Layer@{Layer}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily void Layer\+::init\+Weights (\begin{DoxyParamCaption}\item[{double}]{\+\_\+max = {\ttfamily 1},  }\item[{int}]{init\+Bias\+Weight = {\ttfamily 1},  }\item[{\mbox{\hyperlink{classNeuron_a95f0f18913eab70fba879a90fe940392}{Neuron\+::\+Weight\+Init\+Method}}}]{weight\+Init\+Method = {\ttfamily Neuron\+:\+:MAX\+\_\+OUTPUT\+\_\+RANDOM} }\end{DoxyParamCaption})}
+
+
+
+Inits the weights. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+max} & Maximum value if using random init. \\
+\hline
+{\em init\+Bias\+Weight} & if one also the bias weight is initialised. \\
+\hline
+{\em weight\+Init\+Method} & The methid employed to init the weights. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_a45a02392fbe4032e20affe817693b3de}\label{classLayer_a45a02392fbe4032e20affe817693b3de}} 
+\index{Layer@{Layer}!saveWeightMatrix@{saveWeightMatrix}}
+\index{saveWeightMatrix@{saveWeightMatrix}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{saveWeightMatrix()}{saveWeightMatrix()}}
+{\footnotesize\ttfamily int Layer\+::save\+Weight\+Matrix (\begin{DoxyParamCaption}\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Save weight matrix for documentation and debugging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename it should be saved to. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_aafd91143149ec7bd625e1c2a833210f2}\label{classLayer_aafd91143149ec7bd625e1c2a833210f2}} 
+\index{Layer@{Layer}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily void Layer\+::set\+Activation\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classNeuron_ac4d0e59b0cfc9ce786f31e85105d4891}{Neuron\+::\+Activation\+Function}}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
+
+
+
+Set the activation function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+activation\+Function} & The activation function. See\+: \mbox{\hyperlink{classNeuron_ac4d0e59b0cfc9ce786f31e85105d4891}{Neuron\+::\+Activation\+Function}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_a89ae15a1ea7ee0a576af4c5e845b1ddc}\label{classLayer_a89ae15a1ea7ee0a576af4c5e845b1ddc}} 
+\index{Layer@{Layer}!setBias@{setBias}}
+\index{setBias@{setBias}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily void Layer\+::set\+Bias (\begin{DoxyParamCaption}\item[{double}]{\+\_\+bias }\end{DoxyParamCaption})}
+
+
+
+Sets the global bias for all neurons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+bias} & The bias for all neurons \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_acfba8371f1038c1a09ab3233ed2b722c}\label{classLayer_acfba8371f1038c1a09ab3233ed2b722c}} 
+\index{Layer@{Layer}!setConvolution@{setConvolution}}
+\index{setConvolution@{setConvolution}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setConvolution()}{setConvolution()}}
+{\footnotesize\ttfamily void Layer\+::set\+Convolution (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})}
+
+
+
+Defines a 2D geometry for the input layer of widthxheight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & The width of the convolutional window. \\
+\hline
+{\em height} & The height of the convolution window. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_a4507914c315d68f9fd7b15ac7c33acd7}\label{classLayer_a4507914c315d68f9fd7b15ac7c33acd7}} 
+\index{Layer@{Layer}!setDebugInfo@{setDebugInfo}}
+\index{setDebugInfo@{setDebugInfo}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setDebugInfo()}{setDebugInfo()}}
+{\footnotesize\ttfamily void Layer\+::set\+Debug\+Info (\begin{DoxyParamCaption}\item[{int}]{layer\+Index }\end{DoxyParamCaption})}
+
+
+
+Sets the layer index within the whole network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer\+Index} & The layer index in the whole network. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_ada96303e9769874d5e4caf6d62d709a9}\label{classLayer_ada96303e9769874d5e4caf6d62d709a9}} 
+\index{Layer@{Layer}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily void Layer\+::set\+Decay (\begin{DoxyParamCaption}\item[{double}]{\+\_\+decay }\end{DoxyParamCaption})}
+
+
+
+Sets the weight decay scaled by the learning rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+decay} & The decay rate of the weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_ac2368982b7b0736eff5c8d21b56e0c4c}\label{classLayer_ac2368982b7b0736eff5c8d21b56e0c4c}} 
+\index{Layer@{Layer}!setError@{setError}}
+\index{setError@{setError}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Layer\+::set\+Error (\begin{DoxyParamCaption}\item[{double}]{\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+Sets the global error for all neurons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+error} & Sets the error in the whole layer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_add4753fbf4ca7dc5479aaa883e5183dd}\label{classLayer_add4753fbf4ca7dc5479aaa883e5183dd}} 
+\index{Layer@{Layer}!setError@{setError}}
+\index{setError@{setError}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Layer\+::set\+Error (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{double}]{\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+sets the error individually 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the neuron \\
+\hline
+{\em \+\_\+error} & The error to be set \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_aac8759f225d810a2d833385778562dc6}\label{classLayer_aac8759f225d810a2d833385778562dc6}} 
+\index{Layer@{Layer}!setErrors@{setErrors}}
+\index{setErrors@{setErrors}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setErrors()}{setErrors()}}
+{\footnotesize\ttfamily void Layer\+::set\+Errors (\begin{DoxyParamCaption}\item[{double $\ast$}]{\+\_\+errors }\end{DoxyParamCaption})}
+
+
+
+Sets all errors from an input array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+errors} & is an array of errors \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_ade51670ff09c520dc87428ac6a51cf5d}\label{classLayer_ade51670ff09c520dc87428ac6a51cf5d}} 
+\index{Layer@{Layer}!setInput@{setInput}}
+\index{setInput@{setInput}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setInput()}{setInput()}}
+{\footnotesize\ttfamily void Layer\+::set\+Input (\begin{DoxyParamCaption}\item[{int}]{input\+Index,  }\item[{double}]{input }\end{DoxyParamCaption})}
+
+
+
+Set the input value of one input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Index} & The index number of the input. \\
+\hline
+{\em input} & The value of the input \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_a07affaeeac7306412dc3f4043ae0ed05}\label{classLayer_a07affaeeac7306412dc3f4043ae0ed05}} 
+\index{Layer@{Layer}!setInputs@{setInputs}}
+\index{setInputs@{setInputs}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setInputs()}{setInputs()}}
+{\footnotesize\ttfamily void Layer\+::set\+Inputs (\begin{DoxyParamCaption}\item[{double $\ast$}]{\+\_\+inputs }\end{DoxyParamCaption})}
+
+
+
+Sets all inputs from an input array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+inputs} & array of all inputs \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_ae1828c92f33d2a98a5246f9c0eed079a}\label{classLayer_ae1828c92f33d2a98a5246f9c0eed079a}} 
+\index{Layer@{Layer}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily void Layer\+::set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{double}]{\+\_\+learning\+Rate }\end{DoxyParamCaption})}
+
+
+
+Sets the learning rate of all neurons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+learning\+Rate} & The learning rate \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_aef0c669e00d5d7d55d9ae04dceeddd76}\label{classLayer_aef0c669e00d5d7d55d9ae04dceeddd76}} 
+\index{Layer@{Layer}!setMaxDetLayer@{setMaxDetLayer}}
+\index{setMaxDetLayer@{setMaxDetLayer}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setMaxDetLayer()}{setMaxDetLayer()}}
+{\footnotesize\ttfamily void Layer\+::set\+Max\+Det\+Layer (\begin{DoxyParamCaption}\item[{int}]{\+\_\+m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Maxium detection layer. 
+
+Experimental. This hasn\textquotesingle{}t been implemented. \mbox{\Hypertarget{classLayer_ad05cf472e0ccf9cd2009fcf912ab3497}\label{classLayer_ad05cf472e0ccf9cd2009fcf912ab3497}} 
+\index{Layer@{Layer}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily void Layer\+::set\+Momentum (\begin{DoxyParamCaption}\item[{double}]{\+\_\+momentum }\end{DoxyParamCaption})}
+
+
+
+Set the momentum of all neurons in this layer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+momentum} & The momentum for all neurons in this layer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_aaa76e886043e754738a72922825896ab}\label{classLayer_aaa76e886043e754738a72922825896ab}} 
+\index{Layer@{Layer}!setNormaliseWeights@{setNormaliseWeights}}
+\index{setNormaliseWeights@{setNormaliseWeights}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setNormaliseWeights()}{setNormaliseWeights()}}
+{\footnotesize\ttfamily void Layer\+::set\+Normalise\+Weights (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLayer_ae0b2d1297e95d879ef17450b079937a8}{Weight\+Normalisation}}}]{\+\_\+normalise\+Weights }\end{DoxyParamCaption})}
+
+
+
+Normalise the weights. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+normalise\+Weights} & Metod of normalisation. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_a58421806f70559e1320dc3a71b580a3b}\label{classLayer_a58421806f70559e1320dc3a71b580a3b}} 
+\index{Layer@{Layer}!setStep@{setStep}}
+\index{setStep@{setStep}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setStep()}{setStep()}}
+{\footnotesize\ttfamily void Layer\+::set\+Step (\begin{DoxyParamCaption}\item[{long int}]{step }\end{DoxyParamCaption})}
+
+
+
+Sets the simulation step in the layer for debug purposes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em step} & Step number. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLayer_aa871088d863498b64664b1cacca2f0c6}\label{classLayer_aa871088d863498b64664b1cacca2f0c6}} 
+\index{Layer@{Layer}!setUseThreads@{setUseThreads}}
+\index{setUseThreads@{setUseThreads}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{setUseThreads()}{setUseThreads()}}
+{\footnotesize\ttfamily void Layer\+::set\+Use\+Threads (\begin{DoxyParamCaption}\item[{int}]{\+\_\+use\+Threads }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets if threads should be used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+use\+Threads} & 0 = no Threads, 1 = Threads \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+layer.\+h\item 
+layer.\+cpp\end{DoxyCompactItemize}

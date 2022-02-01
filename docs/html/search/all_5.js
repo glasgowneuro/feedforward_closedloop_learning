@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['getaverageofweightvector_18',['getAverageOfWeightVector',['../classNeuron.html#a2376af5316f7e114691b429a588352aa',1,'Neuron']]],
+  ['getbiasweight_19',['getBiasWeight',['../classNeuron.html#acf4e92aecbb076b46dcb7e01c3699352',1,'Neuron']]],
+  ['getdecay_20',['getDecay',['../classNeuron.html#aa794a555bcc6aa206df9286824a56a0e',1,'Neuron']]],
+  ['geterror_21',['getError',['../classLayer.html#adfde32a659a238c0cb7c66b4732b2b58',1,'Layer::getError()'],['../classNeuron.html#a210ac52c66145a36347b08f5072e84a1',1,'Neuron::getError()']]],
+  ['geteuclideannormofweightvector_22',['getEuclideanNormOfWeightVector',['../classNeuron.html#a4649b680c0cec0a1b90fd32758663b6f',1,'Neuron']]],
+  ['getinfinitynormofweightvector_23',['getInfinityNormOfWeightVector',['../classNeuron.html#a859fcea6f36cb044d89a4316df0b13c1',1,'Neuron']]],
+  ['getinput_24',['getInput',['../classNeuron.html#a7460414cef533bfde1e42d0533a90d6a',1,'Neuron']]],
+  ['getlayer_25',['getLayer',['../classFeedforwardClosedloopLearning.html#ae4bc750165864f095e36480d8117b6a0',1,'FeedforwardClosedloopLearning']]],
+  ['getlayers_26',['getLayers',['../classFeedforwardClosedloopLearning.html#a8a597c4c4dc2005683ec4612339a415d',1,'FeedforwardClosedloopLearning']]],
+  ['getmanhattannormofweightvector_27',['getManhattanNormOfWeightVector',['../classNeuron.html#a345fb20d84394464cef56b0bf85ddec3',1,'Neuron']]],
+  ['getmask_28',['getMask',['../classNeuron.html#aa1f626f1a56d1e896dab80cf086249fa',1,'Neuron::getMask(int x, int y)'],['../classNeuron.html#a6cfe395fd453b125fe2e52842c0ce2a0',1,'Neuron::getMask(int index)']]],
+  ['getmaxweightvalue_29',['getMaxWeightValue',['../classNeuron.html#ad3b66330a748ab5bb2c9cee3f8e3ffc5',1,'Neuron']]],
+  ['getminweightvalue_30',['getMinWeightValue',['../classNeuron.html#a1dee33a238a337c61711b8854ec6ce8e',1,'Neuron']]],
+  ['getneuron_31',['getNeuron',['../classLayer.html#a486cf8dbd1ea467a2e0d40495e128148',1,'Layer']]],
+  ['getninputs_32',['getNinputs',['../classLayer.html#a771f348f7722d7bc475dc5115810b667',1,'Layer::getNinputs()'],['../classNeuron.html#a7da25993f127c509a5b93d6f2fd3f30f',1,'Neuron::getNinputs()']]],
+  ['getnneurons_33',['getNneurons',['../classLayer.html#a1fb5839c20b7117850eff64af0a4ded8',1,'Layer']]],
+  ['getnuminputs_34',['getNumInputs',['../classFeedforwardClosedloopLearning.html#ad7e9ee35938e8221a4c33c4ea3cf1481',1,'FeedforwardClosedloopLearning']]],
+  ['getnumlayers_35',['getNumLayers',['../classFeedforwardClosedloopLearning.html#afbf944bcec8f02066819abefa4b58369',1,'FeedforwardClosedloopLearning']]],
+  ['getoutput_36',['getOutput',['../classFeedforwardClosedloopLearning.html#aac984999b42e68fa1e6fd686e00a4937',1,'FeedforwardClosedloopLearning::getOutput()'],['../classBandpass.html#a572f7f6689f4864cf510e34341292a67',1,'Bandpass::getOutput()'],['../classLayer.html#abcd86b5968b14a43f9a5ba849f48c6bc',1,'Layer::getOutput()'],['../classNeuron.html#aede55ffaebb746a3d1f285d139c199b3',1,'Neuron::getOutput()']]],
+  ['getoutputlayer_37',['getOutputLayer',['../classFeedforwardClosedloopLearning.html#abdf6a849d30c5f429a0dc61d9f0ec4dd',1,'FeedforwardClosedloopLearning']]],
+  ['getsum_38',['getSum',['../classNeuron.html#a59a3afb47ee864596ab3947faa410f4a',1,'Neuron']]],
+  ['getsumofsquaredweightvector_39',['getSumOfSquaredWeightVector',['../classNeuron.html#a2ae5bcc02b470882546f95df4f945096',1,'Neuron']]],
+  ['getweight_40',['getWeight',['../classNeuron.html#aa805d82acdb2e48ef2e5f575a6075f52',1,'Neuron']]],
+  ['getweightdistancefrominitialweights_41',['getWeightDistanceFromInitialWeights',['../classLayer.html#a78067558fd3d0d22420c94f6d7736160',1,'Layer::getWeightDistanceFromInitialWeights()'],['../classNeuron.html#aa560968cc2295f30ce3a74c6e2fdac00',1,'Neuron::getWeightDistanceFromInitialWeights()']]]
+];

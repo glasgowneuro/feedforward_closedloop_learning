@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['saveinitialweights_133',['saveInitialWeights',['../classNeuron.html#af99be28339368a12983a795b8631cdbc',1,'Neuron']]],
+  ['savemodel_134',['saveModel',['../classFeedforwardClosedloopLearning.html#a1d43527c0f7f72f73b9f53bc4aefb30c',1,'FeedforwardClosedloopLearning']]],
+  ['saveweightmatrix_135',['saveWeightMatrix',['../classLayer.html#a45a02392fbe4032e20affe817693b3de',1,'Layer']]],
+  ['seedrandom_136',['seedRandom',['../classFeedforwardClosedloopLearning.html#a538fd70979047bd731735a5969864a4c',1,'FeedforwardClosedloopLearning']]],
+  ['setactivationfunction_137',['setActivationFunction',['../classFeedforwardClosedloopLearning.html#a1e4d464a0e15ad388048891eed77ff38',1,'FeedforwardClosedloopLearning::setActivationFunction()'],['../classLayer.html#aafd91143149ec7bd625e1c2a833210f2',1,'Layer::setActivationFunction()'],['../classNeuron.html#aebd33f9956c2b174ada37bccbb3b0b8c',1,'Neuron::setActivationFunction()']]],
+  ['setbias_138',['setBias',['../classFeedforwardClosedloopLearning.html#a4008247ff9ce1a0f4a9ed2e2df914185',1,'FeedforwardClosedloopLearning::setBias()'],['../classLayer.html#a89ae15a1ea7ee0a576af4c5e845b1ddc',1,'Layer::setBias()'],['../classNeuron.html#a9840b8f2335f54b3426fa11fc25c23bc',1,'Neuron::setBias()']]],
+  ['setbiasweight_139',['setBiasWeight',['../classNeuron.html#a838e1d87a967ac5395c69eed00a75846',1,'Neuron']]],
+  ['setconvolution_140',['setConvolution',['../classLayer.html#acfba8371f1038c1a09ab3233ed2b722c',1,'Layer']]],
+  ['setdebuginfo_141',['setDebugInfo',['../classLayer.html#a4507914c315d68f9fd7b15ac7c33acd7',1,'Layer::setDebugInfo()'],['../classNeuron.html#a38c63476c1daa4c00fc7eb6047ef3cde',1,'Neuron::setDebugInfo()']]],
+  ['setdecay_142',['setDecay',['../classFeedforwardClosedloopLearning.html#a9d38e470d2cf81fa51667e3defad3a22',1,'FeedforwardClosedloopLearning::setDecay()'],['../classLayer.html#ada96303e9769874d5e4caf6d62d709a9',1,'Layer::setDecay()'],['../classNeuron.html#a8377479bfb5d911fafa1a49ad562fdec',1,'Neuron::setDecay()']]],
+  ['seterror_143',['setError',['../classLayer.html#ac2368982b7b0736eff5c8d21b56e0c4c',1,'Layer::setError(double _error)'],['../classLayer.html#add4753fbf4ca7dc5479aaa883e5183dd',1,'Layer::setError(int i, double _error)'],['../classNeuron.html#a1eb5e2a7d11d1e07f6f11875caaf487f',1,'Neuron::setError()']]],
+  ['seterrors_144',['setErrors',['../classLayer.html#aac8759f225d810a2d833385778562dc6',1,'Layer']]],
+  ['setgeometry_145',['setGeometry',['../classNeuron.html#a9e1b74bee65b3fbd593ea5537250704b',1,'Neuron']]],
+  ['setinput_146',['setInput',['../classLayer.html#ade51670ff09c520dc87428ac6a51cf5d',1,'Layer::setInput()'],['../classNeuron.html#a3ed373b42e1bdbe3f0593f418b033480',1,'Neuron::setInput()']]],
+  ['setinputs_147',['setInputs',['../classLayer.html#a07affaeeac7306412dc3f4043ae0ed05',1,'Layer']]],
+  ['setlearningrate_148',['setLearningRate',['../classFeedforwardClosedloopLearning.html#a1ba9f7595fa7f32c8747d56b93c21d09',1,'FeedforwardClosedloopLearning::setLearningRate()'],['../classLayer.html#ae1828c92f33d2a98a5246f9c0eed079a',1,'Layer::setLearningRate()'],['../classNeuron.html#aac36f10aa2ce426a9708dea2c3daff13',1,'Neuron::setLearningRate()']]],
+  ['setlearningratediscountfactor_149',['setLearningRateDiscountFactor',['../classFeedforwardClosedloopLearning.html#a5b0ad6f5548f9eeec8aa2a20a27fa8ee',1,'FeedforwardClosedloopLearning']]],
+  ['setmask_150',['setMask',['../classNeuron.html#a2e1b4d225b6a6d01de3705acd84c8a9e',1,'Neuron::setMask(int x, int y, unsigned char c)'],['../classNeuron.html#abfa5b291c08502912be65db2f4147fc1',1,'Neuron::setMask(unsigned char c)']]],
+  ['setmaxdetlayer_151',['setMaxDetLayer',['../classLayer.html#aef0c669e00d5d7d55d9ae04dceeddd76',1,'Layer']]],
+  ['setmomentum_152',['setMomentum',['../classFeedforwardClosedloopLearning.html#a8941a6f829bfd036ec63c00443f9a59b',1,'FeedforwardClosedloopLearning::setMomentum()'],['../classLayer.html#ad05cf472e0ccf9cd2009fcf912ab3497',1,'Layer::setMomentum()'],['../classNeuron.html#ae54d98a8f8d690bb63a4a2b3ab807c5e',1,'Neuron::setMomentum()']]],
+  ['setnormaliseweights_153',['setNormaliseWeights',['../classLayer.html#aaa76e886043e754738a72922825896ab',1,'Layer']]],
+  ['setparameters_154',['setParameters',['../classBandpass.html#ab690e4e4468f20dc8635d451a7cf5fd3',1,'Bandpass']]],
+  ['setstep_155',['setStep',['../classLayer.html#a58421806f70559e1320dc3a71b580a3b',1,'Layer::setStep()'],['../classNeuron.html#af4b076cd5b8a3dea3e315c8ad9769e6e',1,'Neuron::setStep()']]],
+  ['setusethreads_156',['setUseThreads',['../classLayer.html#aa871088d863498b64664b1cacca2f0c6',1,'Layer']]],
+  ['setweight_157',['setWeight',['../classNeuron.html#a14ed705e17b1e50fbdf0efb02d33060c',1,'Neuron']]]
+];
