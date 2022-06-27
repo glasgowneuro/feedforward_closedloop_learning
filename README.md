@@ -12,20 +12,26 @@ Bernd Porr, Paul Miller. Adaptive Behaviour 2019.](https://journals.sagepub.com/
 
 For an autonomous agent, the inputs are the sensory data that inform the agent of the state of the world, and the outputs are their actions, which act on the world and consequently produce new sensory inputs. The agent only knows of its own actions via their effect on future inputs; therefore desired states, and error signals, are most naturally defined in terms of the inputs. Most machine learning algorithms, however, operate in terms of desired outputs. For example, backpropagation takes target output values and propagates the corresponding error backwards through the network in order to change the weights. In closed loop settings, it is far more obvious how to define desired sensory inputs than desired actions, however. To train a deep network using errors defined in the input space would call for an algorithm that can propagate those errors _forwards_ through the network, from input layer to output layer, in much the same way that activations are propagated.
 
-## Prerequisites
+## Prerequisites (Linux)
 
 Ubuntu LTS with swig installed.
 
-
 ## How to compile / install?
 
-### From source (C++ and Python)
+### From source under Linux (C++ and Python)
 ```
       cmake .
       make
       sudo make install
       ./setup.py install --user
 ```
+
+### Windows
+
+```
+cmake -G "Visual Studio 16 2019" -A x64 .
+```
+then start Visual Studio. See `cmake -G` for more target options.
 
 ### From PyPi (Python only)
 

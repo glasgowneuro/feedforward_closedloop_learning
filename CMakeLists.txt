@@ -23,7 +23,11 @@ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 add_subdirectory(tests_c)
 
-add_subdirectory(linefollower)
+find_package(GLUT COMPONENTS Widgets)
+
+if(GLUT_DIR)
+  add_subdirectory(linefollower)
+endif()
 
 set(LIBSRC
   fcl/neuron.cpp
