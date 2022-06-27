@@ -11,7 +11,6 @@
 #include <math.h>
 #include <assert.h>
 
-
 /** Main class of Feedforward Closed Loop Learning.
  * Create an instance of this class to do the
  * learning. It will create the whole network

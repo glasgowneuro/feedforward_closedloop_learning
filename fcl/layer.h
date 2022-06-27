@@ -91,7 +91,7 @@ public:
 		int ret;
 		if ((ret = pthread_create(&id, NULL, &LayerThread::exec, this)) != 0) {
 			fprintf(stderr,"%s\n",strerror(ret)); 
-			throw "Error"; 
+			abort();
 		}
 #endif
 #ifdef _WIN32

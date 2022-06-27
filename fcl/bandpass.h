@@ -94,8 +94,6 @@ private:
 	 * Normalised
 	 **/
 	double actualOutput;
-
-	double output;
 };
 
 #endif
