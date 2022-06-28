@@ -89,7 +89,7 @@ public:
 	/** Sets the activation function of the Neuron
          * \param _activationFunction: See Neuron::ActivationFunction for the different options.
          **/
-	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
+	void setActivationFunction(FCLNeuron::ActivationFunction _activationFunction);
 
 	/** Inits the weights in all layers
          * \param max Maximum value of the weights.
@@ -98,7 +98,7 @@ public:
          **/
 	void initWeights(double max = 0.001,
 			 int initBias = 1,
-			 Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
+			 FCLNeuron::WeightInitMethod weightInitMethod = FCLNeuron::MAX_OUTPUT_RANDOM);
 
 	/** Seeds the random number generator
          * \param s An arbitratry number.
@@ -119,12 +119,12 @@ public:
          * \param i Index of the layer.
          * \return A pointer to a layer class.
          **/
-	Layer* getLayer(int i) {assert (i<=num_layers); return layers[i];};
+	FCLLayer* getLayer(int i) {assert (i<=num_layers); return layers[i];};
 
 	/** Gets the output layer
          * \return A pointer to the output layer which is also a Layer class.
          **/
-	Layer* getOutputLayer() {return layers[num_layers-1];};
+	FCLLayer* getOutputLayer() {return layers[num_layers-1];};
 
 	/** Gets the number of inputs
 	 * \return The number of inputs
@@ -134,7 +134,7 @@ public:
 	/** Returns all Layers
          * \return Returns a two dimensional array of all layers.
          **/
-	Layer** getLayers() {return layers;};
+	FCLLayer** getLayers() {return layers;};
 
 	/** Saves the whole network
          * \param name: filename
@@ -157,7 +157,7 @@ private:
 
 	long int step = 0;
 
-	Layer** layers;
+	FCLLayer** layers;
 
 	// should be called to relay layer index to the layer
 	void setDebugInfo();

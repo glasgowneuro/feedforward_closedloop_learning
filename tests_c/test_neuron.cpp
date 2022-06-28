@@ -2,7 +2,7 @@
 #include<stdio.h>
 
 int main(int,char**) {
-	Neuron* neuron = new Neuron(2);
+	FCLNeuron* neuron = new FCLNeuron(2);
 
 	neuron->setWeight(0,1);
 

@@ -11,9 +11,9 @@ void runTest(int _useThreads) {
 	int nNeurons = 10;
 	int nInputs = 2;
 	srand(1);
-	Layer layer(nNeurons,nInputs);
+	FCLLayer layer(nNeurons,nInputs);
 	layer.setUseThreads(_useThreads);
-	layer.initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
+	layer.initWeights(1, 0, FCLNeuron::MAX_OUTPUT_RANDOM);
 	layer.setError(0.1);
 	layer.setInput(0,0.1);
 	layer.setInput(1,0.1);

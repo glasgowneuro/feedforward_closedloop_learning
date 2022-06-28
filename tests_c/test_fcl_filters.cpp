@@ -17,7 +17,7 @@ void test_filters() {
 	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,2,nFiltersInput,minT,maxT);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
-	fcl.initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl.initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
 	fcl.setLearningRateDiscountFactor(1);
 	fcl.setBias(0);
 	
@@ -58,7 +58,7 @@ void test_learning_fcl_filters() {
 	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,3,nFiltersInput,minT,maxT);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
-	fcl.initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl.initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
 	fcl.setLearningRateDiscountFactor(1);
 	fcl.setBias(0);
 	

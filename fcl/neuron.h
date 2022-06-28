@@ -16,19 +16,19 @@
 /** 
  * Neuron which calculates the output and performs learning
  **/
-class Neuron {
+class FCLNeuron {
 
 public:
 
 	/** Constructor
          * \param _nInputs Number of inputs to the Neuron
          **/
-	Neuron(int _nInputs);
+	FCLNeuron(int _nInputs);
 
         /** Destructor
 	 * Tidies up any memory allocations
          **/
-	~Neuron();
+	~FCLNeuron();
 
 	/** Calculate the output of the neuron
          * This runs the filters, activation functions, sum it all up.
@@ -38,7 +38,7 @@ public:
 	/** Wrapper for thread callback for output calc
          **/
 	static void* calcOutputThread(void* object) {
-		reinterpret_cast<Neuron*>(object)->calcOutput();
+		reinterpret_cast<FCLNeuron*>(object)->calcOutput();
 		return NULL;
 	};
 
@@ -50,7 +50,7 @@ public:
 	/** Wrapper for thread callback for learning
          **/
 	static void* doLearningThread(void* object) {
-		reinterpret_cast<Neuron*>(object)->doLearning();
+		reinterpret_cast<FCLNeuron*>(object)->doLearning();
 		return NULL;
 	};
 
@@ -62,7 +62,7 @@ public:
 	/** Wrapper for thread callback for maxdet
          **/
 	static void* doMaxDetThread(void* object) {
-		reinterpret_cast<Neuron*>(object)->doMaxDet();
+		reinterpret_cast<FCLNeuron*>(object)->doMaxDet();
 		return NULL;
 	};
 

@@ -32,7 +32,7 @@ class LayerThread {
 
 protected:
 
-	Neuron** neurons;
+	FCLNeuron** neurons;
 	int nNeurons = 0;
 	int maxNeurons = 0;
 
@@ -64,7 +64,7 @@ public:
 
 	LayerThread(int _maxNeurons) {
 		maxNeurons = _maxNeurons;
-		neurons = new Neuron*[maxNeurons];
+		neurons = new FCLNeuron*[maxNeurons];
 	}
 
 	virtual ~LayerThread() {
@@ -74,7 +74,7 @@ public:
 		delete [] neurons;
 	}
 	
-	void addNeuron(Neuron* neuron) {
+	void addNeuron(FCLNeuron* neuron) {
 		if (nNeurons >= maxNeurons) {
 			fprintf(stderr,"Not enough memory for threads.\n");
 			exit(1);
@@ -166,7 +166,7 @@ class MaxDetThread : public LayerThread {
  * there. These functions are all called from the
  * parent class.
  **/
-class Layer {
+class FCLLayer {
 	
 public:
 	/** Constructor
@@ -176,12 +176,12 @@ public:
          * \param _minT Minimum time of the lowpass filter.
          * \param _maxT Maximum time of the lowpass filter.
          **/
-	Layer(int _nNeurons, int _nInputs);
+	FCLLayer(int _nNeurons, int _nInputs);
 
 	/** Destructor
          * Frees all memory
          **/
-	~Layer();
+	~FCLLayer();
 
 	/** Weight normalisation constants
          * Defines if weights are normalised layer-wide or
@@ -250,7 +250,7 @@ public:
 	/** Set the activation function
          * \param _activationFunction The activation function. See: Neuron::ActivationFunction
          **/
-	void setActivationFunction(Neuron::ActivationFunction _activationFunction);
+	void setActivationFunction(FCLNeuron::ActivationFunction _activationFunction);
 
 	/** Set the momentum of all neurons in this layer
          * \param _momentum The momentum for all neurons in this layer.
@@ -269,7 +269,7 @@ public:
          **/
 	void initWeights( double _max = 1,
 			  int initBiasWeight = 1,
-			  Neuron::WeightInitMethod weightInitMethod = Neuron::MAX_OUTPUT_RANDOM);
+			  FCLNeuron::WeightInitMethod weightInitMethod = FCLNeuron::MAX_OUTPUT_RANDOM);
 	
 	/** Gets the outpuut of one neuron
          * \param index The index number of the neuron.
@@ -283,7 +283,7 @@ public:
          * \param index The index number of the neuron.
          * \return A pointer to a Layer class.
          **/
-	inline Neuron* getNeuron( int index) {
+	inline FCLNeuron* getNeuron( int index) {
 		assert(index < nNeurons);
 		return neurons[index];
 	}
@@ -353,7 +353,7 @@ private:
 
 	int nNeurons;
 	int nInputs;
-	Neuron** neurons = 0;
+	FCLNeuron** neurons = 0;
 	int maxDetLayer = 0;
 	WeightNormalisation normaliseWeights = WEIGHT_NORM_NONE;
 	int debugOutput = 0;

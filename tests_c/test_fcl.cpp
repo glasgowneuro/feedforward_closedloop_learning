@@ -19,7 +19,7 @@ void test_forward() {
 	// no learning
 	fcl.setLearningRate(0.0);
 	// random init
-	fcl.initWeights(1, 0, Neuron::MAX_OUTPUT_RANDOM);
+	fcl.initWeights(1, 0, FCLNeuron::MAX_OUTPUT_RANDOM);
 
 	double input[2];
 	double error[2];
@@ -53,7 +53,7 @@ void test_learning_fcl() {
 	FeedforwardClosedloopLearning fcl(2,nNeur,2);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
-	fcl.initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+	fcl.initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
 	fcl.setLearningRateDiscountFactor(1);
 	fcl.setBias(0);
 	

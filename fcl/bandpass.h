@@ -1,4 +1,4 @@
-class Bandpass;
+class FCLBandpass;
 
 #ifndef _Bandpass
 #define _Bandpass
@@ -11,12 +11,12 @@ class Bandpass;
 /**
  * Creates memory traces at specified length. It's a 2nd order IIR filter.
  **/
-class Bandpass {
+class FCLBandpass {
 public:
 	/**
 	 * Constructor
 	 **/
-	Bandpass();
+	FCLBandpass();
 	
 	/**
 	 * Filter

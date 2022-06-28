@@ -10,7 +10,7 @@ int main(int n,char**args) {
 	}
 	
         double dampingCoeff = 0.51;
-        Bandpass* bandpass = new Bandpass();
+        FCLBandpass* bandpass = new FCLBandpass();
 	bandpass->setParameters(atof(args[1]),dampingCoeff);
 	char filename[]="impulse.dat";
 	bandpass->impulse(filename);

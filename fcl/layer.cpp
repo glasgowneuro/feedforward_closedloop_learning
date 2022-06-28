@@ -13,13 +13,13 @@
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-Layer::Layer(int _nNeurons, int _nInputs) {
+FCLLayer::FCLLayer(int _nNeurons, int _nInputs) {
 
 	nNeurons = _nNeurons;
 	nInputs = _nInputs;
 	normaliseWeights = WEIGHT_NORM_NONE;
 
-	neurons = new Neuron*[nNeurons];
+	neurons = new FCLNeuron*[nNeurons];
 
 	calcOutputThread = new CalcOutputThread*[NUM_THREADS];
 	learningThread = new LearningThread*[NUM_THREADS];
@@ -33,17 +33,17 @@ Layer::Layer(int _nNeurons, int _nInputs) {
 	}
 
 	for(int i=0;i<nNeurons;i++) {
-		neurons[i] = new Neuron(nInputs);
+		neurons[i] = new FCLNeuron(nInputs);
 		calcOutputThread[i%NUM_THREADS]->addNeuron(neurons[i]);
 		learningThread[i%NUM_THREADS]->addNeuron(neurons[i]);
 		maxDetThread[i%NUM_THREADS]->addNeuron(neurons[i]);
 	}
 
-	initWeights(0,0,Neuron::CONST_WEIGHTS);
+	initWeights(0,0,FCLNeuron::CONST_WEIGHTS);
 
 }
 
-Layer::~Layer() {
+FCLLayer::~FCLLayer() {
 	for(int i=0;i<nNeurons;i++) {
 		delete neurons[i];
 	}
@@ -61,7 +61,7 @@ Layer::~Layer() {
 	
 }
 
-void Layer::calcOutputs() {
+void FCLLayer::calcOutputs() {
 	if (useThreads) {
 		//fprintf(stderr,"+");
 		for(int i=0;i<NUM_THREADS;i++) {
@@ -78,7 +78,7 @@ void Layer::calcOutputs() {
 	}
 }
 
-void Layer::doNormaliseWeights() {
+void FCLLayer::doNormaliseWeights() {
 	double norm = 0;
 	switch (normaliseWeights) {
 	case WEIGHT_NORM_LAYER_EUCLEDIAN:
@@ -130,7 +130,7 @@ void Layer::doNormaliseWeights() {
 	}
 }
 
-void Layer::doLearning() {
+void FCLLayer::doLearning() {
 	if (useThreads) {
 		if (maxDetLayer) {
 			for(int i=0;i<NUM_THREADS;i++) {
@@ -167,7 +167,7 @@ void Layer::doLearning() {
 	doNormaliseWeights();
 }
 
-void Layer::setNormaliseWeights(WeightNormalisation _normaliseWeights) {
+void FCLLayer::setNormaliseWeights(WeightNormalisation _normaliseWeights) {
 	normaliseWeights = _normaliseWeights;
 	for(int i=0;i<nNeurons;i++) {
 		doNormaliseWeights();
@@ -176,13 +176,13 @@ void Layer::setNormaliseWeights(WeightNormalisation _normaliseWeights) {
 }
 
 
-void Layer::setError(double _error) {
+void FCLLayer::setError(double _error) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setError(_error);
 	}
 }
 
-void Layer::setErrors( double* _errors) {
+void FCLLayer::setErrors( double* _errors) {
 	for(int i=0;i<nNeurons;i++) {
 		if (isnan(_errors[i])) {
 			fprintf(stderr,"Layer::%s L=%d, errors[%d]=%f\n",__func__,layerIndex,i,_errors[i]);
@@ -191,61 +191,61 @@ void Layer::setErrors( double* _errors) {
 	}
 }
 
-void Layer::setBias(double  _bias) {
+void FCLLayer::setBias(double  _bias) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setBias(_bias);
 	}
 }
 
-void Layer::setLearningRate( double _learningRate) {
+void FCLLayer::setLearningRate( double _learningRate) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setLearningRate(_learningRate);
 	}
 }
 
-void Layer::setMomentum( double _momentum) {
+void FCLLayer::setMomentum( double _momentum) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setMomentum(_momentum);
 	}
 }
 
-void Layer::setActivationFunction(Neuron::ActivationFunction _activationFunction) {
+void FCLLayer::setActivationFunction(FCLNeuron::ActivationFunction _activationFunction) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setActivationFunction(_activationFunction);
 	}
 }
 
-void Layer::setDecay( double _decay) {
+void FCLLayer::setDecay( double _decay) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setDecay(_decay);
 	}
 }
 
-void Layer::initWeights( double max, int initBias, Neuron::WeightInitMethod weightInitMethod) {
+void FCLLayer::initWeights( double max, int initBias, FCLNeuron::WeightInitMethod weightInitMethod) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->initWeights(max,initBias,weightInitMethod);
 	}
 }
 
-void Layer::setError( int i,  double _error) {
+void FCLLayer::setError( int i,  double _error) {
 	assert(i < nNeurons);
 	neurons[i]->setError(_error);
 }
 
-double Layer::getError( int i) {
+double FCLLayer::getError( int i) {
 	assert(i < nNeurons);
 	return neurons[i]->getError();
 }
 
 // setting a single input to all neurons
-void Layer::setInput(int inputIndex, double input) {
+void FCLLayer::setInput(int inputIndex, double input) {
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setInput(inputIndex,input);
 	}
 }
 
 // setting a single input to all neurons
-void Layer::setDebugInfo(int _layerIndex) {
+void FCLLayer::setDebugInfo(int _layerIndex) {
 	layerIndex = _layerIndex;
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setDebugInfo(_layerIndex,i);
@@ -254,14 +254,14 @@ void Layer::setDebugInfo(int _layerIndex) {
 
 
 // setting a single input to all neurons
-void Layer::setStep(long int _step) {
+void FCLLayer::setStep(long int _step) {
 	step = _step;
 	for(int i=0;i<nNeurons;i++) {
 		neurons[i]->setStep(step);
 	}
 }
 
-double Layer::getWeightDistanceFromInitialWeights() {
+double FCLLayer::getWeightDistanceFromInitialWeights() {
 	double distance = 0;
 	for(int i=0;i<nNeurons;i++) {
 		distance += neurons[i]->getWeightDistanceFromInitialWeights();
@@ -270,11 +270,11 @@ double Layer::getWeightDistanceFromInitialWeights() {
 }
 
 
-void Layer::setInputs( double* inputs ) {
+void FCLLayer::setInputs( double* inputs ) {
 	double* inputp = inputs;
 	inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
-		Neuron** neuronsp = neurons;
+		FCLNeuron** neuronsp = neurons;
 		 double input = *inputp;
 		inputp++;
 		for(int i=0;i<nNeurons;i++) {
@@ -285,7 +285,7 @@ void Layer::setInputs( double* inputs ) {
 }
 
 
-void Layer::setConvolution( int width,  int height) {
+void FCLLayer::setConvolution( int width,  int height) {
 	double d = round(sqrt(nNeurons));
 	int dx = (int)round(width/d);
 	int dy = (int)round(height/d);
@@ -308,7 +308,7 @@ void Layer::setConvolution( int width,  int height) {
 }
 
 
-int Layer::saveWeightMatrix(char *filename) {
+int FCLLayer::saveWeightMatrix(char *filename) {
 	FILE* f = fopen(filename,"wt");
 	if (!f) return errno;
 	for(int i=0;i<nNeurons;i++) {

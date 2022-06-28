@@ -7,13 +7,13 @@
 #endif
 
 
-Bandpass::Bandpass() {
+FCLBandpass::FCLBandpass() {
 	reset();
 	norm=1;
 }
 
 
-void Bandpass::reset() {
+void FCLBandpass::reset() {
 	buffer0=0;
 	buffer1=0;
 	buffer2=0;
@@ -21,7 +21,7 @@ void Bandpass::reset() {
 }	
 
 
-void Bandpass::setParameters(double f,double q) {
+void FCLBandpass::setParameters(double f,double q) {
 	std::complex<double> s1;
 	std::complex<double> s2;
 	
@@ -44,7 +44,7 @@ void Bandpass::setParameters(double f,double q) {
 }
 
 
-void Bandpass::impulse(char* name) {
+void FCLBandpass::impulse(char* name) {
   int steps=100;
 #ifdef DEBUG_BP
   fprintf(stderr,"Impulse resp: %s, %d steps\n",name,steps);
@@ -70,7 +70,7 @@ void Bandpass::impulse(char* name) {
 }
 
 
-double Bandpass::filter(double value) {
+double FCLBandpass::filter(double value) {
   double input=0.0;
   double output=0.0;
   // a little bit cryptic but a little bit optimized for speed
@@ -88,7 +88,7 @@ double Bandpass::filter(double value) {
 }
 
 
-void Bandpass::calcNorm(double f) {
+void FCLBandpass::calcNorm(double f) {
 	double max = 0;
 	norm = 1;
 	for(int i=0;i<(2/f);i++) {
@@ -105,7 +105,7 @@ void Bandpass::calcNorm(double f) {
 }
 
 
-void Bandpass::calcPolesZeros(double f,double r) {
+void FCLBandpass::calcPolesZeros(double f,double r) {
 //	fprintf(stderr,"Bandpass: f=%f,r=%f\n",f,r);
 	enumerator0=1;
 	enumerator1=0;

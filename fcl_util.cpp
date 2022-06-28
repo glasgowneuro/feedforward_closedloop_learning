@@ -25,10 +25,10 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 	nFiltersPerInput = num_filtersInput;
 	nInputs = num_of_inputs;
 	assert((nInputs*nFiltersPerInput) == getNumInputs());
-	bandpass = new Bandpass**[num_of_inputs];
+	bandpass = new FCLBandpass**[num_of_inputs];
 	filterbankOutputs = new double[num_of_inputs * num_filtersInput];
 	for(int i=0;i<num_of_inputs;i++) {
-		bandpass[i] = new Bandpass*[num_filtersInput];
+		bandpass[i] = new FCLBandpass*[num_filtersInput];
 		double fs = 1;
 		double fmin = fs/maxT;
 		double fmax = fs/minT;
@@ -38,7 +38,7 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 		fprintf(stderr,"bandpass: fmin=%f,fmax=%f,df=%f\n",fmin,fmax,df);
 #endif
 		for(int j=0;j<num_filtersInput;j++) {
-			bandpass[i][j] = new Bandpass();
+			bandpass[i][j] = new FCLBandpass();
 #ifdef DEBUG
 			fprintf(stderr,"bandpass[%d][%d]->setParameters(%f,%f)\n",
 				i,j,f,dampingCoeff);

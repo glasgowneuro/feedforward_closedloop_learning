@@ -14,7 +14,7 @@
 
 #define SUM_ERR_THRES 1000
 
-Neuron::Neuron(int _nInputs) {
+FCLNeuron::FCLNeuron(int _nInputs) {
 	nInputs = _nInputs;
 
 	mask = new unsigned char[nInputs];
@@ -35,7 +35,7 @@ Neuron::Neuron(int _nInputs) {
 	}	
 }
 
-Neuron::~Neuron() {
+FCLNeuron::~FCLNeuron() {
 	delete [] weights;
 	delete [] initialWeights;
 	delete [] weightChange;
@@ -44,7 +44,7 @@ Neuron::~Neuron() {
 }
 
 
-void Neuron::calcOutput() {
+void FCLNeuron::calcOutput() {
 	double* weightsp = weights;
 	double* inputp = inputs;
 	unsigned char * maskp = mask;
@@ -111,7 +111,7 @@ void Neuron::calcOutput() {
 }
 
 
-double Neuron::dActivation() {
+double FCLNeuron::dActivation() {
 	double d;
 	switch (activationFunction) {
 	case LINEAR:
@@ -147,7 +147,7 @@ double Neuron::dActivation() {
 
 
 
-void Neuron::doLearning() {
+void FCLNeuron::doLearning() {
 	double* inputsp = inputs;
 	double* weightsp = weights;
 	double* weightschp = weightChange;
@@ -180,7 +180,7 @@ void Neuron::doLearning() {
 
 
 
-double Neuron::getSumOfSquaredWeightVector() {
+double FCLNeuron::getSumOfSquaredWeightVector() {
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
 	double sq = 0;
@@ -198,7 +198,7 @@ double Neuron::getSumOfSquaredWeightVector() {
 
 
 
-double Neuron::getManhattanNormOfWeightVector() {
+double FCLNeuron::getManhattanNormOfWeightVector() {
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
 	double norm = 0;
@@ -215,7 +215,7 @@ double Neuron::getManhattanNormOfWeightVector() {
 }
 
 
-double Neuron::getInfinityNormOfWeightVector() {
+double FCLNeuron::getInfinityNormOfWeightVector() {
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
 	double norm = 0;
@@ -233,7 +233,7 @@ double Neuron::getInfinityNormOfWeightVector() {
 }
 
 
-double Neuron::getAverageOfWeightVector() {
+double FCLNeuron::getAverageOfWeightVector() {
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
 	double norm = 0;
@@ -253,7 +253,7 @@ double Neuron::getAverageOfWeightVector() {
 }
 
 
-void Neuron::normaliseWeights(double norm) {
+void FCLNeuron::normaliseWeights(double norm) {
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
 
@@ -271,7 +271,7 @@ void Neuron::normaliseWeights(double norm) {
 	
 
 
-void Neuron::doMaxDet() {
+void FCLNeuron::doMaxDet() {
 	double* inputsp = inputs;
 	double* weightsp = weights;
 	unsigned char * maskp = mask;
@@ -295,7 +295,7 @@ void Neuron::doMaxDet() {
 }
 
 
-void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightInitMethod) {
+void FCLNeuron::initWeights( double _max,  int initBias, WeightInitMethod weightInitMethod) {
 	//fprintf(stderr,"Init Weights: max=%f\n",_max);
 	double max = _max;
 	int nBias = 0;
@@ -341,7 +341,7 @@ void Neuron::initWeights( double _max,  int initBias, WeightInitMethod weightIni
 }
 
 
-void Neuron::saveInitialWeights() {
+void FCLNeuron::saveInitialWeights() {
 	for(int i=0;i<nInputs;i++) {
 		initialWeights[i]=weights[i];
 	}
@@ -349,7 +349,7 @@ void Neuron::saveInitialWeights() {
 
 
 
-double Neuron::getMaxWeightValue() {
+double FCLNeuron::getMaxWeightValue() {
 	double max=-HUGE_VAL;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {
@@ -363,7 +363,7 @@ double Neuron::getMaxWeightValue() {
 
 
 
-double Neuron::getMinWeightValue() {
+double FCLNeuron::getMinWeightValue() {
 	double min=HUGE_VAL;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {
@@ -377,7 +377,7 @@ double Neuron::getMinWeightValue() {
 
 
 
-double Neuron::getWeightDistanceFromInitialWeights() {
+double FCLNeuron::getWeightDistanceFromInitialWeights() {
 	double distance = 0;
 	for(int i=0;i<nInputs;i++) {
 		if (mask[i]) {
@@ -390,13 +390,13 @@ double Neuron::getWeightDistanceFromInitialWeights() {
 
 
 
-void Neuron::setError(double _error) {
+void FCLNeuron::setError(double _error) {
 	error = _error;
 	assert(!isnan(_error));
 }
 
 
-void Neuron::setMask( int x, int y, unsigned char c) {
+void FCLNeuron::setMask( int x, int y, unsigned char c) {
 	if (x<0) return;
 	if (y<0) return;
 	if (x>=width) return;
@@ -404,13 +404,13 @@ void Neuron::setMask( int x, int y, unsigned char c) {
 	mask[x+y*width] = c;
 }
 
-void Neuron::setMask( unsigned char c) {
+void FCLNeuron::setMask( unsigned char c) {
 	for(int i=0;i<nInputs;i++) {
 		mask[i] = c;
 	}
 }
 
-unsigned char Neuron::getMask( int x, int y) {
+unsigned char FCLNeuron::getMask( int x, int y) {
 	if (x<0) return 0;
 	if (y<0) return 0;
 	if (x>=width) return 0;
