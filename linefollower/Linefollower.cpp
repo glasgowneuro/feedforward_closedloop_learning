@@ -100,11 +100,11 @@ public:
 			minT,
 			maxT);
 
-		fcl->initWeights(1,0,Neuron::MAX_OUTPUT_RANDOM);
+		fcl->initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
 		fcl->setLearningRate(learningRate);
 		fcl->setLearningRateDiscountFactor(1);
 		fcl->setBias(1);
-		fcl->setActivationFunction(Neuron::TANH);
+		fcl->setActivationFunction(FCLNeuron::TANH);
 		fcl->setMomentum(0.9);		
 	}
 
