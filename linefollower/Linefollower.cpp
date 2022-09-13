@@ -31,7 +31,7 @@ protected:
 
 	int nInputs = 30;
 	// Number of layers of neurons in total
-	int nLayers = 3;
+	int nLayers = 6;
 	// The number of neurons in every layer
 	int nNeuronsInLayers[6] = {9,6,6,6,6,6};
 	// We set nFilters in the input
