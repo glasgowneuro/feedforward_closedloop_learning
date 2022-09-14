@@ -29,18 +29,18 @@ protected:
 	const double speed = 90;
 	const double fbgain = 300;
 
-	int nInputs = 30;
+	const int nInputs = 30;
 	// Number of layers of neurons in total
-	int nLayers = 6;
+	static constexpr int nLayers = 6;
 	// The number of neurons in every layer
-	int nNeuronsInLayers[6] = {9,6,6,6,6,6};
+	int nNeuronsInLayers[nLayers] = {9,6,6,6,6,6};
 	// We set nFilters in the input
-	int nFiltersInput = 10;
+	const int nFiltersInput = 10;
 	// We set nFilters in the unit
-	int nFilters = 0;
+	const int nFilters = 0;
 	// Filterbank
-	double minT = 2;
-	double maxT = 30;
+	const double minT = 2;
+	const double maxT = 30;
 
 	double learningRate = 0.00001;
 	
