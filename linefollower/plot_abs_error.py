@@ -37,5 +37,7 @@ realtimePlotWindow = RealtimePlotWindow("llog.tsv",2)
 
 # show the plot and start the animation
 plt.show()
+plt.xlabel('Time Step')
+plt.ylabel("Error Magnitude")
 
 print("finished")
