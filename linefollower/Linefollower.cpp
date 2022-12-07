@@ -42,7 +42,8 @@ protected:
 	const double minT = 2;
 	const double maxT = 30;
 
-	double learningRate = 100;
+	// Is set by the learning rate setter. Do not change here!
+	double learningRate = 0;
 	
 	FeedforwardClosedloopLearningWithFilterbank* fcl = NULL;
 
