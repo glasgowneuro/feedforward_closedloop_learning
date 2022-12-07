@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.11.0)
 
 project(fcl VERSION 2.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-cmake_policy(SET CMP0048 NEW) # set VERSION in project()
-cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH by default
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
@@ -23,9 +21,10 @@ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 add_subdirectory(tests_c)
 
-find_package(GLUT COMPONENTS Widgets)
+find_package(Qt5 COMPONENTS Widgets Core OpenGL)
+find_package(OpenGL)
 
-if(GLUT_DIR)
+if(Qt5_FOUND AND OPENGL_FOUND)
   add_subdirectory(linefollower)
 endif()
 

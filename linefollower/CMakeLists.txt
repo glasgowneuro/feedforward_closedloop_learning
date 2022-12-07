@@ -18,7 +18,6 @@ find_package(Qt5 COMPONENTS Widgets Core OpenGL REQUIRED)
 find_package(Threads)
 
 # required libraries
-find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
 
 include_directories(${GLUT_INCLUDE_DIR})
