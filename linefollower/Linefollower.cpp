@@ -31,9 +31,9 @@ protected:
 
 	const int nInputs = 30;
 	// Number of layers of neurons in total
-	static constexpr int nLayers = 6;
+	static constexpr int nLayers = 3;
 	// The number of neurons in every layer
-	int nNeuronsInLayers[nLayers] = {9,6,6,6,6,6};
+	int nNeuronsInLayers[nLayers] = {9,6,6};
 	// We set nFilters in the input
 	const int nFiltersInput = 10;
 	// We set nFilters in the unit
@@ -42,7 +42,7 @@ protected:
 	const double minT = 2;
 	const double maxT = 30;
 
-	double learningRate = 0.00001;
+	double learningRate = 100;
 	
 	FeedforwardClosedloopLearningWithFilterbank* fcl = NULL;
 
@@ -241,7 +241,7 @@ public:
 
 void singleRun(int argc,
 	       char *argv[],
-	       float learningrate = 0,
+	       float learningrate,
 	       FILE* f = NULL) {
 	QApplication app(argc, argv);
 	QString filename("loop.png");
@@ -256,9 +256,7 @@ void singleRun(int argc,
 		    Color(1000, 1000, 100),
 		    World::GroundTexture(loopImage.width(), loopImage.height(), bitmap));
 	LineFollower linefollower(&world);
-	if (learningrate>0) {
-		linefollower.setLearningRate(learningrate);
-	}
+	linefollower.setLearningRate(learningrate);
 	linefollower.show();
 	app.exec();
 	fprintf(stderr,"Finished.\n");
@@ -294,7 +292,7 @@ int main(int argc, char *argv[]) {
 	}
 	switch (n) {
 	case 0:
-		singleRun(argc,argv,0.0005f);
+		singleRun(argc,argv,0.00025f);
 		break;
 	case 1:
 		statsRun(argc,argv);
