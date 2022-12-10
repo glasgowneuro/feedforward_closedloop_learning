@@ -95,11 +95,11 @@ void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, int n1, 
 		fprintf(stderr,"Input array dim mismatch: got: %d, want: %d\n",n1,nInputs);
 		return;
 	}
-	if (n2 != getLayer(0)->getNneurons()) {
+	if (n2 != nInputs) {
 		fprintf(stderr,
 			"Error array dim mismatch: got: %d, want: %d "
-			"which is the number of neurons in the 1st hidden layer!\n",
-			n2,getLayer(0)->getNneurons());
+			"which is the number of inputs.\n",
+			n2,nInputs);
 		return;
 	}
 	FeedforwardClosedloopLearningWithFilterbank::doStep(input,error);
