@@ -5,7 +5,7 @@
  * GNU GENERAL PUBLIC LICENSE
  * Version 3, 29 June 2007
  *
- * (C) 2017, Bernd Porr <bernd@glasgowneuro.tech>
+ * (C) 2017-2022, Bernd Porr <bernd@glasgowneuro.tech>
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
@@ -13,15 +13,7 @@
 #include "neuron.h"
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef __linux__
-#include <pthread.h>
-#endif
-
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
+#include <thread>
 
 #define NUM_THREADS 12
 
@@ -36,29 +28,7 @@ protected:
 	int nNeurons = 0;
 	int maxNeurons = 0;
 
-#ifdef __linux__
-	pthread_t id = 0;
-#endif
-
-#ifdef _WIN32
-	DWORD id = 0;
-	HANDLE hThread = 0;
-#endif
-
-#ifdef __linux__
-	static void *exec(void *thr) {
-		reinterpret_cast<LayerThread *> (thr)->run();
-		return NULL;
-	}
-#endif
-
-#ifdef _WIN32
-	static DWORD WINAPI exec(LPVOID thr) {
-		reinterpret_cast<LayerThread *> (thr)->run();
-		return 0;
-	}
-#endif
-
+	std::thread thr;
 
 public:
 
@@ -68,9 +38,6 @@ public:
 	}
 
 	virtual ~LayerThread() {
-#ifdef _WIN32
-		CloseHandle(hThread);
-#endif
 		delete [] neurons;
 	}
 	
@@ -87,42 +54,20 @@ public:
 		if (nNeurons == 0) {
 			return;
 		}
-#ifdef __linux__
-		int ret;
-		if ((ret = pthread_create(&id, NULL, &LayerThread::exec, this)) != 0) {
-			fprintf(stderr,"%s\n",strerror(ret)); 
-			abort();
-		}
-#endif
-#ifdef _WIN32
-		hThread = CreateThread(
-			NULL,                   // default security attributes
-			0,                      // use default stack size  
-			&LayerThread::exec,     // thread function name
-			this,                   // argument to thread function 
-			0,                      // use default creation flags 
-			&id);   // returns the thread identifier 
-		if (hThread == NULL) {
-			ExitProcess(3);
-		}
-#endif
+		thr = std::thread(&LayerThread::run,this);
 	}
 
 	void join() {
 		if (nNeurons == 0) {
 			return;
 		}
-#ifdef __linux__
-		pthread_join(id,NULL);
-#endif
-#ifdef _WIN32
-		WaitForSingleObject(hThread, INFINITE);
-#endif
+		if (thr.joinable()) {
+			thr.join();
+		}
 	}
 
 	// is implemented by its children to do the specfic task the thread
 	virtual void run() = 0;
-	
 };
 
 
@@ -361,9 +306,9 @@ private:
 	int layerIndex = 0;
 	long int step = 0;
 	int useThreads = 1;
-	CalcOutputThread** calcOutputThread = NULL;
-	LearningThread** learningThread = NULL;
-	MaxDetThread** maxDetThread = NULL;
+	CalcOutputThread** calcOutputThread = nullptr;
+	LearningThread** learningThread = nullptr;
+	MaxDetThread** maxDetThread = nullptr;
 };
 
 #endif
