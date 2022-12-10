@@ -91,7 +91,7 @@ public:
 		pred = new double[nInputs];
 		err = new double[nNeuronsInLayers[0]];
 
-		// setting up deep feedforward learning  *************************************************USE IN MAIN.CPP**************************************
+		// setting up deep feedforward learning
 		fcl = new FeedforwardClosedloopLearningWithFilterbank(
 			nInputs,
 			nNeuronsInLayers,
@@ -106,7 +106,7 @@ public:
 		fcl->setBias(1);
 		fcl->setActivationFunction(FCLNeuron::TANH);
 		fcl->setMomentum(0.9);		
-	} 												//***********************************************************************************************
+	} 												
 
 	~LineFollower() {
 		fclose(flog);
