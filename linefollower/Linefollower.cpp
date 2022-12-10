@@ -44,7 +44,6 @@ protected:
 
 	// Is set by the learning rate setter. Do not change here!
 	double learningRate = 0;
-	
 	FeedforwardClosedloopLearningWithFilterbank* fcl = NULL;
 
 	double* pred = NULL;
@@ -182,12 +181,10 @@ public:
 			err[i] = error;
                 }*/
 				
-		for(int i=0;i<racer->getNsensors();i++) {     // Does this not need to match number of predictor inputs? Or is this the old version of FCL?
-			err[i] = error;								// I have tested both and this seems to learn faster for me.
+		for(int i=0;i<(racer->getNsensors())*nFiltersInput;i++) {     // Does this not need to match number of predictor inputs? Or is this the old version of FCL?
+			err[i] = error;										
                 }
 		// !!!!
-		//cout<< "pred array "
-
 		fcl->doStep(pred,err);
 		float vL = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
 				   (fcl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
