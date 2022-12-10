@@ -31,9 +31,9 @@ protected:
 
 	const int nInputs = 30;
 	// Number of layers of neurons in total
-	static constexpr int nLayers = 6;
+	static constexpr int nLayers = 3;
 	// The number of neurons in every layer
-	int nNeuronsInLayers[nLayers] = {9,6,6,6,6,6};
+	int nNeuronsInLayers[nLayers] = {9,6,6};//,6,6,6};
 	// We set nFilters in the input
 	const int nFiltersInput = 10;
 	// We set nFilters in the unit
@@ -175,10 +175,18 @@ public:
 			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%e ",pred[i]);
 		}
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
-		for(int i=0;i<nNeuronsInLayers[0];i++) {
+		
+		
+		/*for(int i=0;i<nNeuronsInLayers[0];i++) {     //
 			err[i] = error;
+                }*/
+				
+		for(int i=0;i<racer->getNsensors();i++) {     // Does this not need to match number of predictor inputs? Or is this the old version of FCL?
+			err[i] = error;								// I have tested both and this seems to learn faster for me.
                 }
 		// !!!!
+		//cout<< "pred array "
+
 		fcl->doStep(pred,err);
 		float vL = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*50 +
 				   (fcl->getOutputLayer()->getNeuron(1)->getOutput())*10 +
@@ -187,6 +195,11 @@ public:
 				   (fcl->getOutputLayer()->getNeuron(4)->getOutput())*10 +
 				   (fcl->getOutputLayer()->getNeuron(5)->getOutput())*2);
 		
+  cout << "OutputNeurons: "<< endl;
+  for(int i =0; i<6; i++){
+   cout<<" "<< (double)(fcl->getOutputLayer()->getNeuron(i)->getOutput());
+  }
+
 		double erroramp = error * fbgain;
 		fprintf(stderr,"%e ",erroramp);
 		fprintf(stderr,"%e ",vL);
