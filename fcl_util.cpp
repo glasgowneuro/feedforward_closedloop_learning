@@ -26,6 +26,7 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 	nInputs = num_of_inputs;
 	assert((nInputs*nFiltersPerInput) == getNumInputs());
 	bandpass = new FCLBandpass**[num_of_inputs];
+	errors = new double[num_of_inputs*num_filtersInput];
 	filterbankOutputs = new double[num_of_inputs * num_filtersInput];
 	for(int i=0;i<num_of_inputs;i++) {
 		bandpass[i] = new FCLBandpass*[num_filtersInput];
@@ -57,6 +58,7 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 			}
 #endif
 			bandpass[i][j]->reset();
+			errors[i*nFiltersPerInput+j] = 0;
 		}
 	}
 }
@@ -70,16 +72,18 @@ FeedforwardClosedloopLearningWithFilterbank::~FeedforwardClosedloopLearningWithF
 		delete[] bandpass[i];
 	}
 	delete[] bandpass;
+	delete[] errors;
 }
 
 
 void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, double* error) {
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFiltersPerInput;j++) {
-			filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);	
+			filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);
+			errors[i*nFiltersPerInput+j] = error[i];
 		}
 	}
-	FeedforwardClosedloopLearning::doStep(filterbankOutputs,error);
+	FeedforwardClosedloopLearning::doStep(filterbankOutputs, errors);
 }
 
 

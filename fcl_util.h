@@ -70,6 +70,7 @@ public:
 private:
 	const double dampingCoeff = 0.51;
 	FCLBandpass ***bandpass = 0;
+	double* errors = 0;
 	double* filterbankOutputs = 0;
 	int nFiltersPerInput = 0;
 	int nInputs = 0;
