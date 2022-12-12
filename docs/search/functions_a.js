@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['neuron_151',['Neuron',['../classNeuron.html#a0308f930bfcf008c4a9f821c5c2671c7',1,'Neuron']]],
-  ['normaliseweights_152',['normaliseWeights',['../classNeuron.html#a8789a29418c9903fb05b6c48a706cc89',1,'Neuron::normaliseWeights()'],['../classfeedforward__closedloop__learning_1_1Neuron.html#aac2a4ed3c90455fac9afcfddb2554ba3',1,'feedforward_closedloop_learning.Neuron.normaliseWeights()']]]
+  ['reset_160',['reset',['../classFCLBandpass.html#a7c84e519a58a33a85816dff75119d007',1,'FCLBandpass']]],
+  ['run_161',['run',['../classfeedforward__closedloop__learning_1_1LayerThread.html#a3dce40863889dccd66702a23c5af6046',1,'feedforward_closedloop_learning::LayerThread']]]
 ];

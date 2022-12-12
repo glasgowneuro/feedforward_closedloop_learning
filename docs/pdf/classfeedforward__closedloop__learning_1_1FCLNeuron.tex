@@ -1,0 +1,557 @@
+\hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron}{}\doxysection{feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron Class Reference}
+\label{classfeedforward__closedloop__learning_1_1FCLNeuron}\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+
+
+Inheritance diagram for feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classfeedforward__closedloop__learning_1_1FCLNeuron__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classfeedforward__closedloop__learning_1_1FCLNeuron__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_aa97fd152b4a500c57c31bfe950f31608}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \char`\"{}int\char`\"{} \+\_\+n\+Inputs)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ab2e5989fd6f24ca5829e09b0b4c94b85}{calc\+Output}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a5f264d4331cc92287c293e1e03bb7f9a}{do\+Learning}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a5371197d4a7e28e1bf3a607aa6b35cd2}{do\+Max\+Det}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a0bc5d49619343da0d3d994ce1306768d}{init\+Weights}} (self, $\ast$args)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_adc159000d30453646ef0d9ad2ec8f9de}{set\+Activation\+Function}} (self, \char`\"{}FCLNeuron\+::\+Activation\+Function\char`\"{} \+\_\+activation\+Function)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a1fd6debef0562019d3e6c8acd2ec226a}{d\+Activation}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ae1d7ad632d8074d024a1adf3744da799}{get\+Min\+Weight\+Value}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a87aa896e5133d0d763f3b2adafd8bc2b}{get\+Max\+Weight\+Value}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_add89f464369ade6c328ae3d8483d83ad}{get\+Weight\+Distance\+From\+Initial\+Weights}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a0ae62c848ee677156a05b778b1f26e24}{get\+Output}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ab28cc2076d434319d197a39bca089e5c}{get\+Sum}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ab4818c74dc8a050832954c1b67a7445b}{get\+Weight}} (self, \char`\"{}int\char`\"{} \+\_\+index)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a046faa26c35c24bcb7c9f048794eb4f7}{set\+Weight}} (self, \char`\"{}int\char`\"{} \+\_\+index, \char`\"{}double\char`\"{} \+\_\+weight)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a3da0264c919dbb58f2f2f8a8543959e0}{set\+Error}} (self, \char`\"{}double\char`\"{} \+\_\+error)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a1aa31dbf674f9cb82f8953409ccaa81d}{get\+Error}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a3416880a65683420c23c72fdca9470f2}{set\+Input}} (self, \char`\"{}int\char`\"{} \+\_\+index, \char`\"{}double\char`\"{} \+\_\+value)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a96868dd486c5a39c5ce152a9dedea556}{get\+Input}} (self, \char`\"{}int\char`\"{} \+\_\+index)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ae745af25af53cb9e37c38b17ba40f104}{get\+Bias\+Weight}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a76e24a0429f90fee744dcb0838fcd7f7}{set\+Bias\+Weight}} (self, \char`\"{}double\char`\"{} \+\_\+biasweight)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a1291f9a32bbea3046798abb68b247c8f}{set\+Bias}} (self, \char`\"{}double\char`\"{} \+\_\+bias)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_abbe873472ddcdc42a870ed13bc340426}{set\+Learning\+Rate}} (self, \char`\"{}double\char`\"{} \+\_\+learningrate)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_aeac1c8a1c7ef892a0d79f5f7f3893604}{set\+Momentum}} (self, \char`\"{}double\char`\"{} \+\_\+momentum)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a860e10f2852ea9fa91cab504e6f79956}{set\+Decay}} (self, \char`\"{}double\char`\"{} \+\_\+decay)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a1f92093f1c99a49d3086185d55d54ffa}{get\+Decay}} (self)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_aaa0b6456c3e06e8f563b9d6874357190}{get\+Ninputs}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ab5003c12b8f991147502aa92fbc27d0a}{set\+Geometry}} (self, \char`\"{}int\char`\"{} \+\_\+width, \char`\"{}int\char`\"{} \+\_\+height)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_af0f2ed2dcdeed7e2b406bfd761305b9c}{set\+Mask}} (self, $\ast$args)
+\item 
+\char`\"{}unsigned char\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a1389128e4e55aa28e7023e37054dbfac}{get\+Mask}} (self, $\ast$args)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_aaa51df4e9bf6201789774ed59ebc6970}{get\+Sum\+Of\+Squared\+Weight\+Vector}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a828cbb0096c955ecd1b651112d49c199}{get\+Euclidean\+Norm\+Of\+Weight\+Vector}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ac04d3af98d26183756c92b810f1b9050}{get\+Manhattan\+Norm\+Of\+Weight\+Vector}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a55a9a818f6332e9327f7466b4b0a10a9}{get\+Infinity\+Norm\+Of\+Weight\+Vector}} (self)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_ab6512d610aa3263455e3b571ac1cadc4}{get\+Average\+Of\+Weight\+Vector}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a576e2846758faa25c9c8589e2b713f96}{normalise\+Weights}} (self, \char`\"{}double\char`\"{} norm)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a60a31dd8380e969662782212efeb0752}{save\+Initial\+Weights}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a4da2247444789a30e8eb994e1bdc155d}{set\+Debug\+Info}} (self, \char`\"{}int\char`\"{} \+\_\+layer\+Index, \char`\"{}int\char`\"{} \+\_\+neuron\+Index)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a1820398f40ff6792d7980c0420780f76}{set\+Step}} (self, \char`\"{}long\char`\"{} \+\_\+step)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\char`\"{}void $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a17461b9dad2670d3e0d8745c6e55d438}{calc\+Output\+Thread}} (\char`\"{}void $\ast$\char`\"{} object)
+\item 
+\char`\"{}void $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_aefb56bfc047c0ae7c753946c80873a75}{do\+Learning\+Thread}} (\char`\"{}void $\ast$\char`\"{} object)
+\item 
+\char`\"{}void $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLNeuron_a4df658f8cfb5d78af259044fc32a0346}{do\+Max\+Det\+Thread}} (\char`\"{}void $\ast$\char`\"{} object)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a415f33e191e82ae1fdd1355e9c6e3a86}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a415f33e191e82ae1fdd1355e9c6e3a86}} 
+{\bfseries MAX\+\_\+\+OUTPUT\+\_\+\+RANDOM} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+MAX\+\_\+\+OUTPUT\+\_\+\+RANDOM
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a69da87d41284633f0181e2ec770fad3b}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a69da87d41284633f0181e2ec770fad3b}} 
+{\bfseries MAX\+\_\+\+WEIGHT\+\_\+\+RANDOM} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+MAX\+\_\+\+WEIGHT\+\_\+\+RANDOM
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a6da847805938cc2719be20655c17dcb1}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a6da847805938cc2719be20655c17dcb1}} 
+{\bfseries MAX\+\_\+\+OUTPUT\+\_\+\+CONST} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+MAX\+\_\+\+OUTPUT\+\_\+\+CONST
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a99d6c27be28f6c785597c5d6b828689e}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a99d6c27be28f6c785597c5d6b828689e}} 
+{\bfseries CONST\+\_\+\+WEIGHTS} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+CONST\+\_\+\+WEIGHTS
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a7981be18ef1cb7e186228a1f77f75634}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a7981be18ef1cb7e186228a1f77f75634}} 
+{\bfseries LINEAR} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+LINEAR
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a705db180eb062c9f30a202e78e01ad53}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a705db180eb062c9f30a202e78e01ad53}} 
+{\bfseries TANH} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+TANH
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a33e90e58db12a476ff3af3b9819e39db}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a33e90e58db12a476ff3af3b9819e39db}} 
+{\bfseries RELU} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+RELU
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_acf194fc44c244f6125268d3753833698}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_acf194fc44c244f6125268d3753833698}} 
+{\bfseries REMAXLU} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+REMAXLU
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a811d3f9a44f449285c1645ad4f161949}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a811d3f9a44f449285c1645ad4f161949}} 
+{\bfseries TANHLIMIT} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron\+\_\+\+TANHLIMIT
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_adea873a8ad834465716001fa4f71262d}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_adea873a8ad834465716001fa4f71262d}} 
+{\bfseries thisown} = property(lambda x\+: x.\+this.\+own(), lambda x, v\+: x.\+this.\+own(v), doc=\char`\"{}The membership flag\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Proxy of C++ FCLNeuron class.\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_aa97fd152b4a500c57c31bfe950f31608}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_aa97fd152b4a500c57c31bfe950f31608}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+n\+Inputs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}__init__(FCLNeuron self, int _nInputs) -> FCLNeuron
+
+Parameters
+----------
+_nInputs: int\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ab2e5989fd6f24ca5829e09b0b4c94b85}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ab2e5989fd6f24ca5829e09b0b4c94b85}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!calcOutput@{calcOutput}}
+\index{calcOutput@{calcOutput}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{calcOutput()}{calcOutput()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+calc\+Output (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}calcOutput(FCLNeuron self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a17461b9dad2670d3e0d8745c6e55d438}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a17461b9dad2670d3e0d8745c6e55d438}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!calcOutputThread@{calcOutputThread}}
+\index{calcOutputThread@{calcOutputThread}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{calcOutputThread()}{calcOutputThread()}}
+{\footnotesize\ttfamily  \char`\"{}void $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+calc\+Output\+Thread (\begin{DoxyParamCaption}\item[{\char`\"{}void $\ast$\char`\"{}}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}calcOutputThread(void * object) -> void *
+
+Parameters
+----------
+object: void *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a1fd6debef0562019d3e6c8acd2ec226a}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a1fd6debef0562019d3e6c8acd2ec226a}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!dActivation@{dActivation}}
+\index{dActivation@{dActivation}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{dActivation()}{dActivation()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+d\+Activation (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}dActivation(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a5f264d4331cc92287c293e1e03bb7f9a}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a5f264d4331cc92287c293e1e03bb7f9a}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!doLearning@{doLearning}}
+\index{doLearning@{doLearning}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{doLearning()}{doLearning()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+do\+Learning (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doLearning(FCLNeuron self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_aefb56bfc047c0ae7c753946c80873a75}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_aefb56bfc047c0ae7c753946c80873a75}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!doLearningThread@{doLearningThread}}
+\index{doLearningThread@{doLearningThread}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{doLearningThread()}{doLearningThread()}}
+{\footnotesize\ttfamily  \char`\"{}void $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+do\+Learning\+Thread (\begin{DoxyParamCaption}\item[{\char`\"{}void $\ast$\char`\"{}}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}doLearningThread(void * object) -> void *
+
+Parameters
+----------
+object: void *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a5371197d4a7e28e1bf3a607aa6b35cd2}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a5371197d4a7e28e1bf3a607aa6b35cd2}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!doMaxDet@{doMaxDet}}
+\index{doMaxDet@{doMaxDet}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{doMaxDet()}{doMaxDet()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+do\+Max\+Det (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doMaxDet(FCLNeuron self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a4df658f8cfb5d78af259044fc32a0346}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a4df658f8cfb5d78af259044fc32a0346}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!doMaxDetThread@{doMaxDetThread}}
+\index{doMaxDetThread@{doMaxDetThread}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{doMaxDetThread()}{doMaxDetThread()}}
+{\footnotesize\ttfamily  \char`\"{}void $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+do\+Max\+Det\+Thread (\begin{DoxyParamCaption}\item[{\char`\"{}void $\ast$\char`\"{}}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}doMaxDetThread(void * object) -> void *
+
+Parameters
+----------
+object: void *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ab6512d610aa3263455e3b571ac1cadc4}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ab6512d610aa3263455e3b571ac1cadc4}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getAverageOfWeightVector@{getAverageOfWeightVector}}
+\index{getAverageOfWeightVector@{getAverageOfWeightVector}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getAverageOfWeightVector()}{getAverageOfWeightVector()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Average\+Of\+Weight\+Vector (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getAverageOfWeightVector(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ae745af25af53cb9e37c38b17ba40f104}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ae745af25af53cb9e37c38b17ba40f104}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getBiasWeight@{getBiasWeight}}
+\index{getBiasWeight@{getBiasWeight}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getBiasWeight()}{getBiasWeight()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Bias\+Weight (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getBiasWeight(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a1f92093f1c99a49d3086185d55d54ffa}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a1f92093f1c99a49d3086185d55d54ffa}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getDecay@{getDecay}}
+\index{getDecay@{getDecay}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getDecay()}{getDecay()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Decay (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getDecay(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a1aa31dbf674f9cb82f8953409ccaa81d}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a1aa31dbf674f9cb82f8953409ccaa81d}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getError@{getError}}
+\index{getError@{getError}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Error (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getError(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a828cbb0096c955ecd1b651112d49c199}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a828cbb0096c955ecd1b651112d49c199}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getEuclideanNormOfWeightVector@{getEuclideanNormOfWeightVector}}
+\index{getEuclideanNormOfWeightVector@{getEuclideanNormOfWeightVector}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getEuclideanNormOfWeightVector()}{getEuclideanNormOfWeightVector()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Euclidean\+Norm\+Of\+Weight\+Vector (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getEuclideanNormOfWeightVector(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a55a9a818f6332e9327f7466b4b0a10a9}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a55a9a818f6332e9327f7466b4b0a10a9}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getInfinityNormOfWeightVector@{getInfinityNormOfWeightVector}}
+\index{getInfinityNormOfWeightVector@{getInfinityNormOfWeightVector}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getInfinityNormOfWeightVector()}{getInfinityNormOfWeightVector()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Infinity\+Norm\+Of\+Weight\+Vector (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getInfinityNormOfWeightVector(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a96868dd486c5a39c5ce152a9dedea556}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a96868dd486c5a39c5ce152a9dedea556}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getInput@{getInput}}
+\index{getInput@{getInput}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getInput()}{getInput()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getInput(FCLNeuron self, int _index) -> double
+
+Parameters
+----------
+_index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ac04d3af98d26183756c92b810f1b9050}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ac04d3af98d26183756c92b810f1b9050}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getManhattanNormOfWeightVector@{getManhattanNormOfWeightVector}}
+\index{getManhattanNormOfWeightVector@{getManhattanNormOfWeightVector}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getManhattanNormOfWeightVector()}{getManhattanNormOfWeightVector()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Manhattan\+Norm\+Of\+Weight\+Vector (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getManhattanNormOfWeightVector(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a1389128e4e55aa28e7023e37054dbfac}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a1389128e4e55aa28e7023e37054dbfac}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getMask@{getMask}}
+\index{getMask@{getMask}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMask()}{getMask()}}
+{\footnotesize\ttfamily  \char`\"{}unsigned char\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Mask (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getMask(FCLNeuron self, int x, int y) -> unsigned char
+
+Parameters
+----------
+x: int
+y: int
+
+getMask(FCLNeuron self, int index) -> unsigned char
+
+Parameters
+----------
+index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a87aa896e5133d0d763f3b2adafd8bc2b}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a87aa896e5133d0d763f3b2adafd8bc2b}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getMaxWeightValue@{getMaxWeightValue}}
+\index{getMaxWeightValue@{getMaxWeightValue}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMaxWeightValue()}{getMaxWeightValue()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Max\+Weight\+Value (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getMaxWeightValue(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ae1d7ad632d8074d024a1adf3744da799}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ae1d7ad632d8074d024a1adf3744da799}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getMinWeightValue@{getMinWeightValue}}
+\index{getMinWeightValue@{getMinWeightValue}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMinWeightValue()}{getMinWeightValue()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Min\+Weight\+Value (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getMinWeightValue(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_aaa0b6456c3e06e8f563b9d6874357190}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_aaa0b6456c3e06e8f563b9d6874357190}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getNinputs@{getNinputs}}
+\index{getNinputs@{getNinputs}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getNinputs()}{getNinputs()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Ninputs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNinputs(FCLNeuron self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a0ae62c848ee677156a05b778b1f26e24}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a0ae62c848ee677156a05b778b1f26e24}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Output (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getOutput(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ab28cc2076d434319d197a39bca089e5c}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ab28cc2076d434319d197a39bca089e5c}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getSum@{getSum}}
+\index{getSum@{getSum}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getSum()}{getSum()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Sum (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getSum(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_aaa51df4e9bf6201789774ed59ebc6970}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_aaa51df4e9bf6201789774ed59ebc6970}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getSumOfSquaredWeightVector@{getSumOfSquaredWeightVector}}
+\index{getSumOfSquaredWeightVector@{getSumOfSquaredWeightVector}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getSumOfSquaredWeightVector()}{getSumOfSquaredWeightVector()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Sum\+Of\+Squared\+Weight\+Vector (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getSumOfSquaredWeightVector(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ab4818c74dc8a050832954c1b67a7445b}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ab4818c74dc8a050832954c1b67a7445b}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getWeight@{getWeight}}
+\index{getWeight@{getWeight}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getWeight()}{getWeight()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Weight (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getWeight(FCLNeuron self, int _index) -> double
+
+Parameters
+----------
+_index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_add89f464369ade6c328ae3d8483d83ad}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_add89f464369ade6c328ae3d8483d83ad}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}}
+\index{getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getWeightDistanceFromInitialWeights()}{getWeightDistanceFromInitialWeights()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+get\+Weight\+Distance\+From\+Initial\+Weights (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getWeightDistanceFromInitialWeights(FCLNeuron self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a0bc5d49619343da0d3d994ce1306768d}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a0bc5d49619343da0d3d994ce1306768d}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+init\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}initWeights(FCLNeuron self, double _max=1, int initBias=1, FCLNeuron::WeightInitMethod _wm=MAX_OUTPUT_RANDOM)
+
+Parameters
+----------
+_max: double
+initBias: int
+_wm: enum FCLNeuron::WeightInitMethod\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a576e2846758faa25c9c8589e2b713f96}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a576e2846758faa25c9c8589e2b713f96}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!normaliseWeights@{normaliseWeights}}
+\index{normaliseWeights@{normaliseWeights}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{normaliseWeights()}{normaliseWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+normalise\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{norm }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}normaliseWeights(FCLNeuron self, double norm)
+
+Parameters
+----------
+norm: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a60a31dd8380e969662782212efeb0752}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a60a31dd8380e969662782212efeb0752}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!saveInitialWeights@{saveInitialWeights}}
+\index{saveInitialWeights@{saveInitialWeights}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{saveInitialWeights()}{saveInitialWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+save\+Initial\+Weights (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}saveInitialWeights(FCLNeuron self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_adc159000d30453646ef0d9ad2ec8f9de}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_adc159000d30453646ef0d9ad2ec8f9de}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Activation\+Function (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}FCLNeuron\+::\+Activation\+Function\char`\"{}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setActivationFunction(FCLNeuron self, FCLNeuron::ActivationFunction _activationFunction)
+
+Parameters
+----------
+_activationFunction: enum FCLNeuron::ActivationFunction\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a1291f9a32bbea3046798abb68b247c8f}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a1291f9a32bbea3046798abb68b247c8f}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setBias@{setBias}}
+\index{setBias@{setBias}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Bias (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+bias }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setBias(FCLNeuron self, double _bias)
+
+Parameters
+----------
+_bias: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a76e24a0429f90fee744dcb0838fcd7f7}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a76e24a0429f90fee744dcb0838fcd7f7}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setBiasWeight@{setBiasWeight}}
+\index{setBiasWeight@{setBiasWeight}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setBiasWeight()}{setBiasWeight()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Bias\+Weight (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+biasweight }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setBiasWeight(FCLNeuron self, double _biasweight)
+
+Parameters
+----------
+_biasweight: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a4da2247444789a30e8eb994e1bdc155d}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a4da2247444789a30e8eb994e1bdc155d}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setDebugInfo@{setDebugInfo}}
+\index{setDebugInfo@{setDebugInfo}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setDebugInfo()}{setDebugInfo()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Debug\+Info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+layer\+Index,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+neuron\+Index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDebugInfo(FCLNeuron self, int _layerIndex, int _neuronIndex)
+
+Parameters
+----------
+_layerIndex: int
+_neuronIndex: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a860e10f2852ea9fa91cab504e6f79956}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a860e10f2852ea9fa91cab504e6f79956}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Decay (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+decay }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDecay(FCLNeuron self, double _decay)
+
+Parameters
+----------
+_decay: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a3da0264c919dbb58f2f2f8a8543959e0}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a3da0264c919dbb58f2f2f8a8543959e0}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setError@{setError}}
+\index{setError@{setError}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Error (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+error }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setError(FCLNeuron self, double _error)
+
+Parameters
+----------
+_error: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_ab5003c12b8f991147502aa92fbc27d0a}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_ab5003c12b8f991147502aa92fbc27d0a}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setGeometry@{setGeometry}}
+\index{setGeometry@{setGeometry}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setGeometry()}{setGeometry()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Geometry (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+width,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+height }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setGeometry(FCLNeuron self, int _width, int _height)
+
+Parameters
+----------
+_width: int
+_height: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a3416880a65683420c23c72fdca9470f2}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a3416880a65683420c23c72fdca9470f2}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setInput@{setInput}}
+\index{setInput@{setInput}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setInput()}{setInput()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+index,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+value }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setInput(FCLNeuron self, int _index, double _value)
+
+Parameters
+----------
+_index: int
+_value: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_abbe873472ddcdc42a870ed13bc340426}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_abbe873472ddcdc42a870ed13bc340426}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+learningrate }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setLearningRate(FCLNeuron self, double _learningrate)
+
+Parameters
+----------
+_learningrate: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_af0f2ed2dcdeed7e2b406bfd761305b9c}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_af0f2ed2dcdeed7e2b406bfd761305b9c}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setMask@{setMask}}
+\index{setMask@{setMask}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setMask()}{setMask()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Mask (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMask(FCLNeuron self, int x, int y, unsigned char c)
+
+Parameters
+----------
+x: int
+y: int
+c: unsigned char
+
+setMask(FCLNeuron self, unsigned char c)
+
+Parameters
+----------
+c: unsigned char\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_aeac1c8a1c7ef892a0d79f5f7f3893604}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_aeac1c8a1c7ef892a0d79f5f7f3893604}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Momentum (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+momentum }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMomentum(FCLNeuron self, double _momentum)
+
+Parameters
+----------
+_momentum: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a1820398f40ff6792d7980c0420780f76}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a1820398f40ff6792d7980c0420780f76}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setStep@{setStep}}
+\index{setStep@{setStep}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setStep()}{setStep()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Step (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}long\char`\"{}}]{\+\_\+step }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setStep(FCLNeuron self, long _step)
+
+Parameters
+----------
+_step: long\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLNeuron_a046faa26c35c24bcb7c9f048794eb4f7}\label{classfeedforward__closedloop__learning_1_1FCLNeuron_a046faa26c35c24bcb7c9f048794eb4f7}} 
+\index{feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}!setWeight@{setWeight}}
+\index{setWeight@{setWeight}!feedforward\_closedloop\_learning.FCLNeuron@{feedforward\_closedloop\_learning.FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setWeight()}{setWeight()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLNeuron.\+set\+Weight (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+index,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+weight }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setWeight(FCLNeuron self, int _index, double _weight)
+
+Parameters
+----------
+_index: int
+_weight: double\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+feedforward\+\_\+closedloop\+\_\+learning.\+py\end{DoxyCompactItemize}

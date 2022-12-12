@@ -23,13 +23,13 @@ Collaboration diagram for feedforward\+\_\+closedloop\+\_\+learning.\+Feedforwar
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_adba87446c818c8f16e2d0253799c1c06}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \char`\"{}int\char`\"{} num\+\_\+of\+\_\+inputs, \char`\"{}int $\ast$\char`\"{} num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array, \char`\"{}int\char`\"{} num\+\_\+filters\+Input, \char`\"{}double\char`\"{} minT, \char`\"{}double\char`\"{} maxT)
+def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2acf3491fdaecffb87dda66dd0d9cbd1}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \char`\"{}int const\char`\"{} num\+\_\+of\+\_\+inputs, \char`\"{}Int\+Vector\char`\"{} num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer, \char`\"{}int const\char`\"{} num\+\_\+filters\+Input, \char`\"{}double const\char`\"{} minT, \char`\"{}double const\char`\"{} maxT)
 \item 
-\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2d7bcad8172a48a8cf22926aa9c460c5}{do\+Step}} (self, $\ast$args)
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_af3dd42cdf9e16f00db9d92d5776d7353}{do\+Step}} (self, \char`\"{}Double\+Vector\char`\"{} input, \char`\"{}Double\+Vector\char`\"{} error)
 \item 
 \char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_aa43eac68b41c8f29020dc8a82b44a9eb}{get\+Filter\+Output}} (self, \char`\"{}int\char`\"{} input\+Idx, \char`\"{}int\char`\"{} filter\+Idx)
 \item 
-\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a5caf9ee50ca82f1b5bf991e8f7779148}{get\+N\+Filters\+Per\+Input}} (self)
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a5caf9ee50ca82f1b5bf991e8f7779148}{get\+NFilters\+Per\+Input}} (self)
 \end{DoxyCompactItemize}
 \doxysubsection*{Properties}
 \begin{DoxyCompactItemize}
@@ -44,46 +44,39 @@ def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosed
  
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_adba87446c818c8f16e2d0253799c1c06}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_adba87446c818c8f16e2d0253799c1c06}} 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2acf3491fdaecffb87dda66dd0d9cbd1}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2acf3491fdaecffb87dda66dd0d9cbd1}} 
 \index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}!\_\_init\_\_@{\_\_init\_\_}}
 \index{\_\_init\_\_@{\_\_init\_\_}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}}
 \doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
-{\footnotesize\ttfamily def feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{num\+\_\+of\+\_\+inputs,  }\item[{\char`\"{}int $\ast$\char`\"{}}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array,  }\item[{\char`\"{}int\char`\"{}}]{num\+\_\+filters\+Input,  }\item[{\char`\"{}double\char`\"{}}]{minT,  }\item[{\char`\"{}double\char`\"{}}]{maxT }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily def feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int const\char`\"{}}]{num\+\_\+of\+\_\+inputs,  }\item[{\char`\"{}Int\+Vector\char`\"{}}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer,  }\item[{\char`\"{}int const\char`\"{}}]{num\+\_\+filters\+Input,  }\item[{\char`\"{}double const\char`\"{}}]{minT,  }\item[{\char`\"{}double const\char`\"{}}]{maxT }\end{DoxyParamCaption})}
 
-\begin{DoxyVerb}__init__(FeedforwardClosedloopLearningWithFilterbank self, int num_of_inputs, int * num_of_neurons_per_layer_array, int num_filtersInput, double minT, double maxT) -> FeedforwardClosedloopLearningWithFilterbank
+\begin{DoxyVerb}__init__(FeedforwardClosedloopLearningWithFilterbank self, int const num_of_inputs, IntVector num_of_neurons_per_layer, int const num_filtersInput, double const minT, double const maxT) -> FeedforwardClosedloopLearningWithFilterbank
 
 Parameters
 ----------
-num_of_inputs: int
-num_of_neurons_per_layer_array: int *
-num_filtersInput: int
-minT: double
-maxT: double\end{DoxyVerb}
+num_of_inputs: int const
+num_of_neurons_per_layer: std::vector< int,std::allocator< int > > const &
+num_filtersInput: int const
+minT: double const
+maxT: double const\end{DoxyVerb}
  
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2d7bcad8172a48a8cf22926aa9c460c5}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_a2d7bcad8172a48a8cf22926aa9c460c5}} 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_af3dd42cdf9e16f00db9d92d5776d7353}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_af3dd42cdf9e16f00db9d92d5776d7353}} 
 \index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}!doStep@{doStep}}
 \index{doStep@{doStep}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}}
 \doxysubsubsection{\texorpdfstring{doStep()}{doStep()}}
-{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank.\+do\+Step (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank.\+do\+Step (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}Double\+Vector\char`\"{}}]{input,  }\item[{\char`\"{}Double\+Vector\char`\"{}}]{error }\end{DoxyParamCaption})}
 
-\begin{DoxyVerb}doStep(FeedforwardClosedloopLearningWithFilterbank self, double * input, double * error)
-
-Parameters
-----------
-input: double *
-error: double *
-
-doStep(FeedforwardClosedloopLearningWithFilterbank self, double * input, double * error)
+\begin{DoxyVerb}doStep(FeedforwardClosedloopLearningWithFilterbank self, DoubleVector input, DoubleVector error)
 
 Parameters
 ----------
-input: double *
-error: double *\end{DoxyVerb}
+input: std::vector< double,std::allocator< double > > const &
+error: std::vector< double,std::allocator< double > > const &\end{DoxyVerb}
  
 
-Reimplemented from \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a353cc2963471b493cc73934d3621973e}{feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning}}.
+Reimplemented from \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning_a8a264fc3ef53634386a343cbfe1e186f}{feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning}}.
 
 \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_aa43eac68b41c8f29020dc8a82b44a9eb}\label{classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearningWithFilterbank_aa43eac68b41c8f29020dc8a82b44a9eb}} 
 \index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}!getFilterOutput@{getFilterOutput}}
@@ -101,7 +94,7 @@ filterIdx: int\end{DoxyVerb}
 \index{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}!getNFiltersPerInput@{getNFiltersPerInput}}
 \index{getNFiltersPerInput@{getNFiltersPerInput}!feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank@{feedforward\_closedloop\_learning.FeedforwardClosedloopLearningWithFilterbank}}
 \doxysubsubsection{\texorpdfstring{getNFiltersPerInput()}{getNFiltersPerInput()}}
-{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank.\+get\+N\+Filters\+Per\+Input (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+Feedforward\+Closedloop\+Learning\+With\+Filterbank.\+get\+NFilters\+Per\+Input (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 \begin{DoxyVerb}getNFiltersPerInput(FeedforwardClosedloopLearningWithFilterbank self) -> int\end{DoxyVerb}
  

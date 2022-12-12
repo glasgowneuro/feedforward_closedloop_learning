@@ -1,0 +1,64 @@
+\hypertarget{classFCLBandpass}{}\doxysection{FCLBandpass Class Reference}
+\label{classFCLBandpass}\index{FCLBandpass@{FCLBandpass}}
+
+
+Creates memory traces at specified length.  
+
+
+
+
+{\ttfamily \#include $<$bandpass.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFCLBandpass_a69da36b619c30292ffb0a873898aabc0}\label{classFCLBandpass_a69da36b619c30292ffb0a873898aabc0}} 
+\mbox{\hyperlink{classFCLBandpass_a69da36b619c30292ffb0a873898aabc0}{FCLBandpass}} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_a4923b940b4a31443d3da05aca3ad7932}\label{classFCLBandpass_a4923b940b4a31443d3da05aca3ad7932}} 
+double \mbox{\hyperlink{classFCLBandpass_a4923b940b4a31443d3da05aca3ad7932}{filter}} (double v)
+\begin{DoxyCompactList}\small\item\em Filter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_ae3e2e9025a0fa3e2152507aec8d5050d}\label{classFCLBandpass_ae3e2e9025a0fa3e2152507aec8d5050d}} 
+void \mbox{\hyperlink{classFCLBandpass_ae3e2e9025a0fa3e2152507aec8d5050d}{calc\+Poles\+Zeros}} (double f, double r)
+\begin{DoxyCompactList}\small\item\em Calculates the coefficients The frequency is the normalized frequency in the range \mbox{[}0..0.\+5\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_afaff7ccffd1a7480acea63a5a6ee1c6e}\label{classFCLBandpass_afaff7ccffd1a7480acea63a5a6ee1c6e}} 
+void \mbox{\hyperlink{classFCLBandpass_afaff7ccffd1a7480acea63a5a6ee1c6e}{set\+Parameters}} (double frequency, double Qfactor)
+\begin{DoxyCompactList}\small\item\em sets the filter parameters \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_a72fd3c676bcff6b5d83c0c609e1cd00c}\label{classFCLBandpass_a72fd3c676bcff6b5d83c0c609e1cd00c}} 
+void \mbox{\hyperlink{classFCLBandpass_a72fd3c676bcff6b5d83c0c609e1cd00c}{impulse}} (char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Generates an acsii file with the impulse response of the filter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_a1201fcf2ad8a44b6d7ac62daa59df628}\label{classFCLBandpass_a1201fcf2ad8a44b6d7ac62daa59df628}} 
+void \mbox{\hyperlink{classFCLBandpass_a1201fcf2ad8a44b6d7ac62daa59df628}{calc\+Norm}} (double f)
+\begin{DoxyCompactList}\small\item\em Normalises the output with f. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_a29937c2bd7f8df80687ba311d81cfb20}\label{classFCLBandpass_a29937c2bd7f8df80687ba311d81cfb20}} 
+void \mbox{\hyperlink{classFCLBandpass_a29937c2bd7f8df80687ba311d81cfb20}{transfer}} (char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Generates an ASCII file with the transfer function. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLBandpass_aa70086722e405563814683c916aa380a}{get\+Output}} ()
+\begin{DoxyCompactList}\small\item\em Gets the output of the filter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLBandpass_a7c84e519a58a33a85816dff75119d007}\label{classFCLBandpass_a7c84e519a58a33a85816dff75119d007}} 
+void \mbox{\hyperlink{classFCLBandpass_a7c84e519a58a33a85816dff75119d007}{reset}} ()
+\begin{DoxyCompactList}\small\item\em Sets the output to zero again. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Creates memory traces at specified length. 
+
+It\textquotesingle{}s a 2nd order IIR filter. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFCLBandpass_aa70086722e405563814683c916aa380a}\label{classFCLBandpass_aa70086722e405563814683c916aa380a}} 
+\index{FCLBandpass@{FCLBandpass}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!FCLBandpass@{FCLBandpass}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily double FCLBandpass\+::get\+Output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the output of the filter. 
+
+Same as the return value of the function \char`\"{}filter()\char`\"{}. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+bandpass.\+h\item 
+bandpass.\+cpp\end{DoxyCompactItemize}

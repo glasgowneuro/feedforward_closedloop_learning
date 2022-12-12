@@ -22,14 +22,13 @@ Inheritance diagram for Feedforward\+Closedloop\+Learning\+:
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classFeedforwardClosedloopLearning_a2ac09cda5bc3db11f1be13163d30755c}{Feedforward\+Closedloop\+Learning}} (int num\+\_\+of\+\_\+inputs, int $\ast$num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array, int \+\_\+num\+\_\+layers)
-\begin{DoxyCompactList}\small\item\em Constructor\+: F\+CL without any filters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classFeedforwardClosedloopLearning_a4cfe39a5d2a897ab59c6625fd5e61371}{Feedforward\+Closedloop\+Learning}} (const int num\+\_\+input, const std\+::vector$<$ int $>$ \&num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer)
+\begin{DoxyCompactList}\small\item\em Constructor\+: FCL without any filters. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_afba7d6121341599d66e89ee11c25b676}\label{classFeedforwardClosedloopLearning_afba7d6121341599d66e89ee11c25b676}} 
 \mbox{\hyperlink{classFeedforwardClosedloopLearning_afba7d6121341599d66e89ee11c25b676}{$\sim$\+Feedforward\+Closedloop\+Learning}} ()
 \begin{DoxyCompactList}\small\item\em Destructor De-\/allocated any memory. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a37dcaf8ac650c2922153f75678a409c9}{do\+Step}} (double $\ast$input, double $\ast$error)
+void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a03d39550cb770f69cef82d72f74fa6b9}{do\+Step}} (const std\+::vector$<$ double $>$ \&input, const std\+::vector$<$ double $>$ \&error)
 \begin{DoxyCompactList}\small\item\em Performs the simulation step. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a878e0f5ff46e49d8f0cd318961138fa4}{do\+Step}} (double $\ast$input, int n1, double $\ast$error, int n2)
-\begin{DoxyCompactList}\small\item\em Python wrapper function. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classFeedforwardClosedloopLearning_aac984999b42e68fa1e6fd686e00a4937}{get\+Output}} (int index)
 \begin{DoxyCompactList}\small\item\em Gets the output from one of the output neurons. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a1ba9f7595fa7f32c8747d56b93c21d09}{set\+Learning\+Rate}} (double learning\+Rate)
@@ -40,9 +39,10 @@ void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a9d38e470d2cf81fa51667e
 \begin{DoxyCompactList}\small\item\em Sets a typical weight decay scaled with the learning rate. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a8941a6f829bfd036ec63c00443f9a59b}{set\+Momentum}} (double momentum)
 \begin{DoxyCompactList}\small\item\em Sets the global momentum for all layers. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a1e4d464a0e15ad388048891eed77ff38}{set\+Activation\+Function}} (\mbox{\hyperlink{classNeuron_ac4d0e59b0cfc9ce786f31e85105d4891}{Neuron\+::\+Activation\+Function}} \+\_\+activation\+Function)
-\begin{DoxyCompactList}\small\item\em Sets the activation function of the \mbox{\hyperlink{classNeuron}{Neuron}}. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a4dfe77d2b1e47db943d50dbd8b13a10d}{init\+Weights}} (double max=0.\+001, int init\+Bias=1, \mbox{\hyperlink{classNeuron_a95f0f18913eab70fba879a90fe940392}{Neuron\+::\+Weight\+Init\+Method}} weight\+Init\+Method=Neuron\+::\+M\+A\+X\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+R\+A\+N\+D\+OM)
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_aab686c9760c933fd40df7d751edd3d92}\label{classFeedforwardClosedloopLearning_aab686c9760c933fd40df7d751edd3d92}} 
+void \mbox{\hyperlink{classFeedforwardClosedloopLearning_aab686c9760c933fd40df7d751edd3d92}{set\+Activation\+Function}} (\mbox{\hyperlink{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}{FCLNeuron\+::\+Activation\+Function}} \+\_\+activation\+Function)
+\begin{DoxyCompactList}\small\item\em Sets the activation function of the Neuron. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a03068dba70f396defe553e561b731155}{init\+Weights}} (double max=0.\+001, int init\+Bias=1, \mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{FCLNeuron\+::\+Weight\+Init\+Method}} weight\+Init\+Method=FCLNeuron\+::\+MAX\+\_\+\+OUTPUT\+\_\+\+RANDOM)
 \begin{DoxyCompactList}\small\item\em Inits the weights in all layers. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a538fd70979047bd731735a5969864a4c}{seed\+Random}} (int s)
 \begin{DoxyCompactList}\small\item\em Seeds the random number generator. \end{DoxyCompactList}\item 
@@ -50,13 +50,13 @@ void \mbox{\hyperlink{classFeedforwardClosedloopLearning_a4008247ff9ce1a0f4a9ed2
 \begin{DoxyCompactList}\small\item\em Sets globally the bias. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classFeedforwardClosedloopLearning_afbf944bcec8f02066819abefa4b58369}{get\+Num\+Layers}} ()
 \begin{DoxyCompactList}\small\item\em Gets the total number of layers. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classLayer}{Layer}} $\ast$ \mbox{\hyperlink{classFeedforwardClosedloopLearning_ae4bc750165864f095e36480d8117b6a0}{get\+Layer}} (int i)
+\mbox{\hyperlink{classFCLLayer}{FCLLayer}} $\ast$ \mbox{\hyperlink{classFeedforwardClosedloopLearning_a8017e063828a4eb7648145eb3e761fb7}{get\+Layer}} (unsigned i)
 \begin{DoxyCompactList}\small\item\em Gets a pointer to a layer. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classLayer}{Layer}} $\ast$ \mbox{\hyperlink{classFeedforwardClosedloopLearning_abdf6a849d30c5f429a0dc61d9f0ec4dd}{get\+Output\+Layer}} ()
+\mbox{\hyperlink{classFCLLayer}{FCLLayer}} $\ast$ \mbox{\hyperlink{classFeedforwardClosedloopLearning_a9f90837157d42924d3caecf4cc58da83}{get\+Output\+Layer}} ()
 \begin{DoxyCompactList}\small\item\em Gets the output layer. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classFeedforwardClosedloopLearning_ad7e9ee35938e8221a4c33c4ea3cf1481}{get\+Num\+Inputs}} ()
 \begin{DoxyCompactList}\small\item\em Gets the number of inputs. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classLayer}{Layer}} $\ast$$\ast$ \mbox{\hyperlink{classFeedforwardClosedloopLearning_a8a597c4c4dc2005683ec4612339a415d}{get\+Layers}} ()
+\mbox{\hyperlink{classFCLLayer}{FCLLayer}} $\ast$$\ast$ \mbox{\hyperlink{classFeedforwardClosedloopLearning_a897198dba0ff200fc6fa4d586d816184}{get\+Layers}} ()
 \begin{DoxyCompactList}\small\item\em Returns all Layers. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classFeedforwardClosedloopLearning_a1d43527c0f7f72f73b9f53bc4aefb30c}{save\+Model}} (const char $\ast$name)
 \begin{DoxyCompactList}\small\item\em Saves the whole network. \end{DoxyCompactList}\item 
@@ -67,22 +67,22 @@ bool \mbox{\hyperlink{classFeedforwardClosedloopLearning_ac3c0528d774e7096751332
 \doxysubsection{Detailed Description}
 Main class of Feedforward Closed Loop Learning. 
 
-Create an instance of this class to do the learning. It will create the whole network with an input layer, layers and an output layer. Learning is done iterative by first setting the input values and errors and then calling \mbox{\hyperlink{classFeedforwardClosedloopLearning_a37dcaf8ac650c2922153f75678a409c9}{do\+Step()}}.
+Create an instance of this class to do the learning. It will create the whole network with an input layer, layers and an output layer. Learning is done iterative by first setting the input values and errors and then calling \mbox{\hyperlink{classFeedforwardClosedloopLearning_a03d39550cb770f69cef82d72f74fa6b9}{do\+Step()}}.
 
 (C) 2017,2018-\/2022, Bernd Porr \href{mailto:bernd@glasgowneuro.tech}{\texttt{ bernd@glasgowneuro.\+tech}} (C) 2017,2018, Paul Miller \href{mailto:paul@glasgowneuro.tech}{\texttt{ paul@glasgowneuro.\+tech}}
 
-G\+NU G\+E\+N\+E\+R\+AL P\+U\+B\+L\+IC L\+I\+C\+E\+N\+SE Version 3, 29 June 2007 
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a2ac09cda5bc3db11f1be13163d30755c}\label{classFeedforwardClosedloopLearning_a2ac09cda5bc3db11f1be13163d30755c}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a4cfe39a5d2a897ab59c6625fd5e61371}\label{classFeedforwardClosedloopLearning_a4cfe39a5d2a897ab59c6625fd5e61371}} 
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
 \doxysubsubsection{\texorpdfstring{FeedforwardClosedloopLearning()}{FeedforwardClosedloopLearning()}}
-{\footnotesize\ttfamily Feedforward\+Closedloop\+Learning\+::\+Feedforward\+Closedloop\+Learning (\begin{DoxyParamCaption}\item[{int}]{num\+\_\+of\+\_\+inputs,  }\item[{int $\ast$}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array,  }\item[{int}]{\+\_\+num\+\_\+layers }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Feedforward\+Closedloop\+Learning\+::\+Feedforward\+Closedloop\+Learning (\begin{DoxyParamCaption}\item[{const int}]{num\+\_\+input,  }\item[{const std\+::vector$<$ int $>$ \&}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer }\end{DoxyParamCaption})}
 
 
 
-Constructor\+: F\+CL without any filters. 
+Constructor\+: FCL without any filters. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -93,24 +93,14 @@ Constructor\+: F\+CL without any filters.
 {\em \+\_\+num\+\_\+layers} & Number of layer (needs to match with array above) \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_afba7d6121341599d66e89ee11c25b676}\label{classFeedforwardClosedloopLearning_afba7d6121341599d66e89ee11c25b676}} 
-\index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!````~FeedforwardClosedloopLearning@{$\sim$FeedforwardClosedloopLearning}}
-\index{````~FeedforwardClosedloopLearning@{$\sim$FeedforwardClosedloopLearning}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
-\doxysubsubsection{\texorpdfstring{$\sim$FeedforwardClosedloopLearning()}{~FeedforwardClosedloopLearning()}}
-{\footnotesize\ttfamily Feedforward\+Closedloop\+Learning\+::$\sim$\+Feedforward\+Closedloop\+Learning (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Destructor De-\/allocated any memory. 
-
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a37dcaf8ac650c2922153f75678a409c9}\label{classFeedforwardClosedloopLearning_a37dcaf8ac650c2922153f75678a409c9}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a03d39550cb770f69cef82d72f74fa6b9}\label{classFeedforwardClosedloopLearning_a03d39550cb770f69cef82d72f74fa6b9}} 
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!doStep@{doStep}}
 \index{doStep@{doStep}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
-\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+::do\+Step (\begin{DoxyParamCaption}\item[{double $\ast$}]{input,  }\item[{double $\ast$}]{error }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}}
+{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+::do\+Step (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{input,  }\item[{const std\+::vector$<$ double $>$ \&}]{error }\end{DoxyParamCaption})}
 
 
 
@@ -123,21 +113,11 @@ Performs the simulation step.
 {\em error} & Array of the error signals \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a878e0f5ff46e49d8f0cd318961138fa4}\label{classFeedforwardClosedloopLearning_a878e0f5ff46e49d8f0cd318961138fa4}} 
-\index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!doStep@{doStep}}
-\index{doStep@{doStep}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
-\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+::do\+Step (\begin{DoxyParamCaption}\item[{double $\ast$}]{input,  }\item[{int}]{n1,  }\item[{double $\ast$}]{error,  }\item[{int}]{n2 }\end{DoxyParamCaption})}
-
-
-
-Python wrapper function. 
-
-Not public. \mbox{\Hypertarget{classFeedforwardClosedloopLearning_ae4bc750165864f095e36480d8117b6a0}\label{classFeedforwardClosedloopLearning_ae4bc750165864f095e36480d8117b6a0}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a8017e063828a4eb7648145eb3e761fb7}\label{classFeedforwardClosedloopLearning_a8017e063828a4eb7648145eb3e761fb7}} 
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!getLayer@{getLayer}}
 \index{getLayer@{getLayer}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
 \doxysubsubsection{\texorpdfstring{getLayer()}{getLayer()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classLayer}{Layer}}$\ast$ Feedforward\+Closedloop\+Learning\+::get\+Layer (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFCLLayer}{FCLLayer}}$\ast$ Feedforward\+Closedloop\+Learning\+::get\+Layer (\begin{DoxyParamCaption}\item[{unsigned}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -151,11 +131,11 @@ Gets a pointer to a layer.
 \begin{DoxyReturn}{Returns}
 A pointer to a layer class. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a8a597c4c4dc2005683ec4612339a415d}\label{classFeedforwardClosedloopLearning_a8a597c4c4dc2005683ec4612339a415d}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a897198dba0ff200fc6fa4d586d816184}\label{classFeedforwardClosedloopLearning_a897198dba0ff200fc6fa4d586d816184}} 
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!getLayers@{getLayers}}
 \index{getLayers@{getLayers}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
 \doxysubsubsection{\texorpdfstring{getLayers()}{getLayers()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classLayer}{Layer}}$\ast$$\ast$ Feedforward\+Closedloop\+Learning\+::get\+Layers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFCLLayer}{FCLLayer}}$\ast$$\ast$ Feedforward\+Closedloop\+Learning\+::get\+Layers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -208,24 +188,24 @@ Gets the output from one of the output neurons.
 \begin{DoxyReturn}{Returns}
 The output value of the output neuron. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_abdf6a849d30c5f429a0dc61d9f0ec4dd}\label{classFeedforwardClosedloopLearning_abdf6a849d30c5f429a0dc61d9f0ec4dd}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a9f90837157d42924d3caecf4cc58da83}\label{classFeedforwardClosedloopLearning_a9f90837157d42924d3caecf4cc58da83}} 
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!getOutputLayer@{getOutputLayer}}
 \index{getOutputLayer@{getOutputLayer}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
 \doxysubsubsection{\texorpdfstring{getOutputLayer()}{getOutputLayer()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classLayer}{Layer}}$\ast$ Feedforward\+Closedloop\+Learning\+::get\+Output\+Layer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFCLLayer}{FCLLayer}}$\ast$ Feedforward\+Closedloop\+Learning\+::get\+Output\+Layer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Gets the output layer. 
 
 \begin{DoxyReturn}{Returns}
-A pointer to the output layer which is also a \mbox{\hyperlink{classLayer}{Layer}} class. 
+A pointer to the output layer which is also a Layer class. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a4dfe77d2b1e47db943d50dbd8b13a10d}\label{classFeedforwardClosedloopLearning_a4dfe77d2b1e47db943d50dbd8b13a10d}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a03068dba70f396defe553e561b731155}\label{classFeedforwardClosedloopLearning_a03068dba70f396defe553e561b731155}} 
 \index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!initWeights@{initWeights}}
 \index{initWeights@{initWeights}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
 \doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
-{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+::init\+Weights (\begin{DoxyParamCaption}\item[{double}]{max = {\ttfamily 0.001},  }\item[{int}]{init\+Bias = {\ttfamily 1},  }\item[{\mbox{\hyperlink{classNeuron_a95f0f18913eab70fba879a90fe940392}{Neuron\+::\+Weight\+Init\+Method}}}]{weight\+Init\+Method = {\ttfamily Neuron\+:\+:MAX\+\_\+OUTPUT\+\_\+RANDOM} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+::init\+Weights (\begin{DoxyParamCaption}\item[{double}]{max = {\ttfamily 0.001},  }\item[{int}]{init\+Bias = {\ttfamily 1},  }\item[{\mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{FCLNeuron\+::\+Weight\+Init\+Method}}}]{weight\+Init\+Method = {\ttfamily FCLNeuron\+:\+:MAX\+\_\+OUTPUT\+\_\+RANDOM} }\end{DoxyParamCaption})}
 
 
 
@@ -237,7 +217,7 @@ Inits the weights in all layers.
 \hline
 {\em init\+Bias} & If the bias also should be initialised. \\
 \hline
-{\em weight\+Init\+Method} & See \mbox{\hyperlink{classNeuron_a95f0f18913eab70fba879a90fe940392}{Neuron\+::\+Weight\+Init\+Method}} for the options. \\
+{\em weight\+Init\+Method} & See Neuron\+::\+Weight\+Init\+Method for the options. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classFeedforwardClosedloopLearning_ac3c0528d774e70967513324da24586b0}\label{classFeedforwardClosedloopLearning_ac3c0528d774e70967513324da24586b0}} 
@@ -283,21 +263,6 @@ Seeds the random number generator.
 
 \begin{DoxyParams}{Parameters}
 {\em s} & An arbitratry number. \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearning_a1e4d464a0e15ad388048891eed77ff38}\label{classFeedforwardClosedloopLearning_a1e4d464a0e15ad388048891eed77ff38}} 
-\index{FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}!setActivationFunction@{setActivationFunction}}
-\index{setActivationFunction@{setActivationFunction}!FeedforwardClosedloopLearning@{FeedforwardClosedloopLearning}}
-\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
-{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+::set\+Activation\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classNeuron_ac4d0e59b0cfc9ce786f31e85105d4891}{Neuron\+::\+Activation\+Function}}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
-
-
-
-Sets the activation function of the \mbox{\hyperlink{classNeuron}{Neuron}}. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em \+\_\+activation\+Function} & See \mbox{\hyperlink{classNeuron_ac4d0e59b0cfc9ce786f31e85105d4891}{Neuron\+::\+Activation\+Function}} for the different options. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classFeedforwardClosedloopLearning_a4008247ff9ce1a0f4a9ed2e2df914185}\label{classFeedforwardClosedloopLearning_a4008247ff9ce1a0f4a9ed2e2df914185}} 

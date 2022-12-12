@@ -1,0 +1,409 @@
+\hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer}{}\doxysection{feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer Class Reference}
+\label{classfeedforward__closedloop__learning_1_1FCLLayer}\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+
+
+Inheritance diagram for feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classfeedforward__closedloop__learning_1_1FCLLayer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classfeedforward__closedloop__learning_1_1FCLLayer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a2545f3fd4d27666481c42f1c0be496fc}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \char`\"{}int\char`\"{} \+\_\+n\+Neurons, \char`\"{}int\char`\"{} \+\_\+n\+Inputs)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_ad146cd241fd240049bec56704870631b}{calc\+Outputs}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_aa63ff68a48b151581b960a61ea3ac9a8}{do\+Learning}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_ac282d3652fefec66f5e63fde7e268220}{set\+Error}} (self, $\ast$args)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_aeccb962df3c6f0fffd18d940a6c995f1}{set\+Errors}} (self, \char`\"{}double $\ast$\char`\"{} \+\_\+errors)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_af707089cda22f7124bb1e6d64787d33d}{get\+Error}} (self, \char`\"{}int\char`\"{} i)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_aeaaa53501dca3e6f4dda0a0fb835c276}{set\+Bias}} (self, \char`\"{}double\char`\"{} \+\_\+bias)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a0468c82dfae2a30e2bba6bce9cac1e43}{set\+Input}} (self, \char`\"{}int\char`\"{} input\+Index, \char`\"{}double\char`\"{} input)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_aa4549fa9efad1741d60fbf1fdd54bb03}{set\+Inputs}} (self, \char`\"{}double const $\ast$\char`\"{} \+\_\+inputs)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a2c8a4a13d2e5f4031be8359289dfab01}{set\+Learning\+Rate}} (self, \char`\"{}double\char`\"{} \+\_\+learning\+Rate)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a1faf8ce5178a80e042c5845b26787821}{set\+Activation\+Function}} (self, \char`\"{}FCLNeuron\+::\+Activation\+Function\char`\"{} \+\_\+activation\+Function)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_ac5471e2d6ff7d0dd7332d4bb9083d4e9}{set\+Momentum}} (self, \char`\"{}double\char`\"{} \+\_\+momentum)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a9c815f1d9334c0dae5b844c5c3aef76c}{set\+Decay}} (self, \char`\"{}double\char`\"{} \+\_\+decay)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_aaa314682da60d67a2dd1107e8c317caf}{init\+Weights}} (self, $\ast$args)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a4e7ccf859bae1109199555fd94597a1d}{get\+Output}} (self, \char`\"{}int\char`\"{} index)
+\item 
+\char`\"{}FCLNeuron $\ast$\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_ae11dc8e6493692057070ec4fee07e8d2}{get\+Neuron}} (self, \char`\"{}int\char`\"{} index)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a37e835879b17534b917efc8f4383f641}{get\+Nneurons}} (self)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_af723235c5cbac32b0e036e8aa37a1bc2}{get\+Ninputs}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a9abdb3e0a485ab148c9d4c8f5aafce1b}{set\+Convolution}} (self, \char`\"{}int\char`\"{} width, \char`\"{}int\char`\"{} height)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a7686e1201fd7ac88725ae7ded6a8c9c0}{set\+Max\+Det\+Layer}} (self, \char`\"{}int\char`\"{} \+\_\+m)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a287141bf458f2ec034cd1c04713c9e2c}{set\+Normalise\+Weights}} (self, \char`\"{}FCLLayer\+::\+Weight\+Normalisation\char`\"{} \+\_\+normalise\+Weights)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_ab75ea72fb4e5d58c607dac857061cae2}{set\+Debug\+Info}} (self, \char`\"{}int\char`\"{} layer\+Index)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a86cad25966151d9df020b0723b2cf3d0}{set\+Step}} (self, \char`\"{}long\char`\"{} step)
+\item 
+\char`\"{}double\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a2e53a451c99f63ff078a9f8b40dc1773}{get\+Weight\+Distance\+From\+Initial\+Weights}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_abe95418d681e9c6fd153ca13db0505d2}{do\+Normalise\+Weights}} (self)
+\item 
+\char`\"{}void\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_a8e8564007e276f4fec5bd65ac2a6f438}{set\+Use\+Threads}} (self, \char`\"{}int\char`\"{} \+\_\+use\+Threads)
+\item 
+\char`\"{}int\char`\"{} \mbox{\hyperlink{classfeedforward__closedloop__learning_1_1FCLLayer_ac3826fa665c275833701966f99104a7f}{save\+Weight\+Matrix}} (self, \char`\"{}char $\ast$\char`\"{} filename)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a516f56ee91c8ad014a99ec46147d865c}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a516f56ee91c8ad014a99ec46147d865c}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NONE} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+NONE
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a053413d7523504bac93a6db582039365}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a053413d7523504bac93a6db582039365}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+EUCLEDIAN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+EUCLEDIAN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a078511b588398487b205e1a4fa36ae73}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a078511b588398487b205e1a4fa36ae73}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+EUCLEDIAN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+EUCLEDIAN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a53512e34ae8901d5c86a5c9dfe06f138}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a53512e34ae8901d5c86a5c9dfe06f138}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+MANHATTAN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+MANHATTAN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ac0b31725d38727c2c0ee70d4adea5594}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ac0b31725d38727c2c0ee70d4adea5594}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+MANHATTAN} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+MANHATTAN
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ad7b59cf8c19d8ed3a4d4c52d630df95c}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ad7b59cf8c19d8ed3a4d4c52d630df95c}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+INFINITY} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+INFINITY
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a9e6cbc42c3109b845e5262f61f23c7f0}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a9e6cbc42c3109b845e5262f61f23c7f0}} 
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+INFINITY} = \+\_\+feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer\+\_\+\+WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+INFINITY
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a645fd41184ad70c5f2161b583978f640}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a645fd41184ad70c5f2161b583978f640}} 
+{\bfseries thisown} = property(lambda x\+: x.\+this.\+own(), lambda x, v\+: x.\+this.\+own(v), doc=\char`\"{}The membership flag\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Proxy of C++ FCLLayer class.\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a2545f3fd4d27666481c42f1c0be496fc}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a2545f3fd4d27666481c42f1c0be496fc}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+n\+Neurons,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+n\+Inputs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}__init__(FCLLayer self, int _nNeurons, int _nInputs) -> FCLLayer
+
+Parameters
+----------
+_nNeurons: int
+_nInputs: int\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ad146cd241fd240049bec56704870631b}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ad146cd241fd240049bec56704870631b}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!calcOutputs@{calcOutputs}}
+\index{calcOutputs@{calcOutputs}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{calcOutputs()}{calcOutputs()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+calc\+Outputs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}calcOutputs(FCLLayer self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_aa63ff68a48b151581b960a61ea3ac9a8}\label{classfeedforward__closedloop__learning_1_1FCLLayer_aa63ff68a48b151581b960a61ea3ac9a8}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!doLearning@{doLearning}}
+\index{doLearning@{doLearning}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{doLearning()}{doLearning()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+do\+Learning (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doLearning(FCLLayer self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_abe95418d681e9c6fd153ca13db0505d2}\label{classfeedforward__closedloop__learning_1_1FCLLayer_abe95418d681e9c6fd153ca13db0505d2}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!doNormaliseWeights@{doNormaliseWeights}}
+\index{doNormaliseWeights@{doNormaliseWeights}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{doNormaliseWeights()}{doNormaliseWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+do\+Normalise\+Weights (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}doNormaliseWeights(FCLLayer self)\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_af707089cda22f7124bb1e6d64787d33d}\label{classfeedforward__closedloop__learning_1_1FCLLayer_af707089cda22f7124bb1e6d64787d33d}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!getError@{getError}}
+\index{getError@{getError}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+get\+Error (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{i }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getError(FCLLayer self, int i) -> double
+
+Parameters
+----------
+i: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ae11dc8e6493692057070ec4fee07e8d2}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ae11dc8e6493692057070ec4fee07e8d2}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!getNeuron@{getNeuron}}
+\index{getNeuron@{getNeuron}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getNeuron()}{getNeuron()}}
+{\footnotesize\ttfamily  \char`\"{}FCLNeuron $\ast$\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+get\+Neuron (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNeuron(FCLLayer self, int index) -> FCLNeuron
+
+Parameters
+----------
+index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_af723235c5cbac32b0e036e8aa37a1bc2}\label{classfeedforward__closedloop__learning_1_1FCLLayer_af723235c5cbac32b0e036e8aa37a1bc2}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!getNinputs@{getNinputs}}
+\index{getNinputs@{getNinputs}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getNinputs()}{getNinputs()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+get\+Ninputs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNinputs(FCLLayer self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a37e835879b17534b917efc8f4383f641}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a37e835879b17534b917efc8f4383f641}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!getNneurons@{getNneurons}}
+\index{getNneurons@{getNneurons}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getNneurons()}{getNneurons()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+get\+Nneurons (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getNneurons(FCLLayer self) -> int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a4e7ccf859bae1109199555fd94597a1d}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a4e7ccf859bae1109199555fd94597a1d}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+get\+Output (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getOutput(FCLLayer self, int index) -> double
+
+Parameters
+----------
+index: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a2e53a451c99f63ff078a9f8b40dc1773}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a2e53a451c99f63ff078a9f8b40dc1773}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}}
+\index{getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getWeightDistanceFromInitialWeights()}{getWeightDistanceFromInitialWeights()}}
+{\footnotesize\ttfamily  \char`\"{}double\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+get\+Weight\+Distance\+From\+Initial\+Weights (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}getWeightDistanceFromInitialWeights(FCLLayer self) -> double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_aaa314682da60d67a2dd1107e8c317caf}\label{classfeedforward__closedloop__learning_1_1FCLLayer_aaa314682da60d67a2dd1107e8c317caf}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+init\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}initWeights(FCLLayer self, double _max=1, int initBiasWeight=1, FCLNeuron::WeightInitMethod weightInitMethod=MAX_OUTPUT_RANDOM)
+
+Parameters
+----------
+_max: double
+initBiasWeight: int
+weightInitMethod: enum FCLNeuron::WeightInitMethod\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ac3826fa665c275833701966f99104a7f}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ac3826fa665c275833701966f99104a7f}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!saveWeightMatrix@{saveWeightMatrix}}
+\index{saveWeightMatrix@{saveWeightMatrix}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{saveWeightMatrix()}{saveWeightMatrix()}}
+{\footnotesize\ttfamily  \char`\"{}int\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+save\+Weight\+Matrix (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}char $\ast$\char`\"{}}]{filename }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}saveWeightMatrix(FCLLayer self, char * filename) -> int
+
+Parameters
+----------
+filename: char *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a1faf8ce5178a80e042c5845b26787821}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a1faf8ce5178a80e042c5845b26787821}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Activation\+Function (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}FCLNeuron\+::\+Activation\+Function\char`\"{}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setActivationFunction(FCLLayer self, FCLNeuron::ActivationFunction _activationFunction)
+
+Parameters
+----------
+_activationFunction: enum FCLNeuron::ActivationFunction\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_aeaaa53501dca3e6f4dda0a0fb835c276}\label{classfeedforward__closedloop__learning_1_1FCLLayer_aeaaa53501dca3e6f4dda0a0fb835c276}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setBias@{setBias}}
+\index{setBias@{setBias}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Bias (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+bias }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setBias(FCLLayer self, double _bias)
+
+Parameters
+----------
+_bias: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a9abdb3e0a485ab148c9d4c8f5aafce1b}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a9abdb3e0a485ab148c9d4c8f5aafce1b}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setConvolution@{setConvolution}}
+\index{setConvolution@{setConvolution}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setConvolution()}{setConvolution()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Convolution (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{width,  }\item[{\char`\"{}int\char`\"{}}]{height }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setConvolution(FCLLayer self, int width, int height)
+
+Parameters
+----------
+width: int
+height: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ab75ea72fb4e5d58c607dac857061cae2}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ab75ea72fb4e5d58c607dac857061cae2}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setDebugInfo@{setDebugInfo}}
+\index{setDebugInfo@{setDebugInfo}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setDebugInfo()}{setDebugInfo()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Debug\+Info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{layer\+Index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDebugInfo(FCLLayer self, int layerIndex)
+
+Parameters
+----------
+layerIndex: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a9c815f1d9334c0dae5b844c5c3aef76c}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a9c815f1d9334c0dae5b844c5c3aef76c}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Decay (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+decay }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setDecay(FCLLayer self, double _decay)
+
+Parameters
+----------
+_decay: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ac282d3652fefec66f5e63fde7e268220}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ac282d3652fefec66f5e63fde7e268220}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setError@{setError}}
+\index{setError@{setError}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Error (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{$\ast$}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setError(FCLLayer self, double _error)
+
+Parameters
+----------
+_error: double
+
+setError(FCLLayer self, int i, double _error)
+
+Parameters
+----------
+i: int
+_error: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_aeccb962df3c6f0fffd18d940a6c995f1}\label{classfeedforward__closedloop__learning_1_1FCLLayer_aeccb962df3c6f0fffd18d940a6c995f1}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setErrors@{setErrors}}
+\index{setErrors@{setErrors}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setErrors()}{setErrors()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Errors (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double $\ast$\char`\"{}}]{\+\_\+errors }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setErrors(FCLLayer self, double * _errors)
+
+Parameters
+----------
+_errors: double *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a0468c82dfae2a30e2bba6bce9cac1e43}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a0468c82dfae2a30e2bba6bce9cac1e43}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setInput@{setInput}}
+\index{setInput@{setInput}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setInput()}{setInput()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{input\+Index,  }\item[{\char`\"{}double\char`\"{}}]{input }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setInput(FCLLayer self, int inputIndex, double input)
+
+Parameters
+----------
+inputIndex: int
+input: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_aa4549fa9efad1741d60fbf1fdd54bb03}\label{classfeedforward__closedloop__learning_1_1FCLLayer_aa4549fa9efad1741d60fbf1fdd54bb03}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setInputs@{setInputs}}
+\index{setInputs@{setInputs}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setInputs()}{setInputs()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Inputs (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double const $\ast$\char`\"{}}]{\+\_\+inputs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setInputs(FCLLayer self, double const * _inputs)
+
+Parameters
+----------
+_inputs: double const *\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a2c8a4a13d2e5f4031be8359289dfab01}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a2c8a4a13d2e5f4031be8359289dfab01}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+learning\+Rate }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setLearningRate(FCLLayer self, double _learningRate)
+
+Parameters
+----------
+_learningRate: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a7686e1201fd7ac88725ae7ded6a8c9c0}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a7686e1201fd7ac88725ae7ded6a8c9c0}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setMaxDetLayer@{setMaxDetLayer}}
+\index{setMaxDetLayer@{setMaxDetLayer}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setMaxDetLayer()}{setMaxDetLayer()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Max\+Det\+Layer (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+m }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMaxDetLayer(FCLLayer self, int _m)
+
+Parameters
+----------
+_m: int\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_ac5471e2d6ff7d0dd7332d4bb9083d4e9}\label{classfeedforward__closedloop__learning_1_1FCLLayer_ac5471e2d6ff7d0dd7332d4bb9083d4e9}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Momentum (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}double\char`\"{}}]{\+\_\+momentum }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setMomentum(FCLLayer self, double _momentum)
+
+Parameters
+----------
+_momentum: double\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a287141bf458f2ec034cd1c04713c9e2c}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a287141bf458f2ec034cd1c04713c9e2c}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setNormaliseWeights@{setNormaliseWeights}}
+\index{setNormaliseWeights@{setNormaliseWeights}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setNormaliseWeights()}{setNormaliseWeights()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Normalise\+Weights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}FCLLayer\+::\+Weight\+Normalisation\char`\"{}}]{\+\_\+normalise\+Weights }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setNormaliseWeights(FCLLayer self, FCLLayer::WeightNormalisation _normaliseWeights)
+
+Parameters
+----------
+_normaliseWeights: enum FCLLayer::WeightNormalisation\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a86cad25966151d9df020b0723b2cf3d0}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a86cad25966151d9df020b0723b2cf3d0}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setStep@{setStep}}
+\index{setStep@{setStep}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setStep()}{setStep()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Step (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}long\char`\"{}}]{step }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setStep(FCLLayer self, long step)
+
+Parameters
+----------
+step: long\end{DoxyVerb}
+ \mbox{\Hypertarget{classfeedforward__closedloop__learning_1_1FCLLayer_a8e8564007e276f4fec5bd65ac2a6f438}\label{classfeedforward__closedloop__learning_1_1FCLLayer_a8e8564007e276f4fec5bd65ac2a6f438}} 
+\index{feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}!setUseThreads@{setUseThreads}}
+\index{setUseThreads@{setUseThreads}!feedforward\_closedloop\_learning.FCLLayer@{feedforward\_closedloop\_learning.FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setUseThreads()}{setUseThreads()}}
+{\footnotesize\ttfamily  \char`\"{}void\char`\"{} feedforward\+\_\+closedloop\+\_\+learning.\+FCLLayer.\+set\+Use\+Threads (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\char`\"{}int\char`\"{}}]{\+\_\+use\+Threads }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}setUseThreads(FCLLayer self, int _useThreads)
+
+Parameters
+----------
+_useThreads: int\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+feedforward\+\_\+closedloop\+\_\+learning.\+py\end{DoxyCompactItemize}

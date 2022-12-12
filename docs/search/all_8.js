@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['join_49',['join',['../classfeedforward__closedloop__learning_1_1LayerThread.html#a65564d9e400a50cdd6bde1b0f953221f',1,'feedforward_closedloop_learning::LayerThread']]]
+  ['layerthread_55',['LayerThread',['../classfeedforward__closedloop__learning_1_1LayerThread.html',1,'feedforward_closedloop_learning']]],
+  ['learningthread_56',['LearningThread',['../classfeedforward__closedloop__learning_1_1LearningThread.html',1,'feedforward_closedloop_learning']]],
+  ['loadmodel_57',['loadModel',['../classFeedforwardClosedloopLearning.html#ac3c0528d774e70967513324da24586b0',1,'FeedforwardClosedloopLearning::loadModel()'],['../classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning.html#a493df72f0a30439a1b8868b8a7523d62',1,'feedforward_closedloop_learning.FeedforwardClosedloopLearning.loadModel()']]]
 ];

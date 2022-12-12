@@ -1,0 +1,682 @@
+\hypertarget{classFCLNeuron}{}\doxysection{FCLNeuron Class Reference}
+\label{classFCLNeuron}\index{FCLNeuron@{FCLNeuron}}
+
+
+Neuron which calculates the output and performs learning.  
+
+
+
+
+{\ttfamily \#include $<$neuron.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}\label{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}} 
+enum \mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{Weight\+Init\+Method}} \{ {\bfseries MAX\+\_\+\+OUTPUT\+\_\+\+RANDOM} = 0
+, {\bfseries MAX\+\_\+\+WEIGHT\+\_\+\+RANDOM} = 1
+, {\bfseries MAX\+\_\+\+OUTPUT\+\_\+\+CONST} = 2
+, {\bfseries CONST\+\_\+\+WEIGHTS} = 3
+ \}
+\begin{DoxyCompactList}\small\item\em Constants how to init the weights in the neuron. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}\label{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}} 
+enum \mbox{\hyperlink{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}{Activation\+Function}} \{ \newline
+{\bfseries LINEAR} = 0
+, {\bfseries TANH} = 1
+, {\bfseries RELU} = 2
+, {\bfseries REMAXLU} = 3
+, \newline
+{\bfseries TANHLIMIT} = 4
+ \}
+\begin{DoxyCompactList}\small\item\em Activation functions on offer LINEAR\+: linear unit, TANH\+: tangens hyperbolicus, RELU\+: linear rectifier, REMAXLU\+: as RELU but limits to one. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFCLNeuron_aa5d4322576040e2744497fcc2d0f89c4}{FCLNeuron}} (int \+\_\+n\+Inputs)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a0b281d79601cd64f0757883ff189cbdb}\label{classFCLNeuron_a0b281d79601cd64f0757883ff189cbdb}} 
+\mbox{\hyperlink{classFCLNeuron_a0b281d79601cd64f0757883ff189cbdb}{$\sim$\+FCLNeuron}} ()
+\begin{DoxyCompactList}\small\item\em Destructor Tidies up any memory allocations. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a25c7b220c6d231f5d1d1ccb2057d95c2}\label{classFCLNeuron_a25c7b220c6d231f5d1d1ccb2057d95c2}} 
+void \mbox{\hyperlink{classFCLNeuron_a25c7b220c6d231f5d1d1ccb2057d95c2}{calc\+Output}} ()
+\begin{DoxyCompactList}\small\item\em Calculate the output of the neuron This runs the filters, activation functions, sum it all up. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a050e49d3cac2c9d7ae3c86b3bfc1448a}\label{classFCLNeuron_a050e49d3cac2c9d7ae3c86b3bfc1448a}} 
+void \mbox{\hyperlink{classFCLNeuron_a050e49d3cac2c9d7ae3c86b3bfc1448a}{do\+Learning}} ()
+\begin{DoxyCompactList}\small\item\em Performs the learning Performs ICO learning in the neuron\+: pre $\ast$ error. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a75fda5f2f7ac514f1c4e569aadeecdba}\label{classFCLNeuron_a75fda5f2f7ac514f1c4e569aadeecdba}} 
+void \mbox{\hyperlink{classFCLNeuron_a75fda5f2f7ac514f1c4e569aadeecdba}{do\+Max\+Det}} ()
+\begin{DoxyCompactList}\small\item\em Detects max of an input Switches the highest weight to 1 and the others to 0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_abe10f34ba586b58de3b3399587bd15cb}{init\+Weights}} (double \+\_\+max=1, int init\+Bias=1, \mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{Weight\+Init\+Method}} \+\_\+wm=MAX\+\_\+\+OUTPUT\+\_\+\+RANDOM)
+\begin{DoxyCompactList}\small\item\em Inits the weights in the neuron. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_aa02d0509e326ee51508f20ea47fa3325}{set\+Activation\+Function}} (\mbox{\hyperlink{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}{Activation\+Function}} \+\_\+activation\+Function)
+\begin{DoxyCompactList}\small\item\em Sets the activation function. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_ab9b8b61229eaae5450b15f172a9951ac}{d\+Activation}} ()
+\begin{DoxyCompactList}\small\item\em Returns the output of the neuron fed through the derivative of the activation. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a8408283df3df3803dafb6455162e1165}{get\+Min\+Weight\+Value}} ()
+\begin{DoxyCompactList}\small\item\em Minimum weight value. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a631877a6e0a3e8a2a6c0bcb71c88abcc}{get\+Max\+Weight\+Value}} ()
+\begin{DoxyCompactList}\small\item\em Maximum weight value. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a0807cce088258bd38380f35d25675dc1}{get\+Weight\+Distance\+From\+Initial\+Weights}} ()
+\begin{DoxyCompactList}\small\item\em Weight development. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_acaa6353dab5ccc76795b86f795b22766}{get\+Output}} ()
+\begin{DoxyCompactList}\small\item\em Gets the output of the neuron. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a8b19e978626e3f00857e3bbbeb5fd90e}{get\+Sum}} ()
+\begin{DoxyCompactList}\small\item\em Gets the weighted sum of all inputs pre-\/activation function. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_ad8939734e90e17b35c07c880e6ebd649}{get\+Weight}} (int \+\_\+index)
+\begin{DoxyCompactList}\small\item\em Gets one weight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_aa4e106a329aad4963ad13421a9e02934}{set\+Weight}} (int \+\_\+index, double \+\_\+weight)
+\begin{DoxyCompactList}\small\item\em Sets one weight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a88e5b485ffc4206886ea7cd62a657c93}{set\+Error}} (double \+\_\+error)
+\begin{DoxyCompactList}\small\item\em Sets the error in the neuron If the derivative is activated then the derivative of the error is calculated. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_afff63c2c6b19740c3e4be3b8f3dcb59e}{get\+Error}} ()
+\begin{DoxyCompactList}\small\item\em Gets the error as set by set\+Error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_ab9cf70567a42fb134882553f2cddde0b}{set\+Input}} (int \+\_\+index, double \+\_\+value)
+\begin{DoxyCompactList}\small\item\em Sets one input. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a3ea258f5f8112958fec30e0d8f25a3b5}{get\+Input}} (int \+\_\+index)
+\begin{DoxyCompactList}\small\item\em Get the value at one input. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a47be0011fc86ab16b35d8c97c322344f}{get\+Bias\+Weight}} ()
+\begin{DoxyCompactList}\small\item\em Gets the bias weight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_aebccc21ceed87e8eb132021d0c081206}{set\+Bias\+Weight}} (double \+\_\+biasweight)
+\begin{DoxyCompactList}\small\item\em Sets the bias weight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_ac37bffbc09dd96379a390df0bca9c4da}{set\+Bias}} (double \+\_\+bias)
+\begin{DoxyCompactList}\small\item\em Sets the bias input value. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a837c8226b7594f71aa2ebfa7cee8d327}{set\+Learning\+Rate}} (double \+\_\+learningrate)
+\begin{DoxyCompactList}\small\item\em Sets the learning rate. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a4df04750b924c7fe00b5efc6457d287c}{set\+Momentum}} (double \+\_\+momentum)
+\begin{DoxyCompactList}\small\item\em Sets the momentum. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a31af830d465e739f4f4825e99f185307}{set\+Decay}} (double \+\_\+decay)
+\begin{DoxyCompactList}\small\item\em Sets the weight decay over time. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_aefb78b9542f402048132f20605d547f7}{get\+Decay}} ()
+\begin{DoxyCompactList}\small\item\em Gets the weight decay over time. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classFCLNeuron_ae3e5fd17d63eaf8509bb3796703d1126}{get\+Ninputs}} ()
+\begin{DoxyCompactList}\small\item\em Get the number of inputs to the neuron. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_ae80c9bc82747296f727901354b5918f0}{set\+Geometry}} (int \+\_\+width, int \+\_\+height)
+\begin{DoxyCompactList}\small\item\em Tells the layer that it\textquotesingle{}s been a 2D array originally to be a convolutional layer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a17b302d86ed5a622d5eeedc9b7b88045}{set\+Mask}} (int x, int y, unsigned char c)
+\begin{DoxyCompactList}\small\item\em Boundary safe manipulation of the convolution mask. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a3802e2f9ee0f80f1fecebe6e19b3d2b3}{set\+Mask}} (unsigned char c)
+\begin{DoxyCompactList}\small\item\em Init the whole mask with a single value. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{classFCLNeuron_a50259b0e975f51f5360a012539ffeee3}{get\+Mask}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Boundary safe return of the mask in (x,y) coordinates. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{classFCLNeuron_a7bc0d34d85718094120cf2e602839029}{get\+Mask}} (int index)
+\begin{DoxyCompactList}\small\item\em Boundary safe return of the mask in flat form. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a74b3b14a7e0e9494fe2ab48e833b744b}{get\+Sum\+Of\+Squared\+Weight\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the sum of the squared weight vector values. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_aae8ce0c5413d1b57d8e469d81076de6d}{get\+Euclidean\+Norm\+Of\+Weight\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the Eucledian length of the weight vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a01bc0a2c6eb07cd78739dff904bce62f}\label{classFCLNeuron_a01bc0a2c6eb07cd78739dff904bce62f}} 
+double \mbox{\hyperlink{classFCLNeuron_a01bc0a2c6eb07cd78739dff904bce62f}{get\+Manhattan\+Norm\+Of\+Weight\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the Manhattan length of the weight vector /return Manhattan length of the weight vector. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_aad13cf5c6e3d381d075c9436c464279a}{get\+Infinity\+Norm\+Of\+Weight\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the Infinity norm of the vector. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLNeuron_a6e362f0f8b461d4c2e561b7d73350694}{get\+Average\+Of\+Weight\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the average of the weight values. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a9abbdef952a9ff38506d75922c21dcc9}{normalise\+Weights}} (double norm)
+\begin{DoxyCompactList}\small\item\em Normalises the weights with a divisor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a22ded2a6fb1dcbd602f75256b2e1a677}{save\+Initial\+Weights}} ()
+\begin{DoxyCompactList}\small\item\em Save the initial weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a46913ab4ea452b1ed5d4732b292c5118}{set\+Debug\+Info}} (int \+\_\+layer\+Index, int \+\_\+neuron\+Index)
+\begin{DoxyCompactList}\small\item\em Sets debug info populated from Layer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLNeuron_a0f28380212dbfdd8ee60fd766339cd6e}{set\+Step}} (long int \+\_\+step)
+\begin{DoxyCompactList}\small\item\em Sets the simulation step for debugging and logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFCLNeuron_ab469b991983a61169f252c40833076e0}\label{classFCLNeuron_ab469b991983a61169f252c40833076e0}} 
+static void $\ast$ \mbox{\hyperlink{classFCLNeuron_ab469b991983a61169f252c40833076e0}{calc\+Output\+Thread}} (void $\ast$object)
+\begin{DoxyCompactList}\small\item\em Wrapper for thread callback for output calc. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_ae88f55d9dadaeafd9bbea075826be3e0}\label{classFCLNeuron_ae88f55d9dadaeafd9bbea075826be3e0}} 
+static void $\ast$ \mbox{\hyperlink{classFCLNeuron_ae88f55d9dadaeafd9bbea075826be3e0}{do\+Learning\+Thread}} (void $\ast$object)
+\begin{DoxyCompactList}\small\item\em Wrapper for thread callback for learning. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLNeuron_a7c28f506086b0d1647a9d6068112eda3}\label{classFCLNeuron_a7c28f506086b0d1647a9d6068112eda3}} 
+static void $\ast$ \mbox{\hyperlink{classFCLNeuron_a7c28f506086b0d1647a9d6068112eda3}{do\+Max\+Det\+Thread}} (void $\ast$object)
+\begin{DoxyCompactList}\small\item\em Wrapper for thread callback for maxdet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Neuron which calculates the output and performs learning. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFCLNeuron_aa5d4322576040e2744497fcc2d0f89c4}\label{classFCLNeuron_aa5d4322576040e2744497fcc2d0f89c4}} 
+\index{FCLNeuron@{FCLNeuron}!FCLNeuron@{FCLNeuron}}
+\index{FCLNeuron@{FCLNeuron}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{FCLNeuron()}{FCLNeuron()}}
+{\footnotesize\ttfamily FCLNeuron\+::\+FCLNeuron (\begin{DoxyParamCaption}\item[{int}]{\+\_\+n\+Inputs }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n\+Inputs} & Number of inputs to the Neuron \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFCLNeuron_ab9b8b61229eaae5450b15f172a9951ac}\label{classFCLNeuron_ab9b8b61229eaae5450b15f172a9951ac}} 
+\index{FCLNeuron@{FCLNeuron}!dActivation@{dActivation}}
+\index{dActivation@{dActivation}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{dActivation()}{dActivation()}}
+{\footnotesize\ttfamily double FCLNeuron\+::d\+Activation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the output of the neuron fed through the derivative of the activation. 
+
+\begin{DoxyReturn}{Returns}
+Result 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a6e362f0f8b461d4c2e561b7d73350694}\label{classFCLNeuron_a6e362f0f8b461d4c2e561b7d73350694}} 
+\index{FCLNeuron@{FCLNeuron}!getAverageOfWeightVector@{getAverageOfWeightVector}}
+\index{getAverageOfWeightVector@{getAverageOfWeightVector}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getAverageOfWeightVector()}{getAverageOfWeightVector()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Average\+Of\+Weight\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculates the average of the weight values. 
+
+\begin{DoxyReturn}{Returns}
+average of the weight values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a47be0011fc86ab16b35d8c97c322344f}\label{classFCLNeuron_a47be0011fc86ab16b35d8c97c322344f}} 
+\index{FCLNeuron@{FCLNeuron}!getBiasWeight@{getBiasWeight}}
+\index{getBiasWeight@{getBiasWeight}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getBiasWeight()}{getBiasWeight()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Bias\+Weight (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the bias weight. 
+
+\begin{DoxyReturn}{Returns}
+Bias weight value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_aefb78b9542f402048132f20605d547f7}\label{classFCLNeuron_aefb78b9542f402048132f20605d547f7}} 
+\index{FCLNeuron@{FCLNeuron}!getDecay@{getDecay}}
+\index{getDecay@{getDecay}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getDecay()}{getDecay()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Decay (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the weight decay over time. 
+
+\begin{DoxyReturn}{Returns}
+The weight decay value. The larger the faster the weight decay. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_afff63c2c6b19740c3e4be3b8f3dcb59e}\label{classFCLNeuron_afff63c2c6b19740c3e4be3b8f3dcb59e}} 
+\index{FCLNeuron@{FCLNeuron}!getError@{getError}}
+\index{getError@{getError}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the error as set by set\+Error. 
+
+\begin{DoxyReturn}{Returns}
+The error value stored in the neuron 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_aae8ce0c5413d1b57d8e469d81076de6d}\label{classFCLNeuron_aae8ce0c5413d1b57d8e469d81076de6d}} 
+\index{FCLNeuron@{FCLNeuron}!getEuclideanNormOfWeightVector@{getEuclideanNormOfWeightVector}}
+\index{getEuclideanNormOfWeightVector@{getEuclideanNormOfWeightVector}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getEuclideanNormOfWeightVector()}{getEuclideanNormOfWeightVector()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Euclidean\+Norm\+Of\+Weight\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calculates the Eucledian length of the weight vector. 
+
+\begin{DoxyReturn}{Returns}
+Eucledian length of the weight vector. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_aad13cf5c6e3d381d075c9436c464279a}\label{classFCLNeuron_aad13cf5c6e3d381d075c9436c464279a}} 
+\index{FCLNeuron@{FCLNeuron}!getInfinityNormOfWeightVector@{getInfinityNormOfWeightVector}}
+\index{getInfinityNormOfWeightVector@{getInfinityNormOfWeightVector}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getInfinityNormOfWeightVector()}{getInfinityNormOfWeightVector()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Infinity\+Norm\+Of\+Weight\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculates the Infinity norm of the vector. 
+
+/return Infinity norm of the vector. \mbox{\Hypertarget{classFCLNeuron_a3ea258f5f8112958fec30e0d8f25a3b5}\label{classFCLNeuron_a3ea258f5f8112958fec30e0d8f25a3b5}} 
+\index{FCLNeuron@{FCLNeuron}!getInput@{getInput}}
+\index{getInput@{getInput}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getInput()}{getInput()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Input (\begin{DoxyParamCaption}\item[{int}]{\+\_\+index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the value at one input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+index} & Index of the input \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the input value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a7bc0d34d85718094120cf2e602839029}\label{classFCLNeuron_a7bc0d34d85718094120cf2e602839029}} 
+\index{FCLNeuron@{FCLNeuron}!getMask@{getMask}}
+\index{getMask@{getMask}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMask()}{getMask()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily unsigned char FCLNeuron\+::get\+Mask (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Boundary safe return of the mask in flat form. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Mask index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mask at the index\+: 0 = ignore underlying value, 1 = process underlying value. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a50259b0e975f51f5360a012539ffeee3}\label{classFCLNeuron_a50259b0e975f51f5360a012539ffeee3}} 
+\index{FCLNeuron@{FCLNeuron}!getMask@{getMask}}
+\index{getMask@{getMask}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMask()}{getMask()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily unsigned char FCLNeuron\+::get\+Mask (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Boundary safe return of the mask in (x,y) coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Sets the mask value at coordinate x (0 .. width). \\
+\hline
+{\em y} & Sets the mask value at coordinate y (0 .. height). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mask at x,y\+: 0 = ignore underlying value, 1 = process underlying value. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a631877a6e0a3e8a2a6c0bcb71c88abcc}\label{classFCLNeuron_a631877a6e0a3e8a2a6c0bcb71c88abcc}} 
+\index{FCLNeuron@{FCLNeuron}!getMaxWeightValue@{getMaxWeightValue}}
+\index{getMaxWeightValue@{getMaxWeightValue}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMaxWeightValue()}{getMaxWeightValue()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Max\+Weight\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Maximum weight value. 
+
+\begin{DoxyReturn}{Returns}
+The maximum weight value in this neuron 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a8408283df3df3803dafb6455162e1165}\label{classFCLNeuron_a8408283df3df3803dafb6455162e1165}} 
+\index{FCLNeuron@{FCLNeuron}!getMinWeightValue@{getMinWeightValue}}
+\index{getMinWeightValue@{getMinWeightValue}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getMinWeightValue()}{getMinWeightValue()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Min\+Weight\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Minimum weight value. 
+
+\begin{DoxyReturn}{Returns}
+The minimum weight value in this neuron 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_ae3e5fd17d63eaf8509bb3796703d1126}\label{classFCLNeuron_ae3e5fd17d63eaf8509bb3796703d1126}} 
+\index{FCLNeuron@{FCLNeuron}!getNinputs@{getNinputs}}
+\index{getNinputs@{getNinputs}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getNinputs()}{getNinputs()}}
+{\footnotesize\ttfamily int FCLNeuron\+::get\+Ninputs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the number of inputs to the neuron. 
+
+\begin{DoxyReturn}{Returns}
+The numer of inputs 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_acaa6353dab5ccc76795b86f795b22766}\label{classFCLNeuron_acaa6353dab5ccc76795b86f795b22766}} 
+\index{FCLNeuron@{FCLNeuron}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the output of the neuron. 
+
+\begin{DoxyReturn}{Returns}
+The overall output of the neuron after the activation function 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a8b19e978626e3f00857e3bbbeb5fd90e}\label{classFCLNeuron_a8b19e978626e3f00857e3bbbeb5fd90e}} 
+\index{FCLNeuron@{FCLNeuron}!getSum@{getSum}}
+\index{getSum@{getSum}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getSum()}{getSum()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Sum (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the weighted sum of all inputs pre-\/activation function. 
+
+\begin{DoxyReturn}{Returns}
+Weighted sum (linear) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a74b3b14a7e0e9494fe2ab48e833b744b}\label{classFCLNeuron_a74b3b14a7e0e9494fe2ab48e833b744b}} 
+\index{FCLNeuron@{FCLNeuron}!getSumOfSquaredWeightVector@{getSumOfSquaredWeightVector}}
+\index{getSumOfSquaredWeightVector@{getSumOfSquaredWeightVector}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getSumOfSquaredWeightVector()}{getSumOfSquaredWeightVector()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Sum\+Of\+Squared\+Weight\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculates the sum of the squared weight vector values. 
+
+\begin{DoxyReturn}{Returns}
+The squared weight vector values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_ad8939734e90e17b35c07c880e6ebd649}\label{classFCLNeuron_ad8939734e90e17b35c07c880e6ebd649}} 
+\index{FCLNeuron@{FCLNeuron}!getWeight@{getWeight}}
+\index{getWeight@{getWeight}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getWeight()}{getWeight()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Weight (\begin{DoxyParamCaption}\item[{int}]{\+\_\+index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets one weight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+index} & The input index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The weight value at one input and one filter 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_a0807cce088258bd38380f35d25675dc1}\label{classFCLNeuron_a0807cce088258bd38380f35d25675dc1}} 
+\index{FCLNeuron@{FCLNeuron}!getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}}
+\index{getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{getWeightDistanceFromInitialWeights()}{getWeightDistanceFromInitialWeights()}}
+{\footnotesize\ttfamily double FCLNeuron\+::get\+Weight\+Distance\+From\+Initial\+Weights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Weight development. 
+
+\begin{DoxyReturn}{Returns}
+Returns the Euclidean distance of the weights from their starting position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLNeuron_abe10f34ba586b58de3b3399587bd15cb}\label{classFCLNeuron_abe10f34ba586b58de3b3399587bd15cb}} 
+\index{FCLNeuron@{FCLNeuron}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily void FCLNeuron\+::init\+Weights (\begin{DoxyParamCaption}\item[{double}]{\+\_\+max = {\ttfamily 1},  }\item[{int}]{init\+Bias = {\ttfamily 1},  }\item[{\mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{Weight\+Init\+Method}}}]{\+\_\+wm = {\ttfamily MAX\+\_\+OUTPUT\+\_\+RANDOM} }\end{DoxyParamCaption})}
+
+
+
+Inits the weights in the neuron. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+max} & Maximum value of the weights. \\
+\hline
+{\em init\+Bias} & If one also the bias weight is initialised. \\
+\hline
+{\em \+\_\+wm} & Method how to init the weights as defined by Weight\+Init\+Method. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a9abbdef952a9ff38506d75922c21dcc9}\label{classFCLNeuron_a9abbdef952a9ff38506d75922c21dcc9}} 
+\index{FCLNeuron@{FCLNeuron}!normaliseWeights@{normaliseWeights}}
+\index{normaliseWeights@{normaliseWeights}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{normaliseWeights()}{normaliseWeights()}}
+{\footnotesize\ttfamily void FCLNeuron\+::normalise\+Weights (\begin{DoxyParamCaption}\item[{double}]{norm }\end{DoxyParamCaption})}
+
+
+
+Normalises the weights with a divisor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em norm} & Divisor which normalises the weights. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a22ded2a6fb1dcbd602f75256b2e1a677}\label{classFCLNeuron_a22ded2a6fb1dcbd602f75256b2e1a677}} 
+\index{FCLNeuron@{FCLNeuron}!saveInitialWeights@{saveInitialWeights}}
+\index{saveInitialWeights@{saveInitialWeights}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{saveInitialWeights()}{saveInitialWeights()}}
+{\footnotesize\ttfamily void FCLNeuron\+::save\+Initial\+Weights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Save the initial weights. 
+
+This saves the initial weights for later comparisons. For internal use. \mbox{\Hypertarget{classFCLNeuron_aa02d0509e326ee51508f20ea47fa3325}\label{classFCLNeuron_aa02d0509e326ee51508f20ea47fa3325}} 
+\index{FCLNeuron@{FCLNeuron}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Activation\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}{Activation\+Function}}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the activation function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+activation\+Function} & Sets the activiation function according to Activation\+Function. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_ac37bffbc09dd96379a390df0bca9c4da}\label{classFCLNeuron_ac37bffbc09dd96379a390df0bca9c4da}} 
+\index{FCLNeuron@{FCLNeuron}!setBias@{setBias}}
+\index{setBias@{setBias}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Bias (\begin{DoxyParamCaption}\item[{double}]{\+\_\+bias }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the bias input value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+bias} & Bias value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_aebccc21ceed87e8eb132021d0c081206}\label{classFCLNeuron_aebccc21ceed87e8eb132021d0c081206}} 
+\index{FCLNeuron@{FCLNeuron}!setBiasWeight@{setBiasWeight}}
+\index{setBiasWeight@{setBiasWeight}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setBiasWeight()}{setBiasWeight()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Bias\+Weight (\begin{DoxyParamCaption}\item[{double}]{\+\_\+biasweight }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the bias weight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+biasweight} & Bias value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a46913ab4ea452b1ed5d4732b292c5118}\label{classFCLNeuron_a46913ab4ea452b1ed5d4732b292c5118}} 
+\index{FCLNeuron@{FCLNeuron}!setDebugInfo@{setDebugInfo}}
+\index{setDebugInfo@{setDebugInfo}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setDebugInfo()}{setDebugInfo()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Debug\+Info (\begin{DoxyParamCaption}\item[{int}]{\+\_\+layer\+Index,  }\item[{int}]{\+\_\+neuron\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets debug info populated from Layer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+layer\+Index} & The layer the neuron is in. \\
+\hline
+{\em \+\_\+neuron\+Index} & The index of the neuron in the layer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a31af830d465e739f4f4825e99f185307}\label{classFCLNeuron_a31af830d465e739f4f4825e99f185307}} 
+\index{FCLNeuron@{FCLNeuron}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Decay (\begin{DoxyParamCaption}\item[{double}]{\+\_\+decay }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the weight decay over time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+decay} & The larger the faster the weight decay. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a88e5b485ffc4206886ea7cd62a657c93}\label{classFCLNeuron_a88e5b485ffc4206886ea7cd62a657c93}} 
+\index{FCLNeuron@{FCLNeuron}!setError@{setError}}
+\index{setError@{setError}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Error (\begin{DoxyParamCaption}\item[{double}]{\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+Sets the error in the neuron If the derivative is activated then the derivative of the error is calculated. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+error} & Sets the error of the neuron. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_ae80c9bc82747296f727901354b5918f0}\label{classFCLNeuron_ae80c9bc82747296f727901354b5918f0}} 
+\index{FCLNeuron@{FCLNeuron}!setGeometry@{setGeometry}}
+\index{setGeometry@{setGeometry}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setGeometry()}{setGeometry()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Geometry (\begin{DoxyParamCaption}\item[{int}]{\+\_\+width,  }\item[{int}]{\+\_\+height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Tells the layer that it\textquotesingle{}s been a 2D array originally to be a convolutional layer. 
+
+\+\_\+width $\ast$ \+\_\+height == n\+Inputs. Otherwise an exception is triggered. The geometry entered here is then used in the mask operations so that every neuron is able to process a subset of the input space, for example an image and thus becomes a localised receptive field. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+width} & The width of the layer \\
+\hline
+{\em \+\_\+height} & of the layer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_ab9cf70567a42fb134882553f2cddde0b}\label{classFCLNeuron_ab9cf70567a42fb134882553f2cddde0b}} 
+\index{FCLNeuron@{FCLNeuron}!setInput@{setInput}}
+\index{setInput@{setInput}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setInput()}{setInput()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Input (\begin{DoxyParamCaption}\item[{int}]{\+\_\+index,  }\item[{double}]{\+\_\+value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets one input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+index} & Index of the input. \\
+\hline
+{\em \+\_\+value} & of the input. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a837c8226b7594f71aa2ebfa7cee8d327}\label{classFCLNeuron_a837c8226b7594f71aa2ebfa7cee8d327}} 
+\index{FCLNeuron@{FCLNeuron}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{double}]{\+\_\+learningrate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the learning rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+learningrate} & The learning rate \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a17b302d86ed5a622d5eeedc9b7b88045}\label{classFCLNeuron_a17b302d86ed5a622d5eeedc9b7b88045}} 
+\index{FCLNeuron@{FCLNeuron}!setMask@{setMask}}
+\index{setMask@{setMask}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setMask()}{setMask()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Mask (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{unsigned char}]{c }\end{DoxyParamCaption})}
+
+
+
+Boundary safe manipulation of the convolution mask. 
+
+Sets the convolution mask using the geometry defined by set\+Geometry. 
+\begin{DoxyParams}{Parameters}
+{\em x} & Sets the mask value at coordinate x (0 .. width). \\
+\hline
+{\em y} & Sets the mask value at coordinate y (0 .. height). \\
+\hline
+{\em c} & Sets the mask\+: 0 = ignore underlying value, 1 = process underlying value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a3802e2f9ee0f80f1fecebe6e19b3d2b3}\label{classFCLNeuron_a3802e2f9ee0f80f1fecebe6e19b3d2b3}} 
+\index{FCLNeuron@{FCLNeuron}!setMask@{setMask}}
+\index{setMask@{setMask}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setMask()}{setMask()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Mask (\begin{DoxyParamCaption}\item[{unsigned char}]{c }\end{DoxyParamCaption})}
+
+
+
+Init the whole mask with a single value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & Sets the mask for the whole array. 0 = ignore the entire input, 1 = process every input. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a4df04750b924c7fe00b5efc6457d287c}\label{classFCLNeuron_a4df04750b924c7fe00b5efc6457d287c}} 
+\index{FCLNeuron@{FCLNeuron}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Momentum (\begin{DoxyParamCaption}\item[{double}]{\+\_\+momentum }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the momentum. 
+
+Sets the inertia of the learning. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+momentum} & The new momentum \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_a0f28380212dbfdd8ee60fd766339cd6e}\label{classFCLNeuron_a0f28380212dbfdd8ee60fd766339cd6e}} 
+\index{FCLNeuron@{FCLNeuron}!setStep@{setStep}}
+\index{setStep@{setStep}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setStep()}{setStep()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Step (\begin{DoxyParamCaption}\item[{long int}]{\+\_\+step }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the simulation step for debugging and logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+step} & Current simulation step. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLNeuron_aa4e106a329aad4963ad13421a9e02934}\label{classFCLNeuron_aa4e106a329aad4963ad13421a9e02934}} 
+\index{FCLNeuron@{FCLNeuron}!setWeight@{setWeight}}
+\index{setWeight@{setWeight}!FCLNeuron@{FCLNeuron}}
+\doxysubsubsection{\texorpdfstring{setWeight()}{setWeight()}}
+{\footnotesize\ttfamily void FCLNeuron\+::set\+Weight (\begin{DoxyParamCaption}\item[{int}]{\+\_\+index,  }\item[{double}]{\+\_\+weight }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets one weight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+index} & The input index \\
+\hline
+{\em \+\_\+weight} & The weight value \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+neuron.\+h\item 
+neuron.\+cpp\end{DoxyCompactItemize}

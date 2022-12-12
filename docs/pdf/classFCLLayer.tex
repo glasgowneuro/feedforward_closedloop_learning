@@ -1,0 +1,498 @@
+\hypertarget{classFCLLayer}{}\doxysection{FCLLayer Class Reference}
+\label{classFCLLayer}\index{FCLLayer@{FCLLayer}}
+
+
+Layer which contains the neurons of one layer.  
+
+
+
+
+{\ttfamily \#include $<$layer.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFCLLayer_a478b5bad203a8a6306a05d2a9c1719f9}\label{classFCLLayer_a478b5bad203a8a6306a05d2a9c1719f9}} 
+enum \mbox{\hyperlink{classFCLLayer_a478b5bad203a8a6306a05d2a9c1719f9}{Weight\+Normalisation}} \{ \newline
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NONE} = 0
+, {\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+EUCLEDIAN} = 1
+, {\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+EUCLEDIAN} = 2
+, {\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+MANHATTAN} = 3
+, \newline
+{\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+MANHATTAN} = 4
+, {\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+LAYER\+\_\+\+INFINITY} = 5
+, {\bfseries WEIGHT\+\_\+\+NORM\+\_\+\+NEURON\+\_\+\+INFINITY} = 6
+ \}
+\begin{DoxyCompactList}\small\item\em Weight normalisation constants Defines if weights are normalised layer-\/wide or for every neuron separately. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFCLLayer_a1076e15cfe534b5009bd90140ce8d4ca}{FCLLayer}} (int \+\_\+n\+Neurons, int \+\_\+n\+Inputs)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLLayer_a19cb197809f20a94244065ac5a6e72f6}\label{classFCLLayer_a19cb197809f20a94244065ac5a6e72f6}} 
+\mbox{\hyperlink{classFCLLayer_a19cb197809f20a94244065ac5a6e72f6}{$\sim$\+FCLLayer}} ()
+\begin{DoxyCompactList}\small\item\em Destructor Frees all memory. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLLayer_a381cfbb78f4b130c125ecbb21df0a8e1}\label{classFCLLayer_a381cfbb78f4b130c125ecbb21df0a8e1}} 
+void \mbox{\hyperlink{classFCLLayer_a381cfbb78f4b130c125ecbb21df0a8e1}{calc\+Outputs}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the output values in all neurons. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLLayer_a4797e73b863c914eb49cc88fb34e408d}\label{classFCLLayer_a4797e73b863c914eb49cc88fb34e408d}} 
+void \mbox{\hyperlink{classFCLLayer_a4797e73b863c914eb49cc88fb34e408d}{do\+Learning}} ()
+\begin{DoxyCompactList}\small\item\em Adjusts the weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_add09e850f6c52973f1f05f8d75c24902}{set\+Error}} (double \+\_\+error)
+\begin{DoxyCompactList}\small\item\em Sets the global error for all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_add4bc3f7600833563757a165e022ccd8}{set\+Error}} (int i, double \+\_\+error)
+\begin{DoxyCompactList}\small\item\em sets the error individually \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a0c11f756afbd4f30c49c652097aefd09}{set\+Errors}} (double $\ast$\+\_\+errors)
+\begin{DoxyCompactList}\small\item\em Sets all errors from an input array. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLLayer_a09f6eaadd3822e9655b6935c81efd517}{get\+Error}} (int i)
+\begin{DoxyCompactList}\small\item\em Retrieves the error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_ac24b7e117a7a0ca0fd55bc9000927ade}{set\+Bias}} (double \+\_\+bias)
+\begin{DoxyCompactList}\small\item\em Sets the global bias for all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a9209682b22bab888308c26b4a802ac2c}{set\+Input}} (int input\+Index, double input)
+\begin{DoxyCompactList}\small\item\em Set the input value of one input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_aebec6624965eb2db9ff539d286689240}{set\+Inputs}} (const double $\ast$\+\_\+inputs)
+\begin{DoxyCompactList}\small\item\em Sets all inputs from an input array. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_ae333876b923ec6568391aabd5044e633}{set\+Learning\+Rate}} (double \+\_\+learning\+Rate)
+\begin{DoxyCompactList}\small\item\em Sets the learning rate of all neurons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a350d3f13d596c0c13690433417b1ff5e}{set\+Activation\+Function}} (\mbox{\hyperlink{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}{FCLNeuron\+::\+Activation\+Function}} \+\_\+activation\+Function)
+\begin{DoxyCompactList}\small\item\em Set the activation function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a319e2e1a9fbaf331cba9578893814a4d}{set\+Momentum}} (double \+\_\+momentum)
+\begin{DoxyCompactList}\small\item\em Set the momentum of all neurons in this layer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_ab4dca816f3eb446ad5548c4adf72c85e}{set\+Decay}} (double \+\_\+decay)
+\begin{DoxyCompactList}\small\item\em Sets the weight decay scaled by the learning rate. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_aa54ab70a6fbe8d8ae996be972ce7276d}{init\+Weights}} (double \+\_\+max=1, int init\+Bias\+Weight=1, \mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{FCLNeuron\+::\+Weight\+Init\+Method}} weight\+Init\+Method=FCLNeuron\+::\+MAX\+\_\+\+OUTPUT\+\_\+\+RANDOM)
+\begin{DoxyCompactList}\small\item\em Inits the weights. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLLayer_ab359be0c4dad9d251bc0d42ee4874f5b}{get\+Output}} (int index)
+\begin{DoxyCompactList}\small\item\em Gets the outpuut of one neuron. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classFCLNeuron}{FCLNeuron}} $\ast$ \mbox{\hyperlink{classFCLLayer_a88c61d5ed77d6a263cc2962ac161bdd9}{get\+Neuron}} (int index)
+\begin{DoxyCompactList}\small\item\em Gets a pointer to one neuron. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classFCLLayer_a9a4fe9c73ae5ac459c1219d966a2a2a9}{get\+Nneurons}} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of neurons. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classFCLLayer_aa3ec98b342b28cba6d26915af3079192}{get\+Ninputs}} ()
+\begin{DoxyCompactList}\small\item\em Number of inputs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a753bbc40f537ffd4253fb7c6391f69cd}{set\+Convolution}} (int width, int height)
+\begin{DoxyCompactList}\small\item\em Defines a 2D geometry for the input layer of widthxheight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a3a7e5f1ca62128a1d7b938ca7efe5587}{set\+Max\+Det\+Layer}} (int \+\_\+m)
+\begin{DoxyCompactList}\small\item\em Maxium detection layer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a26c75d7fd6b286f75fdc070c6d97c573}{set\+Normalise\+Weights}} (\mbox{\hyperlink{classFCLLayer_a478b5bad203a8a6306a05d2a9c1719f9}{Weight\+Normalisation}} \+\_\+normalise\+Weights)
+\begin{DoxyCompactList}\small\item\em Normalise the weights. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_afbd707233ca671022fedb56c2a78b4be}{set\+Debug\+Info}} (int layer\+Index)
+\begin{DoxyCompactList}\small\item\em Sets the layer index within the whole network. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_ae3abf36dfd578e69884f47ede3307c30}{set\+Step}} (long int step)
+\begin{DoxyCompactList}\small\item\em Sets the simulation step in the layer for debug purposes. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classFCLLayer_ad37816e3da269cb7bbda262bc6b57fa5}{get\+Weight\+Distance\+From\+Initial\+Weights}} ()
+\begin{DoxyCompactList}\small\item\em Get weight distance from the start of the simulation. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classFCLLayer_a3b3e824037facd87f3c9e8074d8ade01}\label{classFCLLayer_a3b3e824037facd87f3c9e8074d8ade01}} 
+void \mbox{\hyperlink{classFCLLayer_a3b3e824037facd87f3c9e8074d8ade01}{do\+Normalise\+Weights}} ()
+\begin{DoxyCompactList}\small\item\em Performs the weight normalisation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFCLLayer_a443fa7cbc5bb8ea94584f53705f16fa8}{set\+Use\+Threads}} (int \+\_\+use\+Threads)
+\begin{DoxyCompactList}\small\item\em Sets if threads should be used. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classFCLLayer_a774996142bd397cf636035f94cf0e298}{save\+Weight\+Matrix}} (char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Save weight matrix for documentation and debugging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Layer which contains the neurons of one layer. 
+
+It performs all computations possible in a layer. In particular it calls all neurons in separate threads and triggers the compuations there. These functions are all called from the parent class. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFCLLayer_a1076e15cfe534b5009bd90140ce8d4ca}\label{classFCLLayer_a1076e15cfe534b5009bd90140ce8d4ca}} 
+\index{FCLLayer@{FCLLayer}!FCLLayer@{FCLLayer}}
+\index{FCLLayer@{FCLLayer}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{FCLLayer()}{FCLLayer()}}
+{\footnotesize\ttfamily FCLLayer\+::\+FCLLayer (\begin{DoxyParamCaption}\item[{int}]{\+\_\+n\+Neurons,  }\item[{int}]{\+\_\+n\+Inputs }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n\+Neurons} & Number of neurons in the layer. \\
+\hline
+{\em \+\_\+n\+Inputs} & Number of inputs to the Layer. \\
+\hline
+{\em \+\_\+n\+Filters} & Number of lowpass filters at each input. \\
+\hline
+{\em \+\_\+minT} & Minimum time of the lowpass filter. \\
+\hline
+{\em \+\_\+maxT} & Maximum time of the lowpass filter.\\
+\hline
+\end{DoxyParams}
+(C) 2017, Bernd Porr \href{mailto:bernd@glasgowneuro.tech}{\texttt{ bernd@glasgowneuro.\+tech}} (C) 2017, Paul Miller \href{mailto:paul@glasgowneuro.tech}{\texttt{ paul@glasgowneuro.\+tech}} 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFCLLayer_a09f6eaadd3822e9655b6935c81efd517}\label{classFCLLayer_a09f6eaadd3822e9655b6935c81efd517}} 
+\index{FCLLayer@{FCLLayer}!getError@{getError}}
+\index{getError@{getError}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily double FCLLayer\+::get\+Error (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+Retrieves the error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the neuron \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a88c61d5ed77d6a263cc2962ac161bdd9}\label{classFCLLayer_a88c61d5ed77d6a263cc2962ac161bdd9}} 
+\index{FCLLayer@{FCLLayer}!getNeuron@{getNeuron}}
+\index{getNeuron@{getNeuron}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getNeuron()}{getNeuron()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFCLNeuron}{FCLNeuron}}$\ast$ FCLLayer\+::get\+Neuron (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets a pointer to one neuron. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index number of the neuron. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to a Layer class. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLLayer_aa3ec98b342b28cba6d26915af3079192}\label{classFCLLayer_aa3ec98b342b28cba6d26915af3079192}} 
+\index{FCLLayer@{FCLLayer}!getNinputs@{getNinputs}}
+\index{getNinputs@{getNinputs}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getNinputs()}{getNinputs()}}
+{\footnotesize\ttfamily int FCLLayer\+::get\+Ninputs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Number of inputs. 
+
+\begin{DoxyReturn}{Returns}
+The number of inputs 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLLayer_a9a4fe9c73ae5ac459c1219d966a2a2a9}\label{classFCLLayer_a9a4fe9c73ae5ac459c1219d966a2a2a9}} 
+\index{FCLLayer@{FCLLayer}!getNneurons@{getNneurons}}
+\index{getNneurons@{getNneurons}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getNneurons()}{getNneurons()}}
+{\footnotesize\ttfamily int FCLLayer\+::get\+Nneurons (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the number of neurons. 
+
+\begin{DoxyReturn}{Returns}
+The number of neurons. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLLayer_ab359be0c4dad9d251bc0d42ee4874f5b}\label{classFCLLayer_ab359be0c4dad9d251bc0d42ee4874f5b}} 
+\index{FCLLayer@{FCLLayer}!getOutput@{getOutput}}
+\index{getOutput@{getOutput}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getOutput()}{getOutput()}}
+{\footnotesize\ttfamily double FCLLayer\+::get\+Output (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the outpuut of one neuron. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index number of the neuron. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retuns the double valye of the output. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLLayer_ad37816e3da269cb7bbda262bc6b57fa5}\label{classFCLLayer_ad37816e3da269cb7bbda262bc6b57fa5}} 
+\index{FCLLayer@{FCLLayer}!getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}}
+\index{getWeightDistanceFromInitialWeights@{getWeightDistanceFromInitialWeights}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{getWeightDistanceFromInitialWeights()}{getWeightDistanceFromInitialWeights()}}
+{\footnotesize\ttfamily double FCLLayer\+::get\+Weight\+Distance\+From\+Initial\+Weights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get weight distance from the start of the simulation. 
+
+\begin{DoxyReturn}{Returns}
+The distance from the initial (random) weight setup. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classFCLLayer_aa54ab70a6fbe8d8ae996be972ce7276d}\label{classFCLLayer_aa54ab70a6fbe8d8ae996be972ce7276d}} 
+\index{FCLLayer@{FCLLayer}!initWeights@{initWeights}}
+\index{initWeights@{initWeights}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{initWeights()}{initWeights()}}
+{\footnotesize\ttfamily void FCLLayer\+::init\+Weights (\begin{DoxyParamCaption}\item[{double}]{\+\_\+max = {\ttfamily 1},  }\item[{int}]{init\+Bias\+Weight = {\ttfamily 1},  }\item[{\mbox{\hyperlink{classFCLNeuron_aff937a81f10951ffe98613751a4f8e22}{FCLNeuron\+::\+Weight\+Init\+Method}}}]{weight\+Init\+Method = {\ttfamily FCLNeuron\+:\+:MAX\+\_\+OUTPUT\+\_\+RANDOM} }\end{DoxyParamCaption})}
+
+
+
+Inits the weights. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+max} & Maximum value if using random init. \\
+\hline
+{\em init\+Bias\+Weight} & if one also the bias weight is initialised. \\
+\hline
+{\em weight\+Init\+Method} & The methid employed to init the weights. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a774996142bd397cf636035f94cf0e298}\label{classFCLLayer_a774996142bd397cf636035f94cf0e298}} 
+\index{FCLLayer@{FCLLayer}!saveWeightMatrix@{saveWeightMatrix}}
+\index{saveWeightMatrix@{saveWeightMatrix}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{saveWeightMatrix()}{saveWeightMatrix()}}
+{\footnotesize\ttfamily int FCLLayer\+::save\+Weight\+Matrix (\begin{DoxyParamCaption}\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Save weight matrix for documentation and debugging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename it should be saved to. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a350d3f13d596c0c13690433417b1ff5e}\label{classFCLLayer_a350d3f13d596c0c13690433417b1ff5e}} 
+\index{FCLLayer@{FCLLayer}!setActivationFunction@{setActivationFunction}}
+\index{setActivationFunction@{setActivationFunction}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setActivationFunction()}{setActivationFunction()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Activation\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classFCLNeuron_a04b8c9d3c1dbd5a98ba8f5bdce360c9d}{FCLNeuron\+::\+Activation\+Function}}}]{\+\_\+activation\+Function }\end{DoxyParamCaption})}
+
+
+
+Set the activation function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+activation\+Function} & The activation function. See\+: Neuron\+::\+Activation\+Function \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_ac24b7e117a7a0ca0fd55bc9000927ade}\label{classFCLLayer_ac24b7e117a7a0ca0fd55bc9000927ade}} 
+\index{FCLLayer@{FCLLayer}!setBias@{setBias}}
+\index{setBias@{setBias}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setBias()}{setBias()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Bias (\begin{DoxyParamCaption}\item[{double}]{\+\_\+bias }\end{DoxyParamCaption})}
+
+
+
+Sets the global bias for all neurons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+bias} & The bias for all neurons \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a753bbc40f537ffd4253fb7c6391f69cd}\label{classFCLLayer_a753bbc40f537ffd4253fb7c6391f69cd}} 
+\index{FCLLayer@{FCLLayer}!setConvolution@{setConvolution}}
+\index{setConvolution@{setConvolution}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setConvolution()}{setConvolution()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Convolution (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})}
+
+
+
+Defines a 2D geometry for the input layer of widthxheight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & The width of the convolutional window. \\
+\hline
+{\em height} & The height of the convolution window. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_afbd707233ca671022fedb56c2a78b4be}\label{classFCLLayer_afbd707233ca671022fedb56c2a78b4be}} 
+\index{FCLLayer@{FCLLayer}!setDebugInfo@{setDebugInfo}}
+\index{setDebugInfo@{setDebugInfo}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setDebugInfo()}{setDebugInfo()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Debug\+Info (\begin{DoxyParamCaption}\item[{int}]{layer\+Index }\end{DoxyParamCaption})}
+
+
+
+Sets the layer index within the whole network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer\+Index} & The layer index in the whole network. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_ab4dca816f3eb446ad5548c4adf72c85e}\label{classFCLLayer_ab4dca816f3eb446ad5548c4adf72c85e}} 
+\index{FCLLayer@{FCLLayer}!setDecay@{setDecay}}
+\index{setDecay@{setDecay}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setDecay()}{setDecay()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Decay (\begin{DoxyParamCaption}\item[{double}]{\+\_\+decay }\end{DoxyParamCaption})}
+
+
+
+Sets the weight decay scaled by the learning rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+decay} & The decay rate of the weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_add09e850f6c52973f1f05f8d75c24902}\label{classFCLLayer_add09e850f6c52973f1f05f8d75c24902}} 
+\index{FCLLayer@{FCLLayer}!setError@{setError}}
+\index{setError@{setError}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Error (\begin{DoxyParamCaption}\item[{double}]{\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+Sets the global error for all neurons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+error} & Sets the error in the whole layer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_add4bc3f7600833563757a165e022ccd8}\label{classFCLLayer_add4bc3f7600833563757a165e022ccd8}} 
+\index{FCLLayer@{FCLLayer}!setError@{setError}}
+\index{setError@{setError}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setError()}{setError()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Error (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{double}]{\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+sets the error individually 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the neuron \\
+\hline
+{\em \+\_\+error} & The error to be set \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a0c11f756afbd4f30c49c652097aefd09}\label{classFCLLayer_a0c11f756afbd4f30c49c652097aefd09}} 
+\index{FCLLayer@{FCLLayer}!setErrors@{setErrors}}
+\index{setErrors@{setErrors}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setErrors()}{setErrors()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Errors (\begin{DoxyParamCaption}\item[{double $\ast$}]{\+\_\+errors }\end{DoxyParamCaption})}
+
+
+
+Sets all errors from an input array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+errors} & is an array of errors \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a9209682b22bab888308c26b4a802ac2c}\label{classFCLLayer_a9209682b22bab888308c26b4a802ac2c}} 
+\index{FCLLayer@{FCLLayer}!setInput@{setInput}}
+\index{setInput@{setInput}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setInput()}{setInput()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Input (\begin{DoxyParamCaption}\item[{int}]{input\+Index,  }\item[{double}]{input }\end{DoxyParamCaption})}
+
+
+
+Set the input value of one input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Index} & The index number of the input. \\
+\hline
+{\em input} & The value of the input \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_aebec6624965eb2db9ff539d286689240}\label{classFCLLayer_aebec6624965eb2db9ff539d286689240}} 
+\index{FCLLayer@{FCLLayer}!setInputs@{setInputs}}
+\index{setInputs@{setInputs}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setInputs()}{setInputs()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Inputs (\begin{DoxyParamCaption}\item[{const double $\ast$}]{\+\_\+inputs }\end{DoxyParamCaption})}
+
+
+
+Sets all inputs from an input array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+inputs} & array of all inputs \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_ae333876b923ec6568391aabd5044e633}\label{classFCLLayer_ae333876b923ec6568391aabd5044e633}} 
+\index{FCLLayer@{FCLLayer}!setLearningRate@{setLearningRate}}
+\index{setLearningRate@{setLearningRate}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setLearningRate()}{setLearningRate()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Learning\+Rate (\begin{DoxyParamCaption}\item[{double}]{\+\_\+learning\+Rate }\end{DoxyParamCaption})}
+
+
+
+Sets the learning rate of all neurons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+learning\+Rate} & The learning rate \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a3a7e5f1ca62128a1d7b938ca7efe5587}\label{classFCLLayer_a3a7e5f1ca62128a1d7b938ca7efe5587}} 
+\index{FCLLayer@{FCLLayer}!setMaxDetLayer@{setMaxDetLayer}}
+\index{setMaxDetLayer@{setMaxDetLayer}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setMaxDetLayer()}{setMaxDetLayer()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Max\+Det\+Layer (\begin{DoxyParamCaption}\item[{int}]{\+\_\+m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Maxium detection layer. 
+
+Experimental. This hasn\textquotesingle{}t been implemented. \mbox{\Hypertarget{classFCLLayer_a319e2e1a9fbaf331cba9578893814a4d}\label{classFCLLayer_a319e2e1a9fbaf331cba9578893814a4d}} 
+\index{FCLLayer@{FCLLayer}!setMomentum@{setMomentum}}
+\index{setMomentum@{setMomentum}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setMomentum()}{setMomentum()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Momentum (\begin{DoxyParamCaption}\item[{double}]{\+\_\+momentum }\end{DoxyParamCaption})}
+
+
+
+Set the momentum of all neurons in this layer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+momentum} & The momentum for all neurons in this layer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a26c75d7fd6b286f75fdc070c6d97c573}\label{classFCLLayer_a26c75d7fd6b286f75fdc070c6d97c573}} 
+\index{FCLLayer@{FCLLayer}!setNormaliseWeights@{setNormaliseWeights}}
+\index{setNormaliseWeights@{setNormaliseWeights}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setNormaliseWeights()}{setNormaliseWeights()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Normalise\+Weights (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classFCLLayer_a478b5bad203a8a6306a05d2a9c1719f9}{Weight\+Normalisation}}}]{\+\_\+normalise\+Weights }\end{DoxyParamCaption})}
+
+
+
+Normalise the weights. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+normalise\+Weights} & Metod of normalisation. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_ae3abf36dfd578e69884f47ede3307c30}\label{classFCLLayer_ae3abf36dfd578e69884f47ede3307c30}} 
+\index{FCLLayer@{FCLLayer}!setStep@{setStep}}
+\index{setStep@{setStep}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setStep()}{setStep()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Step (\begin{DoxyParamCaption}\item[{long int}]{step }\end{DoxyParamCaption})}
+
+
+
+Sets the simulation step in the layer for debug purposes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em step} & Step number. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classFCLLayer_a443fa7cbc5bb8ea94584f53705f16fa8}\label{classFCLLayer_a443fa7cbc5bb8ea94584f53705f16fa8}} 
+\index{FCLLayer@{FCLLayer}!setUseThreads@{setUseThreads}}
+\index{setUseThreads@{setUseThreads}!FCLLayer@{FCLLayer}}
+\doxysubsubsection{\texorpdfstring{setUseThreads()}{setUseThreads()}}
+{\footnotesize\ttfamily void FCLLayer\+::set\+Use\+Threads (\begin{DoxyParamCaption}\item[{int}]{\+\_\+use\+Threads }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets if threads should be used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+use\+Threads} & 0 = no Threads, 1 = Threads \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+layer.\+h\item 
+layer.\+cpp\end{DoxyCompactItemize}

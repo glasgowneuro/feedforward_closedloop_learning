@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['activationfunction_186',['ActivationFunction',['../classNeuron.html#ac4d0e59b0cfc9ce786f31e85105d4891',1,'Neuron']]]
+  ['activationfunction_193',['ActivationFunction',['../classFCLNeuron.html#a04b8c9d3c1dbd5a98ba8f5bdce360c9d',1,'FCLNeuron']]]
 ];

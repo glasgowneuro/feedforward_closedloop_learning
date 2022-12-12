@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['layer_149',['Layer',['../classLayer.html#aa0883dcb58cddb3243bc91eca4779b17',1,'Layer']]],
-  ['loadmodel_150',['loadModel',['../classFeedforwardClosedloopLearning.html#ac3c0528d774e70967513324da24586b0',1,'FeedforwardClosedloopLearning::loadModel()'],['../classfeedforward__closedloop__learning_1_1FeedforwardClosedloopLearning.html#a493df72f0a30439a1b8868b8a7523d62',1,'feedforward_closedloop_learning.FeedforwardClosedloopLearning.loadModel()']]]
+  ['normaliseweights_159',['normaliseWeights',['../classFCLNeuron.html#a9abbdef952a9ff38506d75922c21dcc9',1,'FCLNeuron::normaliseWeights()'],['../classfeedforward__closedloop__learning_1_1FCLNeuron.html#a576e2846758faa25c9c8589e2b713f96',1,'feedforward_closedloop_learning.FCLNeuron.normaliseWeights()']]]
 ];

@@ -32,20 +32,18 @@ Collaboration diagram for Feedforward\+Closedloop\+Learning\+With\+Filterbank\+:
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classFeedforwardClosedloopLearningWithFilterbank_afbee21493f4b2c1879bd455a7b16b49f}{Feedforward\+Closedloop\+Learning\+With\+Filterbank}} (int num\+\_\+of\+\_\+inputs, int $\ast$num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array, int num\+\_\+layers, int num\+\_\+filters\+Input, double minT, double maxT)
+\mbox{\hyperlink{classFeedforwardClosedloopLearningWithFilterbank_a02416233014bef21a36ef31d5bd1dfc4}{Feedforward\+Closedloop\+Learning\+With\+Filterbank}} (const int num\+\_\+of\+\_\+inputs, const std\+::vector$<$ int $>$ \&num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer, const int num\+\_\+filters\+Input, const double minT, const double maxT)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFeedforwardClosedloopLearning}{Feedforward\+Closedloop\+Learning}} with Filterbank at each input. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_af3db8782362dd911c95f5342cb6166f0}\label{classFeedforwardClosedloopLearningWithFilterbank_af3db8782362dd911c95f5342cb6166f0}} 
 \mbox{\hyperlink{classFeedforwardClosedloopLearningWithFilterbank_af3db8782362dd911c95f5342cb6166f0}{$\sim$\+Feedforward\+Closedloop\+Learning\+With\+Filterbank}} ()
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classFeedforwardClosedloopLearningWithFilterbank_ac25b0d75e4650d4159b73698801a9f19}{do\+Step}} (double $\ast$input, double $\ast$error)
+void \mbox{\hyperlink{classFeedforwardClosedloopLearningWithFilterbank_a54142195b7b597e1dacc6310b3572952}{do\+Step}} (const std\+::vector$<$ double $>$ \&input, const std\+::vector$<$ double $>$ \&error)
 \begin{DoxyCompactList}\small\item\em Performs the simulation step. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classFeedforwardClosedloopLearningWithFilterbank_a8697b828391b160b4579a6566d02fb30}{do\+Step}} (double $\ast$input, int n1, double $\ast$error, int n2)
-\begin{DoxyCompactList}\small\item\em Python wrapper function. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_a81ee9ec73970979118c0c5ad09444624}\label{classFeedforwardClosedloopLearningWithFilterbank_a81ee9ec73970979118c0c5ad09444624}} 
 double {\bfseries get\+Filter\+Output} (int input\+Idx, int filter\+Idx)
 \item 
 \mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_a0fedca2f064812ea97c5e462f96b11c5}\label{classFeedforwardClosedloopLearningWithFilterbank_a0fedca2f064812ea97c5e462f96b11c5}} 
-int {\bfseries get\+N\+Filters\+Per\+Input} ()
+int {\bfseries get\+NFilters\+Per\+Input} ()
 \end{DoxyCompactItemize}
 
 
@@ -53,23 +51,21 @@ int {\bfseries get\+N\+Filters\+Per\+Input} ()
 Derived classes of the \mbox{\hyperlink{classFeedforwardClosedloopLearning}{Feedforward\+Closedloop\+Learning}} class for special functionality. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_afbee21493f4b2c1879bd455a7b16b49f}\label{classFeedforwardClosedloopLearningWithFilterbank_afbee21493f4b2c1879bd455a7b16b49f}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_a02416233014bef21a36ef31d5bd1dfc4}\label{classFeedforwardClosedloopLearningWithFilterbank_a02416233014bef21a36ef31d5bd1dfc4}} 
 \index{FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}!FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}}
 \index{FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}!FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}}
 \doxysubsubsection{\texorpdfstring{FeedforwardClosedloopLearningWithFilterbank()}{FeedforwardClosedloopLearningWithFilterbank()}}
-{\footnotesize\ttfamily Feedforward\+Closedloop\+Learning\+With\+Filterbank\+::\+Feedforward\+Closedloop\+Learning\+With\+Filterbank (\begin{DoxyParamCaption}\item[{int}]{num\+\_\+of\+\_\+inputs,  }\item[{int $\ast$}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array,  }\item[{int}]{num\+\_\+layers,  }\item[{int}]{num\+\_\+filters\+Input,  }\item[{double}]{minT,  }\item[{double}]{maxT }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Feedforward\+Closedloop\+Learning\+With\+Filterbank\+::\+Feedforward\+Closedloop\+Learning\+With\+Filterbank (\begin{DoxyParamCaption}\item[{const int}]{num\+\_\+of\+\_\+inputs,  }\item[{const std\+::vector$<$ int $>$ \&}]{num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer,  }\item[{const int}]{num\+\_\+filters\+Input,  }\item[{const double}]{minT,  }\item[{const double}]{maxT }\end{DoxyParamCaption})}
 
 
 
 \mbox{\hyperlink{classFeedforwardClosedloopLearning}{Feedforward\+Closedloop\+Learning}} with Filterbank at each input. 
 
-Constructor\+: F\+CL with a filter bank at the input Every input feeds internally into a has a filter bank of num\+\_\+filters\+Input filters. This allows for a temporal distribution of the inputs. 
+Constructor\+: FCL with a filter bank at the input Every input feeds internally into a has a filter bank of num\+\_\+filters\+Input filters. This allows for a temporal distribution of the inputs. 
 \begin{DoxyParams}{Parameters}
 {\em num\+\_\+of\+\_\+inputs} & Number of inputs in the input layer \\
 \hline
 {\em num\+\_\+of\+\_\+neurons\+\_\+per\+\_\+layer\+\_\+array} & Number of neurons in each layer \\
-\hline
-{\em \+\_\+num\+\_\+layers} & Number of layer (needs to match with array above) \\
 \hline
 {\em num\+\_\+filters\+Input} & Number of filters at the input layer, 0 = no filterbank \\
 \hline
@@ -83,11 +79,11 @@ Constructor\+: F\+CL with a filter bank at the input Every input feeds internall
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_ac25b0d75e4650d4159b73698801a9f19}\label{classFeedforwardClosedloopLearningWithFilterbank_ac25b0d75e4650d4159b73698801a9f19}} 
+\mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_a54142195b7b597e1dacc6310b3572952}\label{classFeedforwardClosedloopLearningWithFilterbank_a54142195b7b597e1dacc6310b3572952}} 
 \index{FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}!doStep@{doStep}}
 \index{doStep@{doStep}!FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}}
-\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+With\+Filterbank\+::do\+Step (\begin{DoxyParamCaption}\item[{double $\ast$}]{input,  }\item[{double $\ast$}]{error }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}}
+{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+With\+Filterbank\+::do\+Step (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{input,  }\item[{const std\+::vector$<$ double $>$ \&}]{error }\end{DoxyParamCaption})}
 
 
 
@@ -100,17 +96,7 @@ Performs the simulation step.
 {\em error} & Array of the error signals \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classFeedforwardClosedloopLearningWithFilterbank_a8697b828391b160b4579a6566d02fb30}\label{classFeedforwardClosedloopLearningWithFilterbank_a8697b828391b160b4579a6566d02fb30}} 
-\index{FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}!doStep@{doStep}}
-\index{doStep@{doStep}!FeedforwardClosedloopLearningWithFilterbank@{FeedforwardClosedloopLearningWithFilterbank}}
-\doxysubsubsection{\texorpdfstring{doStep()}{doStep()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Feedforward\+Closedloop\+Learning\+With\+Filterbank\+::do\+Step (\begin{DoxyParamCaption}\item[{double $\ast$}]{input,  }\item[{int}]{n1,  }\item[{double $\ast$}]{error,  }\item[{int}]{n2 }\end{DoxyParamCaption})}
 
-
-
-Python wrapper function. 
-
-Not public. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
