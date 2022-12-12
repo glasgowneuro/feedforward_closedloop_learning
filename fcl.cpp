@@ -9,35 +9,30 @@
  * (C) 2017, Paul Miller <paul@glasgowneuro.tech>
  **/
 
-FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
-							     int* num_array,
-							     int _num_layers
-	) {
+FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(const int num_input,
+							     const std::vector<int> &num_of_neurons_per_layer) {
 #ifdef DEBUG
 	fprintf(stderr,"Creating instance of FeedforwardClosedloopLearning.\n");
 #endif	
-	ni = num_input;
-	
-	num_layers = _num_layers;
-	n = new int[num_layers];
-	layers = new FCLLayer*[num_layers];
+
+	n_neurons_per_layer = num_of_neurons_per_layer;
+	layers = new FCLLayer*[n_neurons_per_layer.size()];
+	ni = (unsigned)num_input;
 
 	// creating input layer
 #ifdef DEBUG
 	fprintf(stderr,"Creating input layer: ");
 #endif
-	layers[0] = new FCLLayer(num_array[0], ni);
-	n[0] = num_array[0];
+	layers[0] = new FCLLayer(n_neurons_per_layer[0], ni);
 #ifdef DEBUG
-	fprintf(stderr,"n[0]=%d\n",n[0]);
+	fprintf(stderr,"n[0]=%d\n",n_neurons_per_layer[0]);
 #endif
 	
-	for(int i=1; i<num_layers; i++) {
-		n[i] = num_array[i];
+	for(unsigned i=1; i<n_neurons_per_layer.size(); i++) {
 #ifdef DEBUG
 		fprintf(stderr,"Creating layer %d: ",i);
 #endif
-		layers[i] = new FCLLayer(n[i], layers[i-1]->getNneurons());
+		layers[i] = new FCLLayer(n_neurons_per_layer[i], layers[i-1]->getNneurons());
 #ifdef DEBUG
 		fprintf(stderr,"created with %d neurons.\n",layers[i]->getNneurons());
 #endif
@@ -46,66 +41,65 @@ FeedforwardClosedloopLearning::FeedforwardClosedloopLearning(int num_input,
 }
 
 FeedforwardClosedloopLearning::~FeedforwardClosedloopLearning() {
-	for (int i=0; i<num_layers; i++) {
+	for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 		delete layers[i];
 	}
 	delete [] layers;
-	delete [] n;
-}
-
-
-void FeedforwardClosedloopLearning::doStep(double* input, int n1, double* error, int n2) {
-#ifdef DEBUG
-	fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
-#endif
-	if (n1 != ni) {
-		fprintf(stderr,"Input array dim mismatch: got: %d, want: %d\n",n1,ni);
-		return;
-	}
-	if (n2 != layers[0]->getNneurons()) {
-		fprintf(stderr,
-			"Error array dim mismatch: got: %d, want: %d "
-			"which is the number of neurons in the 1st hidden layer!\n",
-			n2,layers[0]->getNneurons());
-		return;
-	}
-	doStep(input,error);
 }
 
 
 void FeedforwardClosedloopLearning::setStep() {
-	for (int k=0; k<num_layers; k++) {
+	for (unsigned k=0; k<n_neurons_per_layer.size(); k++) {
 		layers[k]->setStep(step);
 	}
 }
 
 void FeedforwardClosedloopLearning::setActivationFunction(FCLNeuron::ActivationFunction _activationFunction) {
-	for (int k=0; k<num_layers; k++) {
+	for (unsigned k=0; k<n_neurons_per_layer.size(); k++) {
 		layers[k]->setActivationFunction(_activationFunction);
 	}	
 }
 
 void FeedforwardClosedloopLearning::doLearning() {
-	for (int k=0; k<num_layers; k++) {
+	for (unsigned k=0; k<n_neurons_per_layer.size(); k++) {
 		layers[k]->doLearning();
 	}
 }
 
 
 void FeedforwardClosedloopLearning::setDecay(double decay) {
-	for (int k=0; k<num_layers; k++) {
+	for (unsigned k=0; k<n_neurons_per_layer.size(); k++) {
 		layers[k]->setDecay(decay);
 	}
 }
 
 
-void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
+void FeedforwardClosedloopLearning::doStep(const std::vector<double> &input, const std::vector<double> &error) {
+	if (input.size() != ni) {
+		char tmp[256];
+		sprintf(tmp,"Input array dim mismatch: got: %ld, want: %d.",input.size(),ni);
+		#ifdef DEBUG
+		fprintf(stderr,"%s\n",tmp);
+		#endif
+		throw tmp;
+	}
+	if (error.size() != ni) {
+		char tmp[256];
+		sprintf(tmp,
+			"Error array dim mismatch: got: %ld, want: %d "
+			"which is the number of neurons in the 1st hidden layer!",
+			error.size(),layers[0]->getNneurons());
+		#ifdef DEBUG
+		fprintf(stderr,"%s\n",tmp);
+		#endif
+		throw tmp;
+	}
 	// we set the input to the input layer
-	layers[0]->setInputs(input);
+	layers[0]->setInputs(input.data());
 	// ..and calc its output
 	layers[0]->calcOutputs();
 	// new lets calc the other outputs
-	for (int k=1; k<num_layers; k++) {
+	for (unsigned k=1; k<n_neurons_per_layer.size(); k++) {
 		FCLLayer* emitterLayer = layers[k-1];
 		FCLLayer* receiverLayer = layers[k];
 		// now that we have the outputs from the previous layer
@@ -125,7 +119,7 @@ void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 	for(int i=0;i<(layers[0]->getNneurons());i++) {
 		layers[0]->getNeuron(i)->setError(error[i]);
 	}
-	for (int k=1; k<num_layers; k++) {
+	for (unsigned k=1; k<n_neurons_per_layer.size(); k++) {
 		FCLLayer* emitterLayer = layers[k-1];
 		FCLLayer* receiverLayer = layers[k];
 		// Calculate the errors for the hidden layer
@@ -154,7 +148,7 @@ void FeedforwardClosedloopLearning::doStep(double* input, double* error) {
 }
 
 void FeedforwardClosedloopLearning::setLearningRate(double rate) {
-	for (int i=0; i<num_layers; i++) {
+	for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 #ifdef DEBUG_FCL
 		fprintf(stderr,"setLearningRate in layer %d\n",i);
 #endif
@@ -163,7 +157,7 @@ void FeedforwardClosedloopLearning::setLearningRate(double rate) {
 }
 
 void FeedforwardClosedloopLearning::setMomentum(double momentum) {
-	for (int i=0; i<num_layers; i++) {
+	for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 #ifdef DEBUG_FCL
 		fprintf(stderr,"setMomentum in layer %d\n",i);
 #endif
@@ -174,20 +168,20 @@ void FeedforwardClosedloopLearning::setMomentum(double momentum) {
 
 
 void FeedforwardClosedloopLearning::initWeights(double max, int initBias, FCLNeuron::WeightInitMethod weightInitMethod) {
-	for (int i=0; i<num_layers; i++) {
+	for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 		layers[i]->initWeights(max,initBias,weightInitMethod);
 	}
 }
 
 
 void FeedforwardClosedloopLearning::setBias(double _bias) {
-	for (int i=0; i<num_layers; i++) {
+	for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 		layers[i]->setBias(_bias);
 	}
 }
 
 void FeedforwardClosedloopLearning::setDebugInfo() {
-	for (int i=0; i<num_layers; i++) {
+	for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 		layers[i]->setDebugInfo(i);
 	}
 }
@@ -200,7 +194,7 @@ bool FeedforwardClosedloopLearning::saveModel(const char* name) {
 	FILE *f=fopen(name, "wt");
 
 	if(f) {
-		for (int i=0; i<num_layers; i++) {
+		for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 			layer = layers[i];
 			for (int j=0; j<layer->getNneurons(); j++) {
 				neuron = layer->getNeuron(j);
@@ -233,7 +227,7 @@ bool FeedforwardClosedloopLearning::loadModel(const char* name) {
 	FILE *f=fopen(name, "r");
 
 	if(f) {
-		for (int i=0; i<num_layers; i++) {
+		for (unsigned i=0; i<n_neurons_per_layer.size(); i++) {
 			layer = layers[i];
 			for (int j=0; j<layer->getNneurons(); j++) {
 				neuron = layer->getNeuron(j);

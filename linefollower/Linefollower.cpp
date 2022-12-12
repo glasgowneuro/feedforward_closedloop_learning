@@ -33,7 +33,7 @@ protected:
 	// Number of layers of neurons in total
 	static constexpr int nLayers = 3;
 	// The number of neurons in every layer
-	int nNeuronsInLayers[nLayers] = {9,6,6};
+	std::vector<int> nNeuronsInLayers = {9,6,6};
 	// We set nFilters in the input
 	const int nFiltersInput = 10;
 	// We set nFilters in the unit
@@ -47,8 +47,8 @@ protected:
 	
 	FeedforwardClosedloopLearningWithFilterbank* fcl = NULL;
 
-	double* pred = NULL;
-	double* err = NULL;
+	std::vector<double> pred;
+	std::vector<double> err;
 
 	FILE* flog = NULL;
 
@@ -89,14 +89,13 @@ public:
 		racer->rightSpeed = speed;
 		world->addObject(racer);
 
-		pred = new double[nInputs];
-		err = new double[nNeuronsInLayers[0]];
+		pred.resize(nInputs);
+		err.resize(nInputs);
 
 		// setting up deep feedforward learning
 		fcl = new FeedforwardClosedloopLearningWithFilterbank(
 			nInputs,
 			nNeuronsInLayers,
-			nLayers,
 			nFiltersInput,
 			minT,
 			maxT);
@@ -114,8 +113,6 @@ public:
 		fclose(llog);
 		fclose(fcoord);
 		delete fcl;
-		delete[] pred;
-		delete[] err;
 	}
 
 	void setLearningRate(double _learningRate) {
@@ -176,8 +173,8 @@ public:
 			//if (i>=racer->getNsensors()/2) fprintf(stderr,"%e ",pred[i]);
 		}
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
-		for(int i=0;i<nNeuronsInLayers[0];i++) {
-			err[i] = error;
+		for(auto &e:err) {
+			e = error;
                 }
 		// !!!!
 		fcl->doStep(pred,err);

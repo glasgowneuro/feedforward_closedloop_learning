@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
+#include <vector>
 
 /** Main class of Feedforward Closed Loop Learning.
  * Create an instance of this class to do the
@@ -36,10 +37,9 @@ public:
 	 * \param _num_layers Number of  layer (needs to match with array above)
 	 **/
 	FeedforwardClosedloopLearning(
-			int num_of_inputs,
-			int* num_of_neurons_per_layer_array,
-			int _num_layers
-			);
+		const int num_input, 
+		const std::vector<int> &num_of_neurons_per_layer
+	);
 
 	/** Destructor
          * De-allocated any memory
@@ -50,18 +50,14 @@ public:
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	void doStep(double* input, double* error);
-
-	/** Python wrapper function. Not public.
-         **/
-	void doStep(double* input, int n1, double* error, int n2);
+	void doStep(const std::vector<double> &input, const std::vector<double> &error);
 
 	/** Gets the output from one of the output neurons
          * \param index: The index number of the output neuron.
          * \return The output value of the output neuron.
          **/
 	double getOutput(int index) {
-		return layers[num_layers-1]->getOutput(index);
+		return layers[n_neurons_per_layer.size()-1]->getOutput(index);
 	}
 
 	/** Sets globally the learning rate
@@ -87,7 +83,6 @@ public:
 	void setMomentum(double momentum);
 
 	/** Sets the activation function of the Neuron
-         * \param _activationFunction: See Neuron::ActivationFunction for the different options.
          **/
 	void setActivationFunction(FCLNeuron::ActivationFunction _activationFunction);
 
@@ -113,18 +108,18 @@ public:
 	/** Gets the total number of layers
          * \return The total number of all layers.
          **/
-	int getNumLayers() {return num_layers;};
+	int getNumLayers() {return (int)n_neurons_per_layer.size();};
 
 	/** Gets a pointer to a layer
          * \param i Index of the layer.
          * \return A pointer to a layer class.
          **/
-	FCLLayer* getLayer(int i) {assert (i<=num_layers); return layers[i];};
+	FCLLayer* getLayer(unsigned i) {assert (i<=n_neurons_per_layer.size()); return layers[i];};
 
 	/** Gets the output layer
          * \return A pointer to the output layer which is also a Layer class.
          **/
-	FCLLayer* getOutputLayer() {return layers[num_layers-1];};
+	FCLLayer* getOutputLayer() {return layers[n_neurons_per_layer.size()-1];};
 
 	/** Gets the number of inputs
 	 * \return The number of inputs
@@ -149,9 +144,8 @@ public:
 	
 
 private:
-	int ni;
-	int* n;
-	int num_layers;
+	unsigned ni;
+	std::vector<int> n_neurons_per_layer;
 
 	double learningRateDiscountFactor = 1;
 

@@ -27,20 +27,18 @@ public:
 	 * Every input feeds internally into a has a filter bank of num_filtersInput 
 	 * filters. This allows for a temporal distribution of the inputs.
 	 * \param num_of_inputs Number of inputs in the input layer
-         * \param num_of_neurons_per_layer_array Number of neurons in each layer
-	 * \param _num_layers Number of  layer (needs to match with array above)
-         * \param num_filtersInput Number of filters at the input layer, 0 = no filterbank
-         * \param num_filters Number of filters in the hiddel layers (usually zero)
-         * \param _minT Minimum/first temporal duration of the 1st filter
-         * \param _maxT Maximum/last temporal duration of the last filter
-         **/
+	 * \param num_of_neurons_per_layer_array Number of neurons in each layer
+	 * \param num_filtersInput Number of filters at the input layer, 0 = no filterbank
+	 * \param num_filters Number of filters in the hiddel layers (usually zero)
+	 * \param _minT Minimum/first temporal duration of the 1st filter
+	 * \param _maxT Maximum/last temporal duration of the last filter
+	 **/
 	FeedforwardClosedloopLearningWithFilterbank(
-			int num_of_inputs,
-			int* num_of_neurons_per_layer_array,
-			int num_layers,
-			int num_filtersInput,
-			double minT,
-			double maxT);
+			const int num_of_inputs,
+			const std::vector<int> &num_of_neurons_per_layer,
+			const int num_filtersInput,
+			const double minT,
+			const double maxT);
 
 	/**
 	 * Destructor
@@ -51,11 +49,7 @@ public:
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	void doStep(double* input, double* error);
-
-	/** Python wrapper function. Not public.
-         **/
-	void doStep(double* input, int n1, double* error, int n2);
+	void doStep(const std::vector<double> &input, const std::vector<double> &error);
 
 	double getFilterOutput(int inputIdx, int filterIdx) {
 		const int idx = inputIdx * nFiltersPerInput + filterIdx;
@@ -70,8 +64,8 @@ public:
 private:
 	const double dampingCoeff = 0.51;
 	FCLBandpass ***bandpass = 0;
-	double* errors = 0;
-	double* filterbankOutputs = 0;
+	std::vector<double> errors;
+	std::vector<double> filterbankOutputs;
 	int nFiltersPerInput = 0;
 	int nInputs = 0;
 };

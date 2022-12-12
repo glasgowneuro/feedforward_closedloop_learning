@@ -7,17 +7,26 @@
 	#include "fcl/neuron.h"
 %}
 
-%include "numpy.i"
+%include exception.i
 
-%init %{
-    import_array();
-%}
+%exception {
+    try {
+        $action
+    } catch (const char* e) {
+        PyErr_SetString(PyExc_RuntimeError, e);
+        return NULL;
+    }
+}
+
+%include <typemaps.i>
+%include "std_vector.i"
+
+%template(DoubleVector) std::vector<double>;
+%template(IntVector) std::vector<int>;
 
 %feature("autodoc", "3");
 
-%apply (double* IN_ARRAY1, int DIM1) {(double* input, int n1), (double* error, int n2)};
-%apply (int* IN_ARRAY1, int DIM1) {(int* num_of_neurons_per_layer_array, int _num_layers)};
-%apply (int* IN_ARRAY1, int DIM1) {(int* num_of_neurons_per_layer_array, int num_layers)};
+
 
 %include "fcl.h"
 %include "fcl_util.h"

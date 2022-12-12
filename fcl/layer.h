@@ -185,7 +185,7 @@ public:
 	/** Sets all inputs from an input array
          * \param _inputs array of all inputs
          **/
-	void setInputs( double * _inputs);
+	void setInputs( const double * _inputs);
 
 	/** Sets the learning rate of all neurons
          * \param _learningRate The learning rate

@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <signal.h>
+#include <vector>
 #ifdef __linux__
 #include <execinfo.h>
 #endif
@@ -11,9 +12,9 @@
 // a nice response is generated
 void test_forward() {
 	printf("test_forward\n");
-	int nNeuronsHidden[] = {10,10,1};
+	std::vector<int> nNeuronsHidden = {10,10,1};
 
-	FeedforwardClosedloopLearning fcl(2,nNeuronsHidden,3);
+	FeedforwardClosedloopLearning fcl(2,nNeuronsHidden);
 	fcl.seedRandom(1);
 	FILE* f=fopen("test_fcl_cpp_forward.dat","wt");
 	// no learning
@@ -21,8 +22,8 @@ void test_forward() {
 	// random init
 	fcl.initWeights(1, 0, FCLNeuron::MAX_OUTPUT_RANDOM);
 
-	double input[2];
-	double error[2];
+	std::vector<double> input = {0,0};
+	std::vector<double> error = {0,0};
 
 	for(int n = 0; n < 100;n++) {
 
@@ -49,8 +50,8 @@ void test_forward() {
 
 void test_learning_fcl() {
 	printf("test_learning_fcl\n");
-	int nNeur[] = {2,1};
-	FeedforwardClosedloopLearning fcl(2,nNeur,2);
+	std::vector<int> nNeur = {2,1};
+	FeedforwardClosedloopLearning fcl(2,nNeur);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
 	fcl.initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
@@ -59,8 +60,8 @@ void test_learning_fcl() {
 	
 	FILE* f=fopen("test_learning_fcl.dat","wt");
 
-	double input[2] = { 0,0 };
-	double error[2] = { 0,0 };
+	std::vector<double> input = { 0,0 };
+	std::vector<double> error = { 0,0 };
 	
 	for(int n = 0; n < 10000;n++) {
 		

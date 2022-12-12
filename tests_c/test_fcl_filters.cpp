@@ -10,11 +10,11 @@
 
 void test_filters() {
 	printf("test_filters\n");
-	int nNeur[] = {2,1};
+	std::vector<int> nNeur = {2,1};
 	int nFiltersInput = 10;
 	double minT = 10;
 	double maxT = 200;
-	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,2,nFiltersInput,minT,maxT);
+	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,nFiltersInput,minT,maxT);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
 	fcl.initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
@@ -23,8 +23,8 @@ void test_filters() {
 	
 	FILE* f=fopen("test_filters.dat","wt");
 
-	double input[2] = { 0,0 };
-	double error[2] = { 0,0 };
+	std::vector<double> input = { 0,0 };
+	std::vector<double> error = { 0,0 };
 
 	for(int n = 0; n < 10000;n++) {		
 		double stim = 0;
@@ -51,11 +51,11 @@ void test_filters() {
 
 void test_learning_fcl_filters() {
 	printf("test_learning_fcl_filters\n");
-	int nNeur[] = {2,2,1};
+	std::vector<int> nNeur = {2,2,1};
 	int nFiltersInput = 10;
 	double minT = 100;
 	double maxT = 1000;
-	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,3,nFiltersInput,minT,maxT);
+	FeedforwardClosedloopLearningWithFilterbank fcl(2,nNeur,nFiltersInput,minT,maxT);
 	fcl.seedRandom(1);
 	fcl.setLearningRate(0.001);
 	fcl.initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
@@ -65,11 +65,10 @@ void test_learning_fcl_filters() {
 	FILE* f=fopen("test_learning_fcl_filters.dat","wt");
 	FILE* f2=fopen("test_learning_fcl_filters2.dat","wt");
 
-	double input[2] = { 0,0 };
-	double error[2] = { 0,0 };
+	std::vector<double> input = { 0,0 };
+	std::vector<double> error = { 0,0 };
 
 	for(int n = 0; n < 10000;n++) {
-		
 		double stim = 0;
 		double err = 0;
 		int n2 = n% 1000;

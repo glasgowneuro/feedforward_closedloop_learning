@@ -270,8 +270,8 @@ double FCLLayer::getWeightDistanceFromInitialWeights() {
 }
 
 
-void FCLLayer::setInputs( double* inputs ) {
-	double* inputp = inputs;
+void FCLLayer::setInputs( const double* inputs ) {
+	const double* inputp = inputs;
 	inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
 		FCLNeuron** neuronsp = neurons;

@@ -17,9 +17,10 @@ with open('test_fcl_filt_py.csv', 'ab') as csvfile:
     nFiltersInput = 5
     minT = 3
     maxT = 15
-    net = fcl.FeedforwardClosedloopLearningWithFilterbank(2, [2,1], nFiltersInput, minT,maxT)
+    nn = [2,1]
+    net = fcl.FeedforwardClosedloopLearningWithFilterbank(2, nn, nFiltersInput, minT,maxT)
     # init the weights
-    net.initWeights(0.001,0,fcl.Neuron.MAX_OUTPUT_CONST)
+    net.initWeights(0.001,0,fcl.FCLNeuron.MAX_OUTPUT_CONST)
     net.setBias(0)
     net.setLearningRate(0.0001)
     #net.random_seed(10)

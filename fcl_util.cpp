@@ -10,15 +10,13 @@
  **/
 
 FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFilterbank(
-			int num_of_inputs,
-			int* num_of_neurons_per_layer_array,
-			int num_layers,
-			int num_filtersInput,
-			double minT,
-			double maxT) : FeedforwardClosedloopLearning(
-				num_of_inputs * num_filtersInput,
-				num_of_neurons_per_layer_array,
-				num_layers) {
+	const int num_of_inputs,
+	const std::vector<int> &num_of_neurons_per_layer,
+	const int num_filtersInput,
+	const double minT,
+	const double maxT) : FeedforwardClosedloopLearning(
+		num_of_inputs * num_filtersInput,
+		num_of_neurons_per_layer) {
 #ifdef DEBUG
 	fprintf(stderr,"Creating instance of FeedforwardClosedloopLearningWithFilterbank.\n");
 #endif	
@@ -26,8 +24,8 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 	nInputs = num_of_inputs;
 	assert((nInputs*nFiltersPerInput) == getNumInputs());
 	bandpass = new FCLBandpass**[num_of_inputs];
-	errors = new double[num_of_inputs*num_filtersInput];
-	filterbankOutputs = new double[num_of_inputs * num_filtersInput];
+	errors.resize(num_of_inputs*num_filtersInput);
+	filterbankOutputs.resize(num_of_inputs * num_filtersInput);
 	for(int i=0;i<num_of_inputs;i++) {
 		bandpass[i] = new FCLBandpass*[num_filtersInput];
 		double fs = 1;
@@ -64,7 +62,6 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 }
 
 FeedforwardClosedloopLearningWithFilterbank::~FeedforwardClosedloopLearningWithFilterbank() {
-	delete[] filterbankOutputs;
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFiltersPerInput;j++) {
 			delete bandpass[i][j];
@@ -72,11 +69,30 @@ FeedforwardClosedloopLearningWithFilterbank::~FeedforwardClosedloopLearningWithF
 		delete[] bandpass[i];
 	}
 	delete[] bandpass;
-	delete[] errors;
 }
 
 
-void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, double* error) {
+void FeedforwardClosedloopLearningWithFilterbank::doStep(const std::vector<double> &input,
+							 const std::vector<double> &error) {
+	if (input.size() != (unsigned)nInputs) {
+		char tmp[256];
+		sprintf(tmp,"Input array dim mismatch: got: %ld, want: %d.",input.size(),nInputs);
+		#ifdef DEBUG
+		fprintf(stderr,"%s\n",tmp);
+		#endif
+		throw tmp;
+	}
+	if (error.size() != (unsigned)nInputs) {
+		char tmp[256];
+		sprintf(tmp,
+			"Error array dim mismatch: got: %ld, want: %d "
+			"which is the number of inputs.",
+			error.size(),nInputs);
+		#ifdef DEBUG
+		fprintf(stderr,"%s\n",tmp);
+		#endif
+		throw tmp;
+	}
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFiltersPerInput;j++) {
 			filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);
@@ -84,23 +100,4 @@ void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, double* 
 		}
 	}
 	FeedforwardClosedloopLearning::doStep(filterbankOutputs, errors);
-}
-
-
-void FeedforwardClosedloopLearningWithFilterbank::doStep(double* input, int n1, double* error, int n2) {
-#ifdef DEBUG
-	fprintf(stderr,"doStep: n1=%d,n2=%d\n",n1,n2);
-#endif
-	if (n1 != nInputs) {
-		fprintf(stderr,"Input array dim mismatch: got: %d, want: %d\n",n1,nInputs);
-		return;
-	}
-	if (n2 != nInputs) {
-		fprintf(stderr,
-			"Error array dim mismatch: got: %d, want: %d "
-			"which is the number of inputs.\n",
-			n2,nInputs);
-		return;
-	}
-	FeedforwardClosedloopLearningWithFilterbank::doStep(input,error);
 }
