@@ -1,6 +1,8 @@
 include *.py
 include fcl.h
 include fcl.cpp
+include fcl_util.h
+include fcl_util.cpp
 include *.i
 include README*
 recursive-include fcl *
