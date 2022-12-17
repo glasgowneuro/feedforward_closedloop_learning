@@ -3,8 +3,6 @@
 [Forward propagation closed loop learning
 Bernd Porr, Paul Miller. Adaptive Behaviour 2019.](https://journals.sagepub.com/doi/10.1177/1059712319851070)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7451257.svg)](https://doi.org/10.5281/zenodo.7451257)
-
 [Submission version](https://www.berndporr.me.uk/Porr_Miller_FCL_2019_Adaptive_Behaviour.pdf)
 
 ## Error _forward_ propagation
@@ -63,3 +61,7 @@ Version 3, 29 June 2007
 (C) 2017-2022, Bernd Porr <bernd@glasgowneuro.tech>
 (C) 2017,2018, Paul Miller <paul@glasgowneuro.tech>
 ```
+
+## DOI of the Code
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7451257.svg)](https://doi.org/10.5281/zenodo.7451257)
