@@ -275,7 +275,7 @@ void FCLLayer::setInputs( const double* inputs ) {
 	inputp = inputs;
 	for(int j=0;j<nInputs;j++) {
 		FCLNeuron** neuronsp = neurons;
-		 double input = *inputp;
+		double input = *inputp;
 		inputp++;
 		for(int i=0;i<nNeurons;i++) {
 			(*neuronsp)->setInput(j,input);
@@ -303,6 +303,24 @@ void FCLLayer::setConvolution( int width,  int height) {
 		if (mx > width) {
 			mx = (int)round(dx/2.0);
 			my = my + dy;
+		}
+	}
+}
+
+
+void FCLLayer::setConvolution( int width ) {
+	float dx = (float)nInputs / (float)nNeurons;
+#ifdef DEBUG
+	fprintf(stderr,"Setting 1D convolution. nInputs = %d, nNeurons = %d, dx = %f.\n",nInputs,nNeurons,dx);
+#endif
+	for(int i=0;i<nNeurons;i++) {
+		const int x0 = (int)round(dx * (float)i - dx/2.0f);
+		neurons[i]->setMask(0);
+#ifdef DEBUG
+		fprintf(stderr,"# %d: input[%d,%d]\n",i,x0,x0+width);
+#endif
+		for(int j = 0; j < width; j++) {
+			neurons[i]->setMask(x0+j,1);
 		}
 	}
 }

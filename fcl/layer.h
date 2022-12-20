@@ -249,6 +249,11 @@ public:
          **/
 	void setConvolution( int width,  int height);
 
+	/** Defines a 1D geometry for the input layer
+         * \param width The width of the convolutional window.
+         **/
+	void setConvolution( int width );
+
 	/** Maxium detection layer. Experimental.
          * This hasn't been implemented.
          **/

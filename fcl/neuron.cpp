@@ -404,6 +404,12 @@ void FCLNeuron::setMask( int x, int y, unsigned char c) {
 	mask[x+y*width] = c;
 }
 
+void FCLNeuron::setMask( int x, unsigned char c) {
+	if (x < 0) return;
+	if (x >= nInputs) return;
+	mask[x] = c;
+}
+
 void FCLNeuron::setMask( unsigned char c) {
 	for(int i=0;i<nInputs;i++) {
 		mask[i] = c;

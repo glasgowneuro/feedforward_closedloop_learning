@@ -228,13 +228,19 @@ public:
 			height = _height;
 	}
 	
-	/** Boundary safe manipulation of the convolution mask.
+	/** Boundary safe 2D manipulation of the convolution mask.
          * Sets the convolution mask using the geometry defined by setGeometry.
          * \param x Sets the mask value at coordinate x (0 .. width).
          * \param y Sets the mask value at coordinate y (0 .. height).
          * \param c Sets the mask: 0 = ignore underlying value, 1 = process underlying value.
          **/
 	void setMask( int x, int y, unsigned char c);
+	
+	/** Boundary safe 1D manipulation of the convolution mask.
+         * \param x Sets the mask value from coordinate x.
+         * \param c Sets the mask: 0 = ignore underlying value, 1 = process underlying value.
+         **/
+	void setMask( const int x, const unsigned char c);
 	
 	/** Init the whole mask with a single value.
          * \param c Sets the mask for the whole array. 0 = ignore the entire input, 1 = process every input.
