@@ -4,44 +4,16 @@
 #include "fcl_util.h"
 #include <viewer/Viewer.h>
 
+#include "Linefollower.h"
+
 using namespace Enki;
 using namespace std;
-
-// size of the playground
-double	maxx = 300;
-double	maxy = 300;
-
-// for stats
-#define SQ_ERROR_THRES 0.001
-#define STEPS_BELOW_ERR_THRESHOLD 1000
-
-// max number of steps to terminate
-#define MAX_STEPS 200000
-
-// terminates if the agent won't turn after these steps
-#define STEPS_OFF_TRACK 1000
 
 class LineFollower : public ViewerWidget {
 protected:
 	// The robot
 	Racer* racer;
 	
-	const double speed = 90;
-	const double fbgain = 300;
-
-	const int nInputs = 30;
-	// Number of layers of neurons in total
-	static constexpr int nLayers = 3;
-	// The number of neurons in every layer
-	std::vector<int> nNeuronsInLayers = {9,6,6};
-	// We set nFilters in the input
-	const int nFiltersInput = 10;
-	// We set nFilters in the unit
-	const int nFilters = 0;
-	// Filterbank
-	const double minT = 2;
-	const double maxT = 30;
-
 	// Is set by the learning rate setter. Do not change here!
 	double learningRate = 0;
 	
@@ -55,19 +27,12 @@ protected:
 	FILE* llog = NULL;
 
 	FILE* fcoord = NULL;
-
-	double IRthres = 100;
-
+	
 	int learningOff = 1;
-
-	double a = -0.5;
-
-	double border = 25;
 
 	long step = 0;
 
 	double avgError = 0;
-	double avgErrorDecay = 0.01;
 
 	int successCtr = 0;
 
@@ -78,7 +43,6 @@ public:
 		ViewerWidget(world, parent) {
 
 		flog = fopen("flog.tsv","wt");
-		llog = fopen("llog.tsv","wt");
 		fcoord = fopen("coord.tsv","wt");
 
 		// setting up the robot
@@ -110,7 +74,6 @@ public:
 
 	~LineFollower() {
 		fclose(flog);
-		fclose(llog);
 		fclose(fcoord);
 		delete fcl;
 	}
@@ -211,18 +174,14 @@ public:
 			qApp->quit();
 		}
 		
-		fprintf(flog,"%e\t%e\t%e",erroramp,vL,vR);
+		fprintf(flog,"%e\t",error);
+		fprintf(flog,"%e\t",avgError);
+		fprintf(flog,"%e\t%e",vL,vR);
 		for(int i=0;i<fcl->getNumLayers();i++) {
 			fprintf(flog,"\t%e",fcl->getLayer(i)->getWeightDistanceFromInitialWeights());
 		}
 		fprintf(flog,"\n");
-		fflush(flog);
-		fprintf(llog,"%e\t",error);
-		fprintf(llog,"%e\t",avgError);
-		fprintf(llog,"%e\t",absError);
-		fprintf(llog,"%e\t",fcl->getLayer(0)->getNeuron(0)->getWeight(0));
-		fprintf(llog,"%e\n",fcl->getLayer(0)->getNeuron(0)->getOutput());
-		fflush(llog);
+
 		if ((step%100)==0) {
 			for(int i=0;i<fcl->getNumLayers();i++) {
 				char tmp[256];

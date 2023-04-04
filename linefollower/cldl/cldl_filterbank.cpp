@@ -10,12 +10,12 @@
  **/
 
 ClosedloopDeepLearningWithFilterbank::ClosedloopDeepLearningWithFilterbank(
-			int num_of_inputs,
-			int* num_of_neurons_per_layer_array,
-			int num_layers,
-			int num_filtersInput,
-			double minT,
-			double maxT) : CLDLNet(
+			const int num_of_inputs,
+			const int* num_of_neurons_per_layer_array,
+			const int num_layers,
+			const int num_filtersInput,
+			const double minT,
+			const double maxT) : CLDLNet(
 				num_layers,
 				num_of_neurons_per_layer_array,
 				num_of_inputs * num_filtersInput

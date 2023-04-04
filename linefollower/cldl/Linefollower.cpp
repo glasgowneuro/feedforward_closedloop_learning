@@ -7,43 +7,13 @@
 using namespace Enki;
 using namespace std;
 
-// size of the playground
-double	maxx = 300;
-double	maxy = 300;
-
-// for stats
-#define SQ_ERROR_THRES 0.001
-#define STEPS_BELOW_ERR_THRESHOLD 1000
-
-// max number of steps to terminate
-#define MAX_STEPS 200000
-
-// terminates if the agent won't turn after these steps
-#define STEPS_OFF_TRACK 1000
+#include "../Linefollower.h"
 
 class LineFollower : public ViewerWidget {
 protected:
 	// The robot
 	Racer* racer;
 	
-	const double speed = 90;
-	const double fbgain = 300;
-
-	const int nInputs = 30;
-	// Number of layers of neurons in total
-	static constexpr int nLayers = 3;
-	// Number of neurons in the output layer
-	static constexpr int nNeuronsOutput = 6;
-	// The number of neurons in every layer
-	int nNeuronsInLayers[nLayers] = {9,6,nNeuronsOutput};
-	// We set nFilters in the input
-	const int nFiltersInput = 10;
-	// We set nFilters in the unit
-	const int nFilters = 0;
-	// Filterbank
-	const double minT = 2;
-	const double maxT = 30;
-
 	// Is set by the learning rate setter. Do not change here!
 	double learningRate = 0;
 	
@@ -56,18 +26,11 @@ protected:
 
 	FILE* fcoord = NULL;
 
-	double IRthres = 100;
-
 	int learningOff = 1;
-
-	double a = -0.5;
-
-	double border = 25;
 
 	long step = 0;
 
-	double avgError = 0;
-	double avgErrorDecay = 0.01;
+	double avgError = 0.0;
 
 	int successCtr = 0;
 
@@ -94,8 +57,8 @@ public:
 		// setting up deep feedforward learning
 		cldl = new ClosedloopDeepLearningWithFilterbank(
 			nInputs,
-			nNeuronsInLayers,
-			nLayers,
+			nNeuronsInLayers.data(),
+			(int)nNeuronsInLayers.size(),
 			nFiltersInput,
 			minT,
 			maxT);
