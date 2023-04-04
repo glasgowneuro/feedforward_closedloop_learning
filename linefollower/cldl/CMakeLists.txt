@@ -5,6 +5,22 @@ project(cldl VERSION 3.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(OpenGL_GL_PREFERENCE GLVND)
+
+# required packages
+find_package(Qt5 COMPONENTS Widgets Core OpenGL REQUIRED)
+find_package(Threads)
+
+# required libraries
+find_package(OpenGL REQUIRED)
+
+include_directories(${GLUT_INCLUDE_DIR})
+include_directories(${OpenGL_INCLUDE_DIRS})
+
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
@@ -57,8 +73,18 @@ set_target_properties(cldl_static PROPERTIES
   PUBLIC_HEADER "${PUBLICHEADERS}"
   PRIVATE_HEADER "${PRIVATEHEADERS}")
 
-install(TARGETS cldl_static
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-  PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cldl)
+add_executable(linefollowercldl
+  Linefollower.cpp
+  ../Racer.cpp
+  )
+
+target_include_directories(linefollowercldl PUBLIC ${PROJECT_SOURCE_DIR} ..)
+
+target_link_libraries(linefollowercldl
+  enkiviewer
+  enki
+  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY}
+  Qt5::OpenGL
+  Qt5::Widgets
+  cldl_static
+  )
