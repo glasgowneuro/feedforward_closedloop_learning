@@ -78,36 +78,8 @@ void FCLNeuron::calcOutput() {
 #ifdef DEBUG
 	if (fabs(sum) > SUM_ERR_THRES) fprintf(stderr,"Neuron::%s, Sum (%e) is very high in layer %d, neuron %d, step %ld.\n",__func__,sum,layerIndex,neuronIndex,step);
 #endif
-	
-	switch (activationFunction) {
-	case LINEAR:
-		output = sum;
-		break;
-	case TANH:
-	case TANHLIMIT:
-		output = tanh(sum);
-		break;
-	case RELU:
-		if (sum>0) {
-			output = sum;
-		} else {
-			output = 0;
-		}
-		break;
-	case REMAXLU:
-		if (sum>0) {
-			if (sum<1) {
-				output = sum;
-			} else {
-				output = 1;
-			}
-		} else {
-			output = 0;
-		}
-		break;
-	default:
-		output = sum;	
-	}
+
+	output = doActivation(sum);
 }
 
 
@@ -161,7 +133,7 @@ void FCLNeuron::doLearning() {
 		if (*maskp) {
 			*weightschp = momentum * (*weightschp) +
 				(*inputsp) * error * learningRate * learningRateFactor -
-				(*weightsp) * decay * learningRate * fabs(error);
+				(*weightsp) * decay * learningRate;
 			*weightsp = *weightsp + *weightschp;
 #ifdef DEBUG
 			if (isnan(sum) || isnan(weights[i]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
@@ -391,8 +363,8 @@ double FCLNeuron::getWeightDistanceFromInitialWeights() {
 
 
 void FCLNeuron::setError(double _error) {
-	error = _error;
 	assert(!isnan(_error));
+	error = _error;
 }
 
 

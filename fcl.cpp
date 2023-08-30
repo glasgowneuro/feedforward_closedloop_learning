@@ -127,7 +127,7 @@ void FeedforwardClosedloopLearning::doStep(const std::vector<double> &input, con
 			double err = 0;
 			for(int j=0;j<emitterLayer->getNneurons();j++) {
 				err = err + receiverLayer->getNeuron(i)->getWeight(j) *
-					emitterLayer->getNeuron(j)->getError();
+					emitterLayer->getNeuron(j)->getErrorAfterActivation();
 #ifdef DEBUG
 				if (isnan(err) || (fabs(err)>10000) || (fabs(emitterLayer->getNeuron(j)->getError())>10000)) {
 					printf("RANGE! FeedforwardClosedloopLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "

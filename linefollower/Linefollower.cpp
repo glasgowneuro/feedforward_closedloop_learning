@@ -68,7 +68,7 @@ public:
 		fcl->setLearningRate(learningRate);
 		fcl->setLearningRateDiscountFactor(1);
 		fcl->setBias(1);
-		fcl->setActivationFunction(FCLNeuron::TANH);
+		fcl->setActivationFunction(ACTIVATION_FUNCTION);
 		fcl->setMomentum(0.9);		
 	}
 
@@ -249,7 +249,7 @@ int main(int argc, char *argv[]) {
 	}
 	switch (n) {
 	case 0:
-		singleRun(argc,argv,0.00025f);
+		singleRun(argc,argv,LEARNING_RATE_SINGLE_RUN);
 		break;
 	case 1:
 		statsRun(argc,argv);
