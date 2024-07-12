@@ -26,9 +26,9 @@ const double maxT = 30;
 double	maxx = 300;
 double	maxy = 300;
 
-const float LEARNING_RATE_SINGLE_RUN = 0.001f;
+const float LEARNING_RATE_SINGLE_RUN = 0.00001f;
 
-#define ACTIVATION_FUNCTION FCLNeuron::LINEAR
+#define ACTIVATION_FUNCTION FCLNeuron::TANH
 
 // for stats
 #define SQ_ERROR_THRES 0.001

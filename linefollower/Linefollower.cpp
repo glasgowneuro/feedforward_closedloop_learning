@@ -66,10 +66,10 @@ public:
 
 		fcl->initWeights(1,0,FCLNeuron::MAX_OUTPUT_RANDOM);
 		fcl->setLearningRate(learningRate);
-		fcl->setLearningRateDiscountFactor(1);
-		fcl->setBias(1);
+		fcl->setLearningRateDiscountFactor(10);
+		fcl->setBias(0);
 		fcl->setActivationFunction(ACTIVATION_FUNCTION);
-		fcl->setMomentum(0.9);		
+		fcl->setMomentum(0.99);		
 	}
 
 	~LineFollower() {

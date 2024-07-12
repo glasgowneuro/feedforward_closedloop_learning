@@ -167,8 +167,4 @@ set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap 
 GNUTERM = "wxt"
 ## Last datafile plotted: "flog.tsv"
 plot "flog.tsv" using 5 w l, "flog.tsv" using 6 w l, "flog.tsv" using 7 w l
-set term postscript eps
-set output "fcl.eps"
-replot
-#    EOF
-pause(-1)
+pause -1
