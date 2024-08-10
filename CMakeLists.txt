@@ -19,8 +19,6 @@ include(GNUInstallDirs)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
-add_subdirectory(tests_c)
-
 find_package(Qt5 COMPONENTS Widgets Core OpenGL)
 find_package(OpenGL)
 

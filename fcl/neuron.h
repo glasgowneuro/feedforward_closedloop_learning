@@ -97,41 +97,6 @@ public:
          **/
 	double dActivation();
 
-	inline double doActivation(double sum) const {
-		switch (activationFunction) {
-		case LINEAR:
-			return sum;
-		case TANH:
-		case TANHLIMIT:
-			return tanh(sum);
-		case RELU:
-			if (sum>0) {
-				return sum;
-			} else {
-				return 0;
-			}
-			break;
-		case REMAXLU:
-			if (sum>0) {
-				if (sum<1) {
-					return sum;
-				} else {
-					return 1;
-				}
-			} else {
-				return 0;
-			}
-		default:
-			return sum;	
-		}
-		assert(false);
-		return sum;
-	}
-
-	inline double getErrorAfterActivation() const {
-		return doActivation(error);
-	}
-
 	/** Minimum weight value
          * \return The minimum weight value in this neuron
          **/

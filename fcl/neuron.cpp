@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <vector>
 
 /**
  * GNU GENERAL PUBLIC LICENSE
@@ -78,8 +79,36 @@ void FCLNeuron::calcOutput() {
 #ifdef DEBUG
 	if (fabs(sum) > SUM_ERR_THRES) fprintf(stderr,"Neuron::%s, Sum (%e) is very high in layer %d, neuron %d, step %ld.\n",__func__,sum,layerIndex,neuronIndex,step);
 #endif
-
-	output = doActivation(sum);
+	
+	switch (activationFunction) {
+	case LINEAR:
+		output = sum;
+		break;
+	case TANH:
+	case TANHLIMIT:
+		output = tanh(sum);
+		break;
+	case RELU:
+		if (sum>0) {
+			output = sum;
+		} else {
+			output = 0;
+		}
+		break;
+	case REMAXLU:
+		if (sum>0) {
+			if (sum<1) {
+				output = sum;
+			} else {
+				output = 1;
+			}
+		} else {
+			output = 0;
+		}
+		break;
+	default:
+		output = sum;	
+	}
 }
 
 
@@ -124,7 +153,9 @@ void FCLNeuron::doLearning() {
 	double* weightsp = weights;
 	double* weightschp = weightChange;
 	unsigned char * maskp = mask;
-	maxDet = 0;
+	std::vector<double> weightChangeArray(nInputs, 0.0);
+	const int nFilterGroup = 5;
+
 	for(int i=0;i<nInputs;i++) {
 		assert((mask+i) == maskp);
 		assert((weights+i) == weightsp);
@@ -133,8 +164,10 @@ void FCLNeuron::doLearning() {
 		if (*maskp) {
 			*weightschp = momentum * (*weightschp) +
 				(*inputsp) * error * learningRate * learningRateFactor -
-				(*weightsp) * decay * learningRate;
-			*weightsp = *weightsp + *weightschp;
+				(*weightsp) * decay * learningRate * fabs(error);
+			// *weightsp = *weightsp + *weightschp;
+
+			/* Add a forget term 0.9999 to the weights. */
 #ifdef DEBUG
 			if (isnan(sum) || isnan(weights[i]) || isnan(inputs[i]) || (fabs(sum)>SUM_ERR_THRES)) {
 				fprintf(stderr,"Out of range Neuron::%s step=%ld, L=%d, N=%d, %f, %f, %f, %d\n",
@@ -142,11 +175,40 @@ void FCLNeuron::doLearning() {
 			}
 #endif
 		}
+
+		/* record weight change between every neurons */
+		weightChangeArray[i] = *weightschp;
 		inputsp++;
 		maskp++;
 		weightsp++;
 		weightschp++;
 	}
+
+	/* Winner-takes-all among delay arrays */
+	for (int i = 0; i < nInputs; i += nFilterGroup)
+	{	
+		int maxIndex = i;
+		for (int j = i + 1; j < i + nFilterGroup && j < nInputs; ++j) 
+		{
+			if (fabs(weightChangeArray[j]) > fabs(weightChangeArray[maxIndex])) 
+			{
+				weightChangeArray[maxIndex] = 0;
+				maxIndex = j;
+			}
+			else
+			{
+				weightChangeArray[j] = 0;
+			}
+		}
+	}
+
+	weightsp = weights;
+	for (int i = 0; i < nInputs; i++) 
+	{
+		*weightsp = (*weightsp) + weightChangeArray[i];
+		weightsp++;
+	}
+
 	biasweight = biasweight + bias * error * learningRate - biasweight * decay * learningRate;
 }
 
@@ -277,7 +339,8 @@ void FCLNeuron::initWeights( double _max,  int initBias, WeightInitMethod weight
 		max = fabs(_max);
 		break;
 	case MAX_OUTPUT_RANDOM:
-		max = fabs(_max) / ((double)(nInputs+nBias));
+        max = sqrt(6.0) / (10 + sqrt(nInputs + nBias+ 40));
+		// max = fabs(_max) / ((double)(nInputs+nBias));
 		break;
 	case MAX_OUTPUT_CONST:
 		max = _max / (nInputs+nBias);
@@ -363,8 +426,8 @@ double FCLNeuron::getWeightDistanceFromInitialWeights() {
 
 
 void FCLNeuron::setError(double _error) {
-	assert(!isnan(_error));
 	error = _error;
+	assert(!isnan(_error));
 }
 
 

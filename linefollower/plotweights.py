@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#usr/bin/python3
 
 import sys
 import threading
@@ -32,5 +32,5 @@ while True:
 #    plt.subplot(224)
 #    plotOneMatrix(3)   
     plt.draw()   
-    plt.pause(10)     
+    plt.pause(5)     
 

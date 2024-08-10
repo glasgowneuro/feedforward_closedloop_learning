@@ -6,7 +6,7 @@ namespace Enki
 		     int _sensorArrayPos1, double _sensorArrayWidth1,
 		     int _sensorArrayPos2, double _sensorArrayWidth2
 		) :
-		DifferentialWheeled(5.2, 100, 0.05),
+		DifferentialWheeled(8, 100, 0.05),
 		infraredSensorLeft(this, Vector(11, 10), 100, M_PI/200, 2, 1200, -0.9, 7, 20),
 		infraredSensorRight(this, Vector(11, -10), 100, -M_PI/200, 2, 1200, -0.9, 7, 20),
 		groundSensorLeft (this, Vector(10, 10), 0, 1, 1, 0),
@@ -48,5 +48,7 @@ namespace Enki
 		}
 		
 		setRectangular(20,10,5,80);
+				// setRectangular(30,15,5,80);
+
 	}
 }

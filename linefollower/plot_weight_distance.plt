@@ -166,5 +166,7 @@ set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 GNUTERM = "wxt"
 ## Last datafile plotted: "flog.tsv"
-plot "flog.tsv" using 5 w l, "flog.tsv" using 6 w l, "flog.tsv" using 7 w l
-pause -1
+plot "flog.tsv" using 4 w l, "flog.tsv" using 5 w l, "flog.tsv" using 6 w l
+#    EOF
+pause(-1)
+
