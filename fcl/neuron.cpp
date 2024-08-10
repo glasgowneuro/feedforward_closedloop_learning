@@ -153,8 +153,6 @@ void FCLNeuron::doLearning() {
 	double* weightsp = weights;
 	double* weightschp = weightChange;
 	unsigned char * maskp = mask;
-	std::vector<double> weightChangeArray(nInputs, 0.0);
-	const int nFilterGroup = 5;
 
 	for(int i=0;i<nInputs;i++) {
 		assert((mask+i) == maskp);
@@ -165,7 +163,7 @@ void FCLNeuron::doLearning() {
 			*weightschp = momentum * (*weightschp) +
 				(*inputsp) * error * learningRate * learningRateFactor -
 				(*weightsp) * decay * learningRate * fabs(error);
-			// *weightsp = *weightsp + *weightschp;
+			*weightsp = *weightsp + *weightschp;
 
 			/* Add a forget term 0.9999 to the weights. */
 #ifdef DEBUG
@@ -177,36 +175,10 @@ void FCLNeuron::doLearning() {
 		}
 
 		/* record weight change between every neurons */
-		weightChangeArray[i] = *weightschp;
 		inputsp++;
 		maskp++;
 		weightsp++;
 		weightschp++;
-	}
-
-	/* Winner-takes-all among delay arrays */
-	for (int i = 0; i < nInputs; i += nFilterGroup)
-	{	
-		int maxIndex = i;
-		for (int j = i + 1; j < i + nFilterGroup && j < nInputs; ++j) 
-		{
-			if (fabs(weightChangeArray[j]) > fabs(weightChangeArray[maxIndex])) 
-			{
-				weightChangeArray[maxIndex] = 0;
-				maxIndex = j;
-			}
-			else
-			{
-				weightChangeArray[j] = 0;
-			}
-		}
-	}
-
-	weightsp = weights;
-	for (int i = 0; i < nInputs; i++) 
-	{
-		*weightsp = (*weightsp) + weightChangeArray[i];
-		weightsp++;
 	}
 
 	biasweight = biasweight + bias * error * learningRate - biasweight * decay * learningRate;
