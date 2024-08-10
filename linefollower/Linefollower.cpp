@@ -104,7 +104,7 @@ public:
 		fcl->setLearningRateDiscountFactor(1);
 		fcl->setBias(1);
 		fcl->setActivationFunction(FCLNeuron::TANH);
-		// fcl->setMomentum(0.9);	
+		fcl->getOutputLayer()->setActivationFunction(FCLNeuron::ActivationFunction::LINEAR);
 		fcl->setMomentum(0.9);	
 	}
 
@@ -181,13 +181,6 @@ public:
 			fcl->setLearningRate(learningRate);
 		}
 
-		/* Disable learning after successful one. */
-//		if (successCtr>STEPS_BELOW_ERR_THRESHOLD) 
-//		{
-//			fcl->setLearningRate(0);
-//			isLearning = false;
-//		}
-
 		fprintf(stderr,"%e %e %e %e ",leftGround,rightGround,leftGround2,rightGround2);
 		for(int i=0;i<racer->getNsensors();i++) {
 			pred[i] = -(racer->getSensorArrayValue(i))*2;
@@ -208,30 +201,10 @@ public:
 		for(auto &e:err) {
 			e = errorToNetwork;
                 }
-		// !!!!
-
-		/****************************************************/
-		/* Learning  */
-		// lastDistance = nowDistance;
-
-		// std::vector<double> dynamicInput = {lastControl[2], -lastControl[2], lastError[0]};
-		
-		// std::vector<double> dynamicError = {abs(error) - dynamicModel->getOutputLayer()->getNeuron(0)->getOutput()};
-
-		// fprintf(stderr, "%e %e ", dynamicModel->getOutputLayer()->getNeuron(0)->getOutput()- (error), lastError);
-
-		// dynamicModel->doStepBackProp(dynamicInput, dynamicError);
-
-		fcl->getOutputLayer()->setActivationFunction(FCLNeuron::ActivationFunction::LINEAR);
 
 		fcl->doStep(pred,err);
    		/****************************************************/
 
-		// float vL;
-		// float vR;
-
-		// vL = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*200);
-		// vR = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*200);
 		float vL = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*100 +
 							(fcl->getOutputLayer()->getNeuron(1)->getOutput())*20 +
 							(fcl->getOutputLayer()->getNeuron(2)->getOutput())*5);

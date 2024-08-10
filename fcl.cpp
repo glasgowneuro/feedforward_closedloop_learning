@@ -86,42 +86,20 @@ void FeedforwardClosedloopLearning::doStep(const std::vector<double> &input, con
 	throw tmp;
     }
 
-    for(int i=0;i<(layers[0]->getNneurons());i++) {
-	layers[0]->getNeuron(i)->setError(error[i]);
-    }
-
     // Errors update.
-    for (unsigned k=1; k<n_neurons_per_layer.size(); k++) {
-	FCLLayer* emitterLayer = layers[k-1];
+    for (unsigned k=0; k<n_neurons_per_layer.size(); k++) {
 	FCLLayer* receiverLayer = layers[k];
 		
 	/* Calculate the errors for the hidden layer and output layer. */
 	for(int i=0;i<receiverLayer->getNneurons();i++) 
 	{
-	    double err = 0;
-	    for(int j=0;j<emitterLayer->getNneurons();j++)
-	    {
-		err = error[0];
-
-#ifdef DEBUG
-		if (isnan(err) || (fabs(err)>10000) || (fabs(emitterLayer->getNeuron(j)->getError())>10000)) {
-		    printf("RANGE! FeedforwardClosedloopLearning::%s, step=%ld, j=%d, i=%d, hidLayerIndex=%d, "
-			   "err=%e, emitterLayer->getNeuron(j)->getError()=%e\n",
-			   __func__,step,j,i,k,err,emitterLayer->getNeuron(j)->getError());
-		}
-#endif
-
-	    }
+	    double err = error[0];
 	    receiverLayer->getNeuron(i)->setError(err);
 	}
     }
 
     errorPrev = error[0];
 
-    // if (isLearning == true) {
-    // 	fprintf(stderr, "Learn! ");
-    // 	doLearning();
-    // }
     doLearning();
 
     // we set the input to the input layer
