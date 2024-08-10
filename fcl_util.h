@@ -49,7 +49,7 @@ public:
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	void doStep(const std::vector<double> &input, const std::vector<double> &error);
+	void doStep(const std::vector<double> &input, const double err);
 
 	double getFilterOutput(int inputIdx, int filterIdx) {
 		const int idx = inputIdx * nFiltersPerInput + filterIdx;
@@ -64,7 +64,6 @@ public:
 private:
 	const double dampingCoeff = 0.51;
 	FCLBandpass ***bandpass = 0;
-	std::vector<double> errors;
 	std::vector<double> filterbankOutputs;
 	int nFiltersPerInput = 0;
 	int nInputs = 0;

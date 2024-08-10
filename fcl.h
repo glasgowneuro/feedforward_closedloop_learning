@@ -50,7 +50,7 @@ public:
          * \param input Array with the input values
          * \param error Array of the error signals
          **/
-	void doStep(const std::vector<double> &input, const std::vector<double> &error);
+	void doStep(const std::vector<double> &input, const double inError);
 
 	/** Gets the output from one of the output neurons
          * \param index: The index number of the output neuron.

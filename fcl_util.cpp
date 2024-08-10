@@ -24,7 +24,6 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 	nInputs = num_of_inputs;
 	assert((nInputs*nFiltersPerInput) == getNumInputs());
 	bandpass = new FCLBandpass**[num_of_inputs];
-	errors.resize(num_of_inputs*num_filtersInput);
 	filterbankOutputs.resize(num_of_inputs * num_filtersInput);
 	for(int i=0;i<num_of_inputs;i++) {
 		bandpass[i] = new FCLBandpass*[num_filtersInput];
@@ -56,7 +55,6 @@ FeedforwardClosedloopLearningWithFilterbank::FeedforwardClosedloopLearningWithFi
 			}
 #endif
 			bandpass[i][j]->reset();
-			errors[i*nFiltersPerInput+j] = 0;
 		}
 	}
 }
@@ -73,7 +71,7 @@ FeedforwardClosedloopLearningWithFilterbank::~FeedforwardClosedloopLearningWithF
 
 
 void FeedforwardClosedloopLearningWithFilterbank::doStep(const std::vector<double> &input,
-							 const std::vector<double> &error) {
+							 const double err) {
 	if (input.size() != (unsigned)nInputs) {
 		char tmp[256];
 		sprintf(tmp,"Input array dim mismatch: got: %ld, want: %d.",input.size(),nInputs);
@@ -82,22 +80,10 @@ void FeedforwardClosedloopLearningWithFilterbank::doStep(const std::vector<doubl
 		#endif
 		throw tmp;
 	}
-	if (error.size() != (unsigned)nInputs) {
-		char tmp[256];
-		sprintf(tmp,
-			"Error array dim mismatch: got: %ld, want: %d "
-			"which is the number of inputs.",
-			error.size(),nInputs);
-		#ifdef DEBUG
-		fprintf(stderr,"%s\n",tmp);
-		#endif
-		throw tmp;
-	}
 	for(int i=0;i<nInputs;i++) {
 		for(int j=0;j<nFiltersPerInput;j++) {
 			filterbankOutputs[i*nFiltersPerInput+j] = bandpass[i][j]->filter(input[i]);
-			errors[i*nFiltersPerInput+j] = error[i];
 		}
 	}
-	FeedforwardClosedloopLearning::doStep(filterbankOutputs, errors);
+	FeedforwardClosedloopLearning::doStep(filterbankOutputs, err);
 }

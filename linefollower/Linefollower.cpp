@@ -193,16 +193,7 @@ public:
 		double error = (leftGround+leftGround2*2)-(rightGround+rightGround2*2);
 		fprintf(stderr, "%e ", error);
 
-		// no need to weight with the left steering!
-		double errorToNetwork = error; // * fabs(lastVL) / (fabs(lastVL) + fabs(lastControl) + 0.00001);
-
-		//fprintf(stderr,"%e %e %e %e ",pred[0], pred[14], pred[15], pred[29]);
-
-		for(auto &e:err) {
-			e = errorToNetwork;
-                }
-
-		fcl->doStep(pred,err);
+		fcl->doStep(pred,error);
    		/****************************************************/
 
 		float vL = (float)((fcl->getOutputLayer()->getNeuron(0)->getOutput())*100 +

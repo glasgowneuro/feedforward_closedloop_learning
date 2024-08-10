@@ -75,7 +75,7 @@ void FeedforwardClosedloopLearning::setDecay(double decay) {
     }
 }
 
-void FeedforwardClosedloopLearning::doStep(const std::vector<double> &input, const std::vector<double> &error) {
+void FeedforwardClosedloopLearning::doStep(const std::vector<double> &input, const double inError) {
 
     if (input.size() != ni) {
 	char tmp[256];
@@ -93,12 +93,11 @@ void FeedforwardClosedloopLearning::doStep(const std::vector<double> &input, con
 	/* Calculate the errors for the hidden layer and output layer. */
 	for(int i=0;i<receiverLayer->getNneurons();i++) 
 	{
-	    double err = error[0];
-	    receiverLayer->getNeuron(i)->setError(err);
+	    receiverLayer->getNeuron(i)->setError(inError);
 	}
     }
 
-    errorPrev = error[0];
+    errorPrev = inError;
 
     doLearning();
 
