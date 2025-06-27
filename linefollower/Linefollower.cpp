@@ -378,7 +378,7 @@ int main(int argc, char *argv[]) {
 	}
 	switch (n) {
 	case 0:
-		singleRun(argc,argv ,0.0025f);
+		singleRun(argc,argv ,0.025f);
 		break;
 	case 1:
 		statsRun(argc,argv);
