@@ -14,8 +14,7 @@ of sensors in front of the robot.
 
   - QT5 development libraries with openGL and GLU
 
-  - ENKI: https://github.com/glasgowneuro/enki
-    Install with `cmake .` -- `make` -- `sudo make install`.
+  - ENKI (just install the packages: `libenki-dev` and `libenki2`)
 
 ## Compilation
 
